@@ -22,14 +22,20 @@ public class User {
     @Column(nullable = false, length = 60)
     private String password;
 
+
+    // 기본 권한이 유저이다. 나중에 setRole()로 변경도 가능하다.
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    private UserRole role = UserRole.ROLE_USER;
+
     @Column(nullable = false, length = 20)
     private String username;
 
-    @Column(nullable = false)
-    private LocalDate birth;
+    @Column(nullable = false) //checkpoint : 생년월일 이대로해도되나!?
+    private String birth;
 
     @Column(nullable = false)
-    private Boolean status; // true 계정활성화, false 계정비활성
+    private Boolean status = true; // true 계정활성화, false 계정비활성
 
     private LocalDateTime createdAt;
 
@@ -46,10 +52,11 @@ public class User {
     }
 
     @Builder
-    public User(Long id, String email, String password, String username, LocalDate birth, Boolean status, LocalDateTime createdAt, LocalDateTime updatedAt) {
+    public User(Long id, String email, String password, UserRole role, String username, String birth, Boolean status, LocalDateTime createdAt, LocalDateTime updatedAt) {
         this.id = id;
         this.email = email;
         this.password = password;
+        this.role = role;
         this.username = username;
         this.birth = birth;
         this.status = status;
