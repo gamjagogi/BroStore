@@ -7,6 +7,10 @@ import org.springframework.http.HttpStatus;
 @Getter
 public class Exception404 extends RuntimeException{
 
+    public Exception404(String message){
+        super(message);
+    }
+
     public ResponseDTO<?> body(){
         return new ResponseDTO(HttpStatus.NOT_FOUND,"notFound",getMessage());
     }

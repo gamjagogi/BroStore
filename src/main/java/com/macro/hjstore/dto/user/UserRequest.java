@@ -44,5 +44,13 @@ public class UserRequest {
         @Size(min = 6, max = 6, message = "6자리로 입력해주세요")
         private String birth;
 
+        public User toEntity(){
+            return User.builder()
+                    .email(email)
+                    .password(password)
+                    .username(username)
+                    .birth(birth)
+                    .build();
+        }
     }
 }

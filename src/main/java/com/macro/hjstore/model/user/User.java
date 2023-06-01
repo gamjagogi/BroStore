@@ -22,6 +22,8 @@ public class User {
     @Column(nullable = false, length = 60)
     private String password;
 
+    private String profile;
+
 
     // 기본 권한이 유저이다. 나중에 setRole()로 변경도 가능하다.
     @Column(nullable = false)
@@ -40,6 +42,27 @@ public class User {
     private LocalDateTime createdAt;
 
     private LocalDateTime updatedAt;
+
+    public void changeProfile(String profile) {
+        this.profile = profile;
+    }
+
+    public void changeEmail(String email) {
+        this.email = email;
+    }
+
+
+    public void changePassword(String password) {
+        this.password = password;
+    }
+
+    public void changeUsername(String username) {
+        this.username = username;
+    }
+
+    public void resign() { // 탈퇴
+        this.status = false;
+    }
 
     @PrePersist
     protected void onCreate(){
