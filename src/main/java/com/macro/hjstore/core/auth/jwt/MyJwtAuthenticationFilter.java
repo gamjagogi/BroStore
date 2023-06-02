@@ -29,14 +29,14 @@ public class MyJwtAuthenticationFilter extends BasicAuthenticationFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
     throws IOException, ServletException {
-        String prefixJwt = request.getHeader(MyJwtProvider.HEADER);
+        String prefixJwt = request.getHeader(MyJwtProvider.ACCESS_HEADER);
 
         if(prefixJwt == null){
             chain.doFilter(request,response);
             return;
         }
 
-        String jwt = prefixJwt.replace(MyJwtProvider.HEADER,"");
+        String jwt = prefixJwt.replace(MyJwtProvider.ACCESS_HEADER,"");
         try {
             System.out.println("디버그 : 토큰 있음");
             DecodedJWT decodedJWT = MyJwtProvider.verify(jwt);

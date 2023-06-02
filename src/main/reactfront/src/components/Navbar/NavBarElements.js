@@ -1,5 +1,7 @@
 import React from 'react'
 import { Navbar, Container, Nav, NavDropdown } from "react-bootstrap";
+import UserHeader from '../Navbar/UserHeader';
+
 
 const NavBarElements = () => {
     return (
@@ -28,6 +30,7 @@ const NavBarElements = () => {
                         <Nav.Link eventKey={2} href="#memes">
                             Dank memes
                         </Nav.Link>
+                        <UserHeader />
                     </Nav>
                 </Navbar.Collapse>
             </Container>
