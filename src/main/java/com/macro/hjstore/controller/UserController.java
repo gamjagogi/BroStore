@@ -27,13 +27,15 @@ import javax.validation.Valid;
 @RestController
 public class UserController {
 
-    private final UserRepository userRepository;
     private final UserService userService;
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody @Valid UserRequest.LoginInDTO loginInDTO, Errors errors) {
+
+        System.out.println("1");
         Pair<String,String>tokenUS = userService.로그인(loginInDTO);
         //checkpoint : loginOutDTO를 다시 만들어라.
+        System.out.println("로그인통과");
         UserResponse.LoginOutDTO loginOutDTO = userService.이메일로회원조회(loginInDTO.getEmail());
 
         ResponseDTO<?> responseDTO = new ResponseDTO<>(loginOutDTO);

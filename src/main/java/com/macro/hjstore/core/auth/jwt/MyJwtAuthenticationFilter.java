@@ -45,7 +45,7 @@ public class MyJwtAuthenticationFilter extends BasicAuthenticationFilter {
             UserRole userRole = UserRole.valueOf(role.toUpperCase());
             // 시큐리티에서 UserService사용해서 패스워드 아이디 체크 안하고, 전부 컨트롤러에서 체크할거다.
 
-            User user = User.builder().id(id).role(userRole).build(); // db에서 실제 아이디를 찾기않고 강제로 Authentication객체만들어서 토큰만 검증
+            User user = User.builder().id(id).role(userRole).build(); // db에서 실제 아이디를 찾지않고 강제로 Authentication객체만들어서 토큰만 검증
             MyUserDetails userDetails = new MyUserDetails(user);
             Authentication authentication = new UsernamePasswordAuthenticationToken(
                     userDetails, userDetails.getPassword(),userDetails.getAuthorities()

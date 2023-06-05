@@ -4,6 +4,7 @@ package com.macro.hjstore.service;
 import com.macro.hjstore.core.annotation.MyLog;
 import com.macro.hjstore.core.auth.jwt.MyJwtProvider;
 import com.macro.hjstore.core.auth.session.MyUserDetails;
+import com.macro.hjstore.core.auth.session.MyUserDetailsService;
 import com.macro.hjstore.core.exception.Exception400;
 import com.macro.hjstore.core.exception.Exception401;
 import com.macro.hjstore.core.exception.Exception404;
@@ -47,23 +48,33 @@ public class UserService {
     @MyLog
     public Pair<String, String> 로그인(UserRequest.LoginInDTO loginInDTO) {
         try {
+
+            System.out.println(loginInDTO.getEmail() + " "+ loginInDTO.getPassword());
+
             UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken
                     = new UsernamePasswordAuthenticationToken(loginInDTO.getEmail(), loginInDTO.getPassword());
+
+            System.out.println(2);
+
             Authentication authentication = authenticationManager.authenticate(usernamePasswordAuthenticationToken);
             MyUserDetails myUserDetails = (MyUserDetails) authentication.getPrincipal();
+
+            System.out.println("3");
 
             String accessjwt = MyJwtProvider.create(myUserDetails.getUser());
             Pair<String, RefreshTokenEntity> rtInfo = MyJwtProvider.createRefresh(myUserDetails.getUser());
 
             //로그인 성공하면 액세스 토큰, 리프레시 토큰 발급. 리프레시 토큰의 uuid은 DB에 저장
-            tokenRepository.save(rtInfo.getSecond()); // 리프레쉬 생성후, (세컨)객체는 db에 저장한다.
+            tokenRepository.save(rtInfo.getSecond());
 
-            return Pair.of(accessjwt, rtInfo.getFirst()); // 리프레쉬 생성후, (펄스트)String은 db에 저장한다.
+            return Pair.of(accessjwt, rtInfo.getFirst());
         } catch (Exception e) {
-            throw new Exception401("인증되지 않았습니다");
+            throw new Exception401("인증되지 않았습니다.");
         }
     }
 
+
+    @MyLog
     public UserResponse.LoginOutDTO 이메일로회원조회(String email) {
         User userPS = userRepository.findByEmail(email)
                 .orElseThrow(() -> new Exception400(email,"해당 유저를 찾을 수 없습니다."));

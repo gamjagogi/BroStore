@@ -23,7 +23,8 @@ const LoginPage = () => {
 
             if (response.ok) {
                 // 로그인 성공 시 처리할 작업
-                navigate.push('/');
+                const data = await response.json();
+                navigate.push('/', {state: data});
             } else {
                 // 로그인 실패 시 처리할 작업
                 setLoginError('로그인에 실패했습니다. 다시 시도해주세요.');
