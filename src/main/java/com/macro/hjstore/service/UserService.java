@@ -17,6 +17,7 @@ import com.macro.hjstore.model.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.util.Pair;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -41,6 +42,7 @@ public class UserService {
     private final UserRepository userRepository;
     private final TokenRepository tokenRepository;
     private final BCryptPasswordEncoder passwordEncoder;
+    private final MyUserDetailsService userDetailsService;
     //private final S3Service s3Service;
 
 

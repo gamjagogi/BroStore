@@ -32,10 +32,11 @@ import java.util.List;
 
 @Slf4j
 @Configuration
+@RequiredArgsConstructor
 public class MySecurityConfig {
 
-    @Autowired
-    private UserDetailsService userDetailsService;
+    private final MyUserDetailsService userDetailsService;
+
 
     @Bean
     public AuthenticationManager authenticationManager() {
@@ -49,9 +50,11 @@ public class MySecurityConfig {
         authenticationProvider.setPasswordEncoder(passwordEncoder());
         return authenticationProvider;
     }
+
     private List<AuthenticationProvider> authenticationProviders() {
         List<AuthenticationProvider> providers = new ArrayList<>();
         providers.add(authenticationProvider());
+        providers.add(new CustomAuthenticationProvider());
         // Add more authentication providers if needed
         return providers;
     }
@@ -61,10 +64,10 @@ public class MySecurityConfig {
         return new BCryptPasswordEncoder();
     }
 
-    @Bean
-    AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration)throws Exception {
-        return authenticationConfiguration.getAuthenticationManager();
-    }
+//    @Bean
+//    AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration)throws Exception {
+//        return authenticationConfiguration.getAuthenticationManager();
+//    }
 
 
     // JWT필터 등록이 필요함

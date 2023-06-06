@@ -4,6 +4,7 @@ import com.macro.hjstore.model.user.User;
 import com.macro.hjstore.model.user.UserRepository;
 import com.macro.hjstore.model.user.UserRole;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Import;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
@@ -11,7 +12,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class MyDataInit extends MyDummyEntity{
-
+    @Bean
     public CommandLineRunner init(UserRepository userRepository){
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         return args -> {
