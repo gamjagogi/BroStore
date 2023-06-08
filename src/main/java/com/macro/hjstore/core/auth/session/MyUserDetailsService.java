@@ -22,13 +22,14 @@ public class MyUserDetailsService implements UserDetailsService {
     // username이 아니라, user email을 찾는 로직이다.
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        System.out.println("디테일객체 도착! 이메일 찾기 직전!");
+        System.out.println("디테일 서비스 객체 도착! 이메일 찾기 직전!");
         System.out.println(email);
 
         User userPS = userRepository.findByEmail(email).orElseThrow(
                 () -> new InternalAuthenticationServiceException("인증 실패")); // 나중에 테스트할 때 설명해드림.
 
-        System.out.println(userPS);
+        System.out.println(userPS.getEmail());
+
         return new MyUserDetails(userPS);
     }
 }

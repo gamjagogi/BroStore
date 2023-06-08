@@ -39,7 +39,7 @@ public class UserController {
         UserResponse.LoginOutDTO loginOutDTO = userService.이메일로회원조회(loginInDTO.getEmail());
 
         ResponseDTO<?> responseDTO = new ResponseDTO<>(loginOutDTO);
-        return ResponseEntity.ok().header(tokenUS.getFirst()).header(tokenUS.getSecond())
+        return ResponseEntity.ok().header("access-token",tokenUS.getFirst()).header("refresh-token",tokenUS.getSecond())
                 .body(responseDTO);
     }
 }

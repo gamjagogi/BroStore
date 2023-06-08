@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import {Login} from "../Styles/Loginform/Login.style";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
+import UserHeader from '../Navbar/UserHeader';
+
 
 const LoginPage = () => {
     const [email, setEmail] = useState('');
@@ -8,7 +10,7 @@ const LoginPage = () => {
     const [loginError, setLoginError] = useState('');
 
     const navigate = useNavigate();
-
+    const location = useLocation();
 
 
     const handleLogin = async () => {
@@ -24,7 +26,16 @@ const LoginPage = () => {
             if (response.ok) {
                 // 로그인 성공 시 처리할 작업
                 const data = await response.json();
-                navigate.push('/', {state: data});
+                console.log(JSON.stringify(data)); // JSON 형태로 출력
+                console.log(data.data.username)
+
+                // 액세스 토큰과 리프레시 토큰을 localStorage에 저장
+                localStorage.setItem('accessToken', response.headers.get('access-token'));
+                localStorage.setItem('refreshToken', response.headers.get('refresh-token'));
+
+                //gamja@gmail.com
+                navigate('/', { state: data.data.username});
+
             } else {
                 // 로그인 실패 시 처리할 작업
                 setLoginError('로그인에 실패했습니다. 다시 시도해주세요.');
@@ -51,6 +62,9 @@ const LoginPage = () => {
                 onChange={(e) => setPassword(e.target.value)}
             />
             <button onClick={handleLogin}>로그인</button>
+            {location.pathname !== '/' && location.state && (
+                <UserHeader data={location.state} />
+            )}
         </Login>
     );
 }
