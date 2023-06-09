@@ -51,11 +51,30 @@ public class MyJwtAuthenticationFilter extends BasicAuthenticationFilter {
                     userDetails, userDetails.getPassword(),userDetails.getAuthorities()
             );
             SecurityContextHolder.getContext().setAuthentication(authentication);
+            System.out.println("토큰 검증 완료.");
 
         }catch (SignatureVerificationException sve) {
             log.error("토큰 검증 실패");
         }catch(TokenExpiredException tee){
             log.error("토큰 만료");
+
+
+            // 리프레시 토큰 확인 및 액세스 토큰 발급
+            String refreshJwt = request.getHeader(MyJwtProvider.REFRESH_HEADER);
+            if (refreshJwt != null) {
+                String refresh = refreshJwt.replace(MyJwtProvider.REFRESH_HEADER, "");
+                User userPS= MyJwtProvider.refreshVerify(refresh);
+
+                // 액세스 토큰 발급
+                String newAccessToken = MyJwtProvider.create(userPS);
+                response.setHeader(MyJwtProvider.ACCESS_HEADER, newAccessToken);
+                System.out.println("액세스 토큰 재발급 완료.");
+
+                // doFilterInternal() 다시 실행
+                doFilterInternal(request, response, chain);
+            } else {
+                log.error("리프레시 토큰 없음");
+            }
         }finally {
             chain.doFilter(request, response);
         }

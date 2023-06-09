@@ -1,5 +1,8 @@
 package com.macro.hjstore.core.dummy;
 
+import com.macro.hjstore.core.exception.Exception404;
+import com.macro.hjstore.model.board.BoardRepository;
+import com.macro.hjstore.model.token.TokenRepository;
 import com.macro.hjstore.model.user.User;
 import com.macro.hjstore.model.user.UserRepository;
 import com.macro.hjstore.model.user.UserRole;
@@ -13,7 +16,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class MyDataInit extends MyDummyEntity{
     @Bean
-    public CommandLineRunner init(UserRepository userRepository){
+    public CommandLineRunner init(UserRepository userRepository, BoardRepository boardRepository, TokenRepository tokenRepository){
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         return args -> {
             userRepository.save(User.builder()
@@ -40,6 +43,10 @@ public class MyDataInit extends MyDummyEntity{
                     .birth("950506")
                     .status(true)
                     .build());
+            boardRepository.save(newBoard("rog ally","rog ally nice",userRepository.findByEmail("gamja@gmail.com").orElseThrow( () -> new Exception404("작성자가 없습니다."))));
+            boardRepository.save(newBoard("steam deck","komodo",userRepository.findByEmail("gamja@gmail.com").orElseThrow( () -> new Exception404("작성자가 없습니다."))));
+            boardRepository.save(newBoard("tigally","tmon rog ally bad",userRepository.findByEmail("gamja@gmail.com").orElseThrow( () -> new Exception404("작성자가 없습니다."))));
+
         };
     }
 }

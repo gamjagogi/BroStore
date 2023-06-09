@@ -6,9 +6,13 @@ import com.auth0.jwt.exceptions.SignatureVerificationException;
 import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.macro.hjstore.core.exception.Exception401;
+import com.macro.hjstore.core.exception.Exception404;
 import com.macro.hjstore.model.token.RefreshTokenEntity;
+import com.macro.hjstore.model.token.TokenJPQLRepository;
+import com.macro.hjstore.model.token.TokenRepository;
 import com.macro.hjstore.model.token.TokenStatus;
 import com.macro.hjstore.model.user.User;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.util.Pair;
 import org.springframework.stereotype.Component;
 
@@ -28,6 +32,9 @@ public class MyJwtProvider {
     public static final String REFRESH_HEADER = "RefreshToken";
     public static final String REFRESH_SECRET = "gamjagogi";
 
+    @Autowired
+    private static TokenJPQLRepository tokenJPQLRepository;
+
     public static String create(User user){
         String jwt = JWT.create()
                 .withSubject(SUBJECT)
@@ -43,6 +50,16 @@ public class MyJwtProvider {
                 .build().verify(jwt);
         return decodedJWT;
     }
+
+    public static User refreshVerify(String refreshToken)throws SignatureVerificationException, TokenExpiredException {
+        DecodedJWT decodedJWT = JWT.require(Algorithm.HMAC512(ACCESS_SECRET))
+                .build().verify(refreshToken);
+        String uuid = decodedJWT.getClaim("uuid").asString();
+        User userPS = tokenJPQLRepository.findByUuid(uuid)
+                .orElseThrow(()-> new Exception404("토큰을 찾을 수가 없습니다."));
+        return userPS;
+    }
+
 
     public static Pair<String, RefreshTokenEntity>createRefresh(User user) {
         // 1. uuid를 만든다.

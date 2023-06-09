@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import {Login} from "../Styles/Loginform/Login.style";
 import { useNavigate, useLocation } from 'react-router-dom';
-import UserHeader from '../Navbar/UserHeader';
 
 
 const LoginPage = () => {
@@ -25,16 +24,24 @@ const LoginPage = () => {
 
             if (response.ok) {
                 // 로그인 성공 시 처리할 작업
+                const accessToken = response.headers.get('access-token');
+                const refreshToken = response.headers.get('refresh-token');
+
                 const data = await response.json();
-                console.log(JSON.stringify(data)); // JSON 형태로 출력
-                console.log(data.data.username)
+                console.log(JSON.stringify(data)); // JSON 형태로 String형태로 출력
+                console.log(data.data.username);
+
+
+
+                // 로그인 정보 저장
+                sessionStorage.setItem('userData', JSON.stringify(data.data));
 
                 // 액세스 토큰과 리프레시 토큰을 localStorage에 저장
-                localStorage.setItem('accessToken', response.headers.get('access-token'));
-                localStorage.setItem('refreshToken', response.headers.get('refresh-token'));
+                localStorage.setItem('accessToken', accessToken);
+                localStorage.setItem('refreshToken', refreshToken);
 
                 //gamja@gmail.com
-                navigate('/', { state: data.data.username});
+                navigate('/');
 
             } else {
                 // 로그인 실패 시 처리할 작업
@@ -43,7 +50,6 @@ const LoginPage = () => {
         } catch (error) {
             console.error('로그인 요청 중 오류가 발생했습니다.', error);
             setLoginError('로그인 요청 중 오류가 발생했습니다.');
-
         }
     };
 
@@ -62,9 +68,7 @@ const LoginPage = () => {
                 onChange={(e) => setPassword(e.target.value)}
             />
             <button onClick={handleLogin}>로그인</button>
-            {location.pathname !== '/' && location.state && (
-                <UserHeader data={location.state} />
-            )}
+
         </Login>
     );
 }

@@ -6,9 +6,12 @@ import {useNavigate, useLocation } from 'react-router-dom';
 
 
 
-const UserHeader = ( {data} ) => {
+const UserHeader = () => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [userName, setUserName] = useState('');
+    const userDataString = sessionStorage.getItem('userData');
+    const userData = userDataString ? JSON.parse(userDataString) : null;
+
     const navigate = useNavigate();
     const location = useLocation();
 
@@ -22,20 +25,17 @@ const UserHeader = ( {data} ) => {
     const handleLogout = () => {
         setIsLoggedIn(false);
         setUserName('');
+        sessionStorage.removeItem('userData');
     };
 
     useEffect(() => {
-        if (location.state) {
+        if (userData) {
             setIsLoggedIn(true);
-            setUserName(location.state);
-        }
-    }, [location.state]);
+            setUserName(userData.username);
 
-    // useEffect(() => {
-    //     // 컴포넌트가 마운트될 때 실행되며, location 객체를 사용하여 필요한 작업을 수행할 수 있습니다.
-    //     console.log(location.pathname); // 현재 경로
-    //     console.log(location.state); // 전달된 상태 데이터
-    // }, [location]);
+        }
+    }, [userData]);
+
 
 
 
