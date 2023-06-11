@@ -46,6 +46,13 @@ public class MyDataInit extends MyDummyEntity{
             boardRepository.save(newBoard("rog ally","rog ally nice",userRepository.findByEmail("gamja@gmail.com").orElseThrow( () -> new Exception404("작성자가 없습니다."))));
             boardRepository.save(newBoard("steam deck","komodo",userRepository.findByEmail("gamja@gmail.com").orElseThrow( () -> new Exception404("작성자가 없습니다."))));
             boardRepository.save(newBoard("tigally","tmon rog ally bad",userRepository.findByEmail("gamja@gmail.com").orElseThrow( () -> new Exception404("작성자가 없습니다."))));
+            boardRepository.save(newBoard("gogo","tmon rog ",userRepository.findByEmail("gamja@gmail.com").orElseThrow( () -> new Exception404("작성자가 없습니다."))));
+            boardRepository.save(newBoard("papap","tmon ",userRepository.findByEmail("gamja@gmail.com").orElseThrow( () -> new Exception404("작성자가 없습니다."))));
+            boardRepository.save(newBoard("hahah","tmon asus",userRepository.findByEmail("gamja@gmail.com").orElseThrow( () -> new Exception404("작성자가 없습니다."))));
+            boardRepository.save(newBoard("huhu","rog ally bad",userRepository.findByEmail("gamja@gmail.com").orElseThrow( () -> new Exception404("작성자가 없습니다."))));
+            boardRepository.save(newBoard("gamja","asus rog ally bad",userRepository.findByEmail("gamja@gmail.com").orElseThrow( () -> new Exception404("작성자가 없습니다."))));
+            boardRepository.save(newBoard("kakak","kakao",userRepository.findByEmail("gamja@gmail.com").orElseThrow( () -> new Exception404("작성자가 없습니다."))));
+            boardRepository.save(newBoard("russian","chocolette",userRepository.findByEmail("gamja@gmail.com").orElseThrow( () -> new Exception404("작성자가 없습니다."))));
 
         };
     }

@@ -18,9 +18,10 @@ public class BoardController {
 
     @GetMapping("/auth/shop")
     public ResponseEntity<?> mainPage(
-            @RequestParam(defaultValue = "1") int page
+            @RequestParam(defaultValue = "0") int page
             ){
         Page<Board> boardPG = boardService.게시글목록보기(page);
+        System.out.println(boardPG.getTotalPages());
         ResponseDTO<?> responseDTO = new ResponseDTO<>(boardPG);
         return ResponseEntity.ok().body(responseDTO);
     }
