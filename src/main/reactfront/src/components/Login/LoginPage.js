@@ -53,6 +53,11 @@ const LoginPage = () => {
         }
     };
 
+    const handleJoin = () => {
+        navigate('/join')
+    }
+
+
     return (
         <Login>
             <input
@@ -68,7 +73,7 @@ const LoginPage = () => {
                 onChange={(e) => setPassword(e.target.value)}
             />
             <button onClick={handleLogin}>로그인</button>
-
+            <button onClick={handleJoin}>회원가입</button>
         </Login>
     );
 }

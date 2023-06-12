@@ -1,6 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import LoginPage from './components/Login/LoginPage';
+import JoinPage from './components/Join/JoinPage';
 import Home from "./screens/Home"
 import About from "./screens/About"
 import Shop from "./screens/Shop";
@@ -19,6 +20,7 @@ const App = () => {
                 <Route path="/shop" element={<Shop/> } />
                 <Route path="/questions" element={<Questions/> } />
                 <Route path="/reactDoc" element={<ReactDoc/> } />
+                <Route path="/join" element={<JoinPage />} />
             </Routes>
         </Router>
     );

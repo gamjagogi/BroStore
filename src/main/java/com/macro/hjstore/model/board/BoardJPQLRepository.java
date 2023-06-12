@@ -17,7 +17,7 @@ public class BoardJPQLRepository {
 
     public Page<Board> findAll(int page) {
         int startPosition = page*size;
-        List<Board> boardListPS = em.createQuery("select b from Board b join fetch b.user order by b.id desc")
+        List<Board> boardListPS = em.createQuery("select b from Board b join fetch b.user order by b.id asc")
                 .setFirstResult(startPosition) // startPosition
                 .setMaxResults(size) // size
                 .getResultList();

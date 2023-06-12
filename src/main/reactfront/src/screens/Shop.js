@@ -1,18 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { Container } from "../components/Styles/Container/Container.style";
-import { Header, MainHeader } from "../components/Styles/Header/Header.style";
 import { useLocation, useNavigate } from "react-router-dom";
 
 const Shop = () => {
     const [loginError, setLoginError] = useState('');
     const [boardPG, setBoardPG] = useState({ content: [] });
+    const [currentPage, setCurrentPage] = useState(0);
 
-    const navigate = useNavigate();
-    const location = useLocation();
+    // const navigate = useNavigate();
+    // const location = useLocation();
 
     useEffect(() => {
         handlePage();
-    }, []);
+    }, [currentPage]);
 
     const handlePage = async () => {
         try {
@@ -22,7 +22,7 @@ const Shop = () => {
             console.log(refreshToken);
 
             if (accessToken && refreshToken) {
-                const response = await fetch('http://localhost:3001/auth/shop', {
+                const response = await fetch(`http://localhost:3001/auth/shop?page=${currentPage}`, {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',
@@ -34,16 +34,8 @@ const Shop = () => {
                 if (response.ok) {
                     // 로그인 성공 시 처리할 작업
                     const data = await response.json();
-                    console.log(JSON.stringify(data.data)); // JSON String 형태로 출력
-                    console.log("");
-                    console.log(JSON.stringify(data.data.content)); // JSON String 형태로 출력
-
                     setBoardPG(data.data);
-                    console.log("");
-                    console.log(boardPG.number);
-
-
-
+                    //setCurrentPage(data.data.number)
 
                 } else {
                     // 로그인 실패 시 처리할 작업
@@ -56,7 +48,16 @@ const Shop = () => {
             console.error('인증되지 않은 사용자가 접근하려 합니다..', error);
             setLoginError('인증된 유저만 접근 가능합니다.');
         }
-    };
+    }
+
+
+    const handleNextPage = () => {
+        setCurrentPage((currentPage) => currentPage + 1);
+    }
+
+    const handleBackPage = () => {
+        setCurrentPage((currentPage) => currentPage - 1);
+    }
 
     return (
         <Container>
@@ -72,7 +73,7 @@ const Shop = () => {
             <div>
                 {/* 글 아이템 시작 */}
                 {boardPG.content.map((board) => (
-                    <div>
+                    <div key={board.id}>
                         <img style={{ height: "250px" }} src={board.thumbnail} />
                         <hr />
                         <div>
@@ -87,14 +88,15 @@ const Shop = () => {
 
             <ul>
                 <li className={`page-item ${boardPG.first ? "disabled" : ""}`}>
-                    <a href={`/?page=${boardPG.number - 1}`}>Previous</a>
+                    <button onClick={handleBackPage}>Back</button>
                 </li>
                 <li className={`page-item ${boardPG.last ? "disabled" : ""}`}>
-                    <a href={`/?page=${boardPG.number + 1}`}>Next</a>
+                    <button onClick={handleNextPage}>Next</button>
                 </li>
             </ul>
+            <div>현재 페이지: {currentPage }</div>
         </Container>
     );
-};
+}
 
 export default Shop;

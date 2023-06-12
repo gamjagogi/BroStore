@@ -16,7 +16,7 @@ public class BoardController {
 
     private final BoardService boardService;
 
-    @GetMapping("/auth/shop")
+    @GetMapping("/auth/shop")  // /auth/shop?page=1
     public ResponseEntity<?> mainPage(
             @RequestParam(defaultValue = "0") int page
             ){

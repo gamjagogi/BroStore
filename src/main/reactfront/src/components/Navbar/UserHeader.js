@@ -26,6 +26,8 @@ const UserHeader = () => {
         setIsLoggedIn(false);
         setUserName('');
         sessionStorage.removeItem('userData');
+        localStorage.removeItem('accessToken');
+        localStorage.removeItem('refreshToken');
     };
 
     useEffect(() => {

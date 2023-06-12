@@ -14,6 +14,7 @@ import com.macro.hjstore.model.token.RefreshTokenEntity;
 import com.macro.hjstore.model.token.TokenRepository;
 import com.macro.hjstore.model.user.User;
 import com.macro.hjstore.model.user.UserRepository;
+import com.macro.hjstore.model.user.UserRole;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.util.Pair;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -82,6 +83,20 @@ public class UserService {
 
         UserResponse.LoginOutDTO loginOutDTO = new UserResponse.LoginOutDTO(userPS.getUsername());
         return loginOutDTO;
+    }
+
+    @MyLog
+    public void 회원가입(UserRequest.JoinInDTO joinInDTO){
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        User userPS = User.builder()
+                .email(joinInDTO.getEmail())
+                .password(encoder.encode(joinInDTO.getPassword()))
+                .username(joinInDTO.getUsername())
+                .birth(joinInDTO.getBirth())
+                .role(UserRole.ROLE_USER)
+                .status(true)
+                .build();
+        userRepository.save(userPS);
     }
 
 }
