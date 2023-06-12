@@ -26,7 +26,9 @@ public class Board {
     private String title;
 
     @Lob
+    @Column(nullable = false)
     private String content;
+
     @Lob
     private String thumbnail;
 

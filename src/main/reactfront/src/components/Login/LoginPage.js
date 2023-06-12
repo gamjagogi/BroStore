@@ -41,7 +41,7 @@ const LoginPage = () => {
                 localStorage.setItem('refreshToken', refreshToken);
 
                 //gamja@gmail.com
-                navigate('/');
+                navigate('/shop');
 
             } else {
                 // 로그인 실패 시 처리할 작업

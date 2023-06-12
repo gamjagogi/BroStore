@@ -4,6 +4,7 @@ import com.macro.hjstore.model.board.Board;
 import com.macro.hjstore.model.user.User;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.validation.constraints.NotEmpty;
 
@@ -16,7 +17,17 @@ public class BoardRequest {
         @NotEmpty
         private String content;
 
-        public Board toEntity(User user, String thumbnail) {
+        private String thumbnail;
+
+        public Board toEntity(User user) {
+            return Board.builder()
+                    .user(user)
+                    .title(title)
+                    .content(content)
+                    .build();
+        }
+
+        public Board toEntityAddThumbail(User user) {
             return Board.builder()
                     .user(user)
                     .title(title)

@@ -7,7 +7,7 @@ const Shop = () => {
     const [boardPG, setBoardPG] = useState({ content: [] });
     const [currentPage, setCurrentPage] = useState(0);
 
-    // const navigate = useNavigate();
+    const navigate = useNavigate();
     // const location = useLocation();
 
     useEffect(() => {
@@ -50,6 +50,9 @@ const Shop = () => {
         }
     }
 
+    const handlePosting = () => {
+        navigate('/editor');
+    }
 
     const handleNextPage = () => {
         setCurrentPage((currentPage) => currentPage + 1);
@@ -64,10 +67,15 @@ const Shop = () => {
             <header>
                 <h1> ShopPage </h1>
             </header>
-            <div>
+            <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
                 <form action="/" method="get">
                     <input type="text" placeholder="Search" name="keyword" />
-                    <button>Search</button>
+                    <button style={{ marginLeft: '0.5em' }}>Search</button>
+                </form>
+            </div>
+            <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '0.5em' }}>
+                <form action="/" method="get">
+                    <button onClick={handlePosting} style={{ marginLeft: '0.5em' }}>글작성</button>
                 </form>
             </div>
             <div>
