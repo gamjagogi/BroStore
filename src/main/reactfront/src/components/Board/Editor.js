@@ -1,9 +1,15 @@
 import React, { useState } from 'react';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
+import { useNavigate } from 'react-router-dom';
+
 
 export default function Editor() {
-    const [contents, setContents] = useState('');
+    const [title, setTitle] = useState('');
+    const [content, setContent] = useState('');
+    const [loginError, setLoginError] = useState('');
+    const navigate = useNavigate();
+
     const modules = {
         toolbar: {
             container: [
@@ -19,18 +25,96 @@ export default function Editor() {
         }
     };
 
-    const onChangeContents = (contents) => {
-        console.log(contents)
+    const onChangeTitle = (event) => {
+        const newTitle = event.target.value;
+        if (newTitle.length <= 60) {
+            setTitle(newTitle);
+        } else {
+            // 팝업을 띄우는 로직을 추가하거나 원하는 작업을 수행합니다.
+            // 예시: alert을 사용하여 팝업을 띄움
+            alert('제목은 60자 이하여야 합니다.');
+        }
     };
 
+    const onChangeContent = (content) => {
+        setContent(content);
+    };
+
+    const handleSubmit = async () => {
+        try {
+            const accessToken = localStorage.getItem('accessToken');
+            const refreshToken = localStorage.getItem('refreshToken');
+            console.log(accessToken);
+            console.log(refreshToken);
+
+            if (accessToken && refreshToken) {
+                // 요청 보내기
+                const response = await fetch('http://localhost:3001/manager/shop/save', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${accessToken}`,
+                        'RefreshToken': `Bearer ${refreshToken}`,
+                    },
+                    body: JSON.stringify({
+                        title: title,
+                        content: content
+                    })
+                });
+
+                if (response.ok) {
+                    // 응답 성공 시 처리할 작업
+                    const data = await response.json();
+                    console.log(data); // 요청에 대한 응답 처리
+                    navigate('/shop');
+
+                } else {
+                    // 응답 실패 시 처리할 작업
+                    const errorMessages = await response.clone().json();
+                    console.log(errorMessages.errors);
+                    const errors = errorMessages.errors;
+                    for(const error of errors){
+                        console.log(error.defaultMessage);
+                        alert(error.defaultMessage);
+                    }
+                }
+            } else {
+                setLoginError('인증 권한을 가진 유저만 접근 가능합니다.'); // 로그인되지 않은 경우 처리
+            }
+        } catch (error) {
+            console.error('인증되지 않은 사용자가 접근하려 합니다..', error);
+            setLoginError('인증된 유저만 접근 가능합니다.');
+        }
+    }
+
     return (
-        <div>
-            <ReactQuill
-                onChange={onChangeContents}
-                modules={modules}
+        <div style={{ display: 'flex', flexDirection: 'column', height: '100vh' }}>
+            <input
+                type="text"
+                value={title}
+                onChange={onChangeTitle}
+                placeholder="제목"
+                style={{ flex: 'none', padding: '10px', fontSize: '18px' }}
             />
-            <div dangerouslySetInnerHTML={{ __html: contents }} />
+
+
+            <div style={{ flex: '1', minHeight: '0', padding: '10px', fontSize: '14px', marginBottom: 'auto' }}>
+                {/* <ReactQuill/> 컴포넌트를 감싸는 div */}
+                <ReactQuill
+                    modules={modules}
+                    onChange={onChangeContent}
+                    style={{ flex: '1', minHeight: '0', padding: '10px', fontSize: '14px', width: '100%', height: '70%' }}
+                />
+                <div dangerouslySetInnerHTML={{ __html: content }} style={{ display: 'none' }} />
+            </div>
+
+
+            <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: 'auto', marginRight: '10px', position: 'relative', top : '-200px' }}>
+                <button onClick={handleSubmit} style={{ marginRight: '10px' }}>완료</button>
+                <button style={{}}>취소</button>
+            </div>
+
         </div>
+
     );
 }
-//<div dangerouslySetInnerHTML={{ __html :  HTML 태그 추가  }} />

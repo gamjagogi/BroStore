@@ -32,13 +32,13 @@ const Shop = () => {
                 });
 
                 if (response.ok) {
-                    // 로그인 성공 시 처리할 작업
+                    // 응답 성공 시 처리할 작업
                     const data = await response.json();
                     setBoardPG(data.data);
                     //setCurrentPage(data.data.number)
 
                 } else {
-                    // 로그인 실패 시 처리할 작업
+                    // 응답 실패 시 처리할 작업
                     setLoginError('인증된 유저만 접근 가능합니다.');
                 }
             } else {
@@ -48,7 +48,7 @@ const Shop = () => {
             console.error('인증되지 않은 사용자가 접근하려 합니다..', error);
             setLoginError('인증된 유저만 접근 가능합니다.');
         }
-    }
+    };
 
     const handlePosting = () => {
         navigate('/editor');
@@ -82,12 +82,12 @@ const Shop = () => {
                 {/* 글 아이템 시작 */}
                 {boardPG.content.map((board) => (
                     <div key={board.id}>
-                        <img style={{ height: "250px" }} src={board.thumbnail} />
+                        <img style={{ height: "70px" }} src={board.thumbnail} />
                         <hr />
                         <div>
                             <div>작성자 : {board.user.username}</div>
                             <h4>{board.title}</h4>
-                            <a href={`/board/${board.id}`}>상세보기</a>
+                            <a href={`/detail/${board.id}`}>상세보기</a>
                         </div>
                     </div>
                 ))}

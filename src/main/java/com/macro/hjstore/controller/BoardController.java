@@ -14,9 +14,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
+import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
@@ -26,8 +29,11 @@ public class BoardController {
 
     @GetMapping("/auth/shop")  // /auth/shop?page=1
     public ResponseEntity<?> mainPage(
-            @RequestParam(defaultValue = "0") int page
-            , Errors errors){
+            @RequestParam(defaultValue = "0") int page,
+    @AuthenticationPrincipal MyUserDetails userDetails
+    ){
+        //checkpoint : 권한 체크
+        System.out.println(userDetails.getUser().getRole());
         Page<Board> boardPG = boardService.게시글목록보기(page);
         System.out.println(boardPG.getTotalPages());
         ResponseDTO<?> responseDTO = new ResponseDTO<>(boardPG);
@@ -35,15 +41,30 @@ public class BoardController {
     }
 
     @GetMapping("/auth/shop/{id}")
-    public ResponseEntity<?> detail(@PathVariable Long id,Errors errors){
+    public ResponseEntity<?> detail(@PathVariable("id") Long id){
         BoardResponse.DetailDTO detailDTO = boardService.게시글상세보기(id);
         ResponseDTO responseDTO = new ResponseDTO(detailDTO);
         return ResponseEntity.ok().body(responseDTO);
     }
 
-    @PostMapping("/auth/shop/save")
+    @PostMapping("/manager/shop/save")
     public ResponseEntity<?> savePost(@RequestBody @Valid BoardRequest.SaveInDTO saveInDTO
             , @AuthenticationPrincipal MyUserDetails userDetails,Errors errors){
+
+        if (errors.hasErrors()) {
+            // 오류 처리 로직 작성
+            List<String> errorMessages = new ArrayList<>();
+
+            for (ObjectError error : errors.getAllErrors()) {
+                System.out.println("오류 메시지: " + error.getDefaultMessage());
+                // 오류 처리 로직 추가...
+                String errorMessage = error.getDefaultMessage();
+                errorMessages.add(errorMessage);
+            }
+            // 적절한 오류 응답 반환
+            return ResponseEntity.badRequest().body(errorMessages); // 예시로 "오류 발생"이라는 메시지를 반환하였습니다.
+        }
+
         try {
             User userPS = userDetails.getUser();
             Board boardPS = saveInDTO.toEntity(userPS);

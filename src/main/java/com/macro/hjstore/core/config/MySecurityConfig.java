@@ -115,7 +115,7 @@ public class MySecurityConfig {
         http.authorizeRequests(
                 authorize -> authorize.antMatchers("/auth/**").authenticated()
                         .antMatchers("/manager/**")
-                        .access("hasRole('AMDIN') or hasRole('MANAGER')")
+                        .access("hasRole('ADMIN') or hasRole('MANAGER')")
                         .antMatchers("/admin/**").hasRole("ADMIN")
                         .anyRequest().permitAll()
         );
