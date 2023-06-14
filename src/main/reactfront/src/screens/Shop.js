@@ -1,14 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { Container } from "../components/Styles/Container/Container.style";
 import { useLocation, useNavigate } from "react-router-dom";
+import Pagination from 'react-bootstrap/Pagination';
+import ListGroup from 'react-bootstrap/ListGroup';
+import Image from 'react-bootstrap/Image';
+
 
 const Shop = () => {
     const [loginError, setLoginError] = useState('');
     const [boardPG, setBoardPG] = useState({ content: [] });
-    const [currentPage, setCurrentPage] = useState(0);
+    const [currentPage, setCurrentPage] = useState(1);
 
     const navigate = useNavigate();
-    // const location = useLocation();
 
     useEffect(() => {
         handlePage();
@@ -18,11 +21,9 @@ const Shop = () => {
         try {
             const accessToken = localStorage.getItem('accessToken');
             const refreshToken = localStorage.getItem('refreshToken');
-            console.log(accessToken);
-            console.log(refreshToken);
 
             if (accessToken && refreshToken) {
-                const response = await fetch(`http://localhost:3001/auth/shop?page=${currentPage}`, {
+                const response = await fetch(`http://localhost:3001/auth/shop?page=${currentPage - 1}`, {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',
@@ -32,17 +33,13 @@ const Shop = () => {
                 });
 
                 if (response.ok) {
-                    // 응답 성공 시 처리할 작업
                     const data = await response.json();
                     setBoardPG(data.data);
-                    //setCurrentPage(data.data.number)
-
                 } else {
-                    // 응답 실패 시 처리할 작업
                     setLoginError('인증된 유저만 접근 가능합니다.');
                 }
             } else {
-                setLoginError('로그인이 필요합니다.'); // 로그인되지 않은 경우 처리
+                setLoginError('로그인이 필요합니다.');
             }
         } catch (error) {
             console.error('인증되지 않은 사용자가 접근하려 합니다..', error);
@@ -78,31 +75,42 @@ const Shop = () => {
                     <button onClick={handlePosting} style={{ marginLeft: '0.5em' }}>글작성</button>
                 </form>
             </div>
-            <div>
-                {/* 글 아이템 시작 */}
+
+            <ListGroup as="ol" numbered={true}>
+
                 {boardPG.content.map((board) => (
-                    <div key={board.id}>
-                        <img style={{ height: "70px" }} src={board.thumbnail} />
-                        <hr />
-                        <div>
-                            <div>작성자 : {board.user.username}</div>
-                            <h4>{board.title}</h4>
+                    <ListGroup.Item as="li" className="d-flex justify-content-between align-items-start" key={board.id}>
+                        <div className="ms-2 me-auto">
+                            <h4 className="fw-bold">{board.title}</h4>
                             <a href={`/detail/${board.id}`}>상세보기</a>
                         </div>
-                    </div>
+                        <div>
+                            <div>작성자 : {board.user.username}</div>
+                        </div>
+                        <hr />
+                        {console.log(board.thumbnail)}
+                        <Image src={board.thumbnail} style={{ height: "100px" }} fluid />
+                    </ListGroup.Item>
                 ))}
-                {/* 글 아이템 끝 */}
-            </div>
+            </ListGroup>
 
-            <ul>
-                <li className={`page-item ${boardPG.first ? "disabled" : ""}`}>
-                    <button onClick={handleBackPage}>Back</button>
-                </li>
-                <li className={`page-item ${boardPG.last ? "disabled" : ""}`}>
-                    <button onClick={handleNextPage}>Next</button>
-                </li>
-            </ul>
-            <div>현재 페이지: {currentPage }</div>
+            <div>현재 페이지: {currentPage}</div>
+
+            <Pagination>
+                <Pagination.First onClick={() => setCurrentPage(1)} />
+                <Pagination.Prev onClick={handleBackPage} disabled={currentPage === 1} />
+                {Array.from({ length: boardPG.totalPages }, (_, index) => (
+                    <Pagination.Item
+                        key={index + 1}
+                        active={index + 1 === currentPage}
+                        onClick={() => setCurrentPage(index + 1)}
+                    >
+                        {index + 1}
+                    </Pagination.Item>
+                ))}
+                <Pagination.Next onClick={handleNextPage} disabled={boardPG.last} />
+                <Pagination.Last onClick={() => setCurrentPage(boardPG.totalPages)} />
+            </Pagination>
         </Container>
     );
 }
