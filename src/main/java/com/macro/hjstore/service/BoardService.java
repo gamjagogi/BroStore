@@ -46,5 +46,6 @@ public class BoardService {
     @MyLog
     public void 글작성하기(Board board){
         boardRepository.save(board);
+
     }
 }

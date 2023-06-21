@@ -29,7 +29,7 @@ public class Board {
     @Column(nullable = false)
     private String content;
 
-    @Lob
+    @Column(nullable = true)
     private String thumbnail;
 
 
