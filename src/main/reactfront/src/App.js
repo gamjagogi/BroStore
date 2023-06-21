@@ -1,12 +1,15 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import LoginPage from './components/Login/LoginPage';
+import JoinPage from './components/Join/JoinPage';
 import Home from "./screens/Home"
 import About from "./screens/About"
-import Projects from "./screens/Projects";
+import Shop from "./screens/Shop";
 import Questions from "./screens/Questions";
 import ReactDoc from "./screens/ReactDoc";
 import NavBarElements from "./components/Navbar/NavBarElements";
+import DetailPage from "./components/Board/DetailPage";
+import Editor from "./components/Board/Editor";
 
 const App = () => {
     return (
@@ -15,10 +18,13 @@ const App = () => {
             <Routes>
                 <Route path="/login" element={<LoginPage />} />
                 <Route path="/" element={<Home /> } />
-                <Route path="/About" element={<About/> } />
-                <Route path="/Projects" element={<Projects/> } />
-                <Route path="/Questions" element={<Questions/> } />
-                <Route path="/ReactDoc" element={<ReactDoc/> } />
+                <Route path="/about" element={<About/> } />
+                <Route path="/shop" element={<Shop/> } />
+                <Route path="/questions" element={<Questions/> } />
+                <Route path="/reactDoc" element={<ReactDoc/> } />
+                <Route path="/join" element={<JoinPage />} />
+                <Route path="/detail/:id" element={<DetailPage />} />
+                <Route path="/editor" element={<Editor/>}/>
             </Routes>
         </Router>
     );

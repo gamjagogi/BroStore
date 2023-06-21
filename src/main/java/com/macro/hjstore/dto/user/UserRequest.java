@@ -41,7 +41,7 @@ public class UserRequest {
         private String username;
 
         @NotEmpty
-        @Size(min = 6, max = 6, message = "6자리로 입력해주세요")
+        @Size(min = 10, max = 10, message = "10자리로 입력해주세요")
         private String birth;
 
         public User toEntity(){

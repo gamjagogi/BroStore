@@ -14,11 +14,14 @@ import com.macro.hjstore.model.token.RefreshTokenEntity;
 import com.macro.hjstore.model.token.TokenRepository;
 import com.macro.hjstore.model.user.User;
 import com.macro.hjstore.model.user.UserRepository;
+import com.macro.hjstore.model.user.UserRole;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.util.Pair;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -41,6 +44,7 @@ public class UserService {
     private final UserRepository userRepository;
     private final TokenRepository tokenRepository;
     private final BCryptPasswordEncoder passwordEncoder;
+    private final MyUserDetailsService userDetailsService;
     //private final S3Service s3Service;
 
 
@@ -54,12 +58,10 @@ public class UserService {
             UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken
                     = new UsernamePasswordAuthenticationToken(loginInDTO.getEmail(), loginInDTO.getPassword());
 
-            System.out.println(2);
 
             Authentication authentication = authenticationManager.authenticate(usernamePasswordAuthenticationToken);
             MyUserDetails myUserDetails = (MyUserDetails) authentication.getPrincipal();
 
-            System.out.println("3");
 
             String accessjwt = MyJwtProvider.create(myUserDetails.getUser());
             Pair<String, RefreshTokenEntity> rtInfo = MyJwtProvider.createRefresh(myUserDetails.getUser());
@@ -79,8 +81,22 @@ public class UserService {
         User userPS = userRepository.findByEmail(email)
                 .orElseThrow(() -> new Exception400(email,"해당 유저를 찾을 수 없습니다."));
 
-        UserResponse.LoginOutDTO loginOutDTO = new UserResponse.LoginOutDTO(userPS.getEmail());
+        UserResponse.LoginOutDTO loginOutDTO = new UserResponse.LoginOutDTO(userPS.getUsername());
         return loginOutDTO;
+    }
+
+    @MyLog
+    public void 회원가입(UserRequest.JoinInDTO joinInDTO){
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        User userPS = User.builder()
+                .email(joinInDTO.getEmail())
+                .password(encoder.encode(joinInDTO.getPassword()))
+                .username(joinInDTO.getUsername())
+                .birth(joinInDTO.getBirth())
+                .role(UserRole.ROLE_USER)
+                .status(true)
+                .build();
+        userRepository.save(userPS);
     }
 
 }

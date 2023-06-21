@@ -11,6 +11,7 @@ const Home = () => {
                 </MainHeader>
             </Header>
         </Container>
+
     )
 }
 export default Home
