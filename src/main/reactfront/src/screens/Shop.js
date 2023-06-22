@@ -10,6 +10,8 @@ const Shop = () => {
     const [loginError, setLoginError] = useState('');
     const [boardPG, setBoardPG] = useState({ content: [] });
     const [currentPage, setCurrentPage] = useState(1);
+    const [domain, setDomain] = useState('http://3.34.20.59:9999'); // 도메인 변수
+
 
     const navigate = useNavigate();
 
@@ -23,7 +25,7 @@ const Shop = () => {
             const refreshToken = localStorage.getItem('refreshToken');
 
             if (accessToken && refreshToken) {
-                const response = await fetch(`http://localhost:3001/auth/shop?page=${currentPage - 1}`, {
+                const response = await fetch(`${domain}/auth/shop?page=${currentPage - 1}`, {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',

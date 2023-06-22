@@ -9,6 +9,7 @@ export default function Detail() {
     const [loginError, setLoginError] = useState('');
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
+    const [domain, setDomain] = useState('http://3.34.20.59:9999');
     const navigate = useNavigate();
 
     const handleGoBack = () => {
@@ -27,7 +28,7 @@ export default function Detail() {
             console.log(refreshToken);
 
             if (accessToken && refreshToken) {
-                const response = await fetch(`http://localhost:3001/auth/shop/${id}`, {
+                const response = await fetch(`${domain}//auth/shop/${id}`, {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',

@@ -7,6 +7,8 @@ const LoginPage = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [loginError, setLoginError] = useState('');
+    const [domain, setDomain] = useState('http://3.34.20.59:9999'); // 도메인 변수
+
 
     const navigate = useNavigate();
     const location = useLocation();
@@ -14,7 +16,7 @@ const LoginPage = () => {
 
     const handleLogin = async () => {
         try {
-            const response = await fetch('http://localhost:3001/login', {
+            const response = await fetch(`${domain}/login`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
