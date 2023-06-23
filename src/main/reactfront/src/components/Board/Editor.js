@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import { useRef, useMemo } from 'react';
-import axios from '../Request/axios.js';
+import axios from '../Request/RequestConfig.js';
 
 
 

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Form, Button, Alert } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
-import axios from '../Request/axios.js';
+import axios from '../Request/RequestConfig.js';
 
 const JoinPage = () => {
     const navigate = useNavigate();

@@ -4,7 +4,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import Pagination from 'react-bootstrap/Pagination';
 import ListGroup from 'react-bootstrap/ListGroup';
 import Image from 'react-bootstrap/Image';
-import axios from '../components/Request/axios.js';
+import axios from '../components/Request/RequestConfig.js';
 
 
 

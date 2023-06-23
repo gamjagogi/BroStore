@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import {Login} from "../Styles/Loginform/Login.style";
 import { useNavigate, useLocation } from 'react-router-dom';
-import axios from '../Request/axios.js';
+import axios from '../Request/RequestConfig.js';
 
 
 const LoginPage = () => {
