@@ -10,7 +10,7 @@ const JoinPage = () => {
     const [username, setUsername] = useState('');
     const [birth, setBirth] = useState('');
     const [passwordMismatch, setPasswordMismatch] = useState(false);
-    const [domain, setDomain] = useState('http://3.34.20.59:9999');
+    const [domain, setDomain] = useState('http://13.124.84.124:9999');
 
 
     useEffect(() => {

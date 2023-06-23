@@ -7,7 +7,7 @@ const LoginPage = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [loginError, setLoginError] = useState('');
-    const [domain, setDomain] = useState('http://3.34.20.59:9999'); // 도메인 변수
+    const [domain, setDomain] = useState('http://13.124.84.124:9999'); // 도메인 변수
 
 
     const navigate = useNavigate();

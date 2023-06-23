@@ -9,7 +9,7 @@ export default function Detail() {
     const [loginError, setLoginError] = useState('');
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
-    const [domain, setDomain] = useState('http://3.34.20.59:9999');
+    const [domain, setDomain] = useState('http://13.124.84.124:9999');
     const navigate = useNavigate();
 
     const handleGoBack = () => {

@@ -5,8 +5,6 @@ import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import { useRef, useMemo } from 'react';
 
-//import { imageApi } from '../../../apis/posts';
-// import styles from '../contents/QuillEditor.module.css';
 
 export default function Editor() {
     const quillRef = useRef(null);
@@ -26,11 +24,9 @@ export default function Editor() {
             const file = input.files[0];
 
             try {
-                // const res = await imageApi({ img: file });
-                // const imgUrl = res.data.imgUrl;
+
                 const editor = quillRef.current.getEditor();
                 const range = editor.getSelection();
-                //editor.insertEmbed(range.index, 'image', imgUrl);
                 editor.setSelection(range.index + 1);
             } catch (error) {
                 console.log(error);
