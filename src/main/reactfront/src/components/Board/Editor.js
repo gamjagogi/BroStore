@@ -4,6 +4,8 @@ import { useNavigate } from 'react-router-dom';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import { useRef, useMemo } from 'react';
+import axios from '../Request/axios.js';
+
 
 
 export default function Editor() {
@@ -12,7 +14,6 @@ export default function Editor() {
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
     const [loginError, setLoginError] = useState('');
-    const [domain, setDomain] = useState('http://13.124.84.124:9999');
     const navigate = useNavigate();
 
     const imageHandler = () => {
@@ -96,17 +97,12 @@ export default function Editor() {
 
             if (accessToken && refreshToken) {
                 // 요청 보내기
-                const response = await fetch(`${domain}/manager/shop/save`, {
-                    method: 'POST',
+                const response = await axios.post('/manager/shop/save', JSON.stringify({ title,content }), {
                     headers: {
                         'Content-Type': 'application/json',
                         'Authorization': `Bearer ${accessToken}`,
                         'RefreshToken': `Bearer ${refreshToken}`,
                     },
-                    body: JSON.stringify({
-                        title: title,
-                        content: content
-                    })
                 });
 
                 if (response.ok) {

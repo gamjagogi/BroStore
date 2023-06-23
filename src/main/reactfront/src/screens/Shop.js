@@ -4,14 +4,14 @@ import { useLocation, useNavigate } from "react-router-dom";
 import Pagination from 'react-bootstrap/Pagination';
 import ListGroup from 'react-bootstrap/ListGroup';
 import Image from 'react-bootstrap/Image';
+import axios from '../components/Request/axios.js';
+
 
 
 const Shop = () => {
     const [loginError, setLoginError] = useState('');
     const [boardPG, setBoardPG] = useState({ content: [] });
     const [currentPage, setCurrentPage] = useState(1);
-    const [domain, setDomain] = useState('http://13.124.84.124:9999'); // 도메인 변수
-
 
     const navigate = useNavigate();
 
@@ -25,13 +25,12 @@ const Shop = () => {
             const refreshToken = localStorage.getItem('refreshToken');
 
             if (accessToken && refreshToken) {
-                const response = await fetch(`${domain}/auth/shop?page=${currentPage - 1}`, {
-                    method: 'GET',
+                const response = await axios.get(`/auth/shop?page=${currentPage - 1}`, {
                     headers: {
                         'Content-Type': 'application/json',
                         'Authorization': `Bearer ${accessToken}`,
                         'RefreshToken': `Bearer ${refreshToken}`,
-                    }
+                    },
                 });
 
                 if (response.ok) {
