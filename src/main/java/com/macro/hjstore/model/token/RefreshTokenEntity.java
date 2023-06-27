@@ -18,8 +18,8 @@ public class RefreshTokenEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    //@JoinColumn(name = "user_tb")
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_tb")
     private User user;
 
     @Column(nullable = false, unique = true)
