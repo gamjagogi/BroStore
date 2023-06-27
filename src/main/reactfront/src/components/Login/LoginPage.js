@@ -1,14 +1,13 @@
 import React, { useState } from 'react';
 import {Login} from "../Styles/Loginform/Login.style";
 import { useNavigate, useLocation } from 'react-router-dom';
+import axios from '../Request/RequestConfig.js';
 
 
 const LoginPage = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [loginError, setLoginError] = useState('');
-    const [domain, setDomain] = useState('http://13.124.84.124:9999'); // 도메인 변수
-
 
     const navigate = useNavigate();
     const location = useLocation();
@@ -16,12 +15,10 @@ const LoginPage = () => {
 
     const handleLogin = async () => {
         try {
-            const response = await fetch(`${domain}/login`, {
-                method: 'POST',
+            const response = await axios.post('/login', JSON.stringify({ email, password }), {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ email, password }),
             });
 
             if (response.ok) {
