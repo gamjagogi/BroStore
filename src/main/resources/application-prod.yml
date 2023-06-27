@@ -1,5 +1,5 @@
 server:
-  port: 5000
+  port: 9999
   servlet:
     encoding:
       charset: utf-8
@@ -7,10 +7,10 @@ server:
 
 spring:
   datasource:
-    url: jdbc:mariadb://${rds.hostname}:${rds.port}/${rds.db.name}?allowPublicKeyRetrieval=true&useSSL=false
+    url: jdbc:mariadb://hjstore-db3.cassnwomnzld.ap-northeast-2.rds.amazonaws.com:3306/hjstore?allowPublicKeyRetrieval=true&useSSL=false
     driver-class-name: org.mariadb.jdbc.Driver
-    username: ${rds.username}
-    password: ${rds.password}
+    username: denji
+    password: qlu6nvnBB1
   jpa:
     open-in-view: false
     hibernate:

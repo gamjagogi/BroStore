@@ -10,6 +10,8 @@ const JoinPage = () => {
     const [username, setUsername] = useState('');
     const [birth, setBirth] = useState('');
     const [passwordMismatch, setPasswordMismatch] = useState(false);
+    const [domain, setDomain] = useState('http://13.124.84.124:9999');
+
 
     useEffect(() => {
         // 비밀번호 일치 여부 확인
@@ -40,7 +42,7 @@ const JoinPage = () => {
         }
 
         try {
-            const response = await fetch('http://localhost:3001/join', {
+            const response = await fetch(`${domain}/join`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

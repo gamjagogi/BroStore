@@ -1,21 +1,42 @@
 import React, { useState } from 'react';
-import ReactQuill from 'react-quill';
-import 'react-quill/dist/quill.snow.css';
-import ImageResize from 'quill-image-resize-module';
-import Quill from 'quill';
 import { useNavigate } from 'react-router-dom';
 
-Quill.register('modules/imageResize', ImageResize);
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
+import { useRef, useMemo } from 'react';
 
 
 export default function Editor() {
+    const quillRef = useRef(null);
+
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
     const [loginError, setLoginError] = useState('');
+    const [domain, setDomain] = useState('http://13.124.84.124:9999');
     const navigate = useNavigate();
 
+    const imageHandler = () => {
+        const input = document.createElement('input');
+        input.setAttribute('type', 'file');
+        input.setAttribute('accept', 'image/*');
+        input.click();
 
-    const modules = {
+        input.addEventListener('change', async () => {
+            const file = input.files[0];
+
+            try {
+
+                const editor = quillRef.current.getEditor();
+                const range = editor.getSelection();
+                editor.setSelection(range.index + 1);
+            } catch (error) {
+                console.log(error);
+            }
+        });
+    };
+
+    const modules = useMemo(
+        () => ({
         toolbar: {
             container: [
                 [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
@@ -27,9 +48,29 @@ export default function Editor() {
                 ['image', 'video'],
                 ['clean'],
             ],
-        },
-        imageResize: {},
-    };
+            handlers: { image: imageHandler },
+            },
+            clipboard: {
+             matchVisual: false,
+            },
+        }),
+        [],
+    );
+
+    const formats = [
+        'header',
+        'font',
+        'size',
+        'bold',
+        'italic',
+        'underline',
+        'strike',
+        'blockquote',
+        'list',
+        'bullet',
+        'align',
+        'image',
+    ];
 
     const onChangeTitle = (event) => {
         const newTitle = event.target.value;
@@ -55,7 +96,7 @@ export default function Editor() {
 
             if (accessToken && refreshToken) {
                 // 요청 보내기
-                const response = await fetch('http://localhost:3001/manager/shop/save', {
+                const response = await fetch(`${domain}/manager/shop/save`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -107,7 +148,10 @@ export default function Editor() {
             <div style={{ flex: '1', minHeight: '0', padding: '10px', fontSize: '14px', marginBottom: 'auto' }}>
                 {/* <ReactQuill/> 컴포넌트를 감싸는 div */}
                 <ReactQuill
+                    ref={quillRef}
+                    formats={formats}
                     modules={modules}
+                    theme="snow"
                     onChange={onChangeContent}
                     style={{ flex: '1', minHeight: '0', padding: '10px', fontSize: '14px', width: '100%', height: '70%' }}
                 />

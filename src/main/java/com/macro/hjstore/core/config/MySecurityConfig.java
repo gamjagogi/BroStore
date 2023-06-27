@@ -64,10 +64,6 @@ public class MySecurityConfig {
         return new BCryptPasswordEncoder();
     }
 
-//    @Bean
-//    AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration)throws Exception {
-//        return authenticationConfiguration.getAuthenticationManager();
-//    }
 
 
     // JWT필터 등록이 필요함
