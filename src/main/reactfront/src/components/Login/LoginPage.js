@@ -26,6 +26,8 @@ const LoginPage = () => {
                 const accessToken = response.headers.get('access-token');
                 const refreshToken = response.headers.get('refresh-token');
 
+                console.log(accessToken);
+
                 const data = await response.json();
                 console.log(JSON.stringify(data)); // JSON 형태로 String형태로 출력
                 console.log(data.data.username);
