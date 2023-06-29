@@ -28,7 +28,7 @@ const LoginPage = () => {
 
                 console.log(accessToken);
 
-                const data = await response.json();
+                const data = await response.data;
                 console.log(JSON.stringify(data)); // JSON 형태로 String형태로 출력
                 console.log(data.data.username);
 

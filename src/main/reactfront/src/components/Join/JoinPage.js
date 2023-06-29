@@ -48,7 +48,7 @@ const JoinPage = () => {
                 },
             });
 
-            if (response.ok) {
+            if (response.status == 200) {
                 navigate('/login');
             } else {
                 // 실패 처리 로직

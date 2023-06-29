@@ -105,15 +105,15 @@ export default function Editor() {
                     },
                 });
 
-                if (response.ok) {
+                if (response.status == 200) {
                     // 응답 성공 시 처리할 작업
-                    const data = await response.json();
+                    const data = await response.data;
                     console.log(data); // 요청에 대한 응답 처리
                     navigate('/shop');
 
                 } else {
                     // 응답 실패 시 처리할 작업
-                    const errorMessages = await response.clone().json();
+                    const errorMessages = await response.data;
                     console.log(errorMessages.errors);
                     const errors = errorMessages.errors;
                     for(const error of errors){

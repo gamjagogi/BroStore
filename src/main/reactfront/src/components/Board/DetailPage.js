@@ -36,8 +36,8 @@ export default function Detail() {
                     },
                 });
 
-                if (response.ok) {
-                    const postData = await response.json();
+                if (response.status == 200) {
+                    const postData = await response.data;
                     console.log(postData.data);
                     setTitle(postData.data.title);
                     setContent(postData.data.content);

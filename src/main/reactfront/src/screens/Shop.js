@@ -33,8 +33,8 @@ const Shop = () => {
                     },
                 });
 
-                if (response.ok) {
-                    const data = await response.json();
+                if (response.status == 200) {
+                    const data = await response.data;
                     setBoardPG(data.data);
                 } else {
                     setLoginError('인증된 유저만 접근 가능합니다.');
