@@ -21,7 +21,7 @@ const LoginPage = () => {
                 },
             });
 
-            if (response.ok) {
+            if (response.status == 200) {
                 // 로그인 성공 시 처리할 작업
                 const accessToken = response.headers.get('access-token');
                 const refreshToken = response.headers.get('refresh-token');
