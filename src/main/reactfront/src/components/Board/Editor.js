@@ -95,15 +95,19 @@ export default function Editor() {
             console.log(accessToken);
             console.log(refreshToken);
 
+            const config = {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                    RefreshToken: `Bearer ${refreshToken}`,
+                    'Content-Type': 'application/json',
+                },
+            };
+
             if (accessToken && refreshToken) {
                 // 요청 보내기
-                const response = await axios.post('/manager/shop/save', JSON.stringify({ title,content }), {
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${accessToken}`,
-                        'RefreshToken': `Bearer ${refreshToken}`,
-                    },
-                });
+                const response = await axios.post('/manager/shop/save', JSON.stringify({ title,content }),
+                    config
+                );
 
                 if (response.status == 200) {
                     // 응답 성공 시 처리할 작업
