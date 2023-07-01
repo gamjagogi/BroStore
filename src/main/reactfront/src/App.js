@@ -10,6 +10,7 @@ import ReactDoc from "./screens/ReactDoc";
 import NavBarElements from "./components/Navbar/NavBarElements";
 import DetailPage from "./components/Board/DetailPage";
 import Editor from "./components/Board/Editor";
+import QuillEditor from "./components/Board/QuillEditor";
 
 const App = () => {
     return (
@@ -25,6 +26,7 @@ const App = () => {
                 <Route path="/join" element={<JoinPage />} />
                 <Route path="/detail/:id" element={<DetailPage />} />
                 <Route path="/editor" element={<Editor/>}/>
+                <Route path="/quill" element={<QuillEditor/>}/>
             </Routes>
         </Router>
     );
