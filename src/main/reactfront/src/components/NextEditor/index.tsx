@@ -3,7 +3,7 @@ import dynamic from 'next/dynamic';
 import styled from 'styled-components';
 import { NextPage } from 'next';
 
-const Editor = dynamic(() => import('../Board/QuillEditor'), { ssr: false }); // client 사이드에서만 동작되기 때문에 ssr false로 설정
+const Editor = dynamic(() => import('./QuillEditor'), { ssr: false }); // client 사이드에서만 동작되기 때문에 ssr false로 설정
 
 const Index: NextPage = () => {
     // state

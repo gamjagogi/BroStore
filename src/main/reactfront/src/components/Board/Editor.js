@@ -1,13 +1,12 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, {useState, useEffect} from 'react';
+import {useNavigate} from 'react-router-dom';
 
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
-import { useRef, useMemo } from 'react';
+import {useRef, useMemo} from 'react';
 import axios from '../Request/RequestConfig.js';
 import AWS from 'aws-sdk';
-import QuillEditor from "./QuillEditor";
-
+import ImageLibrary from "./ImageLibrary";
 
 
 export default function Editor() {
@@ -16,42 +15,10 @@ export default function Editor() {
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
     const [thumbnail, setThumbnail] = useState('');
-    const [thumbnails, setThumbnails] = useState([]);
+    const [thumbnails, setThumbnails] = useState('');
     const [loginError, setLoginError] = useState('');
+    const [imageSrc, setImageSrc] = useState('');
     const navigate = useNavigate();
-
-    // 이미지 삭제
-    useEffect(() => {
-        if (quillRef.current) {
-            const editor = quillRef.current.getEditor();
-
-            editor.on('text-change', () => {
-                // 에디터 내용이 변경될 때마다 호출되는 콜백 함수
-                setContent(editor.root.innerHTML);
-            });
-
-            editor.on('editor-change', (eventName, ...args) => {
-                // 에디터 내부 상태가 변경될 때 호출되는 콜백 함수
-                if (eventName === 'text-change') {
-                    const range = args[2];
-                    if (range && range.index) {
-                        // 커서가 있는 위치의 블록을 가져옴
-                        const [block] = editor.getLeaf(range.index);
-
-                        if (block && block.domNode) {
-                            const deleteButton = block.domNode.querySelector('.delete-button');
-                            if (deleteButton) {
-                                deleteButton.addEventListener('click', () => {
-                                    const imageIdentifier = block.domNode.getAttribute('data-image-identifier');
-                                    deleteImage(imageIdentifier);
-                                });
-                            }
-                        }
-                    }
-                }
-            });
-        }
-    }, []);
 
 
     // 이미지 추가
@@ -79,7 +46,7 @@ export default function Editor() {
 
             // 버킷에 맞는 이름과 리전을 설정합니다.
             const ReactS3Client = new AWS.S3({
-                params: { Bucket: S3_BUCKET},
+                params: {Bucket: S3_BUCKET},
                 region: REGION,
             });
 
@@ -101,11 +68,11 @@ export default function Editor() {
                         alert('error');
                     } else {
 
-                        const { Bucket, Key } = params; // params 객체에서 Bucket과 Key를 추출합니다.
+                        const {Bucket, Key} = params; // params 객체에서 Bucket과 Key를 추출합니다.
                         const imageUrl = `https://${Bucket}.s3.amazonaws.com/${Key}`; // 이미지의 위치(URL)을 구성합니다.
                         console.log('업로드 완료. 이미지 위치:', imageUrl);
 
-                        const imageIdentifier = `${imageUrl}`;
+                        setImageSrc(`${imageUrl}`);
 
 
                         // 여기서 Quill 편집기 폼에 이미지를 출력하는 로직을 실행할 수 있습니다.
@@ -117,19 +84,6 @@ export default function Editor() {
                             'image',
                             `${imageUrl}`,
                         );
-
-                        const imageBlock = editor.getLeaf(range.index)[0].domNode.parentNode;
-
-                        // 삭제 버튼 엘리먼트 생성
-                        const deleteButton = document.createElement('button');
-                        deleteButton.textContent = 'Delete';
-                        deleteButton.addEventListener('click', () => {
-                            deleteImage(imageUrl);
-                        });
-
-                        // 삭제 버튼을 이미지 블록에 추가
-                        imageBlock.appendChild(deleteButton);
-
 
                         // 이미지 업로드 후 커서 이미지 한칸 옆으로 이동.
                         editor.setSelection(range.index + 1);
@@ -157,21 +111,22 @@ export default function Editor() {
 
     const modules = useMemo(
         () => ({
-        toolbar: {
-            container: [
-                [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
-                [{ 'font': [] }],
-                [{ 'align': [] }],
-                ['bold', 'italic', 'underline', 'strike', 'blockquote'],
-                [{ 'list': 'ordered' }, { 'list': 'bullet' }, 'link'],
-                [{ 'color': ['#000000', '#e60000', '#ff9900', '#ffff00', '#008a00', '#0066cc', '#9933ff', '#ffffff', '#facccc', '#ffebcc', '#ffffcc', '#cce8cc', '#cce0f5', '#ebd6ff', '#bbbbbb', '#f06666', '#ffc266', '#ffff66', '#66b966', '#66a3e0', '#c285ff', '#888888', '#a10000', '#b26b00', '#b2b200', '#006100', '#0047b2', '#6b24b2', '#444444', '#5c0000', '#663d00', '#666600', '#003700', '#002966', '#3d1466', 'custom-color'] }, { 'background': [] }],
-                ['image', 'video'],
-                ['clean'],
-            ],
-            handlers: { image: imageHandler },
+            toolbar: {
+                container: [
+                    [{'header': [1, 2, 3, 4, 5, 6, false]}],
+                    [{'font': []}],
+                    [{'align': []}],
+                    ['bold', 'italic', 'underline', 'strike', 'blockquote'],
+                    [{'list': 'ordered'}, {'list': 'bullet'}, 'link'],
+                    [{'color': ['#000000', '#e60000', '#ff9900', '#ffff00', '#008a00', '#0066cc', '#9933ff', '#ffffff', '#facccc', '#ffebcc', '#ffffcc', '#cce8cc', '#cce0f5', '#ebd6ff', '#bbbbbb', '#f06666', '#ffc266', '#ffff66', '#66b966', '#66a3e0', '#c285ff', '#888888', '#a10000', '#b26b00', '#b2b200', '#006100', '#0047b2', '#6b24b2', '#444444', '#5c0000', '#663d00', '#666600', '#003700', '#002966', '#3d1466', 'custom-color']}, {'background': []}],
+                    ['image', 'video'],
+                    ['clean'],
+                    [{'custom-button': '<i class="fas fa-bold"></i>'}]
+                ],
+                handlers: {image: imageHandler},
             },
             clipboard: {
-             matchVisual: false,
+                matchVisual: false,
             },
         }),
         [],
@@ -192,6 +147,12 @@ export default function Editor() {
         'image',
         'div'
     ];
+
+    const handleCustomButtonClick = () => {
+        // 버튼 클릭 시 동작할 로직을 작성합니다
+        console.log('Custom button clicked');
+
+    };
 
     const onChangeTitle = (event) => {
         const newTitle = event.target.value;
@@ -222,7 +183,7 @@ export default function Editor() {
                     'Content-Type': 'application/json',
                 },
             };
-            const requestData = { title, content };
+            const requestData = {title, content};
 
             if (thumbnails !== "") {
                 requestData.thumbnail = thumbnail;
@@ -250,7 +211,7 @@ export default function Editor() {
                     const errorMessages = await response.data;
                     console.log(errorMessages.errors);
                     const errors = errorMessages.errors;
-                    for(const error of errors){
+                    for (const error of errors) {
                         console.log(error.defaultMessage);
                         alert(error.defaultMessage);
                     }
@@ -265,17 +226,17 @@ export default function Editor() {
     }
 
     return (
-        <div style={{ display: 'flex', flexDirection: 'column', height: '100vh' }}>
+        <div style={{display: 'flex', flexDirection: 'column', height: '100vh'}}>
             <input
                 type="text"
                 value={title}
                 onChange={onChangeTitle}
                 placeholder="제목"
-                style={{ flex: 'none', padding: '10px', fontSize: '18px' }}
+                style={{flex: 'none', padding: '10px', fontSize: '18px'}}
             />
 
 
-            <div style={{ flex: '1', minHeight: '0', padding: '10px', fontSize: '14px', marginBottom: 'auto' }}>
+            <div style={{flex: '1', minHeight: '0', padding: '10px', fontSize: '14px', marginBottom: 'auto'}}>
                 {/* <ReactQuill/> 컴포넌트를 감싸는 div */}
                 <ReactQuill
                     ref={quillRef}
@@ -283,17 +244,36 @@ export default function Editor() {
                     modules={modules}
                     theme="snow"
                     onChange={onChangeContent}
-                    style={{ flex: '1', minHeight: '0', padding: '10px', fontSize: '14px', width: '100%', height: '70%' }}
+                    style={{flex: '1', minHeight: '0', padding: '10px', fontSize: '14px', width: '100%', height: '80%'}}
                 />
-                <div dangerouslySetInnerHTML={{ __html: content }} style={{ display: 'none' }} />
+                <div dangerouslySetInnerHTML={{__html: content}} style={{display: 'none'}}/>
             </div>
+            <br/>
+            <div className="footer" style={{ marginTop: 'auto', padding: '10px', position: 'relative', top: '70px' }}>
+                <div style={{
+                    display: 'flex',
+                    justifyContent: 'flex-end',
+                    marginTop: 'auto',
+                    marginRight: '10px',
+                    position: 'relative',
+                    top: '-200px'
+                }}>
+                    <ImageLibrary imageSrc={imageSrc} />
+                </div>
 
-
-            <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: 'auto', marginRight: '10px', position: 'relative', top : '-200px' }}>
-                <button onClick={handleSubmit} style={{ marginRight: '10px' }}>완료</button>
-                <button style={{}}>취소</button>
+                <br/>
+                <div style={{
+                    display: 'flex',
+                    justifyContent: 'flex-end',
+                    marginTop: 'auto',
+                    marginRight: '10px',
+                    position: 'relative',
+                    top: '-200px'
+                }}>
+                    <button onClick={handleSubmit} style={{marginRight: '10px'}}>완료</button>
+                    <button style={{}}>취소</button>
+                </div>
             </div>
-
         </div>
 
     );

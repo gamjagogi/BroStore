@@ -1,9 +1,22 @@
 {
   "compilerOptions": {
-    "target": "es5",
+    "paths": {
+      "quill/*": ["node_modules/quill/*"]
+    },
+    "target": "esnext",
+    "lib": ["dom", "dom.iterable", "esnext"],
     "module": "esnext",
-    "jsx": "react",
+    "moduleResolution": "node",
+    "jsx": "preserve",
+    "allowJs": true,
     "strict": true,
-    "esModuleInterop": true
-  }
+    "noEmit": true,
+    "skipLibCheck": false,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+  },
+  "include": ["next-env.d.ts", "src/**/*.ts", "src/**/*.tsx", "types/**/*.d.ts"],
+  "exclude": ["node_modules"]
 }
