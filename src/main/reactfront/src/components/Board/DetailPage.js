@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { Container, Card } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
+import axios from '../Request/RequestConfig.js';
 
 
 
@@ -9,7 +10,6 @@ export default function Detail() {
     const [loginError, setLoginError] = useState('');
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
-    const [domain, setDomain] = useState('http://13.124.84.124:9999');
     const navigate = useNavigate();
 
     const handleGoBack = () => {
@@ -28,17 +28,16 @@ export default function Detail() {
             console.log(refreshToken);
 
             if (accessToken && refreshToken) {
-                const response = await fetch(`${domain}//auth/shop/${id}`, {
-                    method: 'GET',
+                const response = await axios.get(`/auth/shop/${id}`, {
                     headers: {
                         'Content-Type': 'application/json',
                         'Authorization': `Bearer ${accessToken}`,
                         'RefreshToken': `Bearer ${refreshToken}`,
-                    }
+                    },
                 });
 
-                if (response.ok) {
-                    const postData = await response.json();
+                if (response.status == 200) {
+                    const postData = await response.data;
                     console.log(postData.data);
                     setTitle(postData.data.title);
                     setContent(postData.data.content);

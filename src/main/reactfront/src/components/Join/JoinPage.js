@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Form, Button, Alert } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
+import axios from '../Request/RequestConfig.js';
 
 const JoinPage = () => {
     const navigate = useNavigate();
@@ -10,7 +11,6 @@ const JoinPage = () => {
     const [username, setUsername] = useState('');
     const [birth, setBirth] = useState('');
     const [passwordMismatch, setPasswordMismatch] = useState(false);
-    const [domain, setDomain] = useState('http://13.124.84.124:9999');
 
 
     useEffect(() => {
@@ -42,15 +42,13 @@ const JoinPage = () => {
         }
 
         try {
-            const response = await fetch(`${domain}/join`, {
-                method: 'POST',
+            const response = await axios.post('/join', JSON.stringify({ email, password, username, birth }),{
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ email, password, username, birth }),
             });
 
-            if (response.ok) {
+            if (response.status == 200) {
                 navigate('/login');
             } else {
                 // 실패 처리 로직
