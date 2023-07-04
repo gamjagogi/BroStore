@@ -7,9 +7,10 @@ import {useRef, useMemo} from 'react';
 import axios from '../Request/RequestConfig.js';
 import AWS from 'aws-sdk';
 import ImageLibrary from "./ImageLibrary";
+import { v4 as uuidv4 } from 'uuid';
 
 
-export default function Editor() {
+export default function Editor({ deleted }) {
     const quillRef = useRef(null);
 
     const [title, setTitle] = useState('');
@@ -18,7 +19,9 @@ export default function Editor() {
     const [thumbnails, setThumbnails] = useState('');
     const [loginError, setLoginError] = useState('');
     const [imageSrc, setImageSrc] = useState('');
+    const [index, setIndex] = useState('')
     const navigate = useNavigate();
+
 
 
     // 이미지 추가
@@ -34,6 +37,7 @@ export default function Editor() {
             const SECRET_ACCESS_KEY = 'a4o15vPrV9lOv0lhdvZNcAWmVj+ECAWl/1HO6D/B';
             const REGION = "ap-northeast-2";
             const S3_BUCKET = 'image-gamja';
+            const uuid = uuidv4();
 
             const file = input.files[0];
             const fileName = file.name;
@@ -72,7 +76,9 @@ export default function Editor() {
                         const imageUrl = `https://${Bucket}.s3.amazonaws.com/${Key}`; // 이미지의 위치(URL)을 구성합니다.
                         console.log('업로드 완료. 이미지 위치:', imageUrl);
 
-                        setImageSrc(`${imageUrl}`);
+                        setIndex(uuid);
+                        // 이미지소스 변수에 저장
+                        setImageSrc(imageUrl);
 
 
                         // 여기서 Quill 편집기 폼에 이미지를 출력하는 로직을 실행할 수 있습니다.
@@ -91,6 +97,11 @@ export default function Editor() {
                 });
         });
     };
+
+    useEffect(() => {
+        deleteImage(deleted);
+    },[deleted])
+
 
     // 이미지 삭제 로직
     const deleteImage = (imageIdentifier) => {
@@ -123,7 +134,7 @@ export default function Editor() {
                     ['clean'],
                     [{'custom-button': '<i class="fas fa-bold"></i>'}]
                 ],
-                handlers: {image: imageHandler},
+                handlers: {image: imageHandler,deleteImage},
             },
             clipboard: {
                 matchVisual: false,
@@ -148,11 +159,6 @@ export default function Editor() {
         'div'
     ];
 
-    const handleCustomButtonClick = () => {
-        // 버튼 클릭 시 동작할 로직을 작성합니다
-        console.log('Custom button clicked');
-
-    };
 
     const onChangeTitle = (event) => {
         const newTitle = event.target.value;
@@ -258,7 +264,7 @@ export default function Editor() {
                     position: 'relative',
                     top: '-200px'
                 }}>
-                    <ImageLibrary imageSrc={imageSrc} />
+                    <ImageLibrary imageSrc={imageSrc} index={index} />
                 </div>
 
                 <br/>
