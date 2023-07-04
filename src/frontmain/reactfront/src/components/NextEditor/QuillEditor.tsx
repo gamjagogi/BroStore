@@ -35,7 +35,7 @@ const QuillEditor: NextPage<IEditor> = ({ htmlStr, setHtmlStr}) => {
             const res = await axios.post('http://localhost:3005/manager/shop/save', formData);
 
             if(quillRef.current) {
-                // 현재 Editor 커서 위치에 서버로부터 전달받은 이미지 불러오는 url을 이용하여 이미지 태그 추가
+                // 현재 PostEditor 커서 위치에 서버로부터 전달받은 이미지 불러오는 url을 이용하여 이미지 태그 추가
                 const index = (quillRef.current.getEditor().getSelection() as RangeStatic).index;
 
                 const quillEditor = quillRef.current.getEditor();

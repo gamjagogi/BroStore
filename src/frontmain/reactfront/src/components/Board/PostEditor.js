@@ -10,7 +10,7 @@ import ImageLibrary from "./ImageLibrary";
 import { v4 as uuidv4 } from 'uuid';
 
 
-export default function Editor({ deleted }) {
+export default function PostEditor() {
     const quillRef = useRef(null);
 
     const [title, setTitle] = useState('');
@@ -21,7 +21,6 @@ export default function Editor({ deleted }) {
     const [imageSrc, setImageSrc] = useState('');
     const [index, setIndex] = useState('')
     const navigate = useNavigate();
-
 
 
     // 이미지 추가
@@ -98,15 +97,12 @@ export default function Editor({ deleted }) {
         });
     };
 
-    useEffect(() => {
-        deleteImage(deleted);
-    },[deleted])
-
 
     // 이미지 삭제 로직
     const deleteImage = (imageIdentifier) => {
         const editor = quillRef.current.getEditor();
         const contents = editor.getContents();
+        console.log(imageIdentifier);
 
         // Quill 컨텐츠의 각 블록을 순회하면서 이미지를 찾고, 식별자와 일치하는 이미지를 삭제
         contents.ops.forEach((block) => {
@@ -134,7 +130,7 @@ export default function Editor({ deleted }) {
                     ['clean'],
                     [{'custom-button': '<i class="fas fa-bold"></i>'}]
                 ],
-                handlers: {image: imageHandler,deleteImage},
+                handlers: {image: imageHandler},
             },
             clipboard: {
                 matchVisual: false,

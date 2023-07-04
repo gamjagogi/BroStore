@@ -9,7 +9,7 @@ import Questions from "./screens/Questions";
 import ReactDoc from "./screens/ReactDoc";
 import NavBarElements from "./components/Navbar/NavBarElements";
 import DetailPage from "./components/Board/DetailPage";
-import Editor from "./components/Board/Editor";
+import PostEditor from "./components/Board/PostEditor";
 import QuillEditor from "./components/NextEditor/QuillEditor";
 
 const App = () => {
@@ -25,7 +25,7 @@ const App = () => {
                 <Route path="/reactDoc" element={<ReactDoc/> } />
                 <Route path="/join" element={<JoinPage />} />
                 <Route path="/detail/:id" element={<DetailPage />} />
-                <Route path="/editor" element={<Editor/>}/>
+                <Route path="/editor" element={<PostEditor/>}/>
             </Routes>
         </Router>
     );

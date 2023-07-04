@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { ListGroup, Button, Dropdown } from 'react-bootstrap';
 import Card from 'react-bootstrap/Card';
 import { Editor } from '../Styles/Editorform/Editor.style';
-import Editor from "./Editor"
+import PostEditor from "./PostEditor"
 
 const ImageLibrary = ({ imageSrc,index }) => {
     const [loginError, setLoginError] = useState('');
@@ -45,12 +45,17 @@ const ImageLibrary = ({ imageSrc,index }) => {
         setUpdatedDomArray(domArray);
     }, [urls]);
 
+
+
     // 특정 이미지 삭제
     const handleDelete = async (itemIndex) => {
         try {
-            setDeleted(urls.filter((_,index) => index + 1 == itemIndex));
+            console.log(urls);
+
+            const del = String(urls.filter((_,index) => index + 1 == itemIndex));
+            console.log(del);
             setUrls(prevUrls => prevUrls.filter((_, index) => index + 1 !== itemIndex));
-            Editor( {deleted});
+            setDeleted(del);
 
         } catch (error) {
             console.error('삭제 중 오류 발생.', error);
