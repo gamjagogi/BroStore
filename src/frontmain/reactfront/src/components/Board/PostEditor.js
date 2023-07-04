@@ -6,8 +6,10 @@ import 'react-quill/dist/quill.snow.css';
 import {useRef, useMemo} from 'react';
 import axios from '../Request/RequestConfig.js';
 import AWS from 'aws-sdk';
-import ImageLibrary from "./ImageLibrary";
 import { v4 as uuidv4 } from 'uuid';
+import {Button, Dropdown, ListGroup} from "react-bootstrap";
+import {Editor} from "../Styles/Editorform/Editor.style";
+import Card from "react-bootstrap/Card";
 
 
 export default function PostEditor() {
@@ -19,11 +21,16 @@ export default function PostEditor() {
     const [thumbnails, setThumbnails] = useState('');
     const [loginError, setLoginError] = useState('');
     const [imageSrc, setImageSrc] = useState('');
+
     const [index, setIndex] = useState('')
+
+    const [urls, setUrls] = useState([]);
+    const [updatedDomArray, setUpdatedDomArray] = useState([]);
+    const [deleted, setDeleted] = useState('');
     const navigate = useNavigate();
 
 
-    // 이미지 추가
+    // 이미지 편집기에 추가 로직 *************************************v
     const imageHandler = () => {
         const input = document.createElement('input');
         input.setAttribute('type', 'file');
@@ -75,10 +82,6 @@ export default function PostEditor() {
                         const imageUrl = `https://${Bucket}.s3.amazonaws.com/${Key}`; // 이미지의 위치(URL)을 구성합니다.
                         console.log('업로드 완료. 이미지 위치:', imageUrl);
 
-                        setIndex(uuid);
-                        // 이미지소스 변수에 저장
-                        setImageSrc(imageUrl);
-
 
                         // 여기서 Quill 편집기 폼에 이미지를 출력하는 로직을 실행할 수 있습니다.
                         const editor = quillRef.current.getEditor();
@@ -90,32 +93,24 @@ export default function PostEditor() {
                             `${imageUrl}`,
                         );
 
+                        console.log(range.index);
+
+                        setIndex(range.index);
+                        // 이미지소스 변수에 저장
+                        setImageSrc(imageUrl);
+
                         // 이미지 업로드 후 커서 이미지 한칸 옆으로 이동.
                         editor.setSelection(range.index + 1);
                     }
                 });
         });
     };
+    // ***********************************************************^
 
 
-    // 이미지 삭제 로직
-    const deleteImage = (imageIdentifier) => {
-        const editor = quillRef.current.getEditor();
-        const contents = editor.getContents();
-        console.log(imageIdentifier);
 
-        // Quill 컨텐츠의 각 블록을 순회하면서 이미지를 찾고, 식별자와 일치하는 이미지를 삭제
-        contents.ops.forEach((block) => {
-            if (block.insert && block.insert.image) {
-                const imageUrl = block.insert.image;
-                if (imageUrl === imageIdentifier) {
-                    // 이미지 삭제
-                    editor.deleteText(contents.ops.indexOf(block), 1);
-                }
-            }
-        });
-    };
 
+    // 모듈 및, aws s3 연결 로직 *******************************v
     const modules = useMemo(
         () => ({
             toolbar: {
@@ -226,6 +221,106 @@ export default function PostEditor() {
             setLoginError('인증된 유저만 접근 가능합니다.');
         }
     }
+    // **************************************************************
+
+
+
+    // 이미지 라이브러리 로직 **********************************v
+
+    // 이미지 소스를 urls 배열에 추가.(기존 요소 유지하며 추가)
+    useEffect(() => {
+        if (typeof imageSrc === 'string') {
+            //비어있는 요소 없는지 확인
+            setUrls(prevUrls => prevUrls.filter(element => element.url !== ''));
+
+            const newElement = { url: imageSrc, index: index};
+            setUrls(prevUrls => [...prevUrls, newElement]);
+        }
+    }, [imageSrc,index]);
+
+    // urls배열의 요소를 하나씩 dom형태로 만들어, updatedDomArray배열에 넣는다. (기존 요소 초기화됨)
+    useEffect(() => {
+        const domArray = urls.map((element,_) => {
+            const itemIndex = element.index;
+            const uniqueKey = `image_${itemIndex}`;
+            return (
+                <ListGroup.Item
+                    as="li"
+                    draggable="true"
+                    data-log="lib.diplomat"
+                    data-index={itemIndex}
+                    key={uniqueKey}
+                >
+                    <Card style={{ width: '5rem' }}>
+                        <Card.Img variant="top" src={element.url} />
+                        <Card.Body>
+                            <Button onClick={() => handleDelete(itemIndex)} variant="primary" style={{ width: '3rem', fontSize: '11px' }}>
+                                삭제
+                            </Button>
+                        </Card.Body>
+                    </Card>
+                </ListGroup.Item>
+            );
+        });
+        setUpdatedDomArray(domArray);
+    }, [urls]);
+
+
+
+    // 라이브러 특정 이미지 삭제
+    const handleDelete = async (itemIndex) => {
+        try {
+            console.log(urls);
+            console.log(itemIndex);
+            // 편집기에서 삭제하기
+            setDeleted(itemIndex);
+
+
+        } catch (error) {
+            console.error('삭제 중 오류 발생.', error);
+            setLoginError('삭제 중 오류가 발생했습니다.');
+        }
+    };
+
+    // 라이브러리 삭제 감지 후 편집기에서도 삭제 처리
+    useEffect(() => {
+       deleteImage(deleted);
+    }, [deleted]);
+
+    // 이미지 편집기 삭제 로직 **********************************v
+    const deleteImage = (rangeIndex) => {
+        const editor = quillRef.current.getEditor();
+        const range = editor.getSelection(true);
+        const contents = editor.getContents();
+        console.log(rangeIndex);
+
+        // Quill 컨텐츠의 각 블록을 순회하면서 이미지를 찾고, 식별자와 일치하는 이미지를 삭제
+        contents.ops.forEach((block) => {
+            if (block.insert && block.insert.image) {
+                const imageIndex = contents.ops.indexOf(block);
+                console.log('quill내부');
+                console.log(imageIndex);
+
+                if (imageIndex == rangeIndex) {
+                    // 이미지 삭제
+                    editor.deleteText(contents.ops.indexOf(block), 1);
+                    // urls 라이브러리 재정렬
+                    setUrls(prevUrls => prevUrls.filter((element,_) => element.index !== imageIndex));
+                    console.log('삭제 성공!')
+                }
+            }
+        });
+    };
+    //*********************************************************^
+
+
+    // 라이브러리 열림,닫힘 초기화
+    const [dropdownOpen, setDropdownOpen] = useState(false);
+
+    const toggleDropdown = () => {
+        setDropdownOpen(!dropdownOpen);
+    };
+    // ******************************************************************^
 
     return (
         <div style={{display: 'flex', flexDirection: 'column', height: '100vh'}}>
@@ -260,7 +355,20 @@ export default function PostEditor() {
                     position: 'relative',
                     top: '-200px'
                 }}>
-                    <ImageLibrary imageSrc={imageSrc} index={index} />
+                    {/*<ImageLibrary imageSrc={imageSrc} index={index} />*/}
+                    <Dropdown show={dropdownOpen} onToggle={toggleDropdown}>
+                        <Dropdown.Toggle variant="primary" id="dropdown-basic-button">
+                            사진 라이브러리
+                        </Dropdown.Toggle>
+
+                        <Dropdown.Menu show={true} align="right">
+                            <Editor>
+                                <ListGroup as="ul" className="se-sidebar-list">
+                                    {updatedDomArray}
+                                </ListGroup>
+                            </Editor>
+                        </Dropdown.Menu>
+                    </Dropdown>
                 </div>
 
                 <br/>
