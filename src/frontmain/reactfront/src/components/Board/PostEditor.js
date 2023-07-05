@@ -6,7 +6,7 @@ import 'react-quill/dist/quill.snow.css';
 import {useRef, useMemo} from 'react';
 import axios from '../Request/RequestConfig.js';
 import AWS from 'aws-sdk';
-import { v4 as uuidv4 } from 'uuid';
+import {v4 as uuidv4} from 'uuid';
 import {Button, Dropdown, ListGroup} from "react-bootstrap";
 import {Editor} from "../Styles/Editorform/Editor.style";
 import Card from "react-bootstrap/Card";
@@ -106,8 +106,6 @@ export default function PostEditor() {
         });
     };
     // ***********************************************************^
-
-
 
 
     // 모듈 및, aws s3 연결 로직 *******************************v
@@ -224,25 +222,43 @@ export default function PostEditor() {
     // **************************************************************
 
 
+    //
+    const crolling = () => {
+        const editor = quillRef.current.getEditor();
+        const range = editor.getSelection(true);
+        const contents = editor.getContents();
+        const psUrls = [];
+        // Quill 컨텐츠의 각 블록을 순회하면서 이미지를 찾고, 식별자와 일치하는 이미지를 삭제
+        contents.ops.forEach((block) => {
+                if (block.insert && block.insert.image) {
+                    const imageIndex = contents.ops.indexOf(block);
+                    const libElement = {url: block.insert.image, index: imageIndex};
+                    psUrls.push(libElement);
+                }else {
+                    setUrls([]);
+                }
+            }
+        );
+        console.log(psUrls);
+        return psUrls;
+    };
+
 
     // 이미지 라이브러리 로직 **********************************v
-
-    // 이미지 소스를 urls 배열에 추가.(기존 요소 유지하며 추가)
     useEffect(() => {
-        if (typeof imageSrc === 'string') {
-            //비어있는 요소 없는지 확인
-            setUrls(prevUrls => prevUrls.filter(element => element.url !== ''));
+        setUrls(crolling());
+    }, [imageSrc, index]);
 
-            const newElement = { url: imageSrc, index: index};
-            setUrls(prevUrls => [...prevUrls, newElement]);
-        }
-    }, [imageSrc,index]);
+
+
+
+
 
     // urls배열의 요소를 하나씩 dom형태로 만들어, updatedDomArray배열에 넣는다. (기존 요소 초기화됨)
     useEffect(() => {
-        const domArray = urls.map((element,_) => {
+        const domArray = [urls.map((element) => {
             const itemIndex = element.index;
-            const uniqueKey = `image_${itemIndex}`;
+            const uniqueKey = uuidv4();
             return (
                 <ListGroup.Item
                     as="li"
@@ -251,65 +267,63 @@ export default function PostEditor() {
                     data-index={itemIndex}
                     key={uniqueKey}
                 >
-                    <Card style={{ width: '5rem' }}>
-                        <Card.Img variant="top" src={element.url} />
+                    <Card style={{width: '5rem'}}>
+                        <Card.Img variant="top" src={element.url}/>
                         <Card.Body>
-                            <Button onClick={() => handleDelete(itemIndex)} variant="primary" style={{ width: '3rem', fontSize: '11px' }}>
+                            <Button onClick={() => handleDelete(itemIndex)} variant="primary"
+                                    style={{width: '3rem', fontSize: '11px'}}>
                                 삭제
                             </Button>
                         </Card.Body>
                     </Card>
                 </ListGroup.Item>
             );
-        });
+        })];
+        console.log(domArray);
         setUpdatedDomArray(domArray);
     }, [urls]);
 
 
-
-    // 라이브러 특정 이미지 삭제
+    // 라이브로 특정 이미지 삭제
     const handleDelete = async (itemIndex) => {
         try {
             console.log(urls);
             console.log(itemIndex);
-            // 편집기에서 삭제하기
-            setDeleted(itemIndex);
-
-
+            // 편집기에서 삭제할 요소 전달
+            deleteImage(itemIndex);
         } catch (error) {
             console.error('삭제 중 오류 발생.', error);
             setLoginError('삭제 중 오류가 발생했습니다.');
         }
     };
 
-    // 라이브러리 삭제 감지 후 편집기에서도 삭제 처리
-    useEffect(() => {
-       deleteImage(deleted);
-    }, [deleted]);
-
     // 이미지 편집기 삭제 로직 **********************************v
-    const deleteImage = (rangeIndex) => {
+    // useEffect(() => {
+    //     deleteImage(deleted);
+    // }, [deleted]);
+
+    const deleteImage = (itemIndex) => {
         const editor = quillRef.current.getEditor();
         const range = editor.getSelection(true);
         const contents = editor.getContents();
-        console.log(rangeIndex);
+        console.log('에디터');
+        console.log(contents);
+        console.log(itemIndex);
 
         // Quill 컨텐츠의 각 블록을 순회하면서 이미지를 찾고, 식별자와 일치하는 이미지를 삭제
         contents.ops.forEach((block) => {
-            if (block.insert && block.insert.image) {
+            if (block.insert && block.insert.image ) {
                 const imageIndex = contents.ops.indexOf(block);
                 console.log('quill내부');
-                console.log(imageIndex);
 
-                if (imageIndex == rangeIndex) {
+                if (imageIndex == itemIndex) {
                     // 이미지 삭제
                     editor.deleteText(contents.ops.indexOf(block), 1);
-                    // urls 라이브러리 재정렬
-                    setUrls(prevUrls => prevUrls.filter((element,_) => element.index !== imageIndex));
                     console.log('삭제 성공!')
                 }
             }
         });
+        setUrls(crolling());
     };
     //*********************************************************^
 
@@ -341,12 +355,19 @@ export default function PostEditor() {
                     modules={modules}
                     theme="snow"
                     onChange={onChangeContent}
-                    style={{flex: '1', minHeight: '0', padding: '10px', fontSize: '14px', width: '100%', height: '80%'}}
+                    style={{
+                        flex: '1',
+                        minHeight: '0',
+                        padding: '10px',
+                        fontSize: '14px',
+                        width: '100%',
+                        height: '80%'
+                    }}
                 />
                 <div dangerouslySetInnerHTML={{__html: content}} style={{display: 'none'}}/>
             </div>
             <br/>
-            <div className="footer" style={{ marginTop: 'auto', padding: '10px', position: 'relative', top: '70px' }}>
+            <div className="footer" style={{marginTop: 'auto', padding: '10px', position: 'relative', top: '70px'}}>
                 <div style={{
                     display: 'flex',
                     justifyContent: 'flex-end',
