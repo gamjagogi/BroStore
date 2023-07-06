@@ -1,31 +1,38 @@
-import React from 'react';
+import React, { startTransition } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import LoginPage from './components/Login/LoginPage';
 import JoinPage from './components/Join/JoinPage';
-import Home from "./screens/Home"
+import { Suspense, lazy } from "react";
 import About from "./screens/About"
-import Shop from "./screens/Shop";
+import Software from "./screens/Software";
 import Questions from "./screens/Questions";
 import ReactDoc from "./screens/ReactDoc";
 import NavBarElements from "./components/Navbar/NavBarElements";
 import DetailPage from "./components/Board/DetailPage";
 import PostEditor from "./components/Board/PostEditor";
-import QuillEditor from "./components/NextEditor/QuillEditor";
+import Notice from "./screens/Notice";
 
-const App = () => {
+
+const Home = lazy(() => import("./screens/Home"));
+const CartView = lazy(() => import("./screens/cart/Cart"));
+
+function App() {
     return (
         <Router>
             <NavBarElements/>
             <Routes>
-                <Route path="/login" element={<LoginPage />} />
-                <Route path="/" element={<Home /> } />
-                <Route path="/about" element={<About/> } />
-                <Route path="/shop" element={<Shop/> } />
-                <Route path="/questions" element={<Questions/> } />
-                <Route path="/reactDoc" element={<ReactDoc/> } />
-                <Route path="/join" element={<JoinPage />} />
-                <Route path="/detail/:id" element={<DetailPage />} />
-                <Route path="/editor" element={<PostEditor/>}/>
+                <Route exact path="/login" element={<LoginPage />} />
+                <Route exact path="/" element={<Home /> } />
+                <Route exact path="/about" element={<About/> } />
+                <Route exact path="/software" element={<Software/> } />
+
+                <Route exact path="/cart" element={<CartView/>} />
+                <Route exact path="/questions" element={<Questions/> } />
+                <Route exact path="/reactDoc" element={<ReactDoc/> } />
+                <Route exact path="/join" element={<JoinPage />} />
+                <Route exact path="/detail/:id" element={<DetailPage />} />
+                <Route exact path="/editor" element={<PostEditor/>}/>
+                <Route exact path = "/notice" element={<Notice/>}/>
             </Routes>
         </Router>
     );

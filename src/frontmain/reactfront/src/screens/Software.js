@@ -8,7 +8,7 @@ import axios from '../components/Request/RequestConfig.js';
 
 
 
-const Shop = () => {
+const Software = () => {
     const [loginError, setLoginError] = useState('');
     const [boardPG, setBoardPG] = useState({ content: [] });
     const [currentPage, setCurrentPage] = useState(1);
@@ -116,4 +116,4 @@ const Shop = () => {
     );
 }
 
-export default Shop;
+export default Software;

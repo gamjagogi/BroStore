@@ -11,8 +11,9 @@ const NavBarElements = () => {
                 <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                 <Navbar.Collapse id="responsive-navbar-nav">
                     <Nav className="me-auto">
-                        <Nav.Link href="/shop">Shop</Nav.Link>
-                        <Nav.Link href="/Questions">Quetions</Nav.Link>
+                        <Nav.Link href="/software">Software Product</Nav.Link>
+                        <Nav.Link href="/Questions">Delivery Product</Nav.Link>
+                        <Nav.Link href="#deets">User Board</Nav.Link>
                         <NavDropdown title="Dropdown" id="collasible-nav-dropdown">
                             <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
                             <NavDropdown.Item href="#action/3.2">
@@ -26,9 +27,9 @@ const NavBarElements = () => {
                         </NavDropdown>
                     </Nav>
                     <Nav>
-                        <Nav.Link href="#deets">More deets</Nav.Link>
+                        <Nav.Link href="#deets">Notification</Nav.Link>
                         <Nav.Link eventKey={2} href="#memes">
-                            Dank memes
+                            Documentation
                         </Nav.Link>
                         <UserHeader />
                     </Nav>
