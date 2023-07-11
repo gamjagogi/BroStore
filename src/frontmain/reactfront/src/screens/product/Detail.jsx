@@ -1,4 +1,4 @@
-import React, { Component, lazy } from "react";
+import React, { useEffect, useState, lazy } from "react";
 import { ReactComponent as IconStarFill } from "bootstrap-icons/icons/star-fill.svg";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -9,69 +9,121 @@ import {
   faPlus,
 } from "@fortawesome/free-solid-svg-icons";
 import { data } from "../../data";
+import DataRequest from "./DataRequest";
+
+import axios from "../Request/RequestConfig";
+import { useParams } from "react-router-dom";
+
 const CardFeaturedProduct = lazy(() =>
-  import("../../components/card/CardFeaturedProduct")
+    import("../../components/card/CardFeaturedProduct")
 );
 const CardServices = lazy(() => import("../../components/card/CardServices"));
 const Details = lazy(() => import("../../components/others/Details"));
 const RatingsReviews = lazy(() =>
-  import("../../components/others/RatingsReviews")
+    import("../../components/others/RatingsReviews")
 );
 const QuestionAnswer = lazy(() =>
-  import("../../components/others/QuestionAnswer")
+    import("../../components/others/QuestionAnswer")
 );
 const ShippingReturns = lazy(() =>
-  import("../../components/others/ShippingReturns")
+    import("../../components/others/ShippingReturns")
 );
 const SizeChart = lazy(() => import("../../components/others/SizeChart"));
-class ProductDetailView extends Component {
-  constructor(props) {
-    super();
-    this.state = {};
-  }
-  render() {
-    return (
+
+const ProductDetailView = () => {
+  const [productList, setProductList] = useState([]);
+  const [name, setName] = useState('');
+  const [imgSrc, setImgSrc] = useState('');
+  const [isNew, setIsNew] = useState('');
+  const [isHot, setIsHot] = useState('');
+  const [price, setPrice] = useState('');
+  const [originPrice,setOriginPrice] = useState('');
+  const [discountPrice,setDiscountPrice] = useState('');
+  const [highlights, setHighlights] = useState('');
+  const [description, setDescription] = useState('');
+
+  const { id } = useParams();
+
+
+
+
+  useEffect(() => {
+    fetchPost()
+        .then((postData) => {
+          console.log(postData.data);
+          DataRequest("/auth/software").then((requestData) => {
+            console.log(requestData.data);
+            setProductList(requestData.data);
+          })
+
+          setName(postData.data.name);
+          setImgSrc(postData.data.img);
+          setIsNew(postData.data.new);
+          setIsHot(postData.data.hot);
+          setPrice(postData.data.price);
+          setOriginPrice(postData.data.originPrice);
+          setDiscountPrice(postData.data.discountPrice);
+          setHighlights(postData.data.highlights);
+          setDescription(postData.data.description);
+
+        });
+  }, []);
+
+  const fetchPost = async () => {
+    try {
+      const accessToken = localStorage.getItem('accessToken');
+      const refreshToken = localStorage.getItem('refreshToken');
+
+      // Fetch post using `id`
+      const response = await axios.get(`/auth/software/${id}`, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${accessToken}`,
+          'RefreshToken': `Bearer ${refreshToken}`,
+        },
+      });
+
+      if (response.status === 200) {
+        const postData = response.data;
+        console.log(postData.data);
+        return postData;
+      } else {
+        console.error('게시글을 가져오는데 실패했습니다.');
+        throw new Error('게시글을 가져오는데 실패했습니다.');
+      }
+    } catch (error) {
+      console.error('인증되지 않은 사용자가 접근하려 합니다.', error);
+      throw error;
+    }
+  };
+
+  console.log(description);
+
+  return (
       <div className="container-fluid mt-3">
         <div className="row">
           <div className="col-md-8">
             <div className="row mb-3">
               <div className="col-md-5 text-center">
                 <img
-                  src="../../images/products/tshirt_red_480x400.webp"
-                  className="img-fluid mb-3"
-                  alt=""
-                />
-                <img
-                  src="../../images/products/tshirt_grey_480x400.webp"
-                  className="border border-secondary me-2" width="75"
-                  alt="..."
-                />
-                <img
-                  src="../../images/products/tshirt_black_480x400.webp"
-                  className="border border-secondary me-2" width="75"
-                  alt="..."
-                />
-                <img
-                  src="../../images/products/tshirt_green_480x400.webp"
-                  className="border border-secondary me-2" width="75"
-                  alt="..."
+                    src={imgSrc}
+                    className="img-fluid mb-3"
+                    alt=""
                 />
               </div>
               <div className="col-md-7">
                 <h1 className="h5 d-inline me-2">
-                  Great product name goes here
+                  {name}
                 </h1>
-                <span className="badge bg-success me-2">New</span>
-                <span className="badge bg-danger me-2">Hot</span>
+                <span className="badge bg-success me-2">{isNew}</span>
+                <span className="badge bg-danger me-2">{isHot}</span>
                 <div className="mb-3">
                   <IconStarFill className="text-warning me-1" />
                   <IconStarFill className="text-warning me-1" />
                   <IconStarFill className="text-warning me-1" />
                   <IconStarFill className="text-warning me-1" />
                   <IconStarFill className="text-secondary me-1" />|{" "}
-                  <span className="text-muted small">
-                    42 ratings and 4 reviews
-                  </span>
+
                 </div>
                 <dl className="row small mb-3">
                   <dt className="col-sm-3">Availability</dt>
@@ -82,11 +134,11 @@ class ProductDetailView extends Component {
                   <dd className="col-sm-9">
                     <div className="form-check form-check-inline">
                       <input
-                        className="form-check-input"
-                        type="radio"
-                        name="size"
-                        id="sizes"
-                        disabled
+                          className="form-check-input"
+                          type="radio"
+                          name="size"
+                          id="sizes"
+                          disabled
                       />
                       <label className="form-check-label" htmlFor="sizes">
                         S
@@ -94,11 +146,11 @@ class ProductDetailView extends Component {
                     </div>
                     <div className="form-check form-check-inline">
                       <input
-                        className="form-check-input"
-                        type="radio"
-                        name="size"
-                        id="sizem"
-                        disabled
+                          className="form-check-input"
+                          type="radio"
+                          name="size"
+                          id="sizem"
+                          disabled
                       />
                       <label className="form-check-label" htmlFor="sizem">
                         M
@@ -106,10 +158,10 @@ class ProductDetailView extends Component {
                     </div>
                     <div className="form-check form-check-inline">
                       <input
-                        className="form-check-input"
-                        type="radio"
-                        name="size"
-                        id="sizel"
+                          className="form-check-input"
+                          type="radio"
+                          name="size"
+                          id="sizel"
                       />
                       <label className="form-check-label" htmlFor="sizel">
                         L
@@ -117,10 +169,10 @@ class ProductDetailView extends Component {
                     </div>
                     <div className="form-check form-check-inline">
                       <input
-                        className="form-check-input"
-                        type="radio"
-                        name="size"
-                        id="sizexl"
+                          className="form-check-input"
+                          type="radio"
+                          name="size"
+                          id="sizexl"
                       />
                       <label className="form-check-label" htmlFor="sizexl">
                         XL
@@ -128,10 +180,10 @@ class ProductDetailView extends Component {
                     </div>
                     <div className="form-check form-check-inline">
                       <input
-                        className="form-check-input"
-                        type="radio"
-                        name="size"
-                        id="sizexxl"
+                          className="form-check-input"
+                          type="radio"
+                          name="size"
+                          id="sizexxl"
                       />
                       <label className="form-check-label" htmlFor="sizexxl">
                         XXL
@@ -151,52 +203,52 @@ class ProductDetailView extends Component {
                 </dl>
 
                 <div className="mb-3">
-                  <span className="fw-bold h5 me-2">$1900</span>
-                  <del className="small text-muted me-2">$2000</del>
+                  <span className="fw-bold h5 me-2">{price}</span>
+                  <del className="small text-muted me-2">{originPrice}</del>
                   <span className="rounded p-1 bg-warning  me-2 small">
-                    -$100
+                    {'-'+discountPrice}
                   </span>
                 </div>
                 <div className="mb-3">
                   <div className="d-inline float-start me-2">
                     <div className="input-group input-group-sm mw-140">
                       <button
-                        className="btn btn-primary text-white"
-                        type="button"
+                          className="btn btn-primary text-white"
+                          type="button"
                       >
                         <FontAwesomeIcon icon={faMinus} />
                       </button>
                       <input
-                        type="text"
-                        className="form-control"
-                        defaultValue="1"
+                          type="text"
+                          className="form-control"
+                          defaultValue="1"
                       />
                       <button
-                        className="btn btn-primary text-white"
-                        type="button"
+                          className="btn btn-primary text-white"
+                          type="button"
                       >
                         <FontAwesomeIcon icon={faPlus} />
                       </button>
                     </div>
                   </div>
                   <button
-                    type="button"
-                    className="btn btn-sm btn-primary me-2"
-                    title="Add to cart"
+                      type="button"
+                      className="btn btn-sm btn-primary me-2"
+                      title="Add to cart"
                   >
                     <FontAwesomeIcon icon={faCartPlus} /> Add to cart
                   </button>
                   <button
-                    type="button"
-                    className="btn btn-sm btn-warning me-2"
-                    title="Buy now"
+                      type="button"
+                      className="btn btn-sm btn-warning me-2"
+                      title="Buy now"
                   >
-                    <FontAwesomeIcon icon={faShoppingCart} /> Buy now
+                    <FontAwesomeIcon icon={faShoppingCart} /> Download
                   </button>
                   <button
-                    type="button"
-                    className="btn btn-sm btn-outline-secondary"
-                    title="Add to wishlist"
+                      type="button"
+                      className="btn btn-sm btn-outline-secondary"
+                      title="Add to wishlist"
                   >
                     <FontAwesomeIcon icon={faHeart} />
                   </button>
@@ -207,10 +259,8 @@ class ProductDetailView extends Component {
                   </p>
                   <ul className="small">
                     <li>
-                      Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                      {highlights}
                     </li>
-                    <li>Etiam ullamcorper nibh eget faucibus dictum.</li>
-                    <li>Cras consequat felis ut vulputate porttitor.</li>
                   </ul>
                 </div>
               </div>
@@ -220,121 +270,82 @@ class ProductDetailView extends Component {
                 <nav>
                   <div className="nav nav-tabs" id="nav-tab" role="tablist">
                     <a
-                      className="nav-link active"
-                      id="nav-details-tab"
-                      data-bs-toggle="tab"
-                      href="#nav-details"
-                      role="tab"
-                      aria-controls="nav-details"
-                      aria-selected="true"
+                        className="nav-link active"
+                        id="nav-details-tab"
+                        data-bs-toggle="tab"
+                        href="src/frontmain/reactfront/src/components/product#nav-details"
+                        role="tab"
+                        aria-controls="nav-details"
+                        aria-selected="true"
                     >
                       Details
                     </a>
                     <a
-                      className="nav-link"
-                      id="nav-randr-tab"
-                      data-bs-toggle="tab"
-                      href="#nav-randr"
-                      role="tab"
-                      aria-controls="nav-randr"
-                      aria-selected="false"
+                        className="nav-link"
+                        id="nav-randr-tab"
+                        data-bs-toggle="tab"
+                        href="src/frontmain/reactfront/src/components/product#nav-randr"
+                        role="tab"
+                        aria-controls="nav-randr"
+                        aria-selected="false"
                     >
                       Ratings & Reviews
                     </a>
                     <a
-                      className="nav-link"
-                      id="nav-faq-tab"
-                      data-bs-toggle="tab"
-                      href="#nav-faq"
-                      role="tab"
-                      aria-controls="nav-faq"
-                      aria-selected="false"
+                        className="nav-link"
+                        id="nav-faq-tab"
+                        data-bs-toggle="tab"
+                        href="src/frontmain/reactfront/src/components/product#nav-faq"
+                        role="tab"
+                        aria-controls="nav-faq"
+                        aria-selected="false"
                     >
                       Questions and Answers
-                    </a>
-                    <a
-                      className="nav-link"
-                      id="nav-ship-returns-tab"
-                      data-bs-toggle="tab"
-                      href="#nav-ship-returns"
-                      role="tab"
-                      aria-controls="nav-ship-returns"
-                      aria-selected="false"
-                    >
-                      Shipping & Returns
-                    </a>
-                    <a
-                      className="nav-link"
-                      id="nav-size-chart-tab"
-                      data-bs-toggle="tab"
-                      href="#nav-size-chart"
-                      role="tab"
-                      aria-controls="nav-size-chart"
-                      aria-selected="false"
-                    >
-                      Size Chart
                     </a>
                   </div>
                 </nav>
                 <div className="tab-content p-3 small" id="nav-tabContent">
                   <div
-                    className="tab-pane fade show active"
-                    id="nav-details"
-                    role="tabpanel"
-                    aria-labelledby="nav-details-tab"
+                      className="tab-pane fade show active"
+                      id="nav-details"
+                      role="tabpanel"
+                      aria-labelledby="nav-details-tab"
                   >
-                    <Details />
+                    <Details desc={description}/>
                   </div>
                   <div
-                    className="tab-pane fade"
-                    id="nav-randr"
-                    role="tabpanel"
-                    aria-labelledby="nav-randr-tab"
+                      className="tab-pane fade"
+                      id="nav-randr"
+                      role="tabpanel"
+                      aria-labelledby="nav-randr-tab"
                   >
                     {Array.from({ length: 5 }, (_, key) => (
-                      <RatingsReviews key={key} />
+                        <RatingsReviews key={key} />
                     ))}
                   </div>
                   <div
-                    className="tab-pane fade"
-                    id="nav-faq"
-                    role="tabpanel"
-                    aria-labelledby="nav-faq-tab"
+                      className="tab-pane fade"
+                      id="nav-faq"
+                      role="tabpanel"
+                      aria-labelledby="nav-faq-tab"
                   >
                     <dl>
                       {Array.from({ length: 5 }, (_, key) => (
-                        <QuestionAnswer key={key} />
+                          <QuestionAnswer key={key} />
                       ))}
                     </dl>
-                  </div>
-                  <div
-                    className="tab-pane fade"
-                    id="nav-ship-returns"
-                    role="tabpanel"
-                    aria-labelledby="nav-ship-returns-tab"
-                  >
-                    <ShippingReturns />
-                  </div>
-                  <div
-                    className="tab-pane fade"
-                    id="nav-size-chart"
-                    role="tabpanel"
-                    aria-labelledby="nav-size-chart-tab"
-                  >
-                    <SizeChart />
                   </div>
                 </div>
               </div>
             </div>
           </div>
           <div className="col-md-4">
-            <CardFeaturedProduct data={data.products} />
+            <CardFeaturedProduct data={productList} />
             <CardServices />
           </div>
         </div>
       </div>
-    );
-  }
-}
+  );
+};
 
 export default ProductDetailView;

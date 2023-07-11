@@ -21,7 +21,7 @@ export const data = {
     ],
     iconProducts: [
         {
-            to: "/Software",
+            to: "/UserBoard",
             img: "IconLaptop",
             title: "Software",
             text: " Upto 10% off",
@@ -88,7 +88,7 @@ export const data = {
 
     mainProducts: [
         {
-            to: "/Software",
+            to: "/UserBoard",
             img: "IconLaptop",
             title: "Product",
             text: " Upto 30% off",

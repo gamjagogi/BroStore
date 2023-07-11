@@ -35,6 +35,7 @@ public class BoardController {
         //checkpoint : 권한 체크
         System.out.println(userDetails.getUser().getRole());
         Page<Board> boardPG = boardService.게시글목록보기(page);
+        System.out.println(boardPG);
         System.out.println(boardPG.getTotalPages());
         ResponseDTO<?> responseDTO = new ResponseDTO<>(boardPG);
         return ResponseEntity.ok().body(responseDTO);

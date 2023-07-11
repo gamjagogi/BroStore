@@ -19,32 +19,32 @@ const FilterCategory = (props) => {
       >
         <li className="list-group-item">
           <Link to="/" className="text-decoration-none stretched-link">
-            Clothing
+            Web Crawling
           </Link>
         </li>
         <li className="list-group-item">
           <Link to="/" className="text-decoration-none stretched-link">
-            Leather Bag
+            Monitoring
           </Link>
         </li>
         <li className="list-group-item">
           <Link to="/" className="text-decoration-none stretched-link">
-            Trausers
+            Macro
           </Link>
         </li>
         <li className="list-group-item">
           <Link to="/" className="text-decoration-none stretched-link">
-            Sweater & Cardigans
+            ..
           </Link>
         </li>
         <li className="list-group-item">
           <Link to="/" className="text-decoration-none stretched-link">
-            High Heels
+            ..
           </Link>
         </li>
         <li className="list-group-item">
           <Link to="/" className="text-decoration-none stretched-link">
-            Coats & Jackets
+            ..
           </Link>
         </li>
       </ul>
