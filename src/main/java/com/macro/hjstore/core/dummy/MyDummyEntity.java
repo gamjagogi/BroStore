@@ -1,6 +1,7 @@
 package com.macro.hjstore.core.dummy;
 
 import com.macro.hjstore.model.board.Board;
+import com.macro.hjstore.model.softwareProduct.Software;
 import com.macro.hjstore.model.user.User;
 import com.macro.hjstore.model.user.UserRole;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -21,7 +22,6 @@ public class MyDummyEntity{
     }
 
     public Board newBoard(String title,String content,User user){
-        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         Board boardPS = Board.builder()
                 .title(title)
                 .content(content)
@@ -29,5 +29,25 @@ public class MyDummyEntity{
                 .user(user)
                 .build();
         return boardPS;
+    }
+
+    public Software newSoftware(String link,String name,String img,String description){
+        Software softwarePS = Software.builder()
+                .link(link)
+                .sku("FAS-01")
+                .name(name)
+                .img(img)
+                .price(1800)
+                .originPrice(2000)
+                .discountPrice(1800)
+                .discountPercentage(10)
+                .isNew(true)
+                .isHot(true)
+                .star(5)
+                .isFreeShipping(true)
+                .highlights("haha")
+                .description(description)
+                .build();
+        return softwarePS;
     }
 }

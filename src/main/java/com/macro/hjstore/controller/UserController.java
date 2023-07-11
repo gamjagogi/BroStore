@@ -39,6 +39,9 @@ public class UserController {
         headers.add("access-token", tokenUS.getFirst());
         headers.add("refresh-token", tokenUS.getSecond());
 
+        String accessToken = headers.getFirst("access-token");
+        System.out.println("Access Token: " + accessToken);
+
         ResponseDTO<?> responseDTO = new ResponseDTO<>(loginOutDTO);
 
         return ResponseEntity.ok()
