@@ -1,8 +1,3 @@
-FROM adoptopenjdk/openjdk11
-
-ARG JAR_FILE=build/libs/*.jar
-COPY ${JAR_FILE} app.jar
-
-EXPOSE 9999
-
-ENTRYPOINT ["java", "-jar", "-Dspring.profiles.active=prod", "/app.jar"]
+version https://git-lfs.github.com/spec/v1
+oid sha256:f43df54675b3565b619fe23a0416f7e1282665c3708997ee3ff454723e6261b9
+size 179

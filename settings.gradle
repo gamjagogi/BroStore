@@ -1,8 +1,3 @@
-pluginManagement {
-	repositories {
-		maven { url 'https://repo.spring.io/milestone' }
-		maven { url 'https://repo.spring.io/snapshot' }
-		gradlePluginPortal()
-	}
-}
-rootProject.name = 'hjstore'
+version https://git-lfs.github.com/spec/v1
+oid sha256:03cd53d7e8817d37914b3b5994a9d1b7adc3eda60a2cb897832a6fab6bc65f3a
+size 193
