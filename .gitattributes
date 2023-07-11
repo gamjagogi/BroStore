@@ -15,3 +15,4 @@ build.gradle filter=lfs diff=lfs merge=lfs -text
 package.json filter=lfs diff=lfs merge=lfs -text
 Dockerfile filter=lfs diff=lfs merge=lfs -text
 kkey filter=lfs diff=lfs merge=lfs -text
+bfg-1.14.0.jar filter=lfs diff=lfs merge=lfs -text
