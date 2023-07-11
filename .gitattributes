@@ -12,3 +12,4 @@ build.gradle filter=lfs diff=lfs merge=lfs -text
 gradle filter=lfs diff=lfs merge=lfs -text
 node_modules filter=lfs diff=lfs merge=lfs -text
 settings.gradle filter=lfs diff=lfs merge=lfs -text
+*.pack filter=lfs diff=lfs merge=lfs -text
