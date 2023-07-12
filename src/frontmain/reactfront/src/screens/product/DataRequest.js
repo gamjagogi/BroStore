@@ -3,19 +3,6 @@ import {useEffect, useState} from "react";
 
 const DataRequest = async (url) => {
 
-    console.log("진입");
-    console.log(url)
-
-    //const [requestData,setRequestData] = useState([]);
-
-    // useEffect(() => {
-    //     console.log("useEffect시작");
-    //     fetchPost().then((postData) => {
-    //         console.log(postData.data);
-    //         setRequestData(postData);
-    //     })
-    // }, []);
-
         try {
             console.log('fetch시작');
             const accessToken = localStorage.getItem('accessToken');

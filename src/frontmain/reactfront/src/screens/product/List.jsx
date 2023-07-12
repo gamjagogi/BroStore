@@ -1,8 +1,9 @@
 import React, {lazy, Component, useState, useEffect} from "react";
 import {data} from "../../data";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faTh, faBars} from "@fortawesome/free-solid-svg-icons";
+import {faTh, faBars, faLaptopHouse, faPencilSquare} from "@fortawesome/free-solid-svg-icons";
 import axios from "../Request/RequestConfig";
+import { Link } from "react-router-dom";
 
 
 const Paging = lazy(() => import("../../components/Paging"));
@@ -20,6 +21,7 @@ const CardServices = lazy(() => import("../../components/card/CardServices"));
 
 const CardProductGrid = lazy(() => import("../../components/card/CardProductGrid"));
 const CardProductList = lazy(() => import("../../components/card/CardProductList"));
+
 
 
 class ProductListView extends Component {
@@ -65,6 +67,10 @@ class ProductListView extends Component {
     onChangeView = (view) => {
         this.setState({view});
     };
+
+    // onPosting = () => {
+    //     return navigate("/productEdit");
+    // };
 
 
     getProducts = () => {
@@ -137,7 +143,17 @@ class ProductListView extends Component {
                       <span className="text-warning">""</span>
                   </span>
                                 </div>
+
                                 <div className="col-5 d-flex justify-content-end">
+                                    <button
+                                        aria-label="Grid"
+                                        type="button"
+                                        style={{ marginRight: '0.5em'}}
+                                    >
+                                        <Link to="/posting">
+                                        <FontAwesomeIcon icon={faPencilSquare}/>
+                                        </Link>
+                                    </button>
                                     <select
                                         className="form-select mw-180 float-start"
                                         aria-label="Default select"
