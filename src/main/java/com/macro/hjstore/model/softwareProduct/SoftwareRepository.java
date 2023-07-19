@@ -11,4 +11,5 @@ public interface SoftwareRepository extends JpaRepository<com.macro.hjstore.mode
 
     @Query("select b from Software b where b.id =:id")
     Optional<com.macro.hjstore.model.softwareProduct.Software> findById(@Param("id") Long id);
+
 }

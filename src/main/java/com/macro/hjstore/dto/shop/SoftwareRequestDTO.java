@@ -12,20 +12,16 @@ public class SoftwareRequestDTO {
     public static class Save{
 
         @NotEmpty
-        private String sku;
-
-        @NotEmpty
-        private String name;
-        private String img;
-        @NotEmpty
-        private int price;
-        private int originPrice;
-        private int discountPrice;
-        private int discountPercentage;
+        private String title;
+        private String imagePreview;
+        private Integer price;
+        private Integer originPrice;
+        private Integer discountPrice;
+        private Integer discountPercentage;
         private boolean isNew;
         private boolean isHot;
-        private int star;
-        private boolean isFreeShipping;
+        private Integer star;
+        private boolean deliveryFree;
         private String highlights;
         @NotEmpty
         private String description;

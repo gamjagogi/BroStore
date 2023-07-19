@@ -4,7 +4,7 @@ import {Button} from "antd"
 import {Link} from "react-router-dom"
 import Axios from "axios"
 import {MinusCircleFilled, MinusCircleOutlined, PlusCircleOutlined} from "@ant-design/icons"
-import DetailList from "./AddTextBox"
+import AddTextBox from "./AddTextBox"
 
 const CreateListDiv = styled.div`
   padding: 3rem;
@@ -34,7 +34,7 @@ const CreateList = () => {
 
     return (
         <CreateListDiv>
-            <DetailList countList={countList}/>
+            <AddTextBox countList={countList} />
             <div>
                 <Button onClick={onAddDetailDiv}>
                     <PlusCircleOutlined/>추가

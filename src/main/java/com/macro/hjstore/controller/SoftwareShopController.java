@@ -42,6 +42,8 @@ public class SoftwareShopController {
 
     @PostMapping("/manager/software/save")
     public ResponseEntity<?> save(@RequestBody @Valid SoftwareRequestDTO.Save saveDTO, Errors errors){
+
+        System.out.println("진입");
         if (errors.hasErrors()) {
             // 오류 처리 로직 작성
             List<String> errorMessages = new ArrayList<>();
@@ -56,11 +58,9 @@ public class SoftwareShopController {
             return ResponseEntity.badRequest().body(errorMessages); // 예시로 "오류 발생"이라는 메시지를 반환하였습니다.
         }
 
-        try {
-            softwareService.게시글저장하기(saveDTO);
-        }catch (Exception e){
-            throw new Exception400("userDetails 아니면 글작성하기에서 문제될수도! ","MyUserDetails내에 user객체를 찾을 수가 없습니다.");
-        }
+        System.out.println("저장하기직전");
+        softwareService.게시글저장하기(saveDTO);
+
         ResponseDTO<?>responseDTO = new ResponseDTO<>();
         return ResponseEntity.ok().body(responseDTO);
     }

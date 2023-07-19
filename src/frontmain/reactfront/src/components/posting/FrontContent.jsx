@@ -11,11 +11,7 @@ import {
   name,
   email,
 } from "../../helpers/validation";
-import { ReactComponent as IconPerson } from "bootstrap-icons/icons/person.svg";
-import { ReactComponent as IconPhone } from "bootstrap-icons/icons/phone.svg";
-import { ReactComponent as IconEnvelop } from "bootstrap-icons/icons/envelope.svg";
-import { ReactComponent as IconGeoAlt } from "bootstrap-icons/icons/geo-alt.svg";
-import { ReactComponent as IconCalendarEvent } from "bootstrap-icons/icons/calendar-event.svg";
+
 import { ReactComponent as IconPersonSquareFill } from "bootstrap-icons/icons/person-lines-fill.svg";
 
 const FrontContent = (props) => {
@@ -23,6 +19,9 @@ const FrontContent = (props) => {
     onImageChange,
     imagePreview,
   } = props;
+
+
+
   return (
       <div className="card border-primary">
         <h6 className="card-header">

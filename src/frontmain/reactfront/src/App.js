@@ -16,7 +16,6 @@ import PostEditor from "./screens/Board/PostEditor";
 import Notice from "./screens/Notice";
 import Footer from "./components/Footer";
 import Header from "./components/Header";
-import ProductEditor from "./screens/product/ProductEditor";
 import Posting from "./screens/product/Posting"
 
 import "./App.min.css";
@@ -91,8 +90,6 @@ function App() {
                         <Route exact path="/contact-us" element={<ContactUsView/>}/>
                         <Route exact path="/support" element={<SupportView/>}/>
                         < Route exact path="/posting" element={<Posting/>}/>
-
-                        <Route exact path="/productEdit" element={<ProductEditor/>}/>
 
 
                     </Routes>

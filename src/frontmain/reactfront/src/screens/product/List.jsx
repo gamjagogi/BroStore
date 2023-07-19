@@ -68,10 +68,6 @@ class ProductListView extends Component {
         this.setState({view});
     };
 
-    // onPosting = () => {
-    //     return navigate("/productEdit");
-    // };
-
 
     getProducts = () => {
         return new Promise((resolve, reject) => {

@@ -39,8 +39,6 @@ public class SoftwareService {
     @MyLog
     public void 게시글저장하기(SoftwareRequestDTO.Save saveDTO){
         Software savePS = Software.toEntity(saveDTO);
-        String link = "/software/"+savePS.getId();
-        savePS.setLink(link);
         softwareRepository.save(savePS);
     }
 }

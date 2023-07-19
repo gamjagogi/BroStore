@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import { Link } from "react-router-dom";
 import { ReactComponent as IconStarFill } from "bootstrap-icons/icons/star-fill.svg";
 import { ReactComponent as IconTruckFill } from "bootstrap-icons/icons/truck.svg";
@@ -8,16 +8,18 @@ import { faCartPlus, faHeart } from "@fortawesome/free-solid-svg-icons";
 const CardProductList = (props) => {
   const product = props.data;
   console.log(product);
+
+
   return (
     <div className="card">
       <div className="row g-0">
         <div className="col-md-3 text-center">
-          <img src={product.img} className="img-fluid" alt="..." />
+          <img src={product.thumbnail} className="img-fluid" alt="..." />
         </div>
         <div className="col-md-6">
           <div className="card-body">
             <h6 className="card-subtitle me-2 d-inline">
-              <Link to={product.link} className="text-decoration-none">
+              <Link to={product.link + product.id} className="text-decoration-none">
                 {product.name}
               </Link>
             </h6>

@@ -45,8 +45,6 @@ const ProductDetailView = () => {
   const { id } = useParams();
 
 
-
-
   useEffect(() => {
     fetchPost()
         .then((postData) => {
@@ -57,7 +55,7 @@ const ProductDetailView = () => {
           })
 
           setName(postData.data.name);
-          setImgSrc(postData.data.img);
+          setImgSrc(postData.data.thumbnail);
           setIsNew(postData.data.new);
           setIsHot(postData.data.hot);
           setPrice(postData.data.price);

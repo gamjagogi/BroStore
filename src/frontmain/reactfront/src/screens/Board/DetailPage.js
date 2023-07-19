@@ -3,14 +3,14 @@ import { useParams } from 'react-router-dom';
 import { Container, Card } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import axios from '../Request/RequestConfig.js';
-
-
+import Resizer from 'react-image-file-resizer'
 
 export default function Detail() {
     const [loginError, setLoginError] = useState('');
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
     const navigate = useNavigate();
+
 
     const handleGoBack = () => {
         navigate(-1); // 뒤로가기 버튼을 누를 때 이전 페이지로 이동
@@ -58,6 +58,30 @@ export default function Detail() {
         fetchPost(); // 컴포넌트가 마운트될 때(fetchPost()의 의존성 배열이 빈 배열) fetchPost 함수를 호출합니다.
     }, []);
 
+
+    const handleImageResize = (src) => {
+        // 이미지 리사이징 작업을 수행하고 리사이즈된 이미지의 주소를 반환합니다.
+        // 예를 들어, 이미지를 50% 크기로 리사이징하려면 다음과 같이 처리할 수 있습니다.
+        const resizedImageSrc = Resizer.resizeAndRotateImage(
+            src,
+            50, // width
+            50, // height
+            'JPEG', // format
+            50, // quality
+            0, // rotation
+            (uri) => {
+                // 리사이징된 이미지 주소를 처리하는 콜백 함수
+                console.log(uri); // 리사이징된 이미지의 주소를 콘솔에 출력합니다.
+            },
+            'base64', // outputType
+            50, // maxWidth
+            50 // maxHeight
+        );
+
+        // 리사이징된 이미지 주소를 반환합니다.
+        return resizedImageSrc;
+    };
+
     return (
         <div style={{ height: '100vh', marginTop: '50px' }}>
             <Container fluid>
@@ -67,7 +91,9 @@ export default function Detail() {
                 <Card border="primary">
                     <Card.Header style={{ height: 'calc(8vh - 10px)', fontSize: '30px' }}>{title}</Card.Header>
                     <Card.Body style={{ height: 'calc(100vh - 50px)' }}>
-                        <Card.Text dangerouslySetInnerHTML={{ __html: content }} />
+                        <Card.Text
+                            dangerouslySetInnerHTML={{ __html: handleImageResize(content) }}
+                        />
                     </Card.Body>
                 </Card>
             </Container>
