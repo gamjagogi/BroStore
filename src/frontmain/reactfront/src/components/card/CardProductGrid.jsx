@@ -7,6 +7,14 @@ import { faCartPlus, faHeart } from "@fortawesome/free-solid-svg-icons";
 const CardProductGrid = (props) => {
 
   const product = props.data;
+  const parser = new DOMParser();
+  const doc = parser.parseFromString(product.description, "text/html");
+  console.log(doc);
+
+
+  const plainText = doc.body.textContent;
+  console.log(plainText);
+
 
   return (
     <div className="card">

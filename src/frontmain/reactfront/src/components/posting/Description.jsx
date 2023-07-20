@@ -1,62 +1,25 @@
-import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
-import { Container, Card } from 'react-bootstrap';
-import { useNavigate } from 'react-router-dom';
-import axios from '../Request/RequestConfig.js';
-import FileResizer from "react-image-file-resizer";
+import React, {useEffect, useState} from "react";
+import {Card, Container} from "react-bootstrap";
+import {useNavigate} from "react-router-dom";
 
-export default function Detail() {
-    const [loginError, setLoginError] = useState('');
-    const [title, setTitle] = useState('');
-    const [content, setContent] = useState('');
+const Description = (props) => {
+    const [content, setContent] =  useState('');
+    // 컴포넌트에서 사용할 때
+    const [resizedContent, setResizedContent] = useState('');
     const navigate = useNavigate();
 
+
+    useEffect(() => {
+        console.log(props.desc);
+        console.log(props);
+        setContent(props.desc); // 컴포넌트가 마운트될 때(fetchPost()의 의존성 배열이 빈 배열) fetchPost 함수를 호출합니다.
+    }, [props]);
 
     const handleGoBack = () => {
         navigate(-1); // 뒤로가기 버튼을 누를 때 이전 페이지로 이동
     };
 
 
-    // 게시글 ID를 URL 파라미터로부터 추출합니다.
-    const { id } = useParams();
-
-    const fetchPost = async () => {
-        try {
-            const accessToken = localStorage.getItem('accessToken');
-            const refreshToken = localStorage.getItem('refreshToken');
-            console.log(accessToken);
-            console.log(refreshToken);
-
-            if (accessToken && refreshToken) {
-                const response = await axios.get(`/auth/shop/${id}`, {
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${accessToken}`,
-                        'RefreshToken': `Bearer ${refreshToken}`,
-                    },
-                });
-
-                if (response.status == 200) {
-                    const postData = await response.data;
-                    console.log(postData.data);
-                    setTitle(postData.data.title);
-                    setContent(postData.data.content);
-                } else {
-                    console.error('게시글을 가져오는데 실패했습니다.');
-                }
-            } else {
-                setLoginError('인증되지않은 유저는 접근할 수 없습니다.'); // 로그인되지 않은 경우 처리
-            }
-        } catch (error) {
-            console.error('인증되지 않은 사용자가 접근하려 합니다..', error);
-            setLoginError('인증된 유저만 접근 가능합니다.');
-        }
-    };
-
-
-    useEffect(() => {
-        fetchPost(); // 컴포넌트가 마운트될 때(fetchPost()의 의존성 배열이 빈 배열) fetchPost 함수를 호출합니다.
-    }, []);
 
 // 이미지 리사이즈 함수
     const resizeImagesInContent = async (htmlContent) => {
@@ -78,8 +41,8 @@ export default function Detail() {
 
             // 이미지 크기를 조정하는 로직을 여기에 추가합니다.
             // 예를 들어, 이미지를 50% 크기로 리사이즈하려면 다음과 같이 처리할 수 있습니다.
-            const resizedWidth = originalWidth + 800;
-            const resizedHeight = originalHeight + 700;
+            const resizedWidth = originalWidth + 300;
+            const resizedHeight = originalHeight + 300;
 
             // 이미지의 너비와 높이를 새로운 크기로 설정합니다.
             imgTag.width = resizedWidth;
@@ -93,19 +56,16 @@ export default function Detail() {
     };
 
 
-    // 컴포넌트에서 사용할 때
-    const [resizedContent, setResizedContent] = useState('');
-
     useEffect(() => {
         const resizeContent = async () => {
             try {
                 const resizedContent = await resizeImagesInContent(content);
                 setResizedContent(resizedContent);
+                console.log(resizedContent);
             } catch (error) {
                 console.error('이미지 리사이징 중 오류 발생:', error);
             }
         };
-
         resizeContent();
     }, [content]);
 
@@ -114,8 +74,7 @@ export default function Detail() {
     return (
         <div style={{ height: '120vh', marginTop: '50px' }}>
             <Container fluid>
-                <Card border="primary">
-                    <Card.Header style={{ height: 'calc(8vh - 10px)', fontSize: '30px' }}>{title}</Card.Header>
+                <Card>
                     <Card.Body style={{ height: 'calc(100vh - 50px)' }}>
                         <Card.Text
                             dangerouslySetInnerHTML={{ __html: resizedContent }}
@@ -128,4 +87,6 @@ export default function Detail() {
             </Container>
         </div>
     );
-}
+};
+
+export default Description;

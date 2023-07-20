@@ -199,7 +199,7 @@ export default function PostEditor() {
                     // 응답 성공 시 처리할 작업
                     const data = await response.data;
                     console.log(data); // 요청에 대한 응답 처리
-                    navigate('/software');
+                    navigate('/board');
 
                 } else {
                     // 응답 실패 시 처리할 작업

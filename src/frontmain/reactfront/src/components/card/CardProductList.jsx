@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import { ReactComponent as IconStarFill } from "bootstrap-icons/icons/star-fill.svg";
 import { ReactComponent as IconTruckFill } from "bootstrap-icons/icons/truck.svg";
@@ -8,6 +8,14 @@ import { faCartPlus, faHeart } from "@fortawesome/free-solid-svg-icons";
 const CardProductList = (props) => {
   const product = props.data;
   console.log(product);
+
+  const parser = new DOMParser();
+  const doc = parser.parseFromString(product.description, "text/html");
+  console.log(doc);
+
+
+  const plainText = doc.body.textContent;
+  console.log(plainText);
 
 
   return (
@@ -43,7 +51,7 @@ const CardProductList = (props) => {
             </div>
             {product.description &&
               product.description.includes("|") === false && (
-                <p className="small mt-2">{product.description}</p>
+                <p className="small mt-2">{plainText}</p>
               )}
             {product.description && product.description.includes("|") && (
               <ul className="mt-2">
@@ -94,6 +102,11 @@ const CardProductList = (props) => {
               <FontAwesomeIcon icon={faHeart} />
             </button>
           </div>
+            <br />
+
+            <div className="mb-2">
+              <span className="fw-bold h5">${product.price}</span>
+            </div>
           </div>
         </div>
       </div>

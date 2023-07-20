@@ -148,10 +148,10 @@ const SoftwareDescription = (props) => {
         'div'
     ];
 
-
-    const onChangeDescription = (description) => {
-        onDescriptionChange(description);
-    };
+    //
+    // const onChangeDescription = (description) => {
+    //     onDescriptionChange(description);
+    // };
 
 
 
@@ -278,7 +278,7 @@ const SoftwareDescription = (props) => {
                     formats={formats}
                     modules={modules}
                     theme="snow"
-                    onChange={onChangeDescription}
+                    onChange={onDescriptionChange}
                     style={{
                         flex: '1',
                         minHeight: '0',

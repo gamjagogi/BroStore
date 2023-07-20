@@ -89,8 +89,7 @@ function App() {
                         <Route path="*" element={<NotFoundView/>}/>
                         <Route exact path="/contact-us" element={<ContactUsView/>}/>
                         <Route exact path="/support" element={<SupportView/>}/>
-                        < Route exact path="/posting" element={<Posting/>}/>
-
+                        <Route exact path="/posting" element={<Posting/>}/>
 
                     </Routes>
                 </Suspense>
