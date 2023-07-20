@@ -41,8 +41,8 @@ const Description = (props) => {
 
             // 이미지 크기를 조정하는 로직을 여기에 추가합니다.
             // 예를 들어, 이미지를 50% 크기로 리사이즈하려면 다음과 같이 처리할 수 있습니다.
-            const resizedWidth = originalWidth + 300;
-            const resizedHeight = originalHeight + 300;
+            const resizedWidth = originalWidth + 400;
+            const resizedHeight = originalHeight + 400;
 
             // 이미지의 너비와 높이를 새로운 크기로 설정합니다.
             imgTag.width = resizedWidth;
@@ -81,9 +81,6 @@ const Description = (props) => {
                         />
                     </Card.Body>
                 </Card>
-                <button onClick={handleGoBack} style={{ position: 'absolute', right: '10px', bottom: '-240px' }}>
-                    뒤로가기
-                </button>
             </Container>
         </div>
     );

@@ -105,7 +105,7 @@ const CardProductList = (props) => {
             <br />
 
             <div className="mb-2">
-              <span className="fw-bold h5">${product.price}</span>
+              <span className="fw-bold h9">Category : {product.category}</span>
             </div>
           </div>
         </div>
@@ -114,4 +114,4 @@ const CardProductList = (props) => {
   );
 };
 
-export default CardProductList;
+export default React.memo(CardProductList);

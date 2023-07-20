@@ -10,30 +10,35 @@ import About from "./screens/pages/About"
 import Questions from "./screens/pages/Questions";
 import ReactDoc from "./screens/pages/ReactDoc";
 import NavBarElements from "./screens/Navbar/NavBarElements";
-import DetailPage from "./screens/Board/DetailPage";
-import PostEditor from "./screens/Board/PostEditor";
+import DetailPage from "./screens/userBoard/DetailPage";
+import PostEditor from "./screens/userBoard/PostEditor";
 
 import Notice from "./screens/Notice";
 import Footer from "./components/Footer";
 import Header from "./components/Header";
-import Posting from "./screens/product/Posting"
+
+import SoftwarePosting from "./screens/softwareProductPage/Posting"
+import DeliveryPosting from "./screens/deliveryProductPage/DeliveryPosting"
+
+const SoftwareListView = lazy(() => import("./screens/softwareProductPage/List"));
+const SoftwareDetailView = lazy(() => import("./screens/softwareProductPage/Detail"));
+const StarZoneView = lazy(() => import("./screens/softwareProductPage/StarZone"));
+
+const DeliveryListView = lazy(() => import("./screens/deliveryProductPage/DeliveryList"))
+const DeliveryDetailView = lazy(() => import("./screens/deliveryProductPage/DeliveryDetail"))
+const DeliveryStarZoneView = lazy(() => import("./screens/deliveryProductPage/DeliveryStarZone"))
 
 import "./App.min.css";
 
 const Home = lazy(() => import("./screens/Home"));
 const CartView = lazy(() => import("./screens/cart/Cart"));
-const ProductListView = lazy(() => import("./screens/product/List"));
 
 const SupportView = lazy(() => import("./screens/pages/Support"));
-
-const ProductDetailView = lazy(() => import("./screens/product/Detail"));
-const StarZoneView = lazy(() => import("./screens/product/StarZone"));
 
 const NotFoundView = lazy(() => import("./screens/pages/404"));
 const InternalServerErrorView = lazy(() => import("./screens/pages/500"));
 const ContactUsView = lazy(() => import("./screens/pages/ContactUs"));
-const List = lazy(() => import("./screens/product/List"));
-const UserBoard = lazy(() => import("./screens/Board/UserBoard"));
+const UserBoard = lazy(() => import("./screens/userBoard/UserBoard"));
 
 
 
@@ -71,11 +76,12 @@ function App() {
                             path="/account/notification"
                             element={<NotificationView/>}
                         />
-                        <Route exact path="/category" element={<ProductListView/>}/>
                         <Route exact path="/login" element={<LoginPage/>}/>
                         <Route exact path="/about" element={<About/>}/>
                         <Route exact path="/board" element={<UserBoard/>}/>
-                        <Route exact path="/software" element={<List/>}/>
+                        <Route exact path="/software" element={<SoftwareListView/>}/>
+                        <Route exact path = "/delivery" element={<DeliveryListView/>}/>
+
                         <Route exact path="/cart" element={<CartView/>}/>
                         <Route exact path="/questions" element={<Questions/>}/>
                         <Route exact path="/reactDoc" element={<ReactDoc/>}/>
@@ -83,14 +89,17 @@ function App() {
                         <Route exact path="/detail/:id" element={<DetailPage/>}/>
                         <Route exact path="/editor" element={<PostEditor/>}/>
                         <Route exact path="/notice" element={<Notice/>}/>
-                        <Route exact path="/software/:id" element={<ProductDetailView/>}/>
+                        <Route exact path="/software/:id" element={<SoftwareDetailView/>}/>
                         <Route exact path="/star/zone" element={<StarZoneView/>}/>
                         <Route exact path="/500" element={<InternalServerErrorView/>}/>
                         <Route path="*" element={<NotFoundView/>}/>
                         <Route exact path="/contact-us" element={<ContactUsView/>}/>
                         <Route exact path="/support" element={<SupportView/>}/>
-                        <Route exact path="/posting" element={<Posting/>}/>
+                        <Route exact path="/posting" element={<SoftwarePosting/>}/>
 
+                        <Route exact path="/deliveryPosting" element={<DeliveryPosting/>}/>
+                        <Route exact path="/deliveryDetail/:id" element={<DeliveryDetailView/>}/>
+                        <Route exact path="/deliveryStar/zone" element={<DeliveryStarZoneView/>}/>
                     </Routes>
                 </Suspense>
                 <Footer/>

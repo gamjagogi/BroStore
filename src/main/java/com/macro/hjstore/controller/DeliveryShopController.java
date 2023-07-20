@@ -1,14 +1,9 @@
 package com.macro.hjstore.controller;
 
-import com.macro.hjstore.core.exception.Exception400;
 import com.macro.hjstore.dto.ResponseDTO;
-import com.macro.hjstore.dto.board.BoardResponse;
-import com.macro.hjstore.dto.shop.SoftwareRequestDTO;
-import com.macro.hjstore.dto.shop.SoftwareResponseDTO;
-import com.macro.hjstore.model.board.Board;
-import com.macro.hjstore.model.softwareProduct.Software;
-import com.macro.hjstore.model.user.User;
-import com.macro.hjstore.service.SoftwareService;
+import com.macro.hjstore.dto.shop.DeliveryRequestDTO;
+import com.macro.hjstore.dto.shop.DeliveryResponseDTO;
+import com.macro.hjstore.service.DeliveryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.Errors;
@@ -21,41 +16,41 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
-public class SoftwareShopController {
+public class DeliveryShopController {
 
-    private final SoftwareService softwareService;
+    private final DeliveryService deliveryService;
 
-    @GetMapping("/auth/software")
+    @GetMapping("/auth/delivery")
     public ResponseEntity<?> listAll(){
-        List<SoftwareResponseDTO>boardList = softwareService.게시글목록보기();
+        List<DeliveryResponseDTO>boardList = deliveryService.게시글목록보기();
         System.out.println(boardList);
         ResponseDTO<?> responseDTO = new ResponseDTO<>(boardList);
         return ResponseEntity.ok().body(responseDTO);
     }
 
 
-    @GetMapping("/auth/software/crawling")
+    @GetMapping("/auth/delivery/electronics")
     public ResponseEntity< ? > crawlingList() {
-        String category = "Web Crawling";
-        List<SoftwareResponseDTO>crawlingList = softwareService.category목록보기(category);
+        String category = "Electronics";
+        List<DeliveryResponseDTO>crawlingList = deliveryService.category목록보기(category);
         System.out.println(crawlingList);
         ResponseDTO<?> responseDTO = new ResponseDTO<>(crawlingList);
         return ResponseEntity.ok().body(responseDTO);
     }
 
-    @GetMapping("/auth/software/macro")
+    @GetMapping("/auth/delivery/clothes")
     public ResponseEntity< ? > macroList() {
-        String category = "Macro";
-        List<SoftwareResponseDTO>crawlingList = softwareService.category목록보기(category);
+        String category = "Clothes";
+        List<DeliveryResponseDTO>crawlingList = deliveryService.category목록보기(category);
         System.out.println(crawlingList);
         ResponseDTO<?> responseDTO = new ResponseDTO<>(crawlingList);
         return ResponseEntity.ok().body(responseDTO);
     }
 
-    @GetMapping("/auth/software/monitoring")
+    @GetMapping("/auth/delivery/toy")
     public ResponseEntity< ? > monitoringList() {
-        String category = "Monitoring";
-        List<SoftwareResponseDTO>crawlingList = softwareService.category목록보기(category);
+        String category = "Toy";
+        List<DeliveryResponseDTO>crawlingList = deliveryService.category목록보기(category);
         System.out.println(crawlingList);
         ResponseDTO<?> responseDTO = new ResponseDTO<>(crawlingList);
         return ResponseEntity.ok().body(responseDTO);
@@ -63,15 +58,15 @@ public class SoftwareShopController {
 
 
 
-    @GetMapping("/auth/software/{id}")
+    @GetMapping("/auth/delivery/{id}")
     public ResponseEntity<?> detail(@PathVariable("id") Long id){
-        SoftwareResponseDTO.Detail detailDTO = softwareService.게시글상세보기(id);
+        DeliveryResponseDTO.Detail detailDTO = deliveryService.게시글상세보기(id);
         ResponseDTO responseDTO = new ResponseDTO(detailDTO);
         return ResponseEntity.ok().body(responseDTO);
     }
 
-    @PostMapping("/manager/software/save")
-    public ResponseEntity<?> save(@RequestBody @Valid SoftwareRequestDTO.Save saveDTO, Errors errors){
+    @PostMapping("/manager/delivery/save")
+    public ResponseEntity<?> save(@RequestBody @Valid DeliveryRequestDTO.Save saveDTO, Errors errors){
 
         System.out.println("진입");
         if (errors.hasErrors()) {
@@ -89,7 +84,7 @@ public class SoftwareShopController {
         }
 
         System.out.println("저장하기직전");
-        softwareService.게시글저장하기(saveDTO);
+        deliveryService.게시글저장하기(saveDTO);
 
         ResponseDTO<?>responseDTO = new ResponseDTO<>();
         return ResponseEntity.ok().body(responseDTO);

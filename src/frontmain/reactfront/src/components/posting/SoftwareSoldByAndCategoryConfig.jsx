@@ -1,0 +1,44 @@
+import React, { useState } from 'react';
+import Dropdown from 'react-bootstrap/Dropdown';
+import DropdownButton from 'react-bootstrap/DropdownButton';
+import InputGroup from "react-bootstrap/InputGroup";
+import Form from "react-bootstrap/Form";
+
+const SoftwareSoldByAndCategoryConfig = (props) => {
+    const [title,setTitle] = useState('Category');
+
+    const { setSoldBy, setCategory } = props
+
+
+    const handleSoldByChange = (event) => {
+        setSoldBy(event.target.value);
+    };
+
+    const handleCategoryChange = (event) => {
+        setTitle(event);
+        setCategory(event);
+        console.log(event);
+    }
+
+
+
+    return (
+        <div>
+        <DropdownButton id="dropdown-item-button" title={title} style={{marginBottom:'20px'}}>
+            <Dropdown.Item as="button" onClick={() => handleCategoryChange('Web Crawling')} >Web Crawling</Dropdown.Item>
+            <Dropdown.Item as="button" onClick={() => handleCategoryChange('Monitoring')}>Monitoring</Dropdown.Item>
+            <Dropdown.Item as="button" onClick={() => handleCategoryChange('Macro')}>Macro</Dropdown.Item>
+        </DropdownButton>
+
+            <InputGroup className="mb-3">
+                <InputGroup.Text>Sold By</InputGroup.Text>
+                <Form.Control
+                    aria-label="Amount (to the nearest dollar)"
+                    onChange={handleSoldByChange}
+                />
+            </InputGroup>
+        </div>
+    );
+};
+
+export default SoftwareSoldByAndCategoryConfig;

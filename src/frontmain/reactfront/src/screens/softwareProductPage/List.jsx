@@ -3,14 +3,17 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTh, faBars, faPencilSquare } from "@fortawesome/free-solid-svg-icons";
 import axios from "../Request/RequestConfig";
 import { Link } from "react-router-dom";
+import CategoryConfig from "./category/CategoryConfig";
 
 const Paging = lazy(() => import("../../components/Paging"));
-const FilterCategory = lazy(() => import("../../components/filter/Category"));
+const FilterCategory = lazy(() => import("../../components/filter/SoftwareCategory"));
 const FilterPrice = lazy(() => import("../../components/filter/Price"));
 const FilterStar = lazy(() => import("../../components/filter/Star"));
 const CardServices = lazy(() => import("../../components/card/CardServices"));
 const CardProductGrid = lazy(() => import("../../components/card/CardProductGrid"));
 const CardProductList = lazy(() => import("../../components/card/CardProductList"));
+
+
 
 const ProductListView = () => {
     const [currentProducts, setCurrentProducts] = useState([]);
@@ -18,11 +21,13 @@ const ProductListView = () => {
     const [totalPages, setTotalPages] = useState(null);
     const [totalItems, setTotalItems] = useState(0);
     const [view, setView] = useState("list");
+    const [category, setCategory] = useState('');
 
     useEffect(() => {
-        getProducts()
+        CategoryConfig(category)
             .then((products) => {
                 console.log('처음 렌더링');
+                console.log(products);
                 console.log(products.length);
                 setTotalItems(products.length);
             })
@@ -31,8 +36,25 @@ const ProductListView = () => {
             });
     }, []);
 
+
+    useEffect(() => {
+        CategoryConfig(category)
+            .then((products) => {
+                console.log('처음 렌더링');
+                console.log(products);
+
+                setTotalItems(products.length);
+                setCurrentProducts(products);
+
+            })
+            .catch((error) => {
+                console.error("Error occurred while fetching products:", error);
+            });
+    }, [category]);
+
+
     const onPageChanged = (page) => {
-        getProducts()
+        CategoryConfig(category)
             .then((products) => {
                 console.log("onPageChanged 진입");
                 console.log(products);
@@ -56,42 +78,10 @@ const ProductListView = () => {
         setView(view);
     };
 
-    const getProducts = () => {
-        return new Promise((resolve, reject) => {
-            const accessToken = localStorage.getItem("accessToken");
-            const refreshToken = localStorage.getItem("refreshToken");
-
-            if (accessToken && refreshToken) {
-                axios
-                    .get("/auth/software", {
-                        headers: {
-                            "Content-Type": "application/json",
-                            Authorization: `Bearer ${accessToken}`,
-                            RefreshToken: `Bearer ${refreshToken}`,
-                        },
-                    })
-                    .then((response) => {
-                        if (response.status === 200) {
-                            const products = response.data.data;
-                            console.log(products);
-                            resolve(products);
-                            return products;
-                        } else {
-                            console.log("인증된 유저만 접근 가능합니다.");
-                            reject(new Error("인증된 유저만 접근 가능합니다."));
-                        }
-                    })
-                    .catch((error) => {
-                        console.error("인증되지 않은 사용자가 접근하려 합니다.", error);
-                        console.log("인증된 유저만 접근 가능합니다.");
-                        reject(new Error("인증되지 않은 사용자가 접근하려 합니다."));
-                    });
-            } else {
-                console.log("로그인이 필요합니다.");
-                reject(new Error("로그인이 필요합니다."));
-            }
-        });
-    };
+    const onChangeCategory = (props) => {
+        console.log(props);
+        setCategory(props);
+    }
 
     return (
         <React.Fragment>
@@ -102,7 +92,7 @@ const ProductListView = () => {
                 }}
             >
                 <div className="container text-center">
-                    <span className="display-5 px-3 bg-white rounded shadow">T-Shirts</span>
+                    <span className="display-5 px-3 bg-white rounded shadow">Software</span>
                 </div>
             </div>
             <br />
@@ -110,9 +100,9 @@ const ProductListView = () => {
             <div className="container-fluid mb-3">
                 <div className="row">
                     <div className="col-md-3">
-                        <FilterCategory />
-                        <FilterPrice />
-                        <FilterStar />
+                        <FilterCategory
+                            onChangeCategory={onChangeCategory}
+                        />
                         <CardServices />
                     </div>
                     <div className="col-md-9">
@@ -132,9 +122,7 @@ const ProductListView = () => {
                                 <select className="form-select mw-180 float-start" aria-label="Default select">
                                     <option value={1}>Most Popular</option>
                                     <option value={2}>Latest items</option>
-                                    <option value={3}>Trending</option>
-                                    <option value={4}>Price low to high</option>
-                                    <option value={4}>Price high to low</option>
+                                    <option value={3}>준비중..</option>
                                 </select>
                                 <div className="btn-group ms-3" role="group">
                                     <button

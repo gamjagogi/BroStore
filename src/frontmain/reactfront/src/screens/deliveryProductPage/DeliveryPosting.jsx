@@ -4,13 +4,14 @@ import ContentForm from "../../components/posting/ContentForm";
 import { v4 as uuidv4 } from "uuid";
 import AWS from "aws-sdk";
 import axios from "../Request/RequestConfig";
-import SoftwareDescription from "../../components/posting/SoftwareDescription";
 import { useNavigate } from "react-router-dom";
+import DeliveryDescription from "../../components/posting/DeliveryDescription";
+import DeliverySoldByAndCategoryConfig from "../../components/posting/DeliverySoldByAndCategoryConfig";
 
 const SettingForm = lazy(() => import("../../components/account/SettingForm"));
 const PriceConfig = lazy(() => import("../../components/posting/PriceConfig"));
 
-const Posting = () => {
+const DeliveryPosting = () => {
     const [state, setState] = useState({
         imagePreview: "",
         isDeleting: false,
@@ -26,6 +27,8 @@ const Posting = () => {
         originPrice: "",
         discountPrice: "",
         discountPercentage: "",
+        soldBy: "",
+        category: ""
     });
 
     const navigate = useNavigate();
@@ -44,6 +47,8 @@ const Posting = () => {
             originPrice,
             discountPrice,
             discountPercentage,
+            soldBy,
+            category
         } = state;
 
         console.log(title);
@@ -58,6 +63,8 @@ const Posting = () => {
         console.log(originPrice);
         console.log(discountPrice);
         console.log(discountPercentage);
+        console.log(soldBy);
+        console.log(category);
 
         const requestData = {
             title,
@@ -72,6 +79,8 @@ const Posting = () => {
             originPrice,
             discountPrice,
             discountPercentage,
+            soldBy,
+            category
         };
 
         console.log("리퀘스트데이타");
@@ -92,7 +101,7 @@ const Posting = () => {
 
         if (accessToken && refreshToken) {
             axios
-                .post("/manager/software/save", JSON.stringify(requestData), {
+                .post("/manager/delivery/save", JSON.stringify(requestData), {
                     headers: {
                         "Content-Type": "application/json",
                         Authorization: `Bearer ${accessToken}`,
@@ -105,7 +114,7 @@ const Posting = () => {
                         console.log(products);
                         alert("글 작성 완료");
 
-                        navigate("/software"); // 작성 완료 시 /software 경로로 이동
+                        navigate("/delivery");
                     } else {
                         console.log("인증된 유저만 접근 가능합니다.");
                         throw new Error("인증된 유저만 접근 가능합니다.");
@@ -191,13 +200,6 @@ const Posting = () => {
     const onDescriptionChange = async (description) => {
         if (description) {
             console.log(description);
-            // const parser = new DOMParser();
-            // const doc = parser.parseFromString(description, "text/html");
-            // console.log(doc);
-            //
-            //
-            // const plainText = doc.body.textContent;
-            // console.log(plainText);
             setState((prevState) => ({ ...prevState, description: description }));
         }
     };
@@ -255,6 +257,20 @@ const Posting = () => {
         }
     };
 
+    const setSoldBy = async (soldBy) => {
+        if (soldBy) {
+            console.log(soldBy);
+            setState((prevState) => ({ ...prevState, soldBy: soldBy }));
+        }
+    };
+
+    const setCategory = async (category) => {
+        if (category) {
+            console.log(category);
+            setState((prevState) => ({ ...prevState, category: category }));
+        }
+    };
+
     return (
         <div className="container-fluid my-3">
             <div className="row">
@@ -283,7 +299,7 @@ const Posting = () => {
                     </div>
                 </div>
                 <div>
-                    <SoftwareDescription
+                    <DeliveryDescription
                         onDescriptionChange={onDescriptionChange}
                         description={state.description}
                     />
@@ -308,6 +324,12 @@ const Posting = () => {
                         setDiscountPercent={setDiscountPercent}
                         setStar={setStar}
                         star={state.star}
+                    />
+                </div>
+                <div style={{ marginTop : '50px', marginRight: "120px"}}>
+                    <DeliverySoldByAndCategoryConfig
+                        setSoldBy={setSoldBy}
+                        setCategory={setCategory}
                     />
                 </div>
             </div>
@@ -335,4 +357,4 @@ const Posting = () => {
     );
 };
 
-export default Posting;
+export default DeliveryPosting;

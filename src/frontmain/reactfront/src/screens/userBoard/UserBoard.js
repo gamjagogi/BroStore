@@ -96,23 +96,25 @@ const UserBoard = () => {
                 ))}
             </ListGroup>
 
-            <div>현재 페이지: {currentPage}</div>
 
-            <Pagination>
-                <Pagination.First onClick={() => setCurrentPage(1)} />
-                <Pagination.Prev onClick={handleBackPage} disabled={currentPage === 1} />
-                {Array.from({ length: boardPG.totalPages }, (_, index) => (
-                    <Pagination.Item
-                        key={index + 1}
-                        active={index + 1 === currentPage}
-                        onClick={() => setCurrentPage(index + 1)}
-                    >
-                        {index + 1}
-                    </Pagination.Item>
-                ))}
-                <Pagination.Next onClick={handleNextPage} disabled={boardPG.last} />
-                <Pagination.Last onClick={() => setCurrentPage(boardPG.totalPages)} />
-            </Pagination>
+            <div style={{ display: "flex", justifyContent: "center" , marginTop:"20px"}}>
+                <span style={{ marginRight: "10px" }}>현재 페이지: {currentPage}</span>
+                <Pagination>
+                    <Pagination.First onClick={() => setCurrentPage(1)} />
+                    <Pagination.Prev onClick={handleBackPage} disabled={currentPage === 1} />
+                    {Array.from({ length: boardPG.totalPages }, (_, index) => (
+                        <Pagination.Item
+                            key={index + 1}
+                            active={index + 1 === currentPage}
+                            onClick={() => setCurrentPage(index + 1)}
+                        >
+                            {index + 1}
+                        </Pagination.Item>
+                    ))}
+                    <Pagination.Next onClick={handleNextPage} disabled={boardPG.last} />
+                    <Pagination.Last onClick={() => setCurrentPage(boardPG.totalPages)} />
+                </Pagination>
+            </div>
         </Container>
     );
 }

@@ -25,10 +25,6 @@ const RatingsReviews = lazy(() =>
 const QuestionAnswer = lazy(() =>
     import("../../components/others/QuestionAnswer")
 );
-const ShippingReturns = lazy(() =>
-    import("../../components/others/ShippingReturns")
-);
-const SizeChart = lazy(() => import("../../components/others/SizeChart"));
 
 const ProductDetailView = () => {
   const [productList, setProductList] = useState([]);
@@ -43,6 +39,7 @@ const ProductDetailView = () => {
   const [description, setDescription] = useState('');
 
   const [soldBy, setSoldBy] = useState('');
+  const [category, setCategory] = useState('');
 
   const { id } = useParams();
 
@@ -51,7 +48,7 @@ const ProductDetailView = () => {
     fetchPost()
         .then((postData) => {
           console.log(postData.data);
-          DataRequest("/auth/software").then((requestData) => {
+          DataRequest("/auth/delivery").then((requestData) => {
             console.log(requestData.data);
             setProductList(requestData.data);
           })
@@ -66,6 +63,9 @@ const ProductDetailView = () => {
           setHighlights(postData.data.highlights);
           setDescription(postData.data.description);
 
+          setSoldBy(postData.data.soldBy);
+          setCategory(postData.data.category);
+
         });
   }, []);
 
@@ -75,7 +75,7 @@ const ProductDetailView = () => {
       const refreshToken = localStorage.getItem('refreshToken');
 
       // Fetch post using `id`
-      const response = await axios.get(`/auth/software/${id}`, {
+      const response = await axios.get(`/auth/delivery/${id}`, {
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${accessToken}`,
@@ -126,10 +126,10 @@ const ProductDetailView = () => {
 
                 </div>
                 <dl className="row small mb-3">
-                  <dt className="col-sm-3">Availability</dt>
-                  <dd className="col-sm-9">In stock</dd>
+                  <dt className="col-sm-3">Category</dt>
+                  <dd className="col-sm-9">{category}</dd>
                   <dt className="col-sm-3">Sold by</dt>
-                  <dd className="col-sm-9">Authorised Store</dd>
+                  <dd className="col-sm-9">{soldBy}</dd>
                 </dl>
 
                 <div className="mb-3">
@@ -168,20 +168,22 @@ const ProductDetailView = () => {
                   >
                     <FontAwesomeIcon icon={faCartPlus} /> Add to cart
                   </button>
-                  <button
-                      type="button"
-                      className="btn btn-sm btn-warning me-2"
-                      title="Buy now"
-                  >
-                    <FontAwesomeIcon icon={faShoppingCart} /> Purchase
-                  </button>
-                  <button
-                      type="button"
-                      className="btn btn-sm btn-outline-secondary"
-                      title="Add to wishlist"
-                  >
-                    <FontAwesomeIcon icon={faHeart} />
-                  </button>
+                  <div style={{ marginTop:'10px'}}>
+                    <button
+                        type="button"
+                        className="btn btn-sm btn-warning me-2"
+                        title="Buy now"
+                    >
+                      <FontAwesomeIcon icon={faShoppingCart} /> Purchase
+                    </button>
+                    <button
+                        type="button"
+                        className="btn btn-sm btn-outline-secondary"
+                        title="Add to wishlist"
+                    >
+                      <FontAwesomeIcon icon={faHeart} />
+                    </button>
+                  </div>
                 </div>
                 <div>
                   <p className="fw-bold mb-2 small">

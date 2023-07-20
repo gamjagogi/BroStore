@@ -1,12 +1,11 @@
 package com.macro.hjstore.dto.shop;
 
-import com.macro.hjstore.model.softwareProduct.Software;
 import lombok.Getter;
 
 import javax.validation.constraints.NotEmpty;
 
 
-public class SoftwareRequestDTO {
+public class DeliveryRequestDTO {
 
     @Getter
     public static class Save{

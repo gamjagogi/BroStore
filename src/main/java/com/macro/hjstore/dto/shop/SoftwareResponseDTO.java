@@ -29,6 +29,9 @@ public class SoftwareResponseDTO {
     @NotEmpty
     private String description;
 
+    private String soldBy;
+
+    private String category;
 
     public SoftwareResponseDTO(Software software){
         this.id = software.getId();
@@ -45,6 +48,8 @@ public class SoftwareResponseDTO {
         this.star = software.getStar();
         this.isFreeShipping = software.isFreeShipping();
         this.description = software.getDescription();
+        this.soldBy = software.getSoldBy();
+        this.category = software.getCategory();
     }
     @Getter
     public static class Detail{
@@ -69,6 +74,10 @@ public class SoftwareResponseDTO {
         @NotEmpty
         private String description;
 
+        private String soldBy;
+
+        private String category;
+
         public Detail(Software software){
             this.id = software.getId();
             this.name = software.getName();
@@ -84,6 +93,8 @@ public class SoftwareResponseDTO {
             this.isFreeShipping = software.isFreeShipping();
             this.highlights = software.getHighlights();
             this.description = software.getDescription();
+            this.soldBy = software.getSoldBy();
+            this.category = software.getCategory();
         }
     }
 }

@@ -9,15 +9,17 @@ const CardFeaturedProduct = (props) => {
         window.location.href = url;
     };
 
+    const displayedProducts = products.slice(0, 6);
+
   return (
     <div className="card mb-3">
       <div className="card-header fw-bold text-uppercase">
         Featured Products
       </div>
       <div className="card-body">
-        {products.map((product, idx) => (
+        {displayedProducts.map((product, idx) => (
           <div
-            className={`row ${idx + 1 === products.length ? "" : "mb-3"}`}
+            className={`row ${idx + 1 === displayedProducts.length ? "" : "mb-3"}`}
             key={idx}
           >
             <div className="col-md-4">

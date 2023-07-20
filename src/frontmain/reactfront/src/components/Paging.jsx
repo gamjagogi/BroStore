@@ -166,4 +166,4 @@ Paging.propTypes = {
   sizing: PropTypes.string,
 };
 
-export default Paging;
+export default React.memo(Paging);

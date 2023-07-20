@@ -77,7 +77,7 @@ const PriceConfig = (props) => {
                     aria-label="Amount (to the nearest dollar)"
                     onChange={handleDiscountPercentChange}
                 />
-                <InputGroup.Text>원</InputGroup.Text>
+                <InputGroup.Text>%</InputGroup.Text>
             </InputGroup>
             <div className="App" style={{marginRight : '20px'}}>
                 <ReactStars {...thirdExample} />

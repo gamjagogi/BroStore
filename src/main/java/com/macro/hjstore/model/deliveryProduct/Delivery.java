@@ -1,7 +1,7 @@
-package com.macro.hjstore.model.softwareProduct;
+package com.macro.hjstore.model.deliveryProduct;
 
+import com.macro.hjstore.dto.shop.DeliveryRequestDTO;
 import com.macro.hjstore.dto.shop.SoftwareRequestDTO;
-import com.macro.hjstore.model.user.User;
 import lombok.*;
 
 import javax.persistence.*;
@@ -12,9 +12,9 @@ import java.time.LocalDateTime;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-@Table(name = "software_tb")
+@Table(name = "delivery_tb")
 @Entity
-public class Software {
+public class Delivery {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -88,7 +88,7 @@ public class Software {
 
 
     @Builder
-    public Software(Long id, String sku, String name, String thumbnail, String img, Integer price, Integer originPrice, Integer discountPrice, Integer discountPercentage, boolean isNew, boolean isHot, Integer star, boolean isFreeShipping, String highlights, String description, String soldBy, String category, LocalDateTime createdAt, LocalDateTime updatedAt) {
+    public Delivery(Long id, String sku, String name, String thumbnail, String img, Integer price, Integer originPrice, Integer discountPrice, Integer discountPercentage, boolean isNew, boolean isHot, Integer star, boolean isFreeShipping, String highlights, String description, String soldBy, String category, LocalDateTime createdAt, LocalDateTime updatedAt) {
         this.id = id;
         this.sku = sku;
         this.name = name;
@@ -110,8 +110,8 @@ public class Software {
         this.updatedAt = updatedAt;
     }
 
-    public static Software toEntity(SoftwareRequestDTO.Save savePS) {
-        Software softwarePS = Software.builder()
+    public static Delivery toEntity(DeliveryRequestDTO.Save savePS) {
+        Delivery deliveryPS = Delivery.builder()
                 .name(savePS.getTitle())
                 .thumbnail(savePS.getImagePreview())
                 .price(savePS.getPrice())
@@ -127,7 +127,7 @@ public class Software {
                 .soldBy(savePS.getSoldBy())
                 .category(savePS.getCategory())
                 .build();
-        return softwarePS;
+        return deliveryPS;
     }
 
 }
