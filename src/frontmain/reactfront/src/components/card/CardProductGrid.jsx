@@ -1,14 +1,24 @@
-import React from "react";
+import React, {useState} from "react";
 import { Link } from "react-router-dom";
 import { ReactComponent as IconStarFill } from "bootstrap-icons/icons/star-fill.svg";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCartPlus, faHeart } from "@fortawesome/free-solid-svg-icons";
 
 const CardProductGrid = (props) => {
+
   const product = props.data;
+  const parser = new DOMParser();
+  const doc = parser.parseFromString(product.description, "text/html");
+  console.log(doc);
+
+
+  const plainText = doc.body.textContent;
+  console.log(plainText);
+
+
   return (
     <div className="card">
-      <img src={product.img} className="card-img-top" alt="..." />
+      <img src={product.thumbnail} className="card-img-top" alt="..." />
       {product.isNew && (
         <span className="badge bg-success position-absolute mt-2 ms-2">
           New
@@ -33,7 +43,7 @@ const CardProductGrid = (props) => {
       )}
       <div className="card-body">
         <h6 className="card-subtitle mb-2">
-          <Link to={product.link} className="text-decoration-none">
+          <Link to={product.link + product.id} className="text-decoration-none">
             {product.name}
           </Link>
         </h6>
@@ -47,6 +57,9 @@ const CardProductGrid = (props) => {
               <IconStarFill className="text-warning me-1" key={key} />
             ))}
           </span>
+        </div>
+        <div className="my-2">
+          <span className="fw-bold h9">Category : {product.category}</span>
         </div>
         <div className="btn-group  d-flex" role="group">
           <button

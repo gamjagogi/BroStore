@@ -21,28 +21,32 @@ public class Software {
     private Long id;
 
     @Column(name = "sku", nullable = true, length = 30)
-    private String sku;
+    private String sku = "FAS-01";
 
-    @Column( name = "link",nullable = false)
-    private String link; // 해당 product의 상세보기 링크
 
     @Column(name = "title",nullable = false, length = 60)
     private String name;
 
+    private String link = "/software/";
+
+
+    @Column(name = "thumbnail", nullable = true)
+    private String thumbnail;
+
     @Column(name = "img",nullable = true)
     private String img;
 
-    @Column(name = "price",nullable = false)
-    private int price;
+    @Column(name = "price",nullable = true)
+    private Integer price;
 
     @Column(name = "originPrice",nullable = true)
-    private int originPrice;
+    private Integer originPrice;
 
     @Column(name = "discountPrice",nullable = true)
-    private int discountPrice;
+    private Integer discountPrice;
 
     @Column(name = "discountPercentage",nullable = true)
-    private int discountPercentage;
+    private Integer discountPercentage;
 
     @Column(name = "isNew",nullable = true)
     private boolean isNew;
@@ -51,7 +55,7 @@ public class Software {
     private boolean isHot;
 
     @Column(name = "star",nullable = true)
-    private int star;
+    private Integer star;
 
     @Column(name = "isFreeShipping",nullable = true)
     private boolean isFreeShipping;
@@ -63,6 +67,11 @@ public class Software {
     @Column(name = "description",nullable = false)
     private String description;
 
+    @Column(name = "soldBy")
+    private String soldBy;
+
+    @Column(name = "category")
+    private String category;
 
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
@@ -79,11 +88,11 @@ public class Software {
 
 
     @Builder
-    public Software(Long id, String sku, String link, String name, String img, int price, int originPrice, int discountPrice, int discountPercentage, boolean isNew, boolean isHot, int star, boolean isFreeShipping,String highlights ,String description, LocalDateTime createdAt, LocalDateTime updatedAt) {
+    public Software(Long id, String sku, String name, String thumbnail, String img, Integer price, Integer originPrice, Integer discountPrice, Integer discountPercentage, boolean isNew, boolean isHot, Integer star, boolean isFreeShipping, String highlights, String description, String soldBy, String category, LocalDateTime createdAt, LocalDateTime updatedAt) {
         this.id = id;
         this.sku = sku;
-        this.link = link;
         this.name = name;
+        this.thumbnail = thumbnail;
         this.img = img;
         this.price = price;
         this.originPrice = originPrice;
@@ -95,15 +104,16 @@ public class Software {
         this.isFreeShipping = isFreeShipping;
         this.highlights = highlights;
         this.description = description;
+        this.soldBy = soldBy;
+        this.category = category;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
     }
 
     public static Software toEntity(SoftwareRequestDTO.Save savePS) {
         Software softwarePS = Software.builder()
-                .sku(savePS.getSku())
-                .name(savePS.getName())
-                .img(savePS.getImg())
+                .name(savePS.getTitle())
+                .thumbnail(savePS.getImagePreview())
                 .price(savePS.getPrice())
                 .originPrice(savePS.getOriginPrice())
                 .discountPrice(savePS.getDiscountPrice())
@@ -111,14 +121,13 @@ public class Software {
                 .isNew(savePS.isNew())
                 .isHot(savePS.isHot())
                 .star(savePS.getStar())
-                .isFreeShipping(savePS.isFreeShipping())
+                .isFreeShipping(savePS.isDeliveryFree())
                 .highlights(savePS.getHighlights())
                 .description(savePS.getDescription())
+                .soldBy(savePS.getSoldBy())
+                .category(savePS.getCategory())
                 .build();
         return softwarePS;
     }
 
-    public void setLink(String link){
-        this.link = link;
-    }
 }

@@ -18,17 +18,13 @@ const CardFeaturedProduct = lazy(() =>
     import("../../components/card/CardFeaturedProduct")
 );
 const CardServices = lazy(() => import("../../components/card/CardServices"));
-const Details = lazy(() => import("../../components/others/Details"));
+const Description = lazy(() => import("../../components/posting/Description"));
 const RatingsReviews = lazy(() =>
     import("../../components/others/RatingsReviews")
 );
 const QuestionAnswer = lazy(() =>
     import("../../components/others/QuestionAnswer")
 );
-const ShippingReturns = lazy(() =>
-    import("../../components/others/ShippingReturns")
-);
-const SizeChart = lazy(() => import("../../components/others/SizeChart"));
 
 const ProductDetailView = () => {
   const [productList, setProductList] = useState([]);
@@ -42,22 +38,23 @@ const ProductDetailView = () => {
   const [highlights, setHighlights] = useState('');
   const [description, setDescription] = useState('');
 
+  const [soldBy, setSoldBy] = useState('');
+  const [category, setCategory] = useState('');
+
   const { id } = useParams();
-
-
 
 
   useEffect(() => {
     fetchPost()
         .then((postData) => {
           console.log(postData.data);
-          DataRequest("/auth/software").then((requestData) => {
+          DataRequest("/auth/delivery").then((requestData) => {
             console.log(requestData.data);
             setProductList(requestData.data);
           })
 
           setName(postData.data.name);
-          setImgSrc(postData.data.img);
+          setImgSrc(postData.data.thumbnail);
           setIsNew(postData.data.new);
           setIsHot(postData.data.hot);
           setPrice(postData.data.price);
@@ -65,6 +62,9 @@ const ProductDetailView = () => {
           setDiscountPrice(postData.data.discountPrice);
           setHighlights(postData.data.highlights);
           setDescription(postData.data.description);
+
+          setSoldBy(postData.data.soldBy);
+          setCategory(postData.data.category);
 
         });
   }, []);
@@ -75,7 +75,7 @@ const ProductDetailView = () => {
       const refreshToken = localStorage.getItem('refreshToken');
 
       // Fetch post using `id`
-      const response = await axios.get(`/auth/software/${id}`, {
+      const response = await axios.get(`/auth/delivery/${id}`, {
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${accessToken}`,
@@ -126,80 +126,10 @@ const ProductDetailView = () => {
 
                 </div>
                 <dl className="row small mb-3">
-                  <dt className="col-sm-3">Availability</dt>
-                  <dd className="col-sm-9">In stock</dd>
+                  <dt className="col-sm-3">Category</dt>
+                  <dd className="col-sm-9">{category}</dd>
                   <dt className="col-sm-3">Sold by</dt>
-                  <dd className="col-sm-9">Authorised Store</dd>
-                  <dt className="col-sm-3">Size</dt>
-                  <dd className="col-sm-9">
-                    <div className="form-check form-check-inline">
-                      <input
-                          className="form-check-input"
-                          type="radio"
-                          name="size"
-                          id="sizes"
-                          disabled
-                      />
-                      <label className="form-check-label" htmlFor="sizes">
-                        S
-                      </label>
-                    </div>
-                    <div className="form-check form-check-inline">
-                      <input
-                          className="form-check-input"
-                          type="radio"
-                          name="size"
-                          id="sizem"
-                          disabled
-                      />
-                      <label className="form-check-label" htmlFor="sizem">
-                        M
-                      </label>
-                    </div>
-                    <div className="form-check form-check-inline">
-                      <input
-                          className="form-check-input"
-                          type="radio"
-                          name="size"
-                          id="sizel"
-                      />
-                      <label className="form-check-label" htmlFor="sizel">
-                        L
-                      </label>
-                    </div>
-                    <div className="form-check form-check-inline">
-                      <input
-                          className="form-check-input"
-                          type="radio"
-                          name="size"
-                          id="sizexl"
-                      />
-                      <label className="form-check-label" htmlFor="sizexl">
-                        XL
-                      </label>
-                    </div>
-                    <div className="form-check form-check-inline">
-                      <input
-                          className="form-check-input"
-                          type="radio"
-                          name="size"
-                          id="sizexxl"
-                      />
-                      <label className="form-check-label" htmlFor="sizexxl">
-                        XXL
-                      </label>
-                    </div>
-                  </dd>
-                  <dt className="col-sm-3">Color</dt>
-                  <dd className="col-sm-9">
-                    <button className="btn btn-sm btn-primary p-2 me-2"></button>
-                    <button className="btn btn-sm btn-secondary p-2 me-2"></button>
-                    <button className="btn btn-sm btn-success p-2 me-2"></button>
-                    <button className="btn btn-sm btn-danger p-2 me-2"></button>
-                    <button className="btn btn-sm btn-warning p-2 me-2"></button>
-                    <button className="btn btn-sm btn-info p-2 me-2"></button>
-                    <button className="btn btn-sm btn-dark p-2 me-2"></button>
-                  </dd>
+                  <dd className="col-sm-9">{soldBy}</dd>
                 </dl>
 
                 <div className="mb-3">
@@ -238,20 +168,22 @@ const ProductDetailView = () => {
                   >
                     <FontAwesomeIcon icon={faCartPlus} /> Add to cart
                   </button>
-                  <button
-                      type="button"
-                      className="btn btn-sm btn-warning me-2"
-                      title="Buy now"
-                  >
-                    <FontAwesomeIcon icon={faShoppingCart} /> Download
-                  </button>
-                  <button
-                      type="button"
-                      className="btn btn-sm btn-outline-secondary"
-                      title="Add to wishlist"
-                  >
-                    <FontAwesomeIcon icon={faHeart} />
-                  </button>
+                  <div style={{ marginTop:'10px'}}>
+                    <button
+                        type="button"
+                        className="btn btn-sm btn-warning me-2"
+                        title="Buy now"
+                    >
+                      <FontAwesomeIcon icon={faShoppingCart} /> Purchase
+                    </button>
+                    <button
+                        type="button"
+                        className="btn btn-sm btn-outline-secondary"
+                        title="Add to wishlist"
+                    >
+                      <FontAwesomeIcon icon={faHeart} />
+                    </button>
+                  </div>
                 </div>
                 <div>
                   <p className="fw-bold mb-2 small">
@@ -311,7 +243,7 @@ const ProductDetailView = () => {
                       role="tabpanel"
                       aria-labelledby="nav-details-tab"
                   >
-                    <Details desc={description}/>
+                    <Description desc={description}/>
                   </div>
                   <div
                       className="tab-pane fade"

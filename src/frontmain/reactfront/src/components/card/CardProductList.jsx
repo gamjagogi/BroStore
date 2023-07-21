@@ -8,16 +8,26 @@ import { faCartPlus, faHeart } from "@fortawesome/free-solid-svg-icons";
 const CardProductList = (props) => {
   const product = props.data;
   console.log(product);
+
+  const parser = new DOMParser();
+  const doc = parser.parseFromString(product.description, "text/html");
+  console.log(doc);
+
+
+  const plainText = doc.body.textContent;
+  console.log(plainText);
+
+
   return (
     <div className="card">
       <div className="row g-0">
         <div className="col-md-3 text-center">
-          <img src={product.img} className="img-fluid" alt="..." />
+          <img src={product.thumbnail} className="img-fluid" alt="..." />
         </div>
         <div className="col-md-6">
           <div className="card-body">
             <h6 className="card-subtitle me-2 d-inline">
-              <Link to={product.link} className="text-decoration-none">
+              <Link to={product.link + product.id} className="text-decoration-none">
                 {product.name}
               </Link>
             </h6>
@@ -41,7 +51,7 @@ const CardProductList = (props) => {
             </div>
             {product.description &&
               product.description.includes("|") === false && (
-                <p className="small mt-2">{product.description}</p>
+                <p className="small mt-2">{plainText}</p>
               )}
             {product.description && product.description.includes("|") && (
               <ul className="mt-2">
@@ -92,6 +102,11 @@ const CardProductList = (props) => {
               <FontAwesomeIcon icon={faHeart} />
             </button>
           </div>
+            <br />
+
+            <div className="mb-2">
+              <span className="fw-bold h9">Category : {product.category}</span>
+            </div>
           </div>
         </div>
       </div>
@@ -99,4 +114,4 @@ const CardProductList = (props) => {
   );
 };
 
-export default CardProductList;
+export default React.memo(CardProductList);

@@ -29,6 +29,19 @@ public class SoftwareService {
     }
 
     @MyLog
+    public List<SoftwareResponseDTO> category목록보기(String category) throws Exception404{
+
+        try {
+            List<Software> softwareList = softwareRepository.findByCategory(category);
+            List<SoftwareResponseDTO> newList = softwareList.stream()
+                    .map(software -> new SoftwareResponseDTO(software)).collect(Collectors.toList());
+            return newList;
+        }catch (Exception e) {
+            throw new Exception404("게시글을 찾을 수 없습니다.");
+        }
+    }
+
+    @MyLog
     public SoftwareResponseDTO.Detail 게시글상세보기(Long id){
         Software softwarePS = softwareRepository.findById(id)
                 .orElseThrow(()-> new Exception404("게시글을 찾을 수 없습니다."));
@@ -39,8 +52,6 @@ public class SoftwareService {
     @MyLog
     public void 게시글저장하기(SoftwareRequestDTO.Save saveDTO){
         Software savePS = Software.toEntity(saveDTO);
-        String link = "/software/"+savePS.getId();
-        savePS.setLink(link);
         softwareRepository.save(savePS);
     }
 }

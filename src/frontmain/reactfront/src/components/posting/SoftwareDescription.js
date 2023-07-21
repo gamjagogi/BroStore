@@ -4,7 +4,7 @@ import {useNavigate} from 'react-router-dom';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import {useRef, useMemo} from 'react';
-import axios from '../Request/RequestConfig.js';
+import axios from '../../screens/Request/RequestConfig.js';
 import AWS from 'aws-sdk';
 import {v4 as uuidv4} from 'uuid';
 import {Button, Dropdown, ListGroup} from "react-bootstrap";
@@ -12,13 +12,12 @@ import {Editor} from "../../components/Styles/Editorform/Editor.style";
 import Card from "react-bootstrap/Card";
 
 
-export default function PostEditor() {
+const SoftwareDescription = (props) => {
+
+    const { onDescriptionChange,description } = props;
+
     const quillRef = useRef(null);
 
-    const [title, setTitle] = useState('');
-    const [content, setContent] = useState('');
-    const [thumbnail, setThumbnail] = useState('');
-    const [thumbnails, setThumbnails] = useState('');
     const [loginError, setLoginError] = useState('');
     const [imageSrc, setImageSrc] = useState('');
 
@@ -28,6 +27,7 @@ export default function PostEditor() {
     const [updatedDomArray, setUpdatedDomArray] = useState([]);
     const [deleted, setDeleted] = useState('');
     const navigate = useNavigate();
+
 
 
     // 이미지 편집기에 추가 로직 *************************************v
@@ -148,81 +148,13 @@ export default function PostEditor() {
         'div'
     ];
 
-
-    const onChangeTitle = (event) => {
-        const newTitle = event.target.value;
-        if (newTitle.length <= 60) {
-            setTitle(newTitle);
-        } else {
-            // 팝업을 띄우는 로직을 추가하거나 원하는 작업을 수행합니다.
-            // 예시: alert을 사용하여 팝업을 띄움
-            alert('제목은 60자 이하여야 합니다.');
-        }
-    };
-
-    const onChangeContent = (content) => {
-        setContent(content);
-    };
-
-    const handleSubmit = async () => {
-        try {
-            const accessToken = localStorage.getItem('accessToken');
-            const refreshToken = localStorage.getItem('refreshToken');
-            console.log(accessToken);
-            console.log(refreshToken);
-
-            const config = {
-                headers: {
-                    Authorization: `Bearer ${accessToken}`,
-                    RefreshToken: `Bearer ${refreshToken}`,
-                    'Content-Type': 'application/json',
-                },
-            };
-            const requestData = {title, content};
-
-            if (thumbnails !== "") {
-                requestData.thumbnail = thumbnail;
-            }
-
-            if (accessToken && refreshToken) {
-                // 요청 보내기
-                console.log(requestData);
-                const response = await axios.post('/manager/shop/save', JSON.stringify(requestData), {
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${accessToken}`,
-                        'RefreshToken': `Bearer ${refreshToken}`,
-                    },
-                });
-
-                if (response.status == 200) {
-                    // 응답 성공 시 처리할 작업
-                    const data = await response.data;
-                    console.log(data); // 요청에 대한 응답 처리
-                    navigate('/software');
-
-                } else {
-                    // 응답 실패 시 처리할 작업
-                    const errorMessages = await response.data;
-                    console.log(errorMessages.errors);
-                    const errors = errorMessages.errors;
-                    for (const error of errors) {
-                        console.log(error.defaultMessage);
-                        alert(error.defaultMessage);
-                    }
-                }
-            } else {
-                setLoginError('인증 권한을 가진 유저만 접근 가능합니다.'); // 로그인되지 않은 경우 처리
-            }
-        } catch (error) {
-            console.error('인증되지 않은 사용자가 접근하려 합니다..', error);
-            setLoginError('인증된 유저만 접근 가능합니다.');
-        }
-    }
-    // **************************************************************
-
-
     //
+    // const onChangeDescription = (description) => {
+    //     onDescriptionChange(description);
+    // };
+
+
+
     const crolling = () => {
         const editor = quillRef.current.getEditor();
         const range = editor.getSelection(true);
@@ -338,14 +270,6 @@ export default function PostEditor() {
 
     return (
         <div style={{display: 'flex', flexDirection: 'column', height: '100vh'}}>
-            <input
-                type="text"
-                value={title}
-                onChange={onChangeTitle}
-                placeholder="제목"
-                style={{flex: 'none', padding: '10px', fontSize: '18px'}}
-            />
-
 
             <div style={{flex: '1', minHeight: '0', padding: '10px', fontSize: '14px', marginBottom: 'auto'}}>
                 {/* <ReactQuill/> 컴포넌트를 감싸는 div */}
@@ -354,7 +278,7 @@ export default function PostEditor() {
                     formats={formats}
                     modules={modules}
                     theme="snow"
-                    onChange={onChangeContent}
+                    onChange={onDescriptionChange}
                     style={{
                         flex: '1',
                         minHeight: '0',
@@ -364,7 +288,7 @@ export default function PostEditor() {
                         height: '80%'
                     }}
                 />
-                <div dangerouslySetInnerHTML={{__html: content}} style={{display: 'none'}}/>
+                <div dangerouslySetInnerHTML={{__html: description}} style={{display: 'none'}}/>
             </div>
             <br/>
             <div className="footer" style={{marginTop: 'auto', padding: '10px', position: 'relative', top: '70px'}}>
@@ -374,9 +298,8 @@ export default function PostEditor() {
                     marginTop: 'auto',
                     marginRight: '10px',
                     position: 'relative',
-                    top: '-200px'
+                    top: '-220px'
                 }}>
-                    {/*<ImageLibrary imageSrc={imageSrc} index={index} />*/}
                     <Dropdown show={dropdownOpen} onToggle={toggleDropdown}>
                         <Dropdown.Toggle variant="primary" id="dropdown-basic-button">
                             사진 라이브러리
@@ -401,11 +324,10 @@ export default function PostEditor() {
                     position: 'relative',
                     top: '-200px'
                 }}>
-                    <button onClick={handleSubmit} style={{marginRight: '10px'}}>완료</button>
-                    <button style={{}}>취소</button>
                 </div>
             </div>
         </div>
 
     );
 }
+export default SoftwareDescription

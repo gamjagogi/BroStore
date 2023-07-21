@@ -31,12 +31,10 @@ public class MyDummyEntity{
         return boardPS;
     }
 
-    public Software newSoftware(String link,String name,String img,String description){
+    public Software newSoftware(String name,String thumbnail,String description){
         Software softwarePS = Software.builder()
-                .link(link)
-                .sku("FAS-01")
                 .name(name)
-                .img(img)
+                .thumbnail(thumbnail)
                 .price(1800)
                 .originPrice(2000)
                 .discountPrice(1800)

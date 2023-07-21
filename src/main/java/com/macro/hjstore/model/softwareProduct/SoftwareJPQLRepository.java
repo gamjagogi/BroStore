@@ -14,5 +14,4 @@ import java.util.List;
 @Repository
 public class SoftwareJPQLRepository {
     private final EntityManager em;
-    //private final int size = 8;
 }

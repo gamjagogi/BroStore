@@ -10,33 +10,35 @@ public class SoftwareResponseDTO {
     @NotEmpty
     private Long id;
 
-    @NotEmpty
     private String sku;
 
-    @NotEmpty
-    private String link; // 해당 product의 상세보기 링크
+    private String link;
+
     @NotEmpty
     private String name;
-    private String img;
-    @NotEmpty
-    private int price;
-    private int originPrice;
-    private int discountPrice;
-    private int discountPercentage;
+    private String thumbnail;
+
+    private Integer price;
+    private Integer originPrice;
+    private Integer discountPrice;
+    private Integer discountPercentage;
     private boolean isNew;
     private boolean isHot;
-    private int star;
+    private Integer star;
     private boolean isFreeShipping;
     @NotEmpty
     private String description;
 
+    private String soldBy;
+
+    private String category;
 
     public SoftwareResponseDTO(Software software){
         this.id = software.getId();
-        this.link = software.getLink();
         this.sku = software.getSku();
+        this.link = software.getLink();
         this.name = software.getName();
-        this.img = software.getImg();
+        this.thumbnail = software.getThumbnail();
         this.price = software.getPrice();
         this.originPrice = software.getOriginPrice();
         this.discountPrice = software.getDiscountPrice();
@@ -46,6 +48,8 @@ public class SoftwareResponseDTO {
         this.star = software.getStar();
         this.isFreeShipping = software.isFreeShipping();
         this.description = software.getDescription();
+        this.soldBy = software.getSoldBy();
+        this.category = software.getCategory();
     }
     @Getter
     public static class Detail{
@@ -53,31 +57,31 @@ public class SoftwareResponseDTO {
         private Long id;
 
         @NotEmpty
-        private String sku;
-
-        @NotEmpty
-        private String link; // 해당 product의 상세보기 링크
-        @NotEmpty
         private String name;
+
+        private String thumbnail;
         private String img;
         @NotEmpty
-        private int price;
-        private int originPrice;
-        private int discountPrice;
-        private int discountPercentage;
+        private Integer price;
+        private Integer originPrice;
+        private Integer discountPrice;
+        private Integer discountPercentage;
         private boolean isNew;
         private boolean isHot;
-        private int star;
+        private Integer star;
         private boolean isFreeShipping;
         private String highlights;
         @NotEmpty
         private String description;
 
+        private String soldBy;
+
+        private String category;
+
         public Detail(Software software){
             this.id = software.getId();
-            this.link = software.getLink();
-            this.sku = software.getSku();
             this.name = software.getName();
+            this.thumbnail = software.getThumbnail();
             this.img = software.getImg();
             this.price = software.getPrice();
             this.originPrice = software.getOriginPrice();
@@ -89,6 +93,8 @@ public class SoftwareResponseDTO {
             this.isFreeShipping = software.isFreeShipping();
             this.highlights = software.getHighlights();
             this.description = software.getDescription();
+            this.soldBy = software.getSoldBy();
+            this.category = software.getCategory();
         }
     }
 }
