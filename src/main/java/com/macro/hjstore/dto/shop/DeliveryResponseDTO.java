@@ -98,4 +98,59 @@ public class DeliveryResponseDTO {
             this.category = delivery.getCategory();
         }
     }
+
+    @Getter
+    public static class DeliveryCartItem{
+        @NotEmpty
+        private Long id;
+
+        private String sku;
+
+        private String link;
+
+        @NotEmpty
+        private String name;
+        private String thumbnail;
+
+        private Integer price;
+        private Integer originPrice;
+        private Integer discountPrice;
+        private Integer discountPercentage;
+        private boolean isNew;
+        private boolean isHot;
+        private Integer star;
+        private boolean isFreeShipping;
+        @NotEmpty
+        private String description;
+
+        private String soldBy;
+
+        private String category;
+
+        private Long cartItemId;
+
+        private Integer count; // cartItem 갯수(장바구니 상품 갯수)
+
+
+        public DeliveryCartItem(Delivery delivery,Long cartItemId, Integer count){
+            this.id = delivery.getId();
+            this.sku = delivery.getSku();
+            this.link = delivery.getLink();
+            this.name = delivery.getName();
+            this.thumbnail = delivery.getThumbnail();
+            this.price = delivery.getPrice();
+            this.originPrice = delivery.getOriginPrice();
+            this.discountPrice = delivery.getDiscountPrice();
+            this.discountPercentage = delivery.getDiscountPercentage();
+            this.isNew = delivery.isNew();
+            this.isHot = delivery.isHot();
+            this.star = delivery.getStar();
+            this.isFreeShipping = delivery.isFreeShipping();
+            this.description = delivery.getDescription();
+            this.soldBy = delivery.getSoldBy();
+            this.category = delivery.getCategory();
+            this.cartItemId = cartItemId;
+            this.count = count;
+        }
+    }
 }

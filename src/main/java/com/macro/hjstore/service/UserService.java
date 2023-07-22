@@ -81,7 +81,7 @@ public class UserService {
         User userPS = userRepository.findByEmail(email)
                 .orElseThrow(() -> new Exception400(email,"해당 유저를 찾을 수 없습니다."));
 
-        UserResponse.LoginOutDTO loginOutDTO = new UserResponse.LoginOutDTO(userPS.getUsername());
+        UserResponse.LoginOutDTO loginOutDTO = new UserResponse.LoginOutDTO(userPS.getUsername(),userPS.getId());
         return loginOutDTO;
     }
 
@@ -97,6 +97,13 @@ public class UserService {
                 .status(true)
                 .build();
         userRepository.save(userPS);
+    }
+
+    @MyLog
+    public User 회원찾기(Long id){
+        User userPS = userRepository.findById(id)
+                .orElseThrow(() -> new Exception404("회원을 찾을 수 없습니다"));
+        return userPS;
     }
 
 }

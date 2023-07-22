@@ -1,5 +1,7 @@
 package com.macro.hjstore.model.user;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.macro.hjstore.model.cart.Cart;
 import lombok.*;
 
 import javax.persistence.*;
@@ -46,6 +48,10 @@ public class User {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
+    @OneToOne(mappedBy = "user", fetch = FetchType.LAZY)
+    @JsonIgnoreProperties({"user"})
+    private Cart cart;
+
     public void changeProfile(String profile) {
         this.profile = profile;
     }
@@ -78,7 +84,7 @@ public class User {
     }
 
     @Builder
-    public User(Long id,String email, String password, UserRole role, String username, String birth, Boolean status, LocalDateTime createdAt, LocalDateTime updatedAt) {
+    public User(Long id,String email, String password, UserRole role, String username, String birth, Boolean status, LocalDateTime createdAt, LocalDateTime updatedAt,Cart cart) {
         this.id = id;
         this.email = email;
         this.password = password;
@@ -88,5 +94,6 @@ public class User {
         this.status = status;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
+        this.cart = cart;
     }
 }

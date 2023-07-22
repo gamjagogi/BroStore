@@ -13,11 +13,11 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
 public class HjstoreApplication {
-	@Autowired
-	public static CommandLineRunner init(MyDataInit myDataInit, UserRepository userRepository
-			, BoardRepository boardRepository, TokenRepository tokenRepository, SoftwareRepository softwareRepository) {
-		return myDataInit.init(userRepository,boardRepository,tokenRepository,softwareRepository);
-	}
+//	@Autowired
+//	public static CommandLineRunner init(MyDataInit myDataInit, UserRepository userRepository
+//			, BoardRepository boardRepository, TokenRepository tokenRepository, SoftwareRepository softwareRepository) {
+//		return myDataInit.init(userRepository,boardRepository,tokenRepository,softwareRepository);
+//	}
 
 	public static void main(String[] args) {
 		SpringApplication.run(HjstoreApplication.class, args);

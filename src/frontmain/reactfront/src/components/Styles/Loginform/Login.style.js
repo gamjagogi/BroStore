@@ -8,4 +8,7 @@ export const Login = styled.div`
     position: relative;
     display: flex;
     justify-content: center;
+    margin-top: 30px;
+    margin-bottom: 30px;
+    border-radius: 0;
 `

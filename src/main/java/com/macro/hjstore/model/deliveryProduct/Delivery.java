@@ -6,7 +6,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-
+import java.util.Optional;
 // 저장할 필요가 있는건 tb로 만든다.
 
 
@@ -27,7 +27,7 @@ public class Delivery {
     @Column(name = "title",nullable = false, length = 60)
     private String name;
 
-    private String link = "/software/";
+    private String link = "/delivery/";
 
 
     @Column(name = "thumbnail", nullable = true)
@@ -108,6 +108,11 @@ public class Delivery {
         this.category = category;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
+    }
+
+    // Getter 메서드
+    public Integer getPrice() {
+        return Optional.ofNullable(price).orElse(0);
     }
 
     public static Delivery toEntity(DeliveryRequestDTO.Save savePS) {

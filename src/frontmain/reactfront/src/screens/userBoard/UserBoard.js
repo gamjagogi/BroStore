@@ -44,8 +44,8 @@ const UserBoard = () => {
                 setLoginError('로그인이 필요합니다.');
             }
         } catch (error) {
-            console.error('인증되지 않은 사용자가 접근하려 합니다..', error);
-            setLoginError('인증된 유저만 접근 가능합니다.');
+            console.error('에러발생..', error);
+            setLoginError('에러 발생.');
         }
     };
 

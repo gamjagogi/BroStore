@@ -1,6 +1,7 @@
 import React from 'react'
 import { Navbar, Container, Nav, NavDropdown } from "react-bootstrap";
 import UserHeader from './UserHeader';
+import "./NavBarElements.css";
 
 
 const NavBarElements = () => {
@@ -11,11 +12,11 @@ const NavBarElements = () => {
                 <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                 <Navbar.Collapse id="responsive-navbar-nav">
                     <Nav className="me-auto">
-                        <Nav.Link href="/software">Software Product</Nav.Link>
-                        <Nav.Link href="/delivery">Delivery Product</Nav.Link>
-                        <Nav.Link href="/board">User Board</Nav.Link>
+                        <Nav.Link href="/software" className="navbar-text">Software Product</Nav.Link>
+                        <Nav.Link href="/delivery" className="navbar-text">Delivery Product</Nav.Link>
+                        <Nav.Link href="/board" className="navbar-text">User Board</Nav.Link>
                         <NavDropdown title="ACCOUNT" id="collasible-nav-dropdown" style={{width :'50%'}}>
-                            <NavDropdown.Item href="#action/3.1" style={{ width: '50%', height: '100px' }}>
+                            <NavDropdown.Item style={{ width: '50%', height: '100px' }}>
                                 <UserHeader />
                             </NavDropdown.Item>
                         </NavDropdown>

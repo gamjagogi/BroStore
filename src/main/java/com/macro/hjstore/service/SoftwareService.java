@@ -54,4 +54,11 @@ public class SoftwareService {
         Software savePS = Software.toEntity(saveDTO);
         softwareRepository.save(savePS);
     }
+
+    @MyLog
+    public Software 상품찾기(Long itemId){
+        Software softwarePS = softwareRepository.findById(itemId)
+                .orElseThrow(() -> new Exception404("상품을 찾을 수 없습니다."));
+        return softwarePS;
+    }
 }
