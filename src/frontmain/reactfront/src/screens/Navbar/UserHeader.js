@@ -30,10 +30,15 @@ const UserHeader = () => {
         localStorage.removeItem('refreshToken');
     };
 
+    const handleJoin = () => {
+        navigate('/join')
+    }
+
     useEffect(() => {
         if (userData) {
             setIsLoggedIn(true);
-            setUserName(userData.username);
+            console.log(userDataString);
+            setUserName(userDataString);
 
         }
     }, [userData]);
@@ -50,8 +55,11 @@ const UserHeader = () => {
                 <Button variant="primary" size="sm" onClick={handleLogout}> 로그아웃 </Button>
                 <Button variant="primary" size="sm" style={{marginLeft: '30px'}}> 회원 정보 수정 </Button>
             </Card.Body>
-        </Card>) : (<Card>
+        </Card>) : (<Card style={{width: '300px', height: '100px'}}>
+            <div className="d-grid gap-2">
             <Button onClick={handleLogin}>로그인</Button>
+            <Button onClick={handleJoin}>회원가입</Button>
+            </div>
         </Card>)}
     </header>);
 };

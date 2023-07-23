@@ -31,18 +31,19 @@ const LoginPage = () => {
                 const data = await response.data;
                 console.log(JSON.stringify(data)); // JSON 형태로 String형태로 출력
                 console.log(data.data.username);
-
+                console.log(data.data.userId);
 
 
                 // 로그인 정보 저장
-                sessionStorage.setItem('userData', JSON.stringify(data.data));
+                sessionStorage.setItem('userData', JSON.stringify(data.data.username));
+                sessionStorage.setItem('userData2', JSON.stringify(data.data.userId));
 
                 // 액세스 토큰과 리프레시 토큰을 localStorage에 저장
                 localStorage.setItem('accessToken', accessToken);
                 localStorage.setItem('refreshToken', refreshToken);
 
                 //gamja@gmail.com
-                navigate('/shop');
+                navigate('/');
 
             } else {
                 // 로그인 실패 시 처리할 작업
@@ -60,7 +61,7 @@ const LoginPage = () => {
 
 
     return (
-        <Login>
+        <Login className="d-grid gap-2">
             <input
                 type="email"
                 placeholder="Email"
@@ -73,8 +74,10 @@ const LoginPage = () => {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
             />
-            <button onClick={handleLogin}>로그인</button>
-            <button onClick={handleJoin}>회원가입</button>
+            <div style={{ width: "300px" }}>
+                <button onClick={handleLogin}>로그인</button>
+                <button onClick={handleJoin}>회원가입</button>
+            </div>
         </Login>
     );
 }

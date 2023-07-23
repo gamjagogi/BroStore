@@ -22,7 +22,7 @@ public class BoardResponse {
         private String content;
 
         private String thumbnail;
-        @NotEmpty
+
         private String username;
 
         public DetailDTO(String title, String content, String thumbnail, String username) {
@@ -30,6 +30,30 @@ public class BoardResponse {
             this.content = content;
             this.thumbnail = thumbnail;
             this.username = username;
+        }
+    }
+    @Getter
+    public static class UserBoard {
+
+        @NotEmpty
+        private Long id;
+        @NotEmpty
+        @Size( max = 60)
+        private String title;
+
+        @NotEmpty
+        private String content;
+
+        private String thumbnail;
+
+        private String username;
+
+        public UserBoard(Board board) {
+            this.id = board.getId();
+            this.title = board.getTitle();
+            this.content = board.getContent();
+            this.thumbnail = board.getThumbnail();
+            this.username = board.getUser().getUsername();
         }
     }
 }

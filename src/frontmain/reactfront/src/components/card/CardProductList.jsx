@@ -18,6 +18,7 @@ const CardProductList = (props) => {
   console.log(plainText);
 
 
+
   return (
     <div className="card">
       <div className="row g-0">
@@ -86,14 +87,7 @@ const CardProductList = (props) => {
             </p>
           )}
 
-          <div className="btn-group d-flex" role="group">
-            <button
-              type="button"
-              className="btn btn-sm btn-primary"
-              title="Add to cart"
-            >
-              <FontAwesomeIcon icon={faCartPlus} />
-            </button>
+          <div className="btn-group d-flex" role="group" style={{width : '50%'}}>
             <button
               type="button"
               className="btn btn-sm btn-outline-secondary"

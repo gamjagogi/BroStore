@@ -58,4 +58,11 @@ public class DeliveryService {
         Delivery deliveryPS = Delivery.toEntity(saveDTO);
         deliveryRepository.save(deliveryPS);
     }
+
+    @MyLog
+    public Delivery 상품찾기(Long itemId){
+        Delivery deliveryPS = deliveryRepository.findById(itemId)
+                .orElseThrow(() -> new Exception404("상품을 찾을 수 없습니다."));
+        return deliveryPS;
+    }
 }

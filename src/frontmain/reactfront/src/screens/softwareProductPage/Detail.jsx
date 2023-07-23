@@ -26,7 +26,7 @@ const QuestionAnswer = lazy(() =>
     import("../../components/others/QuestionAnswer")
 );
 
-const ProductDetailView = () => {
+const Detail = () => {
   const [productList, setProductList] = useState([]);
   const [name, setName] = useState('');
   const [imgSrc, setImgSrc] = useState('');
@@ -140,41 +140,13 @@ const ProductDetailView = () => {
                   </span>
                 </div>
                 <div className="mb-3">
-                  <div className="d-inline float-start me-2">
-                    <div className="input-group input-group-sm mw-140">
-                      <button
-                          className="btn btn-primary text-white"
-                          type="button"
-                      >
-                        <FontAwesomeIcon icon={faMinus} />
-                      </button>
-                      <input
-                          type="text"
-                          className="form-control"
-                          defaultValue="1"
-                      />
-                      <button
-                          className="btn btn-primary text-white"
-                          type="button"
-                      >
-                        <FontAwesomeIcon icon={faPlus} />
-                      </button>
-                    </div>
-                  </div>
-                  <button
-                      type="button"
-                      className="btn btn-sm btn-primary me-2"
-                      title="Add to cart"
-                  >
-                    <FontAwesomeIcon icon={faCartPlus} /> Add to cart
-                  </button>
                   <div style={{ marginTop:'10px'}}>
                   <button
                       type="button"
                       className="btn btn-sm btn-warning me-2"
                       title="Buy now"
                   >
-                    <FontAwesomeIcon icon={faShoppingCart} /> Purchase
+                    <FontAwesomeIcon icon={faShoppingCart} /> Download
                   </button>
                   <button
                       type="button"
@@ -280,4 +252,4 @@ const ProductDetailView = () => {
   );
 };
 
-export default ProductDetailView;
+export default Detail;

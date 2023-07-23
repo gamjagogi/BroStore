@@ -11,6 +11,10 @@ export default function Detail() {
     const [content, setContent] = useState('');
     const navigate = useNavigate();
 
+    useEffect(() => {
+        fetchPost(); // 컴포넌트가 마운트될 때(fetchPost()의 의존성 배열이 빈 배열) fetchPost 함수를 호출합니다.
+    }, []);
+
 
     const handleGoBack = () => {
         navigate(-1); // 뒤로가기 버튼을 누를 때 이전 페이지로 이동
@@ -54,9 +58,7 @@ export default function Detail() {
     };
 
 
-    useEffect(() => {
-        fetchPost(); // 컴포넌트가 마운트될 때(fetchPost()의 의존성 배열이 빈 배열) fetchPost 함수를 호출합니다.
-    }, []);
+
 
 // 이미지 리사이즈 함수
     const resizeImagesInContent = async (htmlContent) => {

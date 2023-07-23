@@ -1,0 +1,5 @@
+/* NavBarElements.css */
+
+.navbar-text {
+    white-space: nowrap; /* 텍스트가 한 줄로 출력되도록 설정 */
+}

@@ -18,8 +18,11 @@ public class UserResponse {
         @Pattern(regexp = "^[a-zA-Z가-힣]{1,20}$", message = "한글/영문 1~20자 이내로 작성해주세요")
         private String username;
 
-        public LoginOutDTO(String email) {
+        private Long userId;
+
+        public LoginOutDTO(String email, Long userId) {
             this.username = email;
+            this.userId = userId;
         }
     }
 }
