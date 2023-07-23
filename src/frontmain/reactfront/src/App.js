@@ -20,6 +20,11 @@ import Header from "./components/Header";
 import SoftwarePosting from "./screens/softwareProductPage/Posting"
 import DeliveryPosting from "./screens/deliveryProductPage/DeliveryPosting"
 import "./App.min.css";
+import PurchasePage from "./screens/pay/PurchasePage";
+// import Checkout from "./screens/cart/Checkout";
+import {SuccessPage} from "./screens/pages/SuccessPage";
+import {FailPage} from "./screens/pages/FailPage";
+import {CheckoutPage} from "./screens/pages/CheckoutPage";
 
 
 const SoftwareListView = lazy(() => import("./screens/softwareProductPage/List"));
@@ -102,6 +107,12 @@ function App() {
                         <Route exact path="/deliveryPosting" element={<DeliveryPosting/>}/>
                         <Route exact path="/delivery/:id" element={<DeliveryDetailView/>}/>
                         <Route exact path="/deliveryStar/zone" element={<DeliveryStarZoneView/>}/>
+
+                        <Route exact path = "/purchasePage" element={<PurchasePage/>}/>
+
+                        < Route exact path = "/payments" element={<CheckoutPage/>}/>
+                        < Route exact path = "/success" element={<SuccessPage/>}/>
+                        < Route exact path = "/fail" element={<FailPage/>}/>
                     </Routes>
                 </Suspense>
                 <Footer/>

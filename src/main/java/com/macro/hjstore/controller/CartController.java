@@ -108,13 +108,66 @@ public class CartController {
 
             // 갱신 된 장바구니에 들어있는 상품들의 총 가격
             Integer totalPrice = 0;
+            Integer totalCount = 0;
             for (CartItem cartitem : cartItemList) {
                 System.out.println(cartitem.getCount());
                 totalPrice += cartitem.getCount() * cartitem.getDelivery().getPrice();
+                totalCount += cartitem.getCount();
             }
-            userCart.setCount(userCart.getCount() - cartItemPS.getCount());
+            cartService.카트총수량수정(userCart,totalCount);
+
+            System.out.println(userCart.getCount());
 
             CartResponseDTO cartResponseDTO = new CartResponseDTO(cartItemList, totalPrice, userCart.getCount(), userPS);
+
+            ResponseDTO responseDTO = new ResponseDTO(cartResponseDTO);
+
+            return ResponseEntity.ok().body(responseDTO);
+        }
+        // 로그인 id와 장바구니 삭제하려는 유저의 id가 같지 않는 경우
+        else {
+            ResponseDTO<?> responseDTO = new ResponseDTO<>(HttpStatus.NOT_FOUND,"로그인 유저정보가 세션 유저가 일치하지않습니다.",id);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(responseDTO);
+        }
+    }
+
+
+    @PostMapping("/auth/cart/change/{id}/{cartItemId}")
+    public ResponseEntity<?> changeCountCartItem(@PathVariable("id") Long id, @PathVariable("cartItemId") Long cartItemId
+            ,@RequestBody Integer count ,@AuthenticationPrincipal MyUserDetails principalDetails) {
+        // 로그인 유저 id와 장바구니 유저의 id가 같아야 함
+        if (principalDetails.getUser().getId() == id) {
+            // itemId로 장바구니 상품 찾기
+
+            System.out.println(count);
+
+            cartService.카트아이템수량수정(cartItemId,count);
+
+            CartItem cartItemPS = cartService.카트상품찾기(cartItemId);
+            User userPS = userService.회원찾기(id);
+
+
+            Cart userCart = cartService.유저ID로카트찾기(id);
+            // 장바구니에 들어있는 아이템 모두 가져오기
+            List<CartItem> cartItemList = cartService.모든장바구니상품가져오기(userCart);
+
+            // 갱신 된 장바구니에 들어있는 상품들의 총 가격
+            Integer totalPrice = 0;
+            Integer totalCount = 0;
+            for (CartItem cartitem : cartItemList) {
+                System.out.println(cartitem.getCount());
+                totalPrice += cartitem.getCount() * cartitem.getDelivery().getPrice();
+                totalCount += cartitem.getCount();
+            }
+            // 해당 카트 아이템과 카트 아이템 총 수량 수정
+
+
+            cartService.카트총수량수정(userCart,totalCount);
+
+            Cart userCartPS = cartService.유저ID로카트찾기(id);
+
+            System.out.println("보내기 직전 총 갯수: "+ userCartPS.getCount());
+            CartResponseDTO cartResponseDTO = new CartResponseDTO(cartItemList, totalPrice, userCartPS.getCount(), userPS);
 
             ResponseDTO responseDTO = new ResponseDTO(cartResponseDTO);
 

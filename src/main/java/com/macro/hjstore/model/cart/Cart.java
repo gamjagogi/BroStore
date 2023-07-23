@@ -25,7 +25,6 @@ public class Cart {
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="user_id") // 무한 참조
-    @JsonIgnoreProperties({"cart"})
     private User user; // 구매자
 
     private Integer count; // 카트에 담긴 총 상품 개수

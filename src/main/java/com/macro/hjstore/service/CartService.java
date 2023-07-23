@@ -89,9 +89,26 @@ public class CartService {
         cartItemRepository.deleteById(cartItemId);
     }
 
+    @MyLog
     public Cart 유저ID로카트찾기(Long userId){
         Cart cartPS = cartRepository.findByUserId(userId)
                 .orElseThrow(() -> new Exception404("해당 유저의 장바구니를 찾을 수 없습니다."));
         return cartPS;
+    }
+
+    @MyLog
+    public void 카트아이템수량수정(Long cartItemId, Integer count){
+        CartItem cartItemPS = cartItemRepository.findById(cartItemId)
+                .orElseThrow(() -> new Exception404("장바구니 상품을 찾을 수 없습니다."));
+        System.out.println("변경전 : "+cartItemPS.getCount());
+        cartItemPS.setCount(count);
+        System.out.println("변경후 : "+cartItemPS.getCount());
+        cartItemRepository.save(cartItemPS);
+    }
+
+    @MyLog
+    public void 카트총수량수정(Cart userCart,Integer totalCount){
+        userCart.setCount(totalCount);
+        cartRepository.save(userCart);
     }
 }

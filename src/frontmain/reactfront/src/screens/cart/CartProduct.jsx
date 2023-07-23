@@ -8,12 +8,16 @@ import {ReactComponent as IconTrash} from "bootstrap-icons/icons/trash.svg";
 
 const CartProduct = (props) => {
 
-    const {item, handleDelete} = props;
+    const {item, handleDelete,handleCountChange} = props;
     const [count, setCount] = useState(item.count);
     const [cartItemId, setCartItemId ] = useState(item.cartItemId);
     console.log("카트 프로덕트 진입");
 
     console.log(item);
+
+    useEffect(() =>{
+        handleCountChange(cartItemId,count)
+    },[count])
 
     const onCountUp = async () => {
         setCount(count + 1);
@@ -34,6 +38,7 @@ const CartProduct = (props) => {
     const onClickDelete = async() => {
         handleDelete(cartItemId);
     }
+
 
         return (
             <tr>

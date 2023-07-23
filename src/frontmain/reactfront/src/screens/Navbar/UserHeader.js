@@ -37,7 +37,8 @@ const UserHeader = () => {
     useEffect(() => {
         if (userData) {
             setIsLoggedIn(true);
-            setUserName(userData.username);
+            console.log(userDataString);
+            setUserName(userDataString);
 
         }
     }, [userData]);

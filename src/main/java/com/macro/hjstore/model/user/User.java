@@ -49,7 +49,6 @@ public class User {
     private LocalDateTime updatedAt;
 
     @OneToOne(mappedBy = "user", fetch = FetchType.LAZY)
-    @JsonIgnoreProperties({"user"})
     private Cart cart;
 
     public void changeProfile(String profile) {

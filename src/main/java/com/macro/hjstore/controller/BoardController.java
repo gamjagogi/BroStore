@@ -2,6 +2,7 @@ package com.macro.hjstore.controller;
 
 import com.macro.hjstore.core.auth.session.MyUserDetails;
 import com.macro.hjstore.core.exception.Exception400;
+import com.macro.hjstore.core.exception.Exception404;
 import com.macro.hjstore.dto.ResponseDTO;
 import com.macro.hjstore.dto.board.BoardRequest;
 import com.macro.hjstore.dto.board.BoardResponse;
@@ -27,18 +28,19 @@ public class BoardController {
 
     private final BoardService boardService;
 
-    @GetMapping("/auth/shop")  // "/auth/shop?page=1"
+    @GetMapping("/auth/board/{id}")  // "/auth/shop?page=1"
     public ResponseEntity<?> mainPage(
-            @RequestParam(defaultValue = "0") int page,
-    @AuthenticationPrincipal MyUserDetails userDetails
-    ){
-        //checkpoint : 권한 체크
-        System.out.println(userDetails.getUser().getRole());
-        Page<Board> boardPG = boardService.게시글목록보기(page);
-        System.out.println(boardPG);
-        System.out.println(boardPG.getTotalPages());
-        ResponseDTO<?> responseDTO = new ResponseDTO<>(boardPG);
-        return ResponseEntity.ok().body(responseDTO);
+            @PathVariable("id")Long id, @AuthenticationPrincipal MyUserDetails userDetails){
+        System.out.println("유저 인증 직전!!!!!");
+        if(userDetails.getUser().getId() == id) {
+            System.out.println("유저 인증 성공!");
+            List<BoardResponse.UserBoard>userBoardList = boardService.게시글목록보기();
+            System.out.println("게시물리스트 가져옴!!!");
+            ResponseDTO<?> responseDTO = new ResponseDTO<>(userBoardList);
+            return ResponseEntity.ok().body(responseDTO);
+        }else {
+            throw new Exception404("시큐리티 유저와 로그인 유저가 일치하지 않습니다.");
+        }
     }
 
     @GetMapping("/auth/shop/{id}")

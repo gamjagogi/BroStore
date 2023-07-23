@@ -14,6 +14,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import javax.validation.Valid;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
@@ -25,10 +27,16 @@ public class BoardService {
     private final BoardRepository boardRepository;
 
     @MyLog
-    public Page 게시글목록보기(int page){
+    public List<BoardResponse.UserBoard> 게시글목록보기(){
         try {
-            Page<Board> boardPG = boardJPQLRepository.findAll(page);
-            return boardPG;
+            //Page<Board> boardPG = boardJPQLRepository.findAll(page);
+            List<Board> boardList = boardRepository.findAllBySorted();
+            List<BoardResponse.UserBoard>userBoardList = boardList.stream()
+                    .map(board -> new BoardResponse.UserBoard(board)).collect(Collectors.toList());
+
+            System.out.println(userBoardList.toString());
+
+            return userBoardList;
         }catch (Exception e){
             throw new Exception404("게시글이 존재하지 않습니다.");
         }

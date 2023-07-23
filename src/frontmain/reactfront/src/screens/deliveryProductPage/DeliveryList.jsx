@@ -26,9 +26,6 @@ const ProductListView = () => {
     useEffect(() => {
         DeliveryCategoryConfig(category)
             .then((products) => {
-                console.log('처음 렌더링');
-                console.log(products);
-                console.log(products.length);
                 setTotalItems(products.length);
             })
             .catch((error) => {
@@ -56,14 +53,9 @@ const ProductListView = () => {
     const onPageChanged = (page) => {
         DeliveryCategoryConfig(category)
             .then((products) => {
-                console.log("onPageChanged 진입");
-                console.log(products);
                 const { currentPage, totalPages, pageLimit } = page;
-                console.log(currentPage, totalPages, pageLimit);
                 const offset = (currentPage - 1) * pageLimit;
-                console.log(offset);
                 const currentProducts = products.slice(offset, offset + pageLimit);
-                console.log(currentProducts);
 
                 setCurrentPage(currentPage);
                 setCurrentProducts(currentProducts);
