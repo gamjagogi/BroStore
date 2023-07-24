@@ -15,11 +15,13 @@ const NavBarElements = () => {
                         <Nav.Link href="/software" className="navbar-text">Software Product</Nav.Link>
                         <Nav.Link href="/delivery" className="navbar-text">Delivery Product</Nav.Link>
                         <Nav.Link href="/board" className="navbar-text">User Board</Nav.Link>
-                        <NavDropdown title="ACCOUNT" id="collasible-nav-dropdown" style={{width :'50%'}}>
+                        <div className="container col-6">
+                        <NavDropdown title="ACCOUNT" id="collasible-nav-dropdown" >
                             <NavDropdown.Item style={{ width: '50%', height: '100px' }}>
                                 <UserHeader />
                             </NavDropdown.Item>
                         </NavDropdown>
+                        </div>
                     </Nav>
                     <Nav>
                         <Nav.Link href="#deets">Notification</Nav.Link>

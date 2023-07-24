@@ -49,7 +49,7 @@ const PopupPostCode = (props) => {
 
     return(
         <div>
-            <DaumPostcode style={postCodeStyle} onComplete={handlePostCode} />
+            <DaumPostcode onComplete={handlePostCode} />
             <button type='button' onClick={() => {props.onClose()}} className='postCode_btn'>닫기</button>
         </div>
     )

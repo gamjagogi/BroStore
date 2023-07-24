@@ -8,6 +8,7 @@ import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
 import PopupDom from "./PopupDom";
 import PopupPostCode from "./PopupPostCode";
+import axios from "../Request/RequestConfig";
 
 
 const PurchaseProduct = lazy(() => import("./PurchaseProduct"));
@@ -24,6 +25,62 @@ const Purchase = () => {
     const [address, setAddress] = useState('');
     const [detailAddress, setDetailAddress] = useState('');
     const [isPopupOpen, setIsPopupOpen] = useState(false);
+
+    // 이름, 전번
+    const [tel, setTel] = useState('');
+    const [userName, setUserName] = useState('');
+
+
+
+    useEffect(() =>{
+        onPurchasePage();
+    },[])
+
+    const onPurchasePage = async () => {
+        try {
+            const accessToken = localStorage.getItem('accessToken');
+            const refreshToken = localStorage.getItem('refreshToken');
+            const userData = sessionStorage.getItem('userData'); // 현재 로그인중인 username
+            const userData2 = sessionStorage.getItem('userData2'); // 현재 로그인중인 userId
+            console.log(userData);
+            console.log(userData2);
+
+            const id = userData2;
+
+            if (accessToken && refreshToken) {
+                const response = await axios.get(`/auth/cart/${id}`, {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${accessToken}`,
+                        'RefreshToken': `Bearer ${refreshToken}`,
+                    },
+                });
+
+                if (response.status == 200) {
+                    const data = await response.data.data;
+                    console.log(data);
+                    console.log(data.deliveryList);
+
+                    setItemList(data.deliveryList);
+                    setTotalCount(data.totalCount); // orderName: db에서 아이템리스트 첫번째 아이템 title명 외 totalCount-1
+                    setTotalPrice(data.totalPrice);
+
+                } else {
+                    console.error('장바구니를 가져오는대 실패했습니다.');
+                    throw new Error('장바구니를 가져오는대 실패했습니다.');
+                }
+            } else {
+                console.error('인증되지 않은 사용자가 접근하려 합니다.');
+                throw new Error('인증되지 않은 사용자가 접근하려 합니다.');
+            }
+        } catch (error) {
+            console.error('에러발생..', error);
+            alert('장바구니가 비어있습니다.');
+            navigate('/');
+        }
+    };
+
+
 
     // 팝업창 열기
     const openPostCode = () => {
@@ -50,10 +107,79 @@ const Purchase = () => {
         setDetailAddress(event.target.value);
     };
 
+
+    //--------- 결제 정보 서버에 전송---------------------------------------
+
+    const handlePayment = async () => {
+
+        try {
+            const accessToken = localStorage.getItem('accessToken');
+            const refreshToken = localStorage.getItem('refreshToken');
+            const userId = sessionStorage.getItem('userData2'); // 현재 로그인중인 userId
+            console.log(userId);
+            // itemList , totalPrice, address+''+detailAddress, tel, userName
+            const orderPrice = discountTotalPrice? discountTotalPrice:totalPrice;
+            const receiveAddress = address+' '+detailAddress;
+            const requestData = {itemList , orderPrice, receiveAddress,userName,tel}
+            console.log(requestData);
+
+            const id = userId;
+
+
+            if (accessToken && refreshToken) {
+                const response = await axios.post(`/auth/user/order/${id}`,JSON.stringify(requestData) ,{
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${accessToken}`,
+                        'RefreshToken': `Bearer ${refreshToken}`,
+                    },
+                });
+
+                if (response.status == 200) {
+                    console.log('결제 정보 전송 완료')
+                    console.log(response);
+                    navigate('/payments');
+                } else {
+                    console.error('결제를 실패하였습니다.');
+                    alert('결제를 실패하였습니다.');
+                    navigate('/cart');
+                }
+            } else {
+                console.error('인증되지 않은 사용자가 접근하려 합니다.');
+                throw new Error('인증되지 않은 사용자가 접근하려 합니다.');
+            }
+        } catch (error) {
+            console.error('에러발생..', error);
+            alert('결제 실패. 잠시 후 다시 진행해 주세요.');
+            navigate('/cart');
+        }
+    }
+
+    // --------------------------------------------------------------------------
+
+
+    const handleChangeTel = (event) => {
+        const inputNumber = event.target.value;
+        // 입력된 값이 숫자인지 확인하는 정규식
+        const numericRegex = /^[0-9]+$/;
+
+        if (!numericRegex.test(inputNumber)) {
+            // 숫자가 아닌 문자가 포함된 경우
+            alert('전화번호에는 숫자만 입력해주세요.');
+            setTel(''); // 값 초기화
+        } else {
+            setTel(inputNumber); // 숫자인 경우 상태 업데이트
+        }
+    };
+
+
+    const handleChangeName = (event) => {
+        setUserName(event.target.value);
+    }
     return (
         <React.Fragment>
             <div className="bg-secondary border-top p-4 text-white mb-3">
-                <h1 className="display-6 text-center">Shopping Cart</h1>
+                <h1 className="display-6 text-center">Purchase</h1>
             </div>
             <div className="container mb-3">
                 <div className="row">
@@ -95,7 +221,7 @@ const Purchase = () => {
                                 <dl className="row">
                                     <dt className="col-6">Total:</dt>
                                     <dd className="col-6 text-end h5">
-                                        <strong>{discountTotalPrice}</strong>
+                                        <strong>{discountTotalPrice? discountTotalPrice:totalPrice}</strong>
                                     </dd>
                                 </dl>
                                 <hr/>
@@ -113,6 +239,33 @@ const Purchase = () => {
                      border: "20px solid #ccc", padding: 30
                      , borderRadius: 5, marginBottom: '30px'
                  }}>
+                <InputGroup className="mb-3">
+                    <Button variant="outline-secondary" id="button-addon1" disabled
+                            style={{fontWeight: 'bold', color: "black"}}>
+                        이름
+                    </Button>
+                    <Form.Control
+                        aria-label="Recipient's username"
+                        aria-describedby="basic-addon2"
+                        onChange={handleChangeName}
+                        value={userName}
+                    />
+
+                    <Button variant="outline-secondary" id="button-addon1" disabled
+                            style={{fontWeight: 'bold', color: "black"}}>
+                        전화번호
+                    </Button>
+                    <Form.Control
+                        placeholder="-제외, 전화번호를 입력해주세요."
+                        aria-label="Phone Number"
+                        aria-describedby="basic-addon2"
+                        onChange={handleChangeTel}
+                        value={tel}
+                        style={{ width: "calc(30% - 50px)", marginRight: "30px" }}
+                    />
+                </InputGroup>
+
+
                 <div id='popupDom' className='container mb'>
                     {isPopupOpen && (
                         <PopupDom>
@@ -128,6 +281,7 @@ const Purchase = () => {
                     <Form.Control
                         aria-label="Example text with button addon"
                         aria-describedby="basic-addon1"
+                        onChange={handleAddressChange}
                         value={address}
                     />
                 </InputGroup>
@@ -143,12 +297,14 @@ const Purchase = () => {
                         aria-label="Recipient's username"
                         aria-describedby="basic-addon2"
                         onChange={handleDetailAddressChange}
+                        value={detailAddress}
                     />
                 </InputGroup>
             </div>
             <div className="container mb-3">
               <div className = "offset-md-11">
-                <button>결 제</button>
+                  <Button style={{width :'120%'}} variant="primary" onClick={handlePayment}>결 제</Button>
+
               </div>
             </div>
         </React.Fragment>

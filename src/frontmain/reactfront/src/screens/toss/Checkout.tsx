@@ -1,23 +1,27 @@
-import { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
     PaymentWidgetInstance,
     loadPaymentWidget,
     ANONYMOUS,
 } from "@tosspayments/payment-widget-sdk";
 import { nanoid } from "nanoid";
-
-import "../App.css";
+import "../../App.css";
 
 const selector = "#payment-widget";
-const clientKey = "test_ck_D5GePWvyJnrK0W0k6q8gLzN97Eoq";
-const customerKey = "YbX2HuSlsC9uVJW6NMRMj";
+const clientKey = "test_ck_Z0RnYX2w532mRnklB6P8NeyqApQE";
+const customerKey = "@YbX2HuSlsC9uVJW6NMRMj"; // 회원가입시 생성되게끔 하자. user db에 항상 보관.
 
+// 클라이언트 페이지.
 export function CheckoutPage() {
     const paymentWidgetRef = useRef<PaymentWidgetInstance | null>(null);
-    const paymentMethodsWidgetRef = useRef<ReturnType<PaymentWidgetInstance["renderPaymentMethods"]> | null>(null);
-    const [price, setPrice] = useState(50_000);
+    const paymentMethodsWidgetRef = useRef<ReturnType<
+        PaymentWidgetInstance["renderPaymentMethods"]
+    > | null>(null);
+    const [price, setPrice] = useState(100);
 
     useEffect(() => {
+
+
         (async () => {
             // ------  결제위젯 초기화 ------
             // 비회원 결제에는 customerKey 대신 ANONYMOUS를 사용하세요.
@@ -64,10 +68,10 @@ export function CheckoutPage() {
                     <input
                         type="checkbox"
                         onChange={(event) => {
-                            setPrice(event.target.checked ? price - 5_000 : price + 5_000);
+                            setPrice(event.target.checked ? price - 100 : price + 100);
                         }}
                     />
-                    5,000원 할인 쿠폰 적용
+                    1,00원 할인 쿠폰 적용
                 </label>
             </div>
             <div id="payment-widget" />

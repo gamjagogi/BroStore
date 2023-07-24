@@ -21,10 +21,9 @@ import SoftwarePosting from "./screens/softwareProductPage/Posting"
 import DeliveryPosting from "./screens/deliveryProductPage/DeliveryPosting"
 import "./App.min.css";
 import PurchasePage from "./screens/pay/PurchasePage";
-// import Checkout from "./screens/cart/Checkout";
-import {SuccessPage} from "./screens/pages/SuccessPage";
-import {FailPage} from "./screens/pages/FailPage";
-import {CheckoutPage} from "./screens/pages/CheckoutPage";
+import {SuccessPage} from "./screens/toss/SuccessPage";
+import {FailPage} from "./screens/toss/FailPage";
+import {CheckoutPage} from "./screens/toss/Checkout";
 
 
 const SoftwareListView = lazy(() => import("./screens/softwareProductPage/List"));

@@ -244,7 +244,7 @@ const CartView = () => {
                   <dl className="row">
                     <dt className="col-6">Total:</dt>
                     <dd className="col-6 text-end  h5">
-                      <strong>{discountTotalPrice}</strong>
+                      <strong>{discountTotalPrice? discountTotalPrice:totalPrice}</strong>
                     </dd>
                   </dl>
                   <hr />

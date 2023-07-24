@@ -6,7 +6,7 @@ import {ReactComponent as IconHeartFill} from "bootstrap-icons/icons/heart-fill.
 import {ReactComponent as IconTrash} from "bootstrap-icons/icons/trash.svg";
 
 
-const CartProduct = (props) => {
+const PurchaseProduct = (props) => {
 
     const {item, handleDelete} = props;
     const [count, setCount] = useState(item.count);
@@ -52,4 +52,4 @@ const CartProduct = (props) => {
             </tr>
         )
 }
-export default CartProduct;
+export default PurchaseProduct;
