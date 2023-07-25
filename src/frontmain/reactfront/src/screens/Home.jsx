@@ -147,7 +147,7 @@ class Home extends Component {
                             </Link>
                         </div>
                         <div className="col-md-3">
-                            <Link to="/" className="text-decoration-none">
+                            <Link to="/my" className="text-decoration-none">
                                 <img
                                     src="../../images/category/smartwatch.webp"
                                     className="img-fluid rounded-circle"
