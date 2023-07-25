@@ -25,6 +25,7 @@ import {SuccessPage} from "./screens/toss/SuccessPage";
 import {FailPage} from "./screens/toss/FailPage";
 import {CheckoutPage} from "./screens/toss/Checkout";
 
+import IndexTest from "./my/IndexTest";
 
 const SoftwareListView = lazy(() => import("./screens/softwareProductPage/List"));
 const SoftwareDetailView = lazy(() => import("./screens/softwareProductPage/Detail"));
@@ -112,12 +113,13 @@ function App() {
                         < Route exact path = "/payments" element={<CheckoutPage/>}/>
                         < Route exact path = "/success" element={<SuccessPage/>}/>
                         < Route exact path = "/fail" element={<FailPage/>}/>
+
+                        <Route exact path= "/my" element={<IndexTest/>}/>
                     </Routes>
                 </Suspense>
                 <Footer/>
             </React.Fragment>
         </Router>
-
 
     );
 };
