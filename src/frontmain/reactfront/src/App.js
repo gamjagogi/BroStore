@@ -60,7 +60,12 @@ const MyProfileView = lazy(() => import("./screens/account/MyProfile"));
 function App() {
     return (
         <Router>
+
             <React.Fragment>
+                <Routes>
+                <Route exact path= "/my" element={<IndexTest/>}/>
+                </Routes>
+
                 <Header/>
                 <NavBarElements/>
                 <Suspense
@@ -114,13 +119,11 @@ function App() {
                         < Route exact path = "/success" element={<SuccessPage/>}/>
                         < Route exact path = "/fail" element={<FailPage/>}/>
 
-                        <Route exact path= "/my" element={<IndexTest/>}/>
                     </Routes>
                 </Suspense>
                 <Footer/>
             </React.Fragment>
         </Router>
-
     );
 };
 
