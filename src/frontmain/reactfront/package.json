@@ -48,7 +48,7 @@
   },
   "scripts": {
     "start": "react-scripts start --port 3307",
-    "build": "webpack",
+    "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
