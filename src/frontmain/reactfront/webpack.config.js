@@ -2,7 +2,7 @@ module.exports = {
     mode: "development",
 
     // 엔트리 포인트
-    entry: "./src/index.tsx",
+    entry: "./src/App.js",
 
     // 빌드 결과물을 dist/main.js에 위치
     output: {
