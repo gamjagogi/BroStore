@@ -15,13 +15,25 @@ module.exports = {
 
     resolve: {
         // 파일 확장자 처리
-        extensions: [".ts", ".tsx", ".js",".jsx"],
+        extensions: [".ts", ".tsx", ".js", ".jsx"],
     },
 
     module: {
         rules: [
             // .ts나 .tsx 확장자를 ts-loader가 트랜스파일
             { test: /\.tsx?$/, loader: "ts-loader" },
+
+            // .jsx 확장자를 babel-loader가 트랜스파일
+            {
+                test: /\.jsx?$/,
+                exclude: /node_modules/,
+                use: {
+                    loader: "babel-loader",
+                    options: {
+                        presets: ["@babel/preset-react"],
+                    },
+                },
+            },
         ],
     },
-}
+};
