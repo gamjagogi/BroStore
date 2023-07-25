@@ -9,10 +9,17 @@ module.exports = {
     },
     devtool: "source-map",
     resolve: {
-        extensions: [".js", ".jsx"],
+        extensions: [".ts", ".tsx", ".js", ".jsx"],
     },
     module: {
         rules: [
+            {
+                test: /\.(ts|tsx)$/,
+                exclude: /node_modules/,
+                use: {
+                    loader: "ts-loader",
+                },
+            },
             {
                 test: /\.(js|jsx)$/, // .js와 .jsx 확장자에 대해서
                 exclude: /node_modules/,
