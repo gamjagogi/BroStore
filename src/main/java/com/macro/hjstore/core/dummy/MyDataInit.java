@@ -2,6 +2,8 @@ package com.macro.hjstore.core.dummy;
 
 import com.macro.hjstore.core.exception.Exception404;
 import com.macro.hjstore.model.board.BoardRepository;
+import com.macro.hjstore.model.deliveryProduct.DeliveryRepository;
+import com.macro.hjstore.model.order.OrderRepository;
 import com.macro.hjstore.model.softwareProduct.SoftwareRepository;
 import com.macro.hjstore.model.token.TokenRepository;
 import com.macro.hjstore.model.user.User;
@@ -17,7 +19,8 @@ import org.springframework.stereotype.Component;
 @Component
 public class MyDataInit extends MyDummyEntity{
     @Bean
-    public CommandLineRunner init(UserRepository userRepository, BoardRepository boardRepository, TokenRepository tokenRepository, SoftwareRepository softwareRepository){
+    public CommandLineRunner init(UserRepository userRepository, BoardRepository boardRepository, TokenRepository tokenRepository
+            , SoftwareRepository softwareRepository, OrderRepository orderRepository, DeliveryRepository deliveryRepository){
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         return args -> {
             userRepository.save(User.builder()
@@ -58,6 +61,22 @@ public class MyDataInit extends MyDummyEntity{
             softwareRepository.save(newSoftware("title","https://image-gamja.s3.ap-northeast-2.amazonaws.com/20190622_213755.jpg","content"));
             softwareRepository.save(newSoftware("title2","https://image-gamja.s3.ap-northeast-2.amazonaws.com/20190622_213755.jpg","content2"));
             softwareRepository.save(newSoftware("title3","https://image-gamja.s3.ap-northeast-2.amazonaws.com/20190622_213755.jpg","content3"));
+            orderRepository.save(newOrder("ID_DSDASDSA23_DSDASS","gamja@gmail.com"));
+            orderRepository.save(newOrder("ID_DSDASDSA_DADDDASS","gamja@gmail.com"));
+
+            deliveryRepository.save(newDelivery());
+            deliveryRepository.save(newDelivery());
+            deliveryRepository.save(newDelivery());
+            deliveryRepository.save(newDelivery());
+            deliveryRepository.save(newDelivery());
+            deliveryRepository.save(newDelivery());
+            deliveryRepository.save(newDelivery());
+            deliveryRepository.save(newDelivery());
+            deliveryRepository.save(newDelivery());
+            deliveryRepository.save(newDelivery());
+            deliveryRepository.save(newDelivery());
+            deliveryRepository.save(newDelivery());
+            deliveryRepository.save(newDelivery());
 
         };
     }

@@ -1,15 +1,23 @@
 import React, { useEffect, useRef, useState } from "react";
-import { loadTossPayments } from '@tosspayments/payment-sdk'
-
+import {
+    PaymentWidgetInstance,
+    loadPaymentWidget,
+    ANONYMOUS,
+} from "@tosspayments/payment-widget-sdk";
+import { nanoid } from "nanoid";
 import "../../App.css";
 import axios from "../Request/RequestConfig";
-
+import { useSearchParams } from "react-router-dom";
 const selector = "#payment-widget";
 const clientKey = "test_ck_Z0RnYX2w532mRnklB6P8NeyqApQE";
 const customerKey = "@YbX2HuSlsC9uVJW6NMRMj"; // 회원가입시 생성되게끔 하자. user db에 항상 보관.
 
 // 클라이언트 페이지.
 export function CheckoutPage() {
+
+    const [searchParams] = useSearchParams();
+    const checkingOrderId = searchParams.get("or");
+
     const paymentWidgetRef = useRef(null);
     const paymentMethodsWidgetRef = useRef(null);
     const [price, setPrice] = useState(0);
@@ -23,12 +31,14 @@ export function CheckoutPage() {
         try {
             const accessToken = localStorage.getItem('accessToken');
             const refreshToken = localStorage.getItem('refreshToken');
-            const id = sessionStorage.getItem('userData2')
+            const id = sessionStorage.getItem('userData2');
+            const orderId = checkingOrderId;
+            console.log(orderId);
             console.log(accessToken);
             console.log(refreshToken);
 
             if (accessToken && refreshToken) {
-                const response = await axios.get(`/auth/order/user/${id}`, {
+                const response = await axios.get(`/auth/user/${id}/order/${orderId}`, {
                     headers: {
                         'Content-Type': 'application/json',
                         'Authorization': `Bearer ${accessToken}`,
@@ -39,14 +49,15 @@ export function CheckoutPage() {
                 if (response.status == 200) {
                     const orderSheetData = await response.data;
                     console.log(orderSheetData);
-                    setOrderId(orderSheetData.data.orderId);
+
                     setOrderName(orderSheetData.data.orderName);
                     setCustomerName(orderSheetData.data.customerName);
                     setCustomerEmail(orderSheetData.data.customerEmail);
                     setPrice(orderSheetData.data.price);
+                    setOrderId(orderSheetData.data.orderCode);
 
                 } else {
-                    console.error('게시글을 가져오는데 실패했습니다.');
+                    console.error('결제내역을 가져오는대 실패하였습니다.');
                 }
             } else {
                 console.error('인증되지않은 유저는 접근할 수 없습니다.'); // 토큰 인증 실패
@@ -59,41 +70,50 @@ export function CheckoutPage() {
 
     useEffect(() => {
         getOrderSheet();
+        console.log(price,orderId,orderName,customerName,customerEmail);
     },[])
 
     useEffect(() => {
-        // ------ 클라이언트 키로 객체 초기화 ------
-        loadTossPayments(clientKey).then(tossPayments => {
-            // ------ 결제창 띄우기 ------
-            tossPayments.requestPayment('카드', { // 결제수단 파라미터
-                // 결제 정보 파라미터
-                // 더 많은 결제 정보 파라미터는 결제창 Javascript SDK에서 확인하세요.
-                // https://docs.tosspayments.com/reference/js-sdk
-                amount: 100, // 결제 금액
-                orderId: 'etkIslSuKldH08zfYQQs0', // 주문 ID
-                orderName: '테스트 결제', // 주문명
-                customerName: '김토스', // 구매자 이름
-                successUrl: 'https://docs.tosspayments.com/guides/payment/test-success', // 결제 성공 시 이동할 페이지(이 주소는 예시입니다. 상점에서 직접 만들어주세요.)
-                failUrl: 'https://docs.tosspayments.com/guides/payment/test-fail', // 결제 실패 시 이동할 페이지(이 주소는 예시입니다. 상점에서 직접 만들어주세요.)
-            })
-                // ------ 결제창을 띄울 수 없는 에러 처리 ------
-                // 메서드 실행에 실패해서 reject 된 에러를 처리하는 블록입니다.
-                // 결제창에서 발생할 수 있는 에러를 확인하세요.
-                // https://docs.tosspayments.com/reference/error-codes#결제창공통-sdk-에러
-                .catch(function (error) {
-                    if (error.code === 'USER_CANCEL') {
-                        // 결제 고객이 결제창을 닫았을 때 에러 처리
-                    } else if (error.code === 'INVALID_CARD_COMPANY') {
-                        // 유효하지 않은 카드 코드에 대한 에러 처리
-                    }
-                });
-        });
-    }, [orderId]);
+        console.log(price,orderId,orderName,customerName,customerEmail);
+        (async () => {
+            // ------  결제위젯 초기화 ------
+            // 비회원 결제에는 customerKey 대신 ANONYMOUS를 사용하세요.
+            const paymentWidget = await loadPaymentWidget(clientKey, customerKey); // 회원 결제
+            // const paymentWidget = await loadPaymentWidget(clientKey, ANONYMOUS); // 비회원 결제
 
+            // ------  결제위젯 렌더링 ------
+            // https://docs.tosspayments.com/reference/widget-sdk#renderpaymentmethods선택자-결제-금액-옵션
+            const paymentMethodsWidget = await paymentWidget.renderPaymentMethods(
+                selector,
+                { value: price }
+            );
+
+            // ------  이용약관 렌더링 ------
+            // https://docs.tosspayments.com/reference/widget-sdk#renderagreement선택자
+            paymentWidget.renderAgreement("#agreement");
+
+            paymentWidgetRef.current = paymentWidget;
+            paymentMethodsWidgetRef.current = paymentMethodsWidget;
+        })();
+    }, [getOrderSheet()]);
+
+    useEffect(() => {
+        const paymentMethodsWidget = paymentMethodsWidgetRef.current;
+
+        if (paymentMethodsWidget == null) {
+            return;
+        }
+
+        // ------ 금액 업데이트 ------
+        // https://docs.tosspayments.com/reference/widget-sdk#updateamount결제-금액
+        paymentMethodsWidget.updateAmount(
+            price,
+            paymentMethodsWidget.UPDATE_REASON.COUPON
+        );
+    }, [price]);
 
     return (
         <div>
-            <script src="https://js.tosspayments.com/v1/payment"></script>
             <h1>주문서</h1>
             <span>{`${price.toLocaleString()}원`}</span>
             <div>
@@ -117,10 +137,10 @@ export function CheckoutPage() {
                         // ------ '결제하기' 버튼 누르면 결제창 띄우기 ------
                         // https://docs.tosspayments.com/reference/widget-sdk#requestpayment결제-정보
                         await paymentWidget?.requestPayment({
-                            orderId: {orderId},
-                            orderName: {orderName},
-                            customerName: {customerName},
-                            customerEmail: {customerEmail},
+                            orderId: orderId,
+                            orderName: orderName,
+                            customerName: customerName,
+                            customerEmail: customerEmail,
                             successUrl: `${window.location.origin}/success`,
                             failUrl: `${window.location.origin}/fail`,
                         });

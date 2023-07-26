@@ -17,6 +17,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.ui.Model;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -176,6 +177,23 @@ public class CartController {
         // 로그인 id와 장바구니 삭제하려는 유저의 id가 같지 않는 경우
         else {
             ResponseDTO<?> responseDTO = new ResponseDTO<>(HttpStatus.NOT_FOUND,"로그인 유저정보가 세션 유저가 일치하지않습니다.",id);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(responseDTO);
+        }
+    }
+
+    @GetMapping("/auth/cart/delete/{id}")
+    public ResponseEntity<?>deleteCart(@PathVariable Long id
+            , @AuthenticationPrincipal MyUserDetails userDetails) {
+        if (userDetails.getUser().getId() == id) {
+            User userPS = userService.회원찾기(id);
+            Cart userCart = userPS.getCart();
+            System.out.println("카트가져옴!!"+userCart.toString());
+            cartService.카트삭제(userCart);
+            ResponseDTO<?> responseDTO = new ResponseDTO<>();
+            return ResponseEntity.ok().body(responseDTO);
+
+        } else {
+            ResponseDTO<?> responseDTO = new ResponseDTO<>(HttpStatus.NOT_FOUND, "로그인 유저정보가 세션 유저가 일치하지않습니다.", id);
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(responseDTO);
         }
     }

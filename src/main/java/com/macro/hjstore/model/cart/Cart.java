@@ -20,6 +20,7 @@ public class Cart {
 
 
     @Id
+    @Column(name = "cart_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
@@ -27,9 +28,10 @@ public class Cart {
     @JoinColumn(name="user_id") // 무한 참조
     private User user; // 구매자
 
+    @Column(name = "count")
     private Integer count; // 카트에 담긴 총 상품 개수
 
-    @OneToMany(mappedBy = "cart")
+    @OneToMany(mappedBy = "cart", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<CartItem> cartItems = new ArrayList<>();
 
     private LocalDateTime createdAt;

@@ -49,6 +49,7 @@ public class User {
     private LocalDateTime updatedAt;
 
     @OneToOne(mappedBy = "user", fetch = FetchType.LAZY)
+    @JoinColumn(name="cart_id") // 무한 참조
     private Cart cart;
 
 

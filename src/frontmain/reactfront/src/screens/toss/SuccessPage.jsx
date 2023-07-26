@@ -1,6 +1,7 @@
 import { useSearchParams } from "react-router-dom";
-import React, {useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
+import axios from "../Request/RequestConfig";
 
 export function SuccessPage() {
 
@@ -23,10 +24,79 @@ export function SuccessPage() {
     // basicToken을 만든다. 시크릿키: base64로 인코딩
     // headers: Authorization: `Basic #{basicToken}`, 을 넣어서 토스에 post요청을 보낸다.
     // post요청시 orderId도 같이 보내도록한다. url에 쿼리스트링으로 전달하자.
+    const DeleteCart = async () => {
+
+        try {
+            const accessToken = localStorage.getItem('accessToken');
+            const refreshToken = localStorage.getItem('refreshToken');
+            const id = sessionStorage.getItem("userData2");
+
+            if (accessToken && refreshToken) {
+                const response = await axios.get(`/auth/cart/delete/${id}`,{
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${accessToken}`,
+                        'RefreshToken': `Bearer ${refreshToken}`,
+                    },
+                });
+
+                if (response.status == 200) {
+                    console.log('결제 성공, 장바구니 삭제 완료')
+                    navigate("/")
+                }
+            } else {
+                console.error('인증되지 않은 사용자가 접근하려 합니다.');
+                throw new Error('인증되지 않은 사용자가 접근하려 합니다.');
+            }
+        } catch (error) {
+            console.error('에러발생..', error);
+            alert('결제 실패 및 에러발생, 잠시 후 다시 진행해 주세요.');
+        }
+    }
+
+    const RequestOrderSheet = async () => {
+        try {
+            const accessToken = localStorage.getItem('accessToken');
+            const refreshToken = localStorage.getItem('refreshToken');
+            const id = sessionStorage.getItem('userData2');
+            console.log(accessToken);
+            console.log(refreshToken);
+            console.log(orderId);
+
+            if (accessToken && refreshToken) {
+                const response = await axios.get(`/auth/user/${id}/order/${orderId}`, {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${accessToken}`,
+                        'RefreshToken': `Bearer ${refreshToken}`,
+                    },
+                });
+
+                if (response.status == 200) {
+                    const orderSheetData = await response.data;
+                    console.log(orderSheetData);
+
+                    if(orderSheetData.data.orderCode==orderId){
+                        requestApproval();
+                    }else {
+                        console.error('DB 내, 주문번호가 일차하는 주문번호가 아닙니다.');
+                    }
+
+                } else {
+                    console.error('결제내역을 가져오는대 실패하였습니다.');
+                }
+            } else {
+                console.error('인증되지않은 유저는 접근할 수 없습니다.'); // 토큰 인증 실패
+            }
+        } catch (error) {
+            console.error('에러 발생.', error);
+            alert('잠시 후 다시 결제를 진행해 주세요.');
+        }
+    }
 
 
-    useEffect(() => {
-        requestApproval();
+    useEffect( () => {
+       RequestOrderSheet();
     }, []);
 
 
@@ -50,8 +120,7 @@ export function SuccessPage() {
             if(response.status==200){
                 console.log('성공');
                 console.log(response);
-                navigate('/cart');
-
+                DeleteCart();
             }else {
                 console.log('실패');
                 console.log(response);

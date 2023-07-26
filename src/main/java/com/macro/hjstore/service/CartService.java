@@ -111,4 +111,10 @@ public class CartService {
         userCart.setCount(totalCount);
         cartRepository.save(userCart);
     }
+
+    @MyLog
+    public void 카트삭제(Cart cart){
+        System.out.println("카트삭제직전!!");
+        cartRepository.delete(cart);
+    }
 }

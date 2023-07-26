@@ -30,24 +30,25 @@ public class OrderDTO {
         public Order toEntity(String userEmail){
 
             // 주문 id
-            String orderId = "ID_"+UUID.randomUUID().toString();
-            System.out.println(orderId);
+            String orderCode = "ID_"+UUID.randomUUID().toString();
+            System.out.println(orderCode);
 
             String name = this.itemList.get(0).name;
             System.out.println("orderDTO에서 첫번째 아이템이름:"+name);
-            Integer itemCount = this.itemList.size();
+            Integer itemCount = this.itemList.size() -1;
             // 주문 명
             String orderName = name+" 외, "+itemCount+"개";
 
 
             Order orderPS = Order.builder()
-                    .orderId(orderId)
+                    .orderCode(orderCode)
                     .orderName(orderName)
                     .userName(this.userName)
                     .userEmail(userEmail)
                     .tel(this.tel)
                     .receiveAddress(this.receiveAddress)
                     .orderPrice(this.orderPrice)
+                    .state(true)
                     .build();
             return orderPS;
         }
@@ -90,7 +91,7 @@ public class OrderDTO {
     @Getter
     public static class ResponseOrderSheet{
 
-        private String orderId;
+        private String orderCode;
 
         private String orderName;
 
@@ -102,7 +103,7 @@ public class OrderDTO {
 
         public ResponseOrderSheet(Order order){
 
-            this.orderId = order.getOrderId();
+            this.orderCode = order.getOrderCode();
             this.orderName = order.getOrderName();
             this.customerName = order.getUserName();
             this.customerEmail = order.getUserEmail();

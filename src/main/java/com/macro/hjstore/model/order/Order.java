@@ -19,15 +19,15 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "orderId",nullable = false)
-    private String orderId;
+    @Column(name = "orderCode")
+    private String orderCode;
     @Column(name = "orderName")
     private String orderName;
 
     @Column(name = "username")
     private String userName;
 
-    @Column(name = "email")
+    @Column(name = "userEmail")
     private String userEmail;
 
     @Column(name = "tel")
@@ -39,7 +39,8 @@ public class Order {
     @Column(name = "price")
     private Integer orderPrice;
 
-
+    @Column(name = "state")
+    private boolean state;
 
 
     private LocalDateTime createdAt;
@@ -50,15 +51,16 @@ public class Order {
     }
 
     @Builder
-    public Order(Long id, String orderId, String orderName, String userName,String email, String tel, String receiveAddress, Integer orderPrice, LocalDateTime createdAt) {
+    public Order(Long id, String orderCode, String orderName, String userName,String email, String tel, String receiveAddress, Integer orderPrice, boolean state,LocalDateTime createdAt) {
         this.id = id;
-        this.orderId = orderId;
+        this.orderCode = orderCode;
         this.orderName = orderName;
         this.userName = userName;
         this.userEmail = email;
         this.tel = tel;
         this.receiveAddress = receiveAddress;
         this.orderPrice = orderPrice;
+        this.state = state;
         this.createdAt = createdAt;
     }
 }

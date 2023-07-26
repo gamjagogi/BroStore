@@ -20,12 +20,13 @@ import Header from "./components/Header";
 import SoftwarePosting from "./screens/softwareProductPage/Posting"
 import DeliveryPosting from "./screens/deliveryProductPage/DeliveryPosting"
 import "./App.min.css";
-import PurchasePage from "./screens/pay/PurchasePage";
+import PurchasePage from "./screens/order/PurchasePage";
 import {SuccessPage} from "./screens/toss/SuccessPage";
 import {FailPage} from "./screens/toss/FailPage";
 import {CheckoutPage} from "./screens/toss/Checkout";
 
 import IndexTest from "./my/IndexTest";
+//import OrderSheet from "./screens/order/OrderSheet";
 
 const SoftwareListView = lazy(() => import("./screens/softwareProductPage/List"));
 const SoftwareDetailView = lazy(() => import("./screens/softwareProductPage/Detail"));
@@ -47,15 +48,13 @@ const InternalServerErrorView = lazy(() => import("./screens/pages/500"));
 const ContactUsView = lazy(() => import("./screens/pages/ContactUs"));
 const UserBoard = lazy(() => import("./screens/userBoard/UserBoard"));
 
-
-
+const OrderSheet = lazy(() => import("./screens/order/OrderSheet"));
 
 const ForgotPasswordView = lazy(() => import("./screens/account/ForgotPassword"));
-const OrdersView = lazy(() => import("./screens/account/Orders"));
 const WishlistView = lazy(() => import("./screens/account/Wishlist"));
 const NotificationView = lazy(() => import("./screens/account/Notification"));
 const MyProfileView = lazy(() => import("./screens/account/MyProfile"));
-
+//const OrdersView = lazy(() => import("./screens/account/Orders"));
 
 function App() {
     return (
@@ -81,7 +80,7 @@ function App() {
                             element={<ForgotPasswordView/>}
                         />
                         <Route exact path="/account/profile" element={<MyProfileView/>}/>
-                        <Route exact path="/account/orders" element={<OrdersView/>}/>
+                        <Route exact path="/account/orders" element={<OrderSheet/>}/>
                         <Route exact path="/account/wishlist" element={<WishlistView/>}/>
                         <Route
                             exact

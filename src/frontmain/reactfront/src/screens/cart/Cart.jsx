@@ -28,6 +28,12 @@ const CartView = () => {
     alert(JSON.stringify(values));
   };
 
+  useEffect(() => {
+    onCartPage();
+  }, []);
+
+
+
 
   const handleCountChange = async(cartItem, count) => {
 
@@ -116,10 +122,6 @@ const CartView = () => {
       navigate('/cart');
     }
   }
-
-  useEffect(() => {
-    onCartPage();
-  }, []);
 
 
 

@@ -137,8 +137,9 @@ const Purchase = () => {
 
                 if (response.status == 200) {
                     console.log('결제 정보 전송 완료')
-                    console.log(response);
-                    navigate('/payments');
+                    console.log(response.data);
+                    const value = response.data; // orderId
+                    navigate(`/payments?or=${value}`);
                 } else {
                     console.error('결제를 실패하였습니다.');
                     alert('결제를 실패하였습니다.');
