@@ -1,7 +1,6 @@
 package com.macro.hjstore.model.order;
 
-import com.macro.hjstore.model.user.User;
-import lombok.AllArgsConstructor;
+
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,7 +10,6 @@ import java.time.LocalDateTime;
 
 @Builder
 @NoArgsConstructor
-@AllArgsConstructor
 @Getter
 @Entity
 @Table(name = "order_tb")
@@ -26,9 +24,23 @@ public class Order {
     @Column(name = "orderName")
     private String orderName;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
-    private User user;
+    @Column(name = "username")
+    private String userName;
+
+    @Column(name = "email")
+    private String userEmail;
+
+    @Column(name = "tel")
+    private String tel;
+
+    @Column(name = "address")
+    private String receiveAddress;
+
+    @Column(name = "price")
+    private Integer orderPrice;
+
+
+
 
     private LocalDateTime createdAt;
 
@@ -38,10 +50,15 @@ public class Order {
     }
 
     @Builder
-    public Order(Long id, String orderId, String orderName,User user) {
+    public Order(Long id, String orderId, String orderName, String userName,String email, String tel, String receiveAddress, Integer orderPrice, LocalDateTime createdAt) {
         this.id = id;
         this.orderId = orderId;
         this.orderName = orderName;
-        this.user = user;
+        this.userName = userName;
+        this.userEmail = email;
+        this.tel = tel;
+        this.receiveAddress = receiveAddress;
+        this.orderPrice = orderPrice;
+        this.createdAt = createdAt;
     }
 }

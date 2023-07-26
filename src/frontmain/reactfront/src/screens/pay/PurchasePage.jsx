@@ -127,7 +127,7 @@ const Purchase = () => {
 
 
             if (accessToken && refreshToken) {
-                const response = await axios.post(`/auth/user/order/${id}`,JSON.stringify(requestData) ,{
+                const response = await axios.post(`/auth/order/save/${id}`,JSON.stringify(requestData) ,{
                     headers: {
                         'Content-Type': 'application/json',
                         'Authorization': `Bearer ${accessToken}`,

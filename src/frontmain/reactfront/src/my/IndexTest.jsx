@@ -4,7 +4,8 @@ export default function IndexTest() {
 
     return(
         <div className='container'>
-            <img style={{width:'700px'}} src="images/my/main.jpg" alt="mainPage" />
+            <img style={{width:'600px'}} src="images/my/main.jpg" alt="mainPage" />
+            <button id='col-1'> ; </button>
         </div>
     )
 }

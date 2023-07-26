@@ -1,6 +1,7 @@
 package com.macro.hjstore.core.dummy;
 
 import com.macro.hjstore.model.board.Board;
+import com.macro.hjstore.model.order.Order;
 import com.macro.hjstore.model.softwareProduct.Software;
 import com.macro.hjstore.model.user.User;
 import com.macro.hjstore.model.user.UserRole;
@@ -47,5 +48,17 @@ public class MyDummyEntity{
                 .description(description)
                 .build();
         return softwarePS;
+    }
+
+    public Order newOrder(String orderId,String userEmail){
+        Order orderPS = Order.builder()
+                .orderId(orderId)
+                .orderName("라면 외 3개")
+                .tel("0103231234")
+                .receiveAddress("서울 서초구 가로 감자빌딩")
+                .orderPrice(1000)
+                .userEmail(userEmail)
+                .build();
+        return orderPS;
     }
 }

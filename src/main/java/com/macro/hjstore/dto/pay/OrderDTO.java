@@ -3,7 +3,10 @@ package com.macro.hjstore.dto.pay;
 
 import com.macro.hjstore.model.order.Order;
 import com.macro.hjstore.model.user.User;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.List;
 import java.util.UUID;
@@ -24,24 +27,32 @@ public class OrderDTO {
 
         private String tel;
 
-        public Order toEntity(User user){
+        public Order toEntity(String userEmail){
 
+            // 주문 id
             String orderId = "ID_"+UUID.randomUUID().toString();
+            System.out.println(orderId);
 
             String name = this.itemList.get(0).name;
             System.out.println("orderDTO에서 첫번째 아이템이름:"+name);
             Integer itemCount = this.itemList.size();
+            // 주문 명
             String orderName = name+" 외, "+itemCount+"개";
 
 
             Order orderPS = Order.builder()
                     .orderId(orderId)
                     .orderName(orderName)
-                    .user(user)
+                    .userName(this.userName)
+                    .userEmail(userEmail)
+                    .tel(this.tel)
+                    .receiveAddress(this.receiveAddress)
+                    .orderPrice(this.orderPrice)
                     .build();
             return orderPS;
         }
     }
+
 
     @Getter
     public static class OrderItem{
@@ -73,5 +84,29 @@ public class OrderDTO {
         private Long cartItemId;
 
         private Integer count; // cartItem 갯수(장바구니 상품 갯수)
+
+    }
+
+    @Getter
+    public static class ResponseOrderSheet{
+
+        private String orderId;
+
+        private String orderName;
+
+        private String customerName;
+
+        private String customerEmail;
+
+        private Integer price;
+
+        public ResponseOrderSheet(Order order){
+
+            this.orderId = order.getOrderId();
+            this.orderName = order.getOrderName();
+            this.customerName = order.getUserName();
+            this.customerEmail = order.getUserEmail();
+            this.price = order.getOrderPrice();
+        }
     }
 }

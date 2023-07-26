@@ -1,7 +1,7 @@
 package com.macro.hjstore.model.user;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.macro.hjstore.model.cart.Cart;
+import com.macro.hjstore.model.order.Order;
 import lombok.*;
 
 import javax.persistence.*;
@@ -51,6 +51,7 @@ public class User {
     @OneToOne(mappedBy = "user", fetch = FetchType.LAZY)
     private Cart cart;
 
+
     public void changeProfile(String profile) {
         this.profile = profile;
     }
@@ -83,10 +84,11 @@ public class User {
     }
 
     @Builder
-    public User(Long id,String email, String password, UserRole role, String username, String birth, Boolean status, LocalDateTime createdAt, LocalDateTime updatedAt,Cart cart) {
+    public User(Long id, String email, String password, String profile, UserRole role, String username, String birth, Boolean status, LocalDateTime createdAt, LocalDateTime updatedAt, Cart cart) {
         this.id = id;
         this.email = email;
         this.password = password;
+        this.profile = profile;
         this.role = role;
         this.username = username;
         this.birth = birth;

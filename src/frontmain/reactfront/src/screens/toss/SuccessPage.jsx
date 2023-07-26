@@ -30,6 +30,9 @@ export function SuccessPage() {
     }, []);
 
 
+
+
+
     const requestApproval = async () => {
         try{
             const response = await fetch('https://api.tosspayments.com/v1/payments/confirm',{
