@@ -72,7 +72,8 @@ const OrderSheet = () => {
                 if (response.status == 200) {
                     console.log('주문목록 삭제 완료')
                     console.log(response.data);
-                    navigate("/account/orders");
+                    alert('상품이 취소처리 될 예정입니다.');
+                    window.location.reload();
                 }
             } else {
                 console.error('인증되지 않은 사용자가 접근하려 합니다.');

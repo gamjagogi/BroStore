@@ -16,11 +16,12 @@ import java.time.LocalDateTime;
 public class Order {
 
     @Id
+    @Column(name ="order_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "orderCode")
     private String orderCode;
+
     @Column(name = "orderName")
     private String orderName;
 
@@ -48,6 +49,10 @@ public class Order {
     @PrePersist
     protected void onCreate(){
         this.createdAt = LocalDateTime.now();
+    }
+
+    public void setState(boolean state){
+        this.state = state;
     }
 
     @Builder

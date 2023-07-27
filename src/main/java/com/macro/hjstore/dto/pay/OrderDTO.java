@@ -86,6 +86,26 @@ public class OrderDTO {
 
         private Integer count; // cartItem 갯수(장바구니 상품 갯수)
 
+        public OrderItem(Long id, String sku, String link, String name, String thumbnail, Integer price, Integer originPrice, Integer discountPrice, Integer discountPercentage, boolean isNew, boolean isHot, Integer star, boolean isFreeShipping, String description, String soldBy, String category, Long cartItemId, Integer count) {
+            this.id = id;
+            this.sku = sku;
+            this.link = link;
+            this.name = name;
+            this.thumbnail = thumbnail;
+            this.price = price;
+            this.originPrice = originPrice;
+            this.discountPrice = discountPrice;
+            this.discountPercentage = discountPercentage;
+            this.isNew = isNew;
+            this.isHot = isHot;
+            this.star = star;
+            this.isFreeShipping = isFreeShipping;
+            this.description = description;
+            this.soldBy = soldBy;
+            this.category = category;
+            this.cartItemId = cartItemId;
+            this.count = count;
+        }
     }
 
     @Getter
@@ -108,6 +128,16 @@ public class OrderDTO {
             this.customerName = order.getUserName();
             this.customerEmail = order.getUserEmail();
             this.price = order.getOrderPrice();
+        }
+    }
+
+    @Getter
+    public static class DeleteOrder{
+
+        private String orderId;
+
+        public DeleteOrder(String orderId) {
+            this.orderId = orderId;
         }
     }
 }

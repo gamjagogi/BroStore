@@ -41,12 +41,20 @@ public class OrderService {
 
     @MyLog
     public void 주문목록삭제(String orderCode){
+        System.out.println("주문서찾기직전!");
+        Order orderPS = orderRepository.findByOrderId(orderCode)
+                .orElseThrow(()-> new Exception404("해당 주문목록을 찾을 수 없습니다."));
+        orderRepository.delete(orderPS);
+    }
+
+    @MyLog
+    public void 주문상태변경(String orderCode){
 
         System.out.println("주문서찾기직전!");
         Order orderPS = orderRepository.findByOrderId(orderCode)
                 .orElseThrow(()-> new Exception404("해당 주문목록을 찾을 수 없습니다."));
-        System.out.println("주문서찾음 삭제직전!");
-        orderRepository.delete(orderPS);
+        orderPS.setState(false);
+        orderRepository.save(orderPS);
     }
 
     @MyLog

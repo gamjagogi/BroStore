@@ -59,12 +59,13 @@ public class OrderController {
     }
 
     @PostMapping("/auth/order/delete/{id}")
-    public ResponseEntity<?> deleteOrderSheet(@PathVariable("id") Long id, @RequestBody String orderId
+    public ResponseEntity<?> cancelOrder(@PathVariable("id") Long id, @RequestBody OrderDTO.DeleteOrder deleteOrder
             , @AuthenticationPrincipal MyUserDetails userDetails, Errors errors) {
         if (userDetails.getUser().getId() == id) {
-            String orderCode = orderId;
+            String orderCode = deleteOrder.getOrderId();
+
             System.out.println("주문id: "+orderCode);
-            orderService.주문목록삭제(orderCode);
+            orderService.주문상태변경(orderCode);
             ResponseDTO responseDTO = new ResponseDTO<>();
             return ResponseEntity.ok().body(responseDTO);
         } else {
@@ -88,8 +89,8 @@ public class OrderController {
         }
     }
 
-    @PostMapping("/auth/order/cancel/{id}")
-    public ResponseEntity<?>canselOrder(){
-
-    }
+//    @PostMapping("/auth/order/cancel/{id}")
+//    public ResponseEntity<?>canselOrder(){
+//
+//    }
 }
