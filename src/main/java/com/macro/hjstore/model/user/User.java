@@ -43,10 +43,17 @@ public class User {
     @Column(name = "status",nullable = false)
     private Boolean status; // true 계정활성화, false 계정비활성
 
+    @Column(name = "provider", nullable = true)
+    private String provider;
+
+    @Column(name = "customer_key", nullable = true)
+    private String customerKey;
+
     @Column(name = "created_at")
     private LocalDateTime createdAt;
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
+
 
     @OneToOne(mappedBy = "user", fetch = FetchType.LAZY)
     @JoinColumn(name="cart_id") // 무한 참조
@@ -85,7 +92,7 @@ public class User {
     }
 
     @Builder
-    public User(Long id, String email, String password, String profile, UserRole role, String username, String birth, Boolean status, LocalDateTime createdAt, LocalDateTime updatedAt, Cart cart) {
+    public User(Long id, String email, String password, String profile, UserRole role, String username, String birth, Boolean status, String provider,String customerKey, LocalDateTime createdAt, LocalDateTime updatedAt, Cart cart) {
         this.id = id;
         this.email = email;
         this.password = password;
@@ -94,6 +101,8 @@ public class User {
         this.username = username;
         this.birth = birth;
         this.status = status;
+        this.provider = provider;
+        this.customerKey = customerKey;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
         this.cart = cart;

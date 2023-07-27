@@ -20,9 +20,12 @@ public class UserResponse {
 
         private Long userId;
 
-        public LoginOutDTO(String email, Long userId) {
-            this.username = email;
+        private String userRole;
+
+        public LoginOutDTO(String username, Long userId, String userRole) {
+            this.username = username;
             this.userId = userId;
+            this.userRole = userRole;
         }
     }
 }

@@ -29,6 +29,8 @@ public class MyDataInit extends MyDummyEntity{
                     .role(UserRole.ROLE_ADMIN)
                     .username("김만수르")
                     .birth("950406")
+                    .provider("kakao")
+                    .customerKey("ID_DSDASAD2322DSA")
                     .status(true)
                     .build());
             userRepository.save(User.builder()
@@ -37,14 +39,18 @@ public class MyDataInit extends MyDummyEntity{
                     .role(UserRole.ROLE_ADMIN)
                     .username("김피자")
                     .birth("950206")
+                    .provider("kakao_dsadascsadsa")
+                    .customerKey("ID_DSZXCXS322DSA")
                     .status(true)
                     .build());
             userRepository.save(User.builder()
                     .email("goguma@gmail.com")
                     .password(passwordEncoder.encode("1234"))
-                    .role(UserRole.ROLE_ADMIN)
+                    .role(UserRole.ROLE_USER)
                     .username("김고구마")
                     .birth("950506")
+                    .provider("kakao_dsadsascxzss")
+                    .customerKey("ID_DSDADSQQ22DSA")
                     .status(true)
                     .build());
             boardRepository.save(newBoard("rog ally","rog ally nice",userRepository.findByEmail("gamja@gmail.com").orElseThrow( () -> new Exception404("작성자가 없습니다."))));

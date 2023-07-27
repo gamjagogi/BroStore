@@ -26,7 +26,7 @@ import {FailPage} from "./screens/toss/FailPage";
 import {CheckoutPage} from "./screens/toss/Checkout";
 
 import IndexTest from "./my/IndexTest";
-//import OrderSheet from "./screens/order/OrderSheet";
+import KakaoLogin from "./screens/Login/KakaoLogin"
 
 const SoftwareListView = lazy(() => import("./screens/softwareProductPage/List"));
 const SoftwareDetailView = lazy(() => import("./screens/softwareProductPage/Detail"));
@@ -35,7 +35,6 @@ const StarZoneView = lazy(() => import("./screens/softwareProductPage/StarZone")
 const DeliveryListView = lazy(() => import("./screens/deliveryProductPage/DeliveryList"))
 const DeliveryDetailView = lazy(() => import("./screens/deliveryProductPage/DeliveryDetail"))
 const DeliveryStarZoneView = lazy(() => import("./screens/deliveryProductPage/DeliveryStarZone"))
-
 
 
 const Home = lazy(() => import("./screens/Home"));
@@ -59,7 +58,6 @@ const MyProfileView = lazy(() => import("./screens/account/MyProfile"));
 function App() {
     return (
         <Router>
-
             <React.Fragment>
                 <Routes>
                 <Route exact path= "/my" element={<IndexTest/>}/>
@@ -88,6 +86,7 @@ function App() {
                             element={<NotificationView/>}
                         />
                         <Route exact path="/login" element={<LoginPage/>}/>
+                        <Route exact path ="/auth" element={<KakaoLogin/>}/>
                         <Route exact path="/about" element={<About/>}/>
                         <Route exact path="/board" element={<UserBoard/>}/>
                         <Route exact path="/software" element={<SoftwareListView/>}/>
@@ -117,6 +116,7 @@ function App() {
                         < Route exact path = "/payments" element={<CheckoutPage/>}/>
                         < Route exact path = "/success" element={<SuccessPage/>}/>
                         < Route exact path = "/fail" element={<FailPage/>}/>
+
 
                     </Routes>
                 </Suspense>

@@ -89,8 +89,4 @@ public class OrderController {
         }
     }
 
-//    @PostMapping("/auth/order/cancel/{id}")
-//    public ResponseEntity<?>canselOrder(){
-//
-//    }
 }

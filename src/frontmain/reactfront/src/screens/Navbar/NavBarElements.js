@@ -1,10 +1,20 @@
-import React from 'react'
+import React, {useEffect,useState} from 'react'
 import { Navbar, Container, Nav, NavDropdown } from "react-bootstrap";
 import UserHeader from './UserHeader';
 import "./NavBarElements.css";
 
 
 const NavBarElements = () => {
+    const [isManager, setIsManager] = useState(false);
+    const userDataString = sessionStorage.getItem('userRole');
+    const userRole = userDataString ? JSON.parse(userDataString) : null;
+    useEffect(() => {
+        if (userRole=="ROLE_ADMIN"||userRole=="ROLE_MANAGER") {
+            setIsManager(true);
+            console.log(userDataString);
+        }
+    }, [userRole]);
+
     return (
         <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
             <Container>
@@ -28,6 +38,7 @@ const NavBarElements = () => {
                         <Nav.Link eventKey={2} href="#memes">
                             Documentation
                         </Nav.Link>
+                        {isManager ? (<Nav.Link href="#deets">SellerPage</Nav.Link>):''}
                     </Nav>
                 </Navbar.Collapse>
             </Container>

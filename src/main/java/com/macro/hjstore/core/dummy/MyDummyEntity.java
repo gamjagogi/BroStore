@@ -10,7 +10,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 
 public class MyDummyEntity{
-    public User newUser(String email, String username, UserRole userRole, String birth){
+    public User newUser(String email, String username, UserRole userRole, String birth,String customerKey){
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         User userPS = User.builder()
                 .email(email)
@@ -18,6 +18,7 @@ public class MyDummyEntity{
                 .username(username)
                 .role(userRole)
                 .birth(birth)
+                .provider("kakao")
                 .status(true)
                 .build();
         return userPS;

@@ -24,6 +24,15 @@ public class UserRequest {
         private String password;
 
     }
+    @Getter
+    public static class LoginKakao{
+        @NotEmpty
+        private String code;
+
+        public LoginKakao(String code) {
+            this.code = code;
+        }
+    }
 
     @Getter
     @Setter
@@ -41,7 +50,6 @@ public class UserRequest {
         private String username;
 
         @NotEmpty
-        @Size(min = 10, max = 10, message = "10자리로 입력해주세요")
         private String birth;
 
         public User toEntity(){

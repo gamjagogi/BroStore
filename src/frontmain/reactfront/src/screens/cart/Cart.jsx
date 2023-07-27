@@ -165,8 +165,6 @@ const CartView = () => {
       }
     } catch (error) {
       console.error('에러발생..', error);
-      alert('장바구니가 비어있습니다.');
-      navigate('/');
     }
   };
 

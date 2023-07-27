@@ -9,6 +9,7 @@ import {ReactComponent as IconHeartFill} from "bootstrap-icons/icons/heart-fill.
 import {ReactComponent as IconBellFill} from "bootstrap-icons/icons/bell-fill.svg";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faUser} from "@fortawesome/free-solid-svg-icons";
+import axios from "axios";
 
 const Header = () => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -25,14 +26,26 @@ const Header = () => {
         navigate('/login');
     };
 
-    // 로그아웃 상태 변경 함수
-    const handleLogout = () => {
-        setIsLoggedIn(false);
-        setUserName('');
-        sessionStorage.removeItem('userData');
-        localStorage.removeItem('accessToken');
-        localStorage.removeItem('refreshToken');
-        alert('로그아웃 성공')
+// 로그아웃 상태 변경 함수
+    const handleLogout = async () => {
+        try {
+            const response = await axios.post('/auth/logout');
+            if (response.status === 200) {
+                console.log('로그아웃 성공');
+                // 로그아웃 후 원하는 동작을 수행하거나 홈 화면 등으로 이동할 수 있습니다.
+                setIsLoggedIn(false);
+                setUserName('');
+                sessionStorage.removeItem('userData');
+                sessionStorage.removeItem('userData2');
+                sessionStorage.removeItem('userRole');
+                localStorage.removeItem('accessToken');
+                localStorage.removeItem('refreshToken');
+                alert('로그아웃 성공')
+                window.location.reload();
+            }
+        } catch (error) {
+            console.error('로그아웃 에러', error);
+        }
     };
 
     const handleJoin = () => {
