@@ -106,7 +106,7 @@ public class UserController {
         // 6. 있으면 그 user 정보로 session 만들어주고, (자동로그인) (X)
         if(userPS != null){
             System.out.println("디버그 : 회원정보가 있어서 로그인을 바로 진행합니다");
-            Pair<String,String>tokenUS = userService.카카오인증후토큰만들기(userPS,kakaoToken);
+            Pair<String,String>tokenUS = userService.카카오인증후토큰만들기(userPS);
             //checkpoint : loginOutDTO를 다시 만들어라.
             UserResponse.LoginOutDTO loginOutDTO = userService.이메일로회원조회(userPS.getEmail());
 
@@ -116,6 +116,8 @@ public class UserController {
             headers.add("Access-Control-Expose-Headers", "access-token, refresh-token"); // 추가
             headers.add("access-token", tokenUS.getFirst());
             headers.add("refresh-token", tokenUS.getSecond());
+            headers.add("kakao-access-token",kakaoToken.getAccessToken());
+            headers.add("kakao-refresh-token",kakaoToken.getRefreshToken());
 
             String accessToken = headers.getFirst("access-token");
             System.out.println("Access Token: " + accessToken);
@@ -130,7 +132,7 @@ public class UserController {
         // 7. 없으면 강제 회원가입 시키고, 그 정보로 session 만들어주고, (자동로그인)
         if(userPS == null){
             System.out.println("디버그 : 회원정보가 없어서 회원가입 후 로그인을 바로 진행합니다");
-            Pair<String,String>tokenUS = userService.카카오인증가입후토큰만들기(email,kakaoToken);
+            Pair<String,String>tokenUS = userService.카카오인증가입후토큰만들기(email);
 
             UserResponse.LoginOutDTO loginOutDTO = userService.이메일로회원조회(email);
 
@@ -140,6 +142,8 @@ public class UserController {
             headers.add("Access-Control-Expose-Headers", "access-token, refresh-token"); // 추가
             headers.add("access-token", tokenUS.getFirst());
             headers.add("refresh-token", tokenUS.getSecond());
+            headers.add("kakao-access-token",kakaoToken.getAccessToken());
+            headers.add("kakao-refresh-token",kakaoToken.getRefreshToken());
 
             String accessToken = headers.getFirst("access-token");
             System.out.println("Access Token: " + accessToken);
@@ -161,13 +165,14 @@ public class UserController {
         return ResponseEntity.ok().build();
     }
 
-    @PostMapping("/auth/logout/{id}")
-    @Transactional
-    public ResponseEntity<?> logOut(@PathVariable("id")Long id, @AuthenticationPrincipal MyUserDetails userDetails, Errors errors) {
-        if (userDetails.getUser().getId() == id) {
-            return ResponseEntity.ok().build();
-        } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        }
-    }
+//    @PostMapping("/auth/logout/{id}")
+//    @Transactional
+//    public ResponseEntity<?> logOut(@PathVariable("id")Long id, @AuthenticationPrincipal MyUserDetails userDetails, Errors errors) {
+//        if (userDetails.getUser().getId() == id) {
+//            System.out.println("로그아웃 성공");
+//            return ResponseEntity.ok().build();
+//        } else {
+//            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+//        }
+//    }
 }

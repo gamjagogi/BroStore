@@ -133,10 +133,10 @@ public class MySecurityConfig {
                     }
                 })  // 로그아웃 핸들러 추가
                 .logoutSuccessHandler((request, response, authentication) -> {
+                    System.out.println("로그아웃 처리완료");
                     response.setStatus(200);
                 }) // 로그아웃 성공 핸들러
                 .deleteCookies("remember-me"); // 로그아웃 후 삭제할 쿠키 지정
-        System.out.println("로그아웃 처리완료");
         return http.build();
     }
 

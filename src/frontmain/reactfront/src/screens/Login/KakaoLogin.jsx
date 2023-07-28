@@ -1,8 +1,9 @@
 import React, {useEffect, useState} from "react"
 import axios from "../Request/RequestConfig";
 import {useNavigate} from "react-router-dom";
-
+import { useHistory } from "react-router-dom";
 const KakaoLogin = () => {
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
     const code = new URL(window.location.href).searchParams.get("code");
     const [loginError,setLoginError] = useState('');
     const navigate = useNavigate;
@@ -11,6 +12,13 @@ const KakaoLogin = () => {
         console.log(code);
         requestAuthorize(code);
     }, [code]);
+
+    useEffect(() => {
+        // isLoggedIn이 true로 변경되면 "/" 페이지로 이동
+        if (isLoggedIn) {
+            history.push("/"); // history.push를 사용하여 페이지 이동
+        }
+    }, [isLoggedIn, history]);
 
     const requestAuthorize = async (props) => {
 
@@ -26,6 +34,8 @@ const KakaoLogin = () => {
                 // 로그인 성공 시 처리할 작업
                 const accessToken = response.headers.get('access-token');
                 const refreshToken = response.headers.get('refresh-token');
+                const kakaoAccessToken = response.headers.get('kakao-access-token');
+                const kakaoRefreshToken = response.headers.get('kakao-refresh-token');
 
                 console.log(accessToken);
 
@@ -44,9 +54,11 @@ const KakaoLogin = () => {
                 // 액세스 토큰과 리프레시 토큰을 localStorage에 저장
                 localStorage.setItem('accessToken', accessToken);
                 localStorage.setItem('refreshToken', refreshToken);
-                //gamja@gmail.com
-                navigate('/');
-                window.location.reload();
+                localStorage.setItem('kakaoAccessToken', kakaoAccessToken);
+                localStorage.setItem('kakaoRefreshToken', kakaoRefreshToken);
+                console.log('토큰저장완료, 이제 홈으로');
+                setIsLoggedIn(true);
+
             } else {
                 // 로그인 실패 시 처리할 작업
                 setLoginError('로그인에 실패했습니다. 다시 시도해주세요.');
@@ -58,9 +70,10 @@ const KakaoLogin = () => {
     };
 
     return(
-        <div>
-            <span>로그인 중..</span>
+        <div className="bg-info bg-gradient p-3 text-center mb-3">
+            <h4 className="m-0">로그인 중..</h4>
         </div>
+
     )
 }
 export default KakaoLogin;

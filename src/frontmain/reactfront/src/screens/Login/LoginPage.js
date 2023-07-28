@@ -5,6 +5,7 @@ import axios from '../Request/RequestConfig.js';
 
 
 const LoginPage = () => {
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [loginError, setLoginError] = useState('');
@@ -67,6 +68,7 @@ const LoginPage = () => {
                 // 액세스 토큰과 리프레시 토큰을 localStorage에 저장
                 localStorage.setItem('accessToken', accessToken);
                 localStorage.setItem('refreshToken', refreshToken);
+                setIsLoggedIn(true);
                 //gamja@gmail.com
                 navigate('/');
                 window.location.reload();

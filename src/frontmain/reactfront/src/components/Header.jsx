@@ -41,6 +41,8 @@ const Header = () => {
                 sessionStorage.removeItem('userRole');
                 localStorage.removeItem('accessToken');
                 localStorage.removeItem('refreshToken');
+                localStorage.removeItem('kakaoAccessToken');
+                localStorage.removeItem('kakaoRefreshToken');
                 alert('로그아웃 성공')
                 window.location.reload();
             }

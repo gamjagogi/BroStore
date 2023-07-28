@@ -79,7 +79,7 @@ public class UserService {
 
 
     @MyLog
-    public Pair<String, String> 카카오인증후토큰만들기(User user, KakaoToken kakaoToken) {
+    public Pair<String, String> 카카오인증후토큰만들기(User user) {
         try {
 
             // 이부분 수정해야댐!!!!!!! 7/28 해야될것!!!
@@ -111,7 +111,7 @@ public class UserService {
     }
 
     @MyLog
-    public Pair<String, String> 카카오인증가입후토큰만들기(String email, KakaoToken kakaoToken) {
+    public Pair<String, String> 카카오인증가입후토큰만들기(String email) {
         try {
             BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
             String customerKey = "ID_" + UUID.randomUUID().toString();
