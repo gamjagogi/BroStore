@@ -1,11 +1,14 @@
 package com.macro.hjstore.controller;
 
+import com.macro.hjstore.core.auth.session.MyUserDetails;
 import com.macro.hjstore.dto.ResponseDTO;
 import com.macro.hjstore.dto.shop.DeliveryRequestDTO;
 import com.macro.hjstore.dto.shop.DeliveryResponseDTO;
 import com.macro.hjstore.service.DeliveryService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
@@ -65,8 +68,8 @@ public class DeliveryShopController {
         return ResponseEntity.ok().body(responseDTO);
     }
 
-    @PostMapping("/manager/delivery/save")
-    public ResponseEntity<?> save(@RequestBody @Valid DeliveryRequestDTO.Save saveDTO, Errors errors){
+    @PostMapping("/manager/delivery/save/{id}")
+    public ResponseEntity<?> save(@PathVariable("id")Long id,@RequestBody @Valid DeliveryRequestDTO.Save saveDTO, Errors errors){
 
         System.out.println("진입");
         if (errors.hasErrors()) {
@@ -84,9 +87,25 @@ public class DeliveryShopController {
         }
 
         System.out.println("저장하기직전");
-        deliveryService.게시글저장하기(saveDTO);
+        deliveryService.게시글저장하기(id,saveDTO);
 
         ResponseDTO<?>responseDTO = new ResponseDTO<>();
         return ResponseEntity.ok().body(responseDTO);
+    }
+
+    @GetMapping("/manager/orders/{id}")
+    public ResponseEntity<?> saleProduct(@PathVariable("id") Long id
+            ,@AuthenticationPrincipal MyUserDetails userDetails){
+        if (userDetails.getUser().getId() == id) {
+            System.out.println("진입!!");
+            List<DeliveryResponseDTO>sellingList = deliveryService.판매상품가져오기(id);
+            System.out.println(sellingList);
+            System.out.println("판매상품 찾기완료"+ sellingList.get(0).getName());
+            ResponseDTO<?> responseDTO = new ResponseDTO<>(sellingList);
+            return ResponseEntity.ok().body(responseDTO);
+        } else {
+            System.out.println("실패!!");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
     }
 }

@@ -27,6 +27,8 @@ import {CheckoutPage} from "./screens/toss/Checkout";
 
 import IndexTest from "./my/IndexTest";
 import KakaoLogin from "./screens/Login/KakaoLogin"
+import SellingPage from "./screens/seller/SellingPage";
+import SellingProductFix from "./screens/seller/SellingProductFix";
 
 const SoftwareListView = lazy(() => import("./screens/softwareProductPage/List"));
 const SoftwareDetailView = lazy(() => import("./screens/softwareProductPage/Detail"));
@@ -116,6 +118,9 @@ function App() {
                         < Route exact path = "/payments" element={<CheckoutPage/>}/>
                         < Route exact path = "/success" element={<SuccessPage/>}/>
                         < Route exact path = "/fail" element={<FailPage/>}/>
+
+                        <Route exact path="/selling" element={<SellingPage/>}/>
+                        <Route exact path="/selling/:id" element={<SellingProductFix/>}/>
 
 
                     </Routes>

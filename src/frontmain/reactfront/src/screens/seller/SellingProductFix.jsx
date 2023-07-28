@@ -4,34 +4,35 @@ import ContentForm from "../../components/posting/ContentForm";
 import { v4 as uuidv4 } from "uuid";
 import AWS from "aws-sdk";
 import axios from "../Request/RequestConfig";
-import { useNavigate } from "react-router-dom";
+import {useNavigate, useSearchParams} from "react-router-dom";
 import DeliveryDescription from "../../components/posting/DeliveryDescription";
 import DeliverySoldByAndCategoryConfig from "../../components/posting/DeliverySoldByAndCategoryConfig";
 
 const SettingForm = lazy(() => import("../../components/account/SettingForm"));
 const PriceConfig = lazy(() => import("../../components/posting/PriceConfig"));
 
-const DeliveryPosting = () => {
-    const name = sessionStorage.getItem('userData');
+const SellingProductFix = () => {
+    const [searchParams] = useSearchParams();
+    const id = searchParams.get("id");
 
 
     const [state, setState] = useState({
-        imagePreview: "",
+        imagePreview: searchParams.get("thumbnail"),
         isDeleting: false,
-        title: "",
-        highlights: "",
-        description: "",
+        title: searchParams.get("name"),
+        highlights: searchParams.get("highlights"),
+        description: searchParams.get("description"),
         loginError: "",
-        deliveryFree: false,
-        isNew: false,
-        isHot: false,
-        star: 5,
-        price: "",
-        originPrice: "",
-        discountPrice: "",
-        discountPercentage: "",
-        soldBy: name,
-        category: "Category"
+        deliveryFree: searchParams.get("freeShipping"),
+        isNew: searchParams.get("isNew"),
+        isHot: searchParams.get("isHot"),
+        star: searchParams.get("star"),
+        price: searchParams.get("price"),
+        originPrice: searchParams.get("originPrice"),
+        discountPrice: searchParams.get("discountPrice"),
+        discountPercentage: searchParams.get("discountPercentage"),
+        soldBy: searchParams.get("soldBy"),
+        category: searchParams.get("category")?searchParams.get("category"):"Category"
     });
 
     const navigate = useNavigate();
@@ -88,6 +89,7 @@ const DeliveryPosting = () => {
 
         console.log("리퀘스트데이타");
         console.log(requestData.title);
+        console.log(requestData.fixHighlights);
 
         if (!requestData.title) {
             alert("제목이 없습니다.");
@@ -187,7 +189,7 @@ const DeliveryPosting = () => {
     const onTitleChange = async (title) => {
         if (title) {
             console.log(title);
-            setState((prevState) => ({ ...prevState, title }));
+            setState((prevState) => ({ ...prevState, title: title }));
         }
     };
 
@@ -197,6 +199,7 @@ const DeliveryPosting = () => {
             const doc = parser.parseFromString(highlights, "text/html");
             const plainText = doc.body.textContent;
             console.log(plainText);
+            //setFixHighlights(plainText);
             setState((prevState) => ({ ...prevState, highlights: plainText }));
         }
     };
@@ -236,7 +239,7 @@ const DeliveryPosting = () => {
     const setPrice = async (price) => {
         if (price) {
             console.log(price);
-            setState((prevState) => ({ ...prevState, price }));
+            setState((prevState) => ({ ...prevState, price: price }));
         }
     };
 
@@ -323,18 +326,22 @@ const DeliveryPosting = () => {
                 <div style={{ marginRight: "auto" }}>
                     <PriceConfig
                         setPrice={setPrice}
+                        price={state.price}
                         setOriginPrice={setOriginPrice}
+                        originPrice={state.originPrice}
                         setDiscountPrice={setDiscountPrice}
+                        discountPrice={state.discountPrice}
                         setDiscountPercent={setDiscountPercent}
+                        discountPercent={state.discountPercentage}
                         setStar={setStar}
                         star={state.star}
                     />
                 </div>
                 <div style={{ marginTop : '50px', marginRight: "120px"}}>
                     <DeliverySoldByAndCategoryConfig
-                        name={name}
-                        category={state.category}
+                        name={state.soldBy}
                         setCategory={setCategory}
+                        category={state.category}
                     />
                 </div>
             </div>
@@ -362,4 +369,4 @@ const DeliveryPosting = () => {
     );
 };
 
-export default DeliveryPosting;
+export default SellingProductFix;

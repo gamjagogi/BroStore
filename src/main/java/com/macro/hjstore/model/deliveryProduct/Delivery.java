@@ -71,6 +71,9 @@ public class Delivery {
     @Column(name = "soldBy")
     private String soldBy;
 
+    @Column(name = "userId")
+    private Long userId;
+
     @Column(name = "category")
     private String category;
 
@@ -89,7 +92,7 @@ public class Delivery {
 
 
     @Builder
-    public Delivery(Long id, String sku, String name, String thumbnail, String img, Integer price, Integer originPrice, Integer discountPrice, Integer discountPercentage, boolean isNew, boolean isHot, Integer star, boolean isFreeShipping, String highlights, String description, String soldBy, String category, LocalDateTime createdAt, LocalDateTime updatedAt) {
+    public Delivery(Long id, String sku, String name,Long userId, String thumbnail, String img, Integer price, Integer originPrice, Integer discountPrice, Integer discountPercentage, boolean isNew, boolean isHot, Integer star, boolean isFreeShipping, String highlights, String description, String soldBy, String category, LocalDateTime createdAt, LocalDateTime updatedAt) {
         this.id = id;
         this.sku = sku;
         this.name = name;
@@ -106,6 +109,7 @@ public class Delivery {
         this.highlights = highlights;
         this.description = description;
         this.soldBy = soldBy;
+        this.userId = userId;
         this.category = category;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
@@ -116,7 +120,7 @@ public class Delivery {
         return Optional.ofNullable(price).orElse(0);
     }
 
-    public static Delivery toEntity(DeliveryRequestDTO.Save savePS) {
+    public static Delivery toEntity(Long id,DeliveryRequestDTO.Save savePS) {
         Delivery deliveryPS = Delivery.builder()
                 .name(savePS.getTitle())
                 .thumbnail(savePS.getImagePreview())
@@ -131,6 +135,7 @@ public class Delivery {
                 .highlights(savePS.getHighlights())
                 .description(savePS.getDescription())
                 .soldBy(savePS.getSoldBy())
+                .userId(id)
                 .category(savePS.getCategory())
                 .build();
         return deliveryPS;

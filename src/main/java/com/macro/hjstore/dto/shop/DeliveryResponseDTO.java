@@ -29,7 +29,7 @@ public class DeliveryResponseDTO {
     private boolean isFreeShipping;
     @NotEmpty
     private String description;
-
+    private String highlights;
     private String soldBy;
 
     private String category;
@@ -49,6 +49,7 @@ public class DeliveryResponseDTO {
         this.star = delivery.getStar();
         this.isFreeShipping = delivery.isFreeShipping();
         this.description = delivery.getDescription();
+        this.highlights = delivery.getHighlights();
         this.soldBy = delivery.getSoldBy();
         this.category = delivery.getCategory();
     }

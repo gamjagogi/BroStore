@@ -38,7 +38,7 @@ const NavBarElements = () => {
                         <Nav.Link eventKey={2} href="#memes">
                             Documentation
                         </Nav.Link>
-                        {isManager ? (<Nav.Link href="#deets">SellerPage</Nav.Link>):''}
+                        {isManager ? (<Nav.Link href="/selling">SellerPage</Nav.Link>):''}
                     </Nav>
                 </Navbar.Collapse>
             </Container>

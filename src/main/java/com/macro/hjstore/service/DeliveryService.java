@@ -54,8 +54,8 @@ public class DeliveryService {
     }
 
     @MyLog
-    public void 게시글저장하기(DeliveryRequestDTO.Save saveDTO){
-        Delivery deliveryPS = Delivery.toEntity(saveDTO);
+    public void 게시글저장하기(Long id,DeliveryRequestDTO.Save saveDTO){
+        Delivery deliveryPS = Delivery.toEntity(id,saveDTO);
         deliveryRepository.save(deliveryPS);
     }
 
@@ -64,5 +64,17 @@ public class DeliveryService {
         Delivery deliveryPS = deliveryRepository.findById(itemId)
                 .orElseThrow(() -> new Exception404("상품을 찾을 수 없습니다."));
         return deliveryPS;
+    }
+
+    @MyLog
+    public List<DeliveryResponseDTO> 판매상품가져오기(Long id){
+        try {
+            List<Delivery> sellingList = deliveryRepository.findByUserId(id);
+            List<DeliveryResponseDTO> newList = sellingList.stream()
+                    .map(delivery -> new DeliveryResponseDTO(delivery)).collect(Collectors.toList());
+            return newList;
+        }catch (Exception e){
+            throw new Exception404("판매상품을 찾지 못했습니다."+e.getMessage());
+        }
     }
 }

@@ -5,8 +5,8 @@ import ReactStars from "react-rating-stars-component";
 
 
 const PriceConfig = (props) => {
-    const { setPrice, setOriginPrice, setDiscountPrice, setDiscountPercent, setStar
-            ,star} = props
+    const { setPrice,price, setOriginPrice,originPrice, setDiscountPrice,discountPrice
+        , setDiscountPercent, discountPercent,setStar,star} = props
 
     const handlePriceChange = (event) => {
         setPrice(event.target.value);
@@ -52,6 +52,7 @@ const PriceConfig = (props) => {
                 <Form.Control
                     aria-label="Amount (to the nearest dollar)"
                     onChange={handlePriceChange}
+                    value={price}
                 />
                 <InputGroup.Text>원</InputGroup.Text>
             </InputGroup>
@@ -60,6 +61,7 @@ const PriceConfig = (props) => {
                 <Form.Control
                     aria-label="Amount (to the nearest dollar)"
                     onChange={handleOriginPriceChange}
+                    value={originPrice}
                 />
                 <InputGroup.Text>원</InputGroup.Text>
             </InputGroup>
@@ -68,6 +70,7 @@ const PriceConfig = (props) => {
                 <Form.Control
                     aria-label="Amount (to the nearest dollar)"
                     onChange={handleDiscountPriceChange}
+                    value={discountPrice}
                 />
                 <InputGroup.Text>원</InputGroup.Text>
             </InputGroup>
@@ -76,6 +79,7 @@ const PriceConfig = (props) => {
                 <Form.Control
                     aria-label="Amount (to the nearest dollar)"
                     onChange={handleDiscountPercentChange}
+                    value={discountPercent}
                 />
                 <InputGroup.Text>%</InputGroup.Text>
             </InputGroup>

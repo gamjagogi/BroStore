@@ -27,9 +27,13 @@ const ProductListView = () => {
         CategoryConfig(category)
             .then((products) => {
                 console.log('처음 렌더링');
-                console.log(products);
-                console.log(products.length);
                 setTotalItems(products.length);
+
+                // 현재 페이지를 1로 설정하여 1페이지의 상품들만 보여줌
+                setCurrentPage(1);
+
+                // 1페이지의 상품들만 설정
+                setCurrentProducts(products.slice(0, 9));
             })
             .catch((error) => {
                 console.error("Error occurred while fetching products:", error);
@@ -42,9 +46,13 @@ const ProductListView = () => {
             .then((products) => {
                 console.log('처음 렌더링');
                 console.log(products);
-
                 setTotalItems(products.length);
-                setCurrentProducts(products);
+
+                // 현재 페이지를 1로 설정하여 1페이지의 상품들만 보여줌
+                setCurrentPage(1);
+
+                // 1페이지의 상품들만 설정
+                setCurrentProducts(products.slice(0, 9));
 
             })
             .catch((error) => {

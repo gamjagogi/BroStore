@@ -1,24 +1,18 @@
 import React, {useEffect, useState} from "react"
 import axios from "../Request/RequestConfig";
 import {useNavigate} from "react-router-dom";
-import { useHistory } from "react-router-dom";
+
 const KakaoLogin = () => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const code = new URL(window.location.href).searchParams.get("code");
     const [loginError,setLoginError] = useState('');
-    const navigate = useNavigate;
+    const navigate = useNavigate();
 
     useEffect(() => {
         console.log(code);
         requestAuthorize(code);
     }, [code]);
 
-    useEffect(() => {
-        // isLoggedIn이 true로 변경되면 "/" 페이지로 이동
-        if (isLoggedIn) {
-            history.push("/"); // history.push를 사용하여 페이지 이동
-        }
-    }, [isLoggedIn, history]);
 
     const requestAuthorize = async (props) => {
 
@@ -58,7 +52,7 @@ const KakaoLogin = () => {
                 localStorage.setItem('kakaoRefreshToken', kakaoRefreshToken);
                 console.log('토큰저장완료, 이제 홈으로');
                 setIsLoggedIn(true);
-
+                navigate('/');
             } else {
                 // 로그인 실패 시 처리할 작업
                 setLoginError('로그인에 실패했습니다. 다시 시도해주세요.');

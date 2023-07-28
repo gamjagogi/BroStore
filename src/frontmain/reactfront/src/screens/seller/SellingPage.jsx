@@ -2,89 +2,77 @@ import React, { lazy, useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTh, faBars, faPencilSquare } from "@fortawesome/free-solid-svg-icons";
 import axios from "../Request/RequestConfig";
-import { Link } from "react-router-dom";
-import DeliveryCategoryConfig from "./category/DeliveryCategoryConfig";
-
+import {Link, useNavigate} from "react-router-dom";
 const Paging = lazy(() => import("../../components/Paging"));
-const FilterCategory = lazy(() => import("../../components/filter/DeliveryCategory"));
-const FilterPrice = lazy(() => import("../../components/filter/Price"));
-const FilterStar = lazy(() => import("../../components/filter/Star"));
-const CardServices = lazy(() => import("../../components/card/CardServices"));
-const CardProductGrid = lazy(() => import("../../components/card/CardProductGrid"));
-const CardProductList = lazy(() => import("../../components/card/CardProductList"));
+const CardProductListForSeller = lazy(() => import("./CardProductListForSeller"));
+const CardProductGridForSeller = lazy(() => import("./CardProductGridForSeller"))
 
 
 
-const ProductListView = () => {
+const SellingPage = () => {
+    const navigate = useNavigate();
+    const [sellingList, setSellingList ] = useState([]);
     const [currentProducts, setCurrentProducts] = useState([]);
     const [currentPage, setCurrentPage] = useState(null);
     const [totalPages, setTotalPages] = useState(null);
     const [totalItems, setTotalItems] = useState(0);
     const [view, setView] = useState("list");
-    const [category, setCategory] = useState('');
 
-    useEffect(() => {
-        DeliveryCategoryConfig(category)
-            .then((products) => {
-                // 상품들의 총 개수 설정
-                setTotalItems(products.length);
-
-                // 현재 페이지를 1로 설정하여 1페이지의 상품들만 보여줌
-                setCurrentPage(1);
-
-                // 1페이지의 상품들만 설정
-                setCurrentProducts(products.slice(0, 9));
-            })
-            .catch((error) => {
-                console.error("Error occurred while fetching products:", error);
-            });
-    }, []);
+    useEffect(()=>{
+        onSellingPage();
+    },[])
 
 
-    useEffect(() => {
-        DeliveryCategoryConfig(category)
-            .then((products) => {
-                console.log('처음 렌더링');
-                console.log(products);
-                setTotalItems(products.length);
+    const onSellingPage = async () => {
+        try {
+            const accessToken = localStorage.getItem('accessToken');
+            const refreshToken = localStorage.getItem('refreshToken');
+            const id = sessionStorage.getItem('userData2'); // 현재 로그인중인 userId
+            console.log(id);
 
-                // 현재 페이지를 1로 설정하여 1페이지의 상품들만 보여줌
-                setCurrentPage(1);
+            if (accessToken && refreshToken) {
+                const response = await axios.get(`/manager/orders/${id}`, {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${accessToken}`,
+                        'RefreshToken': `Bearer ${refreshToken}`,
+                    },
+                });
 
-                // 1페이지의 상품들만 설정
-                setCurrentProducts(products.slice(0, 9));
+                if (response.status == 200) {
+                    const data = await response.data.data;
+                    console.log(data);
+                    setTotalItems(data.length);
+                    setCurrentPage(1);
+                    setCurrentProducts(data.slice(0,9));
+                    setSellingList(data);
 
-            })
-            .catch((error) => {
-                console.error("Error occurred while fetching products:", error);
-            });
-    }, [category]);
+                } else {
+                    console.error('장바구니를 가져오는대 실패했습니다.');
+                }
+            } else {
+                console.error('인증되지 않은 사용자가 접근하려 합니다.');
+            }
+        } catch (error) {
+            console.error('에러발생..', error);
+        }
+    };
 
 
     const onPageChanged = (page) => {
-        DeliveryCategoryConfig(category)
-            .then((products) => {
+
                 const { currentPage, totalPages, pageLimit } = page;
                 const offset = (currentPage - 1) * pageLimit;
-                const currentProducts = products.slice(offset, offset + pageLimit);
+                const currentProducts = sellingList.slice(offset, offset + pageLimit);
 
                 setCurrentPage(currentPage);
                 setCurrentProducts(currentProducts);
                 setTotalPages(totalPages);
-            })
-            .catch((error) => {
-                console.error("Error occurred while fetching products:", error);
-            });
     };
 
     const onChangeView = (view) => {
         setView(view);
     };
-
-    const onChangeCategory = (props) => {
-        console.log(props);
-        setCategory(props);
-    }
 
     return (
         <React.Fragment>
@@ -95,19 +83,13 @@ const ProductListView = () => {
                 }}
             >
                 <div className="container text-center">
-                    <span className="display-5 px-3 bg-white rounded shadow">Delivery Product</span>
+                    <span className="display-5 px-3 bg-white rounded shadow">Selling Product</span>
                 </div>
             </div>
             <br />
 
             <div className="container-fluid mb-3">
                 <div className="row">
-                    <div className="col-md-3">
-                        <FilterCategory
-                            onChangeCategory={onChangeCategory}
-                        />
-                        <CardServices />
-                    </div>
                     <div className="col-md-9">
                         <div className="row">
                             <div className="col-7">
@@ -117,16 +99,6 @@ const ProductListView = () => {
                             </div>
 
                             <div className="col-5 d-flex justify-content-end">
-                                <button aria-label="Grid" type="button" style={{ marginRight: "0.5em" }}>
-                                    <Link to="/deliveryPosting">
-                                        <FontAwesomeIcon icon={faPencilSquare} />
-                                    </Link>
-                                </button>
-                                <select className="form-select mw-180 float-start" aria-label="Default select">
-                                    <option value={1}>Most Popular</option>
-                                    <option value={2}>Latest items</option>
-                                    <option value={3}>준비중..</option>
-                                </select>
                                 <div className="btn-group ms-3" role="group">
                                     <button
                                         aria-label="Grid"
@@ -153,7 +125,7 @@ const ProductListView = () => {
                                 currentProducts.map((product, idx) => {
                                     return (
                                         <div key={idx} className="col-md-4">
-                                            <CardProductGrid data={product} />
+                                            <CardProductGridForSeller data={product} />
                                         </div>
                                     );
                                 })}
@@ -161,13 +133,12 @@ const ProductListView = () => {
                                 currentProducts.map((product, idx) => {
                                     return (
                                         <div key={idx} className="col-md-12">
-                                            <CardProductList data={product} />
+                                            <CardProductListForSeller data={product} />
                                         </div>
                                     );
                                 })}
                         </div>
                         <hr />
-
                         <Paging
                             totalRecords={totalItems}
                             pageLimit={9}
@@ -183,4 +154,4 @@ const ProductListView = () => {
     );
 };
 
-export default ProductListView;
+export default SellingPage;

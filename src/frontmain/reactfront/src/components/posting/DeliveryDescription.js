@@ -279,6 +279,7 @@ const DeliveryDescription = (props) => {
                     modules={modules}
                     theme="snow"
                     onChange={onDescriptionChange}
+                    defaultValue={description}
                     style={{
                         flex: '1',
                         minHeight: '0',

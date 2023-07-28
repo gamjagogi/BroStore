@@ -7,12 +7,12 @@ import Form from "react-bootstrap/Form";
 const DeliverySoldByAndCategoryConfig = (props) => {
     const [title,setTitle] = useState('Category');
 
-    const { setSoldBy, setCategory } = props
+    const { name,category, setCategory } = props
 
 
-    const handleSoldByChange = (event) => {
-        setSoldBy(event.target.value);
-    };
+    // const handleSoldByChange = (event) => {
+    //     setSoldBy(event.target.value);
+    // };
 
     const handleCategoryChange = (event) => {
         setTitle(event);
@@ -24,7 +24,7 @@ const DeliverySoldByAndCategoryConfig = (props) => {
 
     return (
         <div>
-        <DropdownButton id="dropdown-item-button" title={title} style={{marginBottom:'20px'}}>
+        <DropdownButton id="dropdown-item-button" title={category} style={{marginBottom:'20px'}}>
             <Dropdown.Item as="button" onClick={() => handleCategoryChange('Electronics')} >Electronics</Dropdown.Item>
             <Dropdown.Item as="button" onClick={() => handleCategoryChange('Clothes')}>Clothes</Dropdown.Item>
             <Dropdown.Item as="button" onClick={() => handleCategoryChange('Toy')}>Toy</Dropdown.Item>
@@ -34,7 +34,8 @@ const DeliverySoldByAndCategoryConfig = (props) => {
                 <InputGroup.Text>Sold By</InputGroup.Text>
                 <Form.Control
                     aria-label="Amount (to the nearest dollar)"
-                    onChange={handleSoldByChange}
+                    value={name}
+                    disabled
                 />
             </InputGroup>
         </div>
