@@ -9,7 +9,7 @@ import {ReactComponent as IconHeartFill} from "bootstrap-icons/icons/heart-fill.
 import {ReactComponent as IconBellFill} from "bootstrap-icons/icons/bell-fill.svg";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faUser} from "@fortawesome/free-solid-svg-icons";
-import axios from "../Request/RequestConfig";
+import axios from "../screens/Request/RequestConfig";
 
 const Header = () => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
