@@ -121,7 +121,7 @@ public class MySecurityConfig {
 
         // 여기서부터 로그아웃 API 내용~!
         http.logout()
-                .logoutUrl("/auth/logout")   // 로그아웃 처리 URL (= form action url)
+                .logoutUrl("/auth/logout/{id}")   // 로그아웃 처리 URL (= form action url)
                 //.logoutSuccessUrl("/login") // 로그아웃 성공 후 targetUrl,
                 // logoutSuccessHandler 가 있다면 효과 없으므로 주석처리.
                 .addLogoutHandler((request, response, authentication) -> {
@@ -136,7 +136,7 @@ public class MySecurityConfig {
                     response.setStatus(200);
                 }) // 로그아웃 성공 핸들러
                 .deleteCookies("remember-me"); // 로그아웃 후 삭제할 쿠키 지정
-
+        System.out.println("로그아웃 처리완료");
         return http.build();
     }
 

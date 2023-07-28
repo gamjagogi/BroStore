@@ -2,7 +2,7 @@ import React, {useState, useEffect } from 'react';
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import {useNavigate, useLocation } from 'react-router-dom';
-import axios from "axios";
+import axios from "../Request/RequestConfig";
 
 
 
@@ -22,8 +22,9 @@ const UserHeader = () => {
 
     // 로그아웃 상태 변경 함수
     const handleLogout = async () => {
+        const id = sessionStorage.getItem('userData2');
         try {
-            const response = await axios.post('/auth/logout');
+            const response = await axios.post(`/auth/logout/${id}`);
             if (response.status === 200) {
                 console.log('로그아웃 성공');
                 // 로그아웃 후 원하는 동작을 수행하거나 홈 화면 등으로 이동할 수 있습니다.

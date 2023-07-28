@@ -4,7 +4,6 @@ import {
     loadPaymentWidget,
     ANONYMOUS,
 } from "@tosspayments/payment-widget-sdk";
-import { nanoid } from "nanoid";
 import "../../App.css";
 import axios from "../Request/RequestConfig";
 import { useSearchParams } from "react-router-dom";

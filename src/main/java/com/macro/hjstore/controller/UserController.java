@@ -4,6 +4,7 @@ package com.macro.hjstore.controller;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
+import com.macro.hjstore.core.auth.session.MyUserDetails;
 import com.macro.hjstore.core.exception.Exception401;
 import com.macro.hjstore.core.exception.Exception404;
 import com.macro.hjstore.core.util.Fetch;
@@ -21,10 +22,12 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.validation.Errors;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -127,7 +130,7 @@ public class UserController {
         // 7. 없으면 강제 회원가입 시키고, 그 정보로 session 만들어주고, (자동로그인)
         if(userPS == null){
             System.out.println("디버그 : 회원정보가 없어서 회원가입 후 로그인을 바로 진행합니다");
-            Pair<String,String>tokenUS = userService.카카오인증가입(email,kakaoToken);
+            Pair<String,String>tokenUS = userService.카카오인증가입후토큰만들기(email,kakaoToken);
 
             UserResponse.LoginOutDTO loginOutDTO = userService.이메일로회원조회(email);
 
@@ -158,5 +161,13 @@ public class UserController {
         return ResponseEntity.ok().build();
     }
 
-
+    @PostMapping("/auth/logout/{id}")
+    @Transactional
+    public ResponseEntity<?> logOut(@PathVariable("id")Long id, @AuthenticationPrincipal MyUserDetails userDetails, Errors errors) {
+        if (userDetails.getUser().getId() == id) {
+            return ResponseEntity.ok().build();
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+    }
 }

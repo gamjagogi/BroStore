@@ -9,7 +9,7 @@ import {ReactComponent as IconHeartFill} from "bootstrap-icons/icons/heart-fill.
 import {ReactComponent as IconBellFill} from "bootstrap-icons/icons/bell-fill.svg";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faUser} from "@fortawesome/free-solid-svg-icons";
-import axios from "axios";
+import axios from "../Request/RequestConfig";
 
 const Header = () => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -26,10 +26,11 @@ const Header = () => {
         navigate('/login');
     };
 
-// 로그아웃 상태 변경 함수
+    // 로그아웃 상태 변경 함수
     const handleLogout = async () => {
+        const id = sessionStorage.getItem('userData2');
         try {
-            const response = await axios.post('/auth/logout');
+            const response = await axios.post(`/auth/logout/${id}`);
             if (response.status === 200) {
                 console.log('로그아웃 성공');
                 // 로그아웃 후 원하는 동작을 수행하거나 홈 화면 등으로 이동할 수 있습니다.

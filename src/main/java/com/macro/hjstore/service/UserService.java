@@ -81,12 +81,14 @@ public class UserService {
     @MyLog
     public Pair<String, String> 카카오인증후토큰만들기(User user, KakaoToken kakaoToken) {
         try {
+
+            // 이부분 수정해야댐!!!!!!! 7/28 해야될것!!!
             System.out.println("카카오인증후토큰만들기 진입");
-            System.out.println(user.getEmail() + " " + user.getPassword());
+            System.out.println(user.getEmail() + " " + user.getCustomerKey());
 
 
             UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken
-                    = new UsernamePasswordAuthenticationToken(user.getEmail(), user.getPassword());
+                    = new UsernamePasswordAuthenticationToken(user.getEmail(), user.getCustomerKey());
 
             System.out.println("시큐리티 인증토큰 등록!");
             Authentication authentication = authenticationManager.authenticate(usernamePasswordAuthenticationToken);
@@ -94,28 +96,30 @@ public class UserService {
             MyUserDetails myUserDetails = (MyUserDetails) authentication.getPrincipal();
 
 
-            String accessjwt = kakaoToken.getAccessToken();
-            RefreshTokenEntity refreshTokePS = new RefreshTokenEntity(user, kakaoToken.getRefreshToken(), TokenStatus.VALID);
-            //로그인 성공하면 액세스 토큰, 리프레시 토큰 발급. 리프레시 토큰의 uuid은 DB에 저장
-            tokenRepository.save(refreshTokePS);
+            System.out.println("액세스 토큰 등록!!");
 
-            return Pair.of(accessjwt, kakaoToken.getRefreshToken());
+            String accessjwt = MyJwtProvider.create(myUserDetails.getUser());
+            Pair<String, RefreshTokenEntity> rtInfo = MyJwtProvider.createRefresh(myUserDetails.getUser());
+
+            //로그인 성공하면 액세스 토큰, 리프레시 토큰 발급. 리프레시 토큰의 uuid은 DB에 저장
+            tokenRepository.save(rtInfo.getSecond());
+
+            return Pair.of(accessjwt, rtInfo.getFirst());
         } catch (Exception e) {
             throw new Exception401("인증되지 않았습니다.");
         }
     }
 
     @MyLog
-    public Pair<String, String> 카카오인증가입(String email, KakaoToken kakaoToken) {
+    public Pair<String, String> 카카오인증가입후토큰만들기(String email, KakaoToken kakaoToken) {
         try {
             BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
             String customerKey = "ID_" + UUID.randomUUID().toString();
-            String password = UUID.randomUUID().toString();
             String userEmail = email;
             System.out.println("카카오인증가입 진입, 이메일:" + userEmail);
             User userPS = User.builder()
                     .email(userEmail)
-                    .password(encoder.encode(password))
+                    .password(encoder.encode(customerKey))
                     .username("need update")
                     .role(UserRole.ROLE_USER)
                     .customerKey(customerKey)
@@ -129,11 +133,11 @@ public class UserService {
             User user = userRepository.findByKakaoEmail(email);
             System.out.println(user.getEmail());
 
-            System.out.println(user.getEmail() + " " + password);
+            System.out.println(user.getEmail() + " " + customerKey);
 
 
             UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken
-                    = new UsernamePasswordAuthenticationToken(user.getEmail(), password);
+                    = new UsernamePasswordAuthenticationToken(user.getEmail(), customerKey);
 
             System.out.println("시큐리티 인증토큰 등록!");
             Authentication authentication = authenticationManager.authenticate(usernamePasswordAuthenticationToken);
@@ -142,14 +146,13 @@ public class UserService {
 
             System.out.println("액세스 토큰 등록!!");
 
-            String accessjwt = kakaoToken.getAccessToken();
-            System.out.println("리프레쉬토큰객체 만들기!!!");
-            RefreshTokenEntity refreshTokePS = new RefreshTokenEntity(user, kakaoToken.getRefreshToken(), TokenStatus.VALID);
-            //로그인 성공하면 액세스 토큰, 리프레시 토큰 발급. 리프레시 토큰의 uuid은 DB에 저장
-            tokenRepository.save(refreshTokePS);
-            System.out.println("토큰 등록완료!!");
-            return Pair.of(accessjwt, kakaoToken.getRefreshToken());
+            String accessjwt = MyJwtProvider.create(myUserDetails.getUser());
+            Pair<String, RefreshTokenEntity> rtInfo = MyJwtProvider.createRefresh(myUserDetails.getUser());
 
+            //로그인 성공하면 액세스 토큰, 리프레시 토큰 발급. 리프레시 토큰의 uuid은 DB에 저장
+            tokenRepository.save(rtInfo.getSecond());
+
+            return Pair.of(accessjwt, rtInfo.getFirst());
         } catch (Exception e) {
             throw new Exception401("인증되지 않았습니다.");
         }
