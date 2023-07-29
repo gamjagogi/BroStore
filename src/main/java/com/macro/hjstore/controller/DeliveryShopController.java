@@ -4,6 +4,7 @@ import com.macro.hjstore.core.auth.session.MyUserDetails;
 import com.macro.hjstore.dto.ResponseDTO;
 import com.macro.hjstore.dto.shop.DeliveryRequestDTO;
 import com.macro.hjstore.dto.shop.DeliveryResponseDTO;
+import com.macro.hjstore.model.deliveryProduct.Delivery;
 import com.macro.hjstore.service.DeliveryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -93,6 +94,37 @@ public class DeliveryShopController {
         return ResponseEntity.ok().body(responseDTO);
     }
 
+
+    @PostMapping("/manager/delivery/update/{id}")
+    public ResponseEntity<?> update(@PathVariable("id")Long id,@RequestBody @Valid DeliveryRequestDTO.Update updateDTO, Errors errors){
+
+        System.out.println("진입");
+        if (errors.hasErrors()) {
+            // 오류 처리 로직 작성
+            List<String> errorMessages = new ArrayList<>();
+
+            for (ObjectError error : errors.getAllErrors()) {
+                System.out.println("오류 메시지: " + error.getDefaultMessage());
+                // 오류 처리 로직 추가...
+                String errorMessage = error.getDefaultMessage();
+                errorMessages.add(errorMessage);
+            }
+            // 적절한 오류 응답 반환
+            return ResponseEntity.badRequest().body(errorMessages); // 예시로 "오류 발생"이라는 메시지를 반환하였습니다.
+        }
+
+        Delivery deliveryPS = deliveryService.상품찾기(updateDTO.getProductId());
+        deliveryService.게시글수정하기(id,deliveryPS,updateDTO);
+        System.out.println("수정완료!!");
+
+        ResponseDTO<?>responseDTO = new ResponseDTO<>();
+        return ResponseEntity.ok().body(responseDTO);
+    }
+
+
+
+
+
     @GetMapping("/manager/orders/{id}")
     public ResponseEntity<?> saleProduct(@PathVariable("id") Long id
             ,@AuthenticationPrincipal MyUserDetails userDetails){
@@ -108,4 +140,5 @@ public class DeliveryShopController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
     }
+
 }

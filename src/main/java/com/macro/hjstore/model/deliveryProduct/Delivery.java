@@ -77,6 +77,7 @@ public class Delivery {
     @Column(name = "category")
     private String category;
 
+
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
@@ -141,4 +142,22 @@ public class Delivery {
         return deliveryPS;
     }
 
+    public Delivery update(Long userId,DeliveryRequestDTO.Update updatePS){
+        this.name = updatePS.getTitle();
+        this.thumbnail = updatePS.getImagePreview();
+        this.price = updatePS.getPrice();
+        this.originPrice = updatePS.getOriginPrice();
+        this.discountPrice = updatePS.getDiscountPrice();
+        this.discountPercentage = updatePS.getDiscountPercentage();
+        this.isHot = updatePS.isHot();
+        this.isNew = updatePS.isNew();
+        this.star = updatePS.getStar();
+        this.isFreeShipping = updatePS.isDeliveryFree();
+        this.highlights = updatePS.getHighlights();
+        this.description = updatePS.getDescription();
+        this.soldBy = updatePS.getSoldBy();
+        this.userId = userId;
+        this.category = updatePS.getCategory();
+        return this;
+    }
 }

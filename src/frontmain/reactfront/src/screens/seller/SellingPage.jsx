@@ -3,6 +3,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTh, faBars, faPencilSquare } from "@fortawesome/free-solid-svg-icons";
 import axios from "../Request/RequestConfig";
 import {Link, useNavigate} from "react-router-dom";
+import Button from 'react-bootstrap/Button';
+
 const Paging = lazy(() => import("../../components/Paging"));
 const CardProductListForSeller = lazy(() => import("./CardProductListForSeller"));
 const CardProductGridForSeller = lazy(() => import("./CardProductGridForSeller"))
@@ -90,11 +92,14 @@ const SellingPage = () => {
 
             <div className="container-fluid mb-3">
                 <div className="row">
-                    <div className="col-md-9">
+                    <div className="col-md-3" >
+                        <Button href="/selling/orders">주문 내역</Button>
+                    </div>
+                    <div className="col-md-12">
                         <div className="row">
                             <div className="col-7">
-                <span className="align-middle fw-bold">
-                  results {totalItems}
+                <span className="align-middle fw-bold" style={{marginLeft:"100px"}}>
+                  판매중인 상품 : results {totalItems}
                 </span>
                             </div>
 

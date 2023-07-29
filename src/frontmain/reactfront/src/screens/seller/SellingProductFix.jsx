@@ -13,10 +13,11 @@ const PriceConfig = lazy(() => import("../../components/posting/PriceConfig"));
 
 const SellingProductFix = () => {
     const [searchParams] = useSearchParams();
-    const id = searchParams.get("id");
+    //const id = searchParams.get("id");
 
 
     const [state, setState] = useState({
+        productId: searchParams.get("id"),
         imagePreview: searchParams.get("thumbnail"),
         isDeleting: false,
         title: searchParams.get("name"),
@@ -52,9 +53,11 @@ const SellingProductFix = () => {
             discountPrice,
             discountPercentage,
             soldBy,
-            category
+            category,
+            productId
         } = state;
 
+        console.log(productId);
         console.log(title);
         console.log(highlights);
         console.log(description);
@@ -84,12 +87,12 @@ const SellingProductFix = () => {
             discountPrice,
             discountPercentage,
             soldBy,
-            category
+            category,
+            productId
         };
 
         console.log("리퀘스트데이타");
         console.log(requestData.title);
-        console.log(requestData.fixHighlights);
 
         if (!requestData.title) {
             alert("제목이 없습니다.");
@@ -107,7 +110,7 @@ const SellingProductFix = () => {
 
         if (accessToken && refreshToken) {
             axios
-                .post(`/manager/delivery/save/${id}`, JSON.stringify(requestData), {
+                .post(`/manager/delivery/update/${id}`, JSON.stringify(requestData), {
                     headers: {
                         "Content-Type": "application/json",
                         Authorization: `Bearer ${accessToken}`,
@@ -118,9 +121,9 @@ const SellingProductFix = () => {
                     if (response.status === 200) {
                         const products = response.data.msg;
                         console.log(products);
-                        alert("글 작성 완료");
+                        alert("글 수정 완료");
 
-                        navigate("/delivery");
+                        navigate("/selling");
                     } else {
                         console.log("인증된 유저만 접근 가능합니다.");
                         throw new Error("인증된 유저만 접근 가능합니다.");

@@ -60,6 +60,14 @@ public class DeliveryService {
     }
 
     @MyLog
+    @Transactional
+    public void 게시글수정하기(Long userId, Delivery deliveryPS, DeliveryRequestDTO.Update updateDTO){
+        Delivery deliveryUpdated = deliveryPS.update(userId,updateDTO);
+        System.out.println(deliveryUpdated.getName());
+        deliveryRepository.save(deliveryUpdated);
+    }
+
+    @MyLog
     public Delivery 상품찾기(Long itemId){
         Delivery deliveryPS = deliveryRepository.findById(itemId)
                 .orElseThrow(() -> new Exception404("상품을 찾을 수 없습니다."));

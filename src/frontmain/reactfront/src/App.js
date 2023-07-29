@@ -29,6 +29,7 @@ import IndexTest from "./my/IndexTest";
 import KakaoLogin from "./screens/Login/KakaoLogin"
 import SellingPage from "./screens/seller/SellingPage";
 import SellingProductFix from "./screens/seller/SellingProductFix";
+import OrderSheetForSeller from "./screens/seller/OrderSheetForSeller";
 
 const SoftwareListView = lazy(() => import("./screens/softwareProductPage/List"));
 const SoftwareDetailView = lazy(() => import("./screens/softwareProductPage/Detail"));
@@ -121,7 +122,7 @@ function App() {
 
                         <Route exact path="/selling" element={<SellingPage/>}/>
                         <Route exact path="/selling/:id" element={<SellingProductFix/>}/>
-
+                        <Route exact path="/selling/orders" element={<OrderSheetForSeller/>}/>
 
                     </Routes>
                 </Suspense>

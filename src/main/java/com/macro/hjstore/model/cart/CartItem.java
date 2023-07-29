@@ -26,6 +26,8 @@ public class CartItem {
     @JoinColumn(name="delivery_id")
     private Delivery delivery;
 
+    private String option;
+
     @Column(name = "count")
     private Integer count; // 상품 개수
 

@@ -1,5 +1,5 @@
+import React from "react";
 import axios from "../Request/RequestConfig";
-import {useEffect, useState} from "react";
 
 const DataRequest = async (url) => {
 

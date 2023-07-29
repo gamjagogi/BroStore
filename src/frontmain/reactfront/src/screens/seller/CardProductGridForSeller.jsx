@@ -9,14 +9,21 @@ const CardProductGridForSeller = (props) => {
   const navigate = useNavigate();
   const product = props.data;
   //----------------------
+  const id = product.id;
   const category = product.category;
   const description = product.description;
   const discountPercentage = product.discountPercentage;
   const discountPrice = product.discountPrice;
-  const freeShipping = product.isFreeShipping;
-
-
-
+  const freeShipping = product.isFreeShipping?true:false;
+  const isHot = product.hot?true:false;
+  const name = product.name;
+  const isNew = product.new?true:false;
+  const originPrice = product.originPrice?product.originPrice:0;
+  const price = product.price;
+  const soldBy = product.soldBy;
+  const star = product.star;
+  const thumbnail = product.thumbnail;
+  const highlights = product.highlights;
 
   //---------------------
   const parser = new DOMParser();
@@ -29,7 +36,7 @@ const CardProductGridForSeller = (props) => {
 
   const onFixProduct = () => {
 
-    navigate(`/selling/${product.id}`)
+    navigate(`/selling/${product.id}?id=${id}&category=${category}&description=${description}&discountPercentage=${discountPercentage}&discountPrice=${discountPrice}&freeShipping=${freeShipping}&isHot=${isHot}&isNew=${isNew}&name=${name}&originPrice=${originPrice}&price=${price}&soldBy=${soldBy}&star=${star}&thumbnail=${thumbnail}&highlights=${highlights}`);
   }
 
 
@@ -80,12 +87,12 @@ const CardProductGridForSeller = (props) => {
         </div>
         <div className="btn-group  d-flex" role="group">
           <button
-            type="button"
-            className="btn btn-sm btn-outline-secondary"
-            title="Add to wishlist"
-            onClick={onFixProduct}
+              type="button"
+              className="btn btn-sm btn-outline-secondary"
+              title="Add to wishlist"
+              onClick={onFixProduct}
           >
-            <FontAwesomeIcon icon={faHeart} />
+            <span>수정하기</span>
           </button>
         </div>
       </div>

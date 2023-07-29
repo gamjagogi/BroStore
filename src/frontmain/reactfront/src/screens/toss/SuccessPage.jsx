@@ -32,7 +32,7 @@ export function SuccessPage() {
             const id = sessionStorage.getItem("userData2");
 
             if (accessToken && refreshToken) {
-                const response = await axios.get(`/auth/cart/delete/${id}`,{
+                const response = await axios.get(`/auth/cart/delete/${id}/order/${orderId}`,{
                     headers: {
                         'Content-Type': 'application/json',
                         'Authorization': `Bearer ${accessToken}`,

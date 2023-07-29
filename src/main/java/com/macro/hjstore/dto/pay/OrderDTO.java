@@ -8,6 +8,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.persistence.Column;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -109,7 +111,7 @@ public class OrderDTO {
     }
 
     @Getter
-    public static class ResponseOrderSheet{
+    public static class ResponseOrderSheet{ // 결제 중 필요한 주문내역
 
         private String orderCode;
 
@@ -128,6 +130,41 @@ public class OrderDTO {
             this.customerName = order.getUserName();
             this.customerEmail = order.getUserEmail();
             this.price = order.getOrderPrice();
+        }
+    }
+    @Getter
+    public static class ResponseOrders{ // 유저가 주문내역 확인을 할떄 필요한 응답
+        private Long id;
+
+        private String orderCode;
+
+        private String orderName;
+
+        private String userName;
+
+        private String userEmail;
+
+        private String tel;
+
+        private String receiveAddress;
+
+        private Integer orderPrice;
+
+        private boolean state;
+
+        private LocalDateTime createdAt;
+
+        public ResponseOrders(Order order) {
+            this.id = order.getId();
+            this.orderCode = order.getOrderCode();
+            this.orderName = order.getOrderName();
+            this.userName = order.getUserName();
+            this.userEmail = order.getUserEmail();
+            this.tel = order.getTel();
+            this.receiveAddress = order.getReceiveAddress();
+            this.orderPrice = order.getOrderPrice();
+            this.state = order.isState();
+            this.createdAt = order.getCreatedAt();
         }
     }
 

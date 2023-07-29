@@ -80,7 +80,7 @@ public class OrderController {
         if (userDetails.getUser().getId() == id) {
             User userPS = userService.회원찾기(id);
             System.out.println("유저이메일 : "+userPS.getEmail());
-            List<Order>orderListPS = orderService.주문서(userPS.getEmail());
+            List<OrderDTO.ResponseOrders>orderListPS = orderService.주문서(userPS.getEmail());
             System.out.println("주문서응답직전 : "+ orderListPS.toString());
             ResponseDTO<?>responseDTO = new ResponseDTO<>(orderListPS);
             return ResponseEntity.ok().body(responseDTO);

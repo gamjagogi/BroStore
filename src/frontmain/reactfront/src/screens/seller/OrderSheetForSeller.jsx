@@ -1,6 +1,6 @@
 import React, {lazy, useEffect, useState} from "react";
 import { Link } from "react-router-dom";
-import OrderSheetData from "./OrderSheetData";
+import OrderSheetDataForSeller from "./OrderSheetDataForSeller";
 import { ReactComponent as IconChevronRight } from "bootstrap-icons/icons/chevron-right.svg";
 import { ReactComponent as IconChevronLeft } from "bootstrap-icons/icons/chevron-left.svg";
 import { ReactComponent as IconTruck } from "bootstrap-icons/icons/truck.svg";
@@ -8,7 +8,7 @@ import axios from "../Request/RequestConfig";
 import {useNavigate} from "react-router-dom";
 
 
-const OrderSheet = () => {
+const OrderSheetForSeller = () => {
     const navigate = useNavigate();
     const [orderList, setOrderList ] = useState([]);
 
@@ -25,7 +25,7 @@ const OrderSheet = () => {
             console.log(id);
 
             if (accessToken && refreshToken) {
-                const response = await axios.get(`/auth/user/orders/${id}`, {
+                const response = await axios.get(`/manager/progressOrders/${id}`, {
                     headers: {
                         'Content-Type': 'application/json',
                         'Authorization': `Bearer ${accessToken}`,
@@ -36,15 +36,14 @@ const OrderSheet = () => {
                 if (response.status == 200) {
                     const data = await response.data.data;
                     console.log(data);
+
                     setOrderList(data);
 
                 } else {
-                    console.error('장바구니를 가져오는대 실패했습니다.');
-                    throw new Error('장바구니를 가져오는대 실패했습니다.');
+                    console.error('판매상품이 존재하지않습니다..');
                 }
             } else {
                 console.error('인증되지 않은 사용자가 접근하려 합니다.');
-                throw new Error('인증되지 않은 사용자가 접근하려 합니다.');
             }
         } catch (error) {
             console.error('에러발생..', error);
@@ -114,7 +113,7 @@ const OrderSheet = () => {
                                     {orderList.map((order, idx) => {
                                         return (
                                             <tbody key={idx}>
-                                            <OrderSheetData
+                                            <OrderSheetDataForSeller
                                                 order={order}
                                                 handleDelete={handleDelete}
                                             />
@@ -142,4 +141,4 @@ const OrderSheet = () => {
     );
 }
 
-export default OrderSheet;
+export default OrderSheetForSeller;

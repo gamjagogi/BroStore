@@ -6,12 +6,11 @@ import com.macro.hjstore.dto.shop.CartResponseDTO;
 import com.macro.hjstore.model.cart.Cart;
 import com.macro.hjstore.model.cart.CartItem;
 import com.macro.hjstore.model.deliveryProduct.Delivery;
+import com.macro.hjstore.model.order.Order;
+import com.macro.hjstore.model.seller.Seller;
 import com.macro.hjstore.model.softwareProduct.Software;
 import com.macro.hjstore.model.user.User;
-import com.macro.hjstore.service.CartService;
-import com.macro.hjstore.service.DeliveryService;
-import com.macro.hjstore.service.SoftwareService;
-import com.macro.hjstore.service.UserService;
+import com.macro.hjstore.service.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,6 +30,10 @@ public class CartController {
     private final UserService userService;
 
     private final DeliveryService deliveryService;
+
+    private final SellerService sellerService;
+
+    private final OrderService orderService;
 
     // 장바구니에 물건 넣기
     // post요청받을시 body데이터에 있어야하는것: 상품 id, 상품 갯수
@@ -181,13 +184,19 @@ public class CartController {
         }
     }
 
-    @GetMapping("/auth/cart/delete/{id}")
-    public ResponseEntity<?>deleteCart(@PathVariable Long id
+    @GetMapping("/auth/cart/delete/{id}/order/{orderId}")
+    public ResponseEntity<?>deleteCart(@PathVariable("id") Long id,@PathVariable("orderId")String orderId
             , @AuthenticationPrincipal MyUserDetails userDetails) {
         if (userDetails.getUser().getId() == id) {
+            String orderCode = orderId;
             User userPS = userService.회원찾기(id);
+            System.out.println("카트삭제 전에 판매페이지용 주문서 등록");
+            Order orderPS = orderService.판매자페이지주문서가져오기(orderCode);
+            System.out.println(orderPS.getUserEmail());
             Cart userCart = userPS.getCart();
-            System.out.println("카트가져옴!!"+userCart.toString());
+
+
+            sellerService.모든주문내역에추가(userCart,orderPS);
             cartService.카트삭제(userCart);
             ResponseDTO<?> responseDTO = new ResponseDTO<>();
             return ResponseEntity.ok().body(responseDTO);
