@@ -53,7 +53,7 @@ const DeliveryDetail = () => {
         fetchPost()
             .then((postData) => {
                 console.log(postData.data);
-                DataRequest("/auth/delivery").then((requestData) => {
+                DataRequest("/delivery").then((requestData) => {
                     console.log(requestData.data);
                     setProductList(requestData.data);
                 })
@@ -80,7 +80,7 @@ const DeliveryDetail = () => {
             const refreshToken = localStorage.getItem('refreshToken');
 
             // Fetch post using `id`
-            const response = await axios.get(`/auth/delivery/${id}`, {
+            const response = await axios.get(`/delivery/${id}`, {
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${accessToken}`,

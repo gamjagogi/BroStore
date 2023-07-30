@@ -13,7 +13,7 @@ const DeliveryCategoryConfig = (categoryName) => {
 
             if (accessToken && refreshToken) {
                 axios
-                    .get("/auth/delivery", {
+                    .get("/delivery", {
                         headers: {
                             "Content-Type": "application/json",
                             Authorization: `Bearer ${accessToken}`,
@@ -50,7 +50,7 @@ const DeliveryCategoryConfig = (categoryName) => {
 
             if (accessToken && refreshToken) {
                 axios
-                    .get("/auth/delivery/electronics", {
+                    .get("/delivery/electronics", {
                         headers: {
                             "Content-Type": "application/json",
                             Authorization: `Bearer ${accessToken}`,
@@ -88,7 +88,7 @@ const DeliveryCategoryConfig = (categoryName) => {
 
             if (accessToken && refreshToken) {
                 axios
-                    .get("/auth/delivery/clothes", {
+                    .get("/delivery/clothes", {
                         headers: {
                             "Content-Type": "application/json",
                             Authorization: `Bearer ${accessToken}`,
@@ -124,7 +124,7 @@ const DeliveryCategoryConfig = (categoryName) => {
 
             if (accessToken && refreshToken) {
                 axios
-                    .get("/auth/delivery/toy", {
+                    .get("/delivery/toy", {
                         headers: {
                             "Content-Type": "application/json",
                             Authorization: `Bearer ${accessToken}`,

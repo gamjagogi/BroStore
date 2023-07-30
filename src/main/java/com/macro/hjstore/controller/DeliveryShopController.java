@@ -24,7 +24,7 @@ public class DeliveryShopController {
 
     private final DeliveryService deliveryService;
 
-    @GetMapping("/auth/delivery")
+    @GetMapping("/delivery")
     public ResponseEntity<?> listAll(){
         List<DeliveryResponseDTO>boardList = deliveryService.게시글목록보기();
         System.out.println(boardList);
@@ -33,7 +33,7 @@ public class DeliveryShopController {
     }
 
 
-    @GetMapping("/auth/delivery/electronics")
+    @GetMapping("/delivery/electronics")
     public ResponseEntity< ? > crawlingList() {
         String category = "Electronics";
         List<DeliveryResponseDTO>crawlingList = deliveryService.category목록보기(category);
@@ -42,7 +42,7 @@ public class DeliveryShopController {
         return ResponseEntity.ok().body(responseDTO);
     }
 
-    @GetMapping("/auth/delivery/clothes")
+    @GetMapping("/delivery/clothes")
     public ResponseEntity< ? > macroList() {
         String category = "Clothes";
         List<DeliveryResponseDTO>crawlingList = deliveryService.category목록보기(category);
@@ -51,7 +51,7 @@ public class DeliveryShopController {
         return ResponseEntity.ok().body(responseDTO);
     }
 
-    @GetMapping("/auth/delivery/toy")
+    @GetMapping("/delivery/toy")
     public ResponseEntity< ? > monitoringList() {
         String category = "Toy";
         List<DeliveryResponseDTO>crawlingList = deliveryService.category목록보기(category);
@@ -62,7 +62,7 @@ public class DeliveryShopController {
 
 
 
-    @GetMapping("/auth/delivery/{id}")
+    @GetMapping("/delivery/{id}")
     public ResponseEntity<?> detail(@PathVariable("id") Long id){
         DeliveryResponseDTO.Detail detailDTO = deliveryService.게시글상세보기(id);
         ResponseDTO responseDTO = new ResponseDTO(detailDTO);
