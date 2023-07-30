@@ -5,6 +5,7 @@ import com.macro.hjstore.core.exception.Exception404;
 import com.macro.hjstore.dto.pay.OrderDTO;
 import com.macro.hjstore.model.order.Order;
 import com.macro.hjstore.model.order.OrderRepository;
+import com.macro.hjstore.model.order.OrderStatus;
 import com.macro.hjstore.model.user.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -67,6 +68,7 @@ public class OrderService {
         Order orderPS = orderRepository.findByOrderId(orderCode)
                 .orElseThrow(()-> new Exception404("해당 주문목록을 찾을 수 없습니다."));
         orderPS.setState(false);
+        orderPS.setStatus(OrderStatus.CANCELLATION_PROCESSING);
         orderRepository.save(orderPS);
     }
 
@@ -74,8 +76,9 @@ public class OrderService {
     public List<OrderDTO.ResponseOrders> 주문서(String email){
         try {
             List<Order> orderList = orderRepository.findByUserEmail(email);
-            List<OrderDTO.ResponseOrders>orders = orderList.stream().map(product -> new OrderDTO.ResponseOrders(product)).collect(Collectors.toList());
+            List<OrderDTO.ResponseOrders>orders = orderList.stream().map(order -> new OrderDTO.ResponseOrders(order)).collect(Collectors.toList());
             System.out.println(orders.get(0).getOrderName());
+            System.out.println("주문상태 테스트: "+orders.get(0).getStatus());
             return orders;
         }catch(Exception e) {
             System.out.println(e.getMessage());

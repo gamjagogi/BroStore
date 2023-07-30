@@ -61,22 +61,6 @@ const CardProductGrid = (props) => {
         <div className="my-2">
           <span className="fw-bold h9">Category : {product.category}</span>
         </div>
-        <div className="btn-group  d-flex" role="group">
-          <button
-            type="button"
-            className="btn btn-sm btn-primary"
-            title="Add to cart"
-          >
-            <FontAwesomeIcon icon={faCartPlus} />
-          </button>
-          <button
-            type="button"
-            className="btn btn-sm btn-outline-secondary"
-            title="Add to wishlist"
-          >
-            <FontAwesomeIcon icon={faHeart} />
-          </button>
-        </div>
       </div>
     </div>
   );

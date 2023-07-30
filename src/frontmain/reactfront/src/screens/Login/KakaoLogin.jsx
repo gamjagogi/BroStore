@@ -1,6 +1,8 @@
 import React, {useEffect, useState} from "react"
 import axios from "../Request/RequestConfig";
 import {useNavigate} from "react-router-dom";
+import './KakaoLogo.css';
+
 
 const KakaoLogin = () => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);

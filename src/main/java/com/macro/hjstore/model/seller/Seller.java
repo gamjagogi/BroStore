@@ -1,5 +1,6 @@
 package com.macro.hjstore.model.seller;
 
+import com.macro.hjstore.model.order.OrderStatus;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -40,6 +41,8 @@ public class Seller {
 
     private boolean state;
 
+    private OrderStatus status;
+
     private LocalDateTime createdAt;
 
     @PrePersist
@@ -49,6 +52,10 @@ public class Seller {
 
     public void setState(boolean state){
         this.state = state;
+    }
+
+    public void setStatus(OrderStatus status){
+        this.status = status;
     }
 
     @Builder

@@ -1,22 +1,35 @@
 import React, {useEffect, useState} from "react";
-import {Link} from "react-router-dom";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faMinus, faPlus} from "@fortawesome/free-solid-svg-icons";
-import {ReactComponent as IconHeartFill} from "bootstrap-icons/icons/heart-fill.svg";
 import {ReactComponent as IconTrash} from "bootstrap-icons/icons/trash.svg";
+import {ReactComponent as IconTruck} from "bootstrap-icons/icons/truck.svg";
+import {ReactComponent as IconBagXFill} from "bootstrap-icons/icons/bag-x-fill.svg";
 
 
 const OrderSheetData = (props) => {
 
-    const {order, handleDelete} = props;
+    const {order, handleCancelComplite,handleDeliveryComplite} = props;
 
     console.log("주문목록 진입");
-
-
-
-    const onClickDelete = async () => {
-        handleDelete(order.orderCode);
+    let status;
+    console.log(order.status);
+    if(order.status=="SHIPPING_IN_PROGRESS"){
+        status = "배송 중";
+    }else if(order.status=="CANCELLATION_PROCESSING"){
+        status = "취소 요청";
+    }else if(order.status=="DELIVERY_COMPLETED"){
+        status = "배송 완료"
+    }else if(order.status=="CANCELLATION_COMPLETED"){
+        status = "취소 완료"
     }
+
+
+    const onClickCancelComplite = async () => {
+        handleCancelComplite(order.orderCode);
+    }
+
+    const onClickDeliveryComplite = async () => {
+        handleDeliveryComplite(order.orderCode);
+    }
+
 
     return (
         <tr>
@@ -58,15 +71,19 @@ const OrderSheetData = (props) => {
             <tb>
                 <div className="row" style={{marginTop:"-10px"}}>
                     <small className="d-block text-muted">
-                        {order.state?"배송 요청 중":"배송 취소 요청 중"}
+                        {status}
                     </small>
                 </div>
             </tb>
             <td>
                 <div className="row">
                     <button className="btn btn-sm btn-outline-danger"
-                            style={{width:"50px"}} onClick={onClickDelete}>
-                        <IconTrash className="i-va"/>
+                            style={{width:"50px"}} onClick={onClickCancelComplite}>
+                        <IconBagXFill className="i-va"/>
+                    </button>
+                    <button className="btn btn-sm btn-outline-danger"
+                            style={{width:"50px"}} onClick={onClickDeliveryComplite}>
+                        <IconTruck className="i-va"/>
                     </button>
                 </div>
             </td>

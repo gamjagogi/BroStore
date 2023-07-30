@@ -24,7 +24,7 @@ const DeliverySoldByAndCategoryConfig = (props) => {
 
     return (
         <div>
-        <DropdownButton id="dropdown-item-button" title={category} style={{marginBottom:'20px'}}>
+        <DropdownButton id="dropdown-item-button" title={category?category:"Category"} style={{marginBottom:'20px'}}>
             <Dropdown.Item as="button" onClick={() => handleCategoryChange('Electronics')} >Electronics</Dropdown.Item>
             <Dropdown.Item as="button" onClick={() => handleCategoryChange('Clothes')}>Clothes</Dropdown.Item>
             <Dropdown.Item as="button" onClick={() => handleCategoryChange('Toy')}>Toy</Dropdown.Item>

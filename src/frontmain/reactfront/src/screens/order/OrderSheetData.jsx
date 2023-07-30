@@ -12,12 +12,23 @@ const OrderSheetData = (props) => {
     let status;
     console.log("주문목록 진입");
 
-    console.log(order.state);
-    if(order.state==true){
-        status = "배송중";
-    }else{
-        status = "취소중";
+    // console.log(order.state);
+    // if(order.state==true){
+    //     status = "배송중";
+    // }else{
+    //     status = "취소중";
+    // }
+    console.log(order.status);
+    if(order.status=="SHIPPING_IN_PROGRESS"){
+        status = "배송 중";
+    }else if(order.status=="CANCELLATION_PROCESSING"){
+        status = "취소 처리 중";
+    }else if(order.status=="DELIVERY_COMPLETED"){
+        status = "배송 완료"
+    }else if(order.status=="CANCELLATION_COMPLETED"){
+        status = "취소 완료"
     }
+
 
 
     const onClickDelete = async () => {
@@ -69,10 +80,10 @@ const OrderSheetData = (props) => {
             </tb>
             <td>
                 <div className="row">
-                    <button className="btn btn-sm btn-outline-danger"
+                    {status=="배송 중"?(<button className="btn btn-sm btn-outline-danger"
                             style={{width:"50px"}} onClick={onClickDelete}>
                         <IconTrash className="i-va"/>
-                    </button>
+                    </button>):""}
                 </div>
             </td>
         </tr>

@@ -2,6 +2,7 @@ package com.macro.hjstore.dto.pay;
 
 
 import com.macro.hjstore.model.order.Order;
+import com.macro.hjstore.model.order.OrderStatus;
 import com.macro.hjstore.model.user.User;
 import lombok.Builder;
 import lombok.Getter;
@@ -50,6 +51,7 @@ public class OrderDTO {
                     .tel(this.tel)
                     .receiveAddress(this.receiveAddress)
                     .orderPrice(this.orderPrice)
+                    .orderStatus(OrderStatus.SHIPPING_IN_PROGRESS)
                     .state(true)
                     .build();
             return orderPS;
@@ -152,6 +154,8 @@ public class OrderDTO {
 
         private boolean state;
 
+        private OrderStatus status;
+
         private LocalDateTime createdAt;
 
         public ResponseOrders(Order order) {
@@ -164,6 +168,7 @@ public class OrderDTO {
             this.receiveAddress = order.getReceiveAddress();
             this.orderPrice = order.getOrderPrice();
             this.state = order.isState();
+            this.status = order.getStatus();
             this.createdAt = order.getCreatedAt();
         }
     }

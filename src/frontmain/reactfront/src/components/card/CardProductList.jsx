@@ -87,15 +87,6 @@ const CardProductList = (props) => {
             </p>
           )}
 
-          <div className="btn-group d-flex" role="group" style={{width : '50%'}}>
-            <button
-              type="button"
-              className="btn btn-sm btn-outline-secondary"
-              title="Add to wishlist"
-            >
-              <FontAwesomeIcon icon={faHeart} />
-            </button>
-          </div>
             <br />
 
             <div className="mb-2">

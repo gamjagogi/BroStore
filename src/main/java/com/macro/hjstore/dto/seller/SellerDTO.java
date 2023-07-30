@@ -1,5 +1,6 @@
 package com.macro.hjstore.dto.seller;
 
+import com.macro.hjstore.model.order.OrderStatus;
 import com.macro.hjstore.model.seller.Seller;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -30,6 +31,8 @@ public class SellerDTO {
 
         private boolean state;
 
+        private OrderStatus status;
+
         public ResponseOrders(Seller seller) {
             this.id = seller.getId();
             this.sellerUserId = seller.getSellerUserId();
@@ -42,6 +45,7 @@ public class SellerDTO {
             this.customerTel = seller.getCustomerTel();
             this.orderCode = seller.getOrderCode();
             this.state = seller.isState();
+            this.status = seller.getStatus();
         }
     }
 }

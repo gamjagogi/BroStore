@@ -1,7 +1,8 @@
 import React, {useEffect, useState} from 'react';
 import {Login} from "../../components/Styles/Loginform/Login.style";
-import { useNavigate, useLocation } from 'react-router-dom';
+import {useNavigate, useLocation} from 'react-router-dom';
 import axios from '../Request/RequestConfig.js';
+import {ReactComponent as IconKakaoLogo} from '../../assets/kakaologo.svg'
 
 
 const LoginPage = () => {
@@ -16,31 +17,32 @@ const LoginPage = () => {
     }, [code]);
 
 
-
     const navigate = useNavigate();
     const location = useLocation();
 
-    const SocialKakao = ()=>
-    {
-        const Rest_api_key='c4ea7b717441096606e933d562d8f8a6' //REST API KEY
+    const SocialKakao = () => {
+        const Rest_api_key = 'c4ea7b717441096606e933d562d8f8a6' //REST API KEY
         const redirect_uri = 'http://localhost:3000/auth' //Redirect URI
         // oauth 요청 URL
         const kakaoURL = `https://kauth.kakao.com/oauth/authorize?client_id=${Rest_api_key}&redirect_uri=${redirect_uri}&response_type=code&scope=account_email`
-        const handleLogin = ()=>{
+        const handleLogin = () => {
             window.location.href = kakaoURL
         }
-        return(
-            <>
-                <button onClick={handleLogin}>카카오 로그인</button>
-            </>
+        return (
+            <button onClick={handleLogin}>
+  <span className="kakao-icon">
+    <IconKakaoLogo/> {/* 이 아이콘은 이전에 정의한 IconKakaoLogo입니다. */}
+      kakao login
+  </span>
+            </button>
+
         )
     }
 
 
-
     const handleLogin = async () => {
         try {
-            const response = await axios.post('/login', JSON.stringify({ email, password }), {
+            const response = await axios.post('/login', JSON.stringify({email, password}), {
                 headers: {
                     'Content-Type': 'application/json',
                 },
@@ -101,7 +103,7 @@ const LoginPage = () => {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
             />
-            <div style={{ width: "300px" }}>
+            <div style={{width: "300px",marginTop:'5px'}}>
                 <button onClick={handleLogin}>로그인</button>
                 <SocialKakao/>
                 <button onClick={handleJoin}>회원가입</button>

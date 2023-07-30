@@ -1,6 +1,7 @@
 package com.macro.hjstore.controller;
 
 import com.macro.hjstore.core.auth.session.MyUserDetails;
+import com.macro.hjstore.core.exception.Exception404;
 import com.macro.hjstore.dto.ResponseDTO;
 import com.macro.hjstore.dto.shop.CartResponseDTO;
 import com.macro.hjstore.model.cart.Cart;
@@ -57,39 +58,42 @@ public class CartController {
         // 로그인이 되어있는 유저의 id와 장바구니에 접속하는 id가 같아야 함
         if (principalDetails.getUser().getId() == id) {
 
+                try {
+                    User userPS = userService.회원찾기(id);
+                    // 로그인 되어 있는 유저에 해당하는 장바구니 가져오기
+                    Cart userCart = userPS.getCart();
 
-                User userPS = userService.회원찾기(id);
-                // 로그인 되어 있는 유저에 해당하는 장바구니 가져오기
-                Cart userCart = userPS.getCart();
-
-                System.out.println(userCart);
-
-
-                // 장바구니에 들어있는 아이템 모두 가져오기
-                List<CartItem> cartItemList = cartService.모든장바구니상품가져오기(userCart);
+                    System.out.println(userCart);
 
 
-                System.out.println(cartItemList);
+                    // 장바구니에 들어있는 아이템 모두 가져오기
+                    List<CartItem> cartItemList = cartService.모든장바구니상품가져오기(userCart);
 
-                // 장바구니에 들어있는 상품들의 총 가격
-                Integer totalPrice = 0;
-                for (CartItem cartitem : cartItemList) {
-                    System.out.println(cartitem.getCount());
-                    totalPrice += cartitem.getCount() * cartitem.getDelivery().getPrice();
+
+                    System.out.println(cartItemList);
+
+                    // 장바구니에 들어있는 상품들의 총 가격
+                    Integer totalPrice = 0;
+                    for (CartItem cartitem : cartItemList) {
+                        System.out.println(cartitem.getCount());
+                        totalPrice += cartitem.getCount() * cartitem.getDelivery().getPrice();
+                    }
+
+
+                    CartResponseDTO cartResponseDTO = new CartResponseDTO(cartItemList, totalPrice, userCart.getCount(), userPS);
+
+
+                    ResponseDTO<?> responseDTO = new ResponseDTO<>(cartResponseDTO);
+
+                    return ResponseEntity.ok().body(responseDTO);
+                }catch (Exception e){
+                    System.out.println(e.getMessage());
+                    return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
                 }
-
-
-                CartResponseDTO cartResponseDTO = new CartResponseDTO(cartItemList, totalPrice, userCart.getCount(), userPS);
-
-
-                ResponseDTO<?> responseDTO = new ResponseDTO<>(cartResponseDTO);
-
-                return ResponseEntity.ok().body(responseDTO);
-
         }
         // 로그인 id와 장바구니 접속 id가 같지 않는 경우
         else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
     }
 

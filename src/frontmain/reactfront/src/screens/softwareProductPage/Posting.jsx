@@ -12,6 +12,21 @@ const SettingForm = lazy(() => import("../../components/account/SettingForm"));
 const PriceConfig = lazy(() => import("../../components/posting/PriceConfig"));
 
 const Posting = () => {
+
+    // manager또는 admin인지 확인 후 아니면 뒤로 가게 만듬
+    useEffect(() => {
+        const userRole = sessionStorage.getItem('userRole');
+        console.log(userRole);
+        if(userRole==null){
+            alert('판매자 기능입니다.');
+            return navigate('/software');
+        }
+        if(!(userRole.match("ROLE_ADMIN")||userRole.match("ROLE_MANAGER"))){
+            alert('판매자 기능입니다.');
+            return navigate('/software');
+        }
+    },[])
+
     const [state, setState] = useState({
         imagePreview: "",
         isDeleting: false,

@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
-@Builder
+
 @NoArgsConstructor
 @Getter
 @Entity
@@ -44,6 +44,9 @@ public class Order {
     @Column(name = "state")
     private boolean state;
 
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = true)
+    private OrderStatus status;
 
     private LocalDateTime createdAt;
 
@@ -56,16 +59,21 @@ public class Order {
         this.state = state;
     }
 
+    public void setStatus(OrderStatus status){
+        this.status = status;
+    }
+
     @Builder
-    public Order(Long id, String orderCode, String orderName, String userName,String email, String tel, String receiveAddress, Integer orderPrice, boolean state,LocalDateTime createdAt) {
+    public Order(Long id, String orderCode, String orderName, String userName,String userEmail, String tel, String receiveAddress, Integer orderPrice,OrderStatus orderStatus, boolean state,LocalDateTime createdAt) {
         this.id = id;
         this.orderCode = orderCode;
         this.orderName = orderName;
         this.userName = userName;
-        this.userEmail = email;
+        this.userEmail = userEmail;
         this.tel = tel;
         this.receiveAddress = receiveAddress;
         this.orderPrice = orderPrice;
+        this.status = orderStatus;
         this.state = state;
         this.createdAt = createdAt;
     }

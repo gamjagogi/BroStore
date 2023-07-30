@@ -165,6 +165,51 @@ const DeliveryDetail = () => {
         }
     }
 
+    const onPurchage = async () => {
+        try {
+            const accessToken = localStorage.getItem('accessToken');
+            const refreshToken = localStorage.getItem('refreshToken');
+            console.log(accessToken);
+            console.log(refreshToken);
+
+
+
+
+            if (accessToken && refreshToken) {
+                // 요청 보내기
+                console.log(count);
+                const response = await axios.post(`/auth/cart/save/${id}`, JSON.stringify(count), {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${accessToken}`,
+                        'RefreshToken': `Bearer ${refreshToken}`,
+                    },
+                });
+
+                if (response.status == 200) {
+                    // 응답 성공 시 처리할 작업
+                    const data = await response.data;
+                    console.log(data); // 요청에 대한 응답 처리
+                    navigate('/purchasePage');
+
+                } else {
+                    // 응답 실패 시 처리할 작업
+                    const errorMessages = await response.data;
+                    console.log(errorMessages.errors);
+                    const errors = errorMessages.errors;
+                    for (const error of errors) {
+                        console.log(error.defaultMessage);
+                        alert(error.defaultMessage);
+                    }
+                }
+            } else {
+                alert('에러발생');
+            }
+        } catch (error) {
+            console.error('인증되지 않은 사용자가 접근하려 합니다..', error);
+        }
+    }
+
     return (
         <div className="container-fluid mt-3">
             <div className="row">
@@ -245,15 +290,9 @@ const DeliveryDetail = () => {
                                         type="button"
                                         className="btn btn-sm btn-warning me-2"
                                         title="Buy now"
+                                        onClick={onPurchage}
                                     >
                                         <FontAwesomeIcon icon={faShoppingCart}/> Purchase
-                                    </button>
-                                    <button
-                                        type="button"
-                                        className="btn btn-sm btn-outline-secondary"
-                                        title="Add to wishlist"
-                                    >
-                                        <FontAwesomeIcon icon={faHeart}/>
                                     </button>
                                 </div>
                             </div>

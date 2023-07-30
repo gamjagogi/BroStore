@@ -5,6 +5,7 @@ import com.macro.hjstore.core.exception.Exception404;
 import com.macro.hjstore.model.cart.Cart;
 import com.macro.hjstore.model.order.Order;
 import com.macro.hjstore.model.order.OrderRepository;
+import com.macro.hjstore.model.order.OrderStatus;
 import com.macro.hjstore.model.seller.Seller;
 import com.macro.hjstore.model.seller.SellerRepository;
 import lombok.RequiredArgsConstructor;
@@ -38,8 +39,29 @@ public class SellerService {
              Order orderPS = orderRepository.findByOrderId(seller.getOrderCode())
                      .orElseThrow(() -> new Exception404("주문ID로 주문서를 찾을 수 없습니다."));
              seller.setState(orderPS.isState());
+             seller.setStatus(orderPS.getStatus());
              return seller;
          }).collect(Collectors.toList());
         return sellerList;
+    }
+
+    @MyLog
+    public void 주문취소완료처리(String orderCode){
+
+        System.out.println("주문서찾기직전!");
+        Order orderPS = orderRepository.findByOrderId(orderCode)
+                .orElseThrow(()-> new Exception404("해당 주문목록을 찾을 수 없습니다."));
+        orderPS.setStatus(OrderStatus.CANCELLATION_COMPLETED);
+        orderRepository.save(orderPS);
+    }
+
+    @MyLog
+    public void 주문배달완료처리(String orderCode){
+
+        System.out.println("주문서찾기직전!");
+        Order orderPS = orderRepository.findByOrderId(orderCode)
+                .orElseThrow(()-> new Exception404("해당 주문목록을 찾을 수 없습니다."));
+        orderPS.setStatus(OrderStatus.DELIVERY_COMPLETED);
+        orderRepository.save(orderPS);
     }
 }

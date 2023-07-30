@@ -1,0 +1,5 @@
+package com.macro.hjstore.model.order;
+
+public enum OrderStatus {
+    SHIPPING_IN_PROGRESS,DELIVERY_COMPLETED,CANCELLATION_PROCESSING,CANCELLATION_COMPLETED
+}

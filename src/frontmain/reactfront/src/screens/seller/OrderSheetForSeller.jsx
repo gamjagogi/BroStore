@@ -50,7 +50,7 @@ const OrderSheetForSeller = () => {
         }
     };
 
-    const handleDelete = async (props) => {
+    const handleCancelComplite = async (props) => {
         const orderId = props;
         console.log(orderId);
 
@@ -60,7 +60,7 @@ const OrderSheetForSeller = () => {
             const id = sessionStorage.getItem('userData2');
 
             if (accessToken && refreshToken) {
-                const response = await axios.post(`/auth/order/delete/${id}`,JSON.stringify(orderId) ,{
+                const response = await axios.post(`/manager/cancelOrder/${id}`,JSON.stringify(orderId) ,{
                     headers: {
                         'Content-Type': 'application/json',
                         'Authorization': `Bearer ${accessToken}`,
@@ -71,7 +71,42 @@ const OrderSheetForSeller = () => {
                 if (response.status == 200) {
                     console.log('주문목록 삭제 완료')
                     console.log(response.data);
-                    alert('상품이 취소처리 될 예정입니다.');
+                    alert('상품이 취소완료 처리되었습니다.');
+                    window.location.reload();
+                }
+            } else {
+                console.error('인증되지 않은 사용자가 접근하려 합니다.');
+                throw new Error('인증되지 않은 사용자가 접근하려 합니다.');
+            }
+        } catch (error) {
+            console.error('에러발생..', error);
+            alert('에러발생, 잠시 후 다시 진행해 주세요.');
+            navigate('/');
+        }
+    }
+
+    const handleDeliveryComplite = async (props) => {
+        const orderId = props;
+        console.log(orderId);
+
+        try {
+            const accessToken = localStorage.getItem('accessToken');
+            const refreshToken = localStorage.getItem('refreshToken');
+            const id = sessionStorage.getItem('userData2');
+
+            if (accessToken && refreshToken) {
+                const response = await axios.post(`/manager/deliveryComplite/${id}`,JSON.stringify(orderId) ,{
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${accessToken}`,
+                        'RefreshToken': `Bearer ${refreshToken}`,
+                    },
+                });
+
+                if (response.status == 200) {
+                    console.log('주문목록 삭제 완료')
+                    console.log(response.data);
+                    alert('상품이 배송완료 처리했습니다.');
                     window.location.reload();
                 }
             } else {
@@ -88,7 +123,7 @@ const OrderSheetForSeller = () => {
     return (
         <React.Fragment>
             <div className="bg-secondary border-top p-4 text-white mb-3">
-                <h1 className="display-6 text-center">OrderSheet</h1>
+                <h1 className="display-6 text-center">OrderSheet For Seller</h1>
             </div>
             <div className="container mb-3">
                 <div className="row">
@@ -107,7 +142,7 @@ const OrderSheetForSeller = () => {
                                             Price
                                         </th>
                                         <th scope="col" width={130}>state</th>
-                                        <th scope="col" width={130} ></th>
+                                        <th scope="col" width={130} style={{fontSize:'11px'}}>취소완료/배송완료</th>
                                     </tr>
                                     </thead>
                                     {orderList.map((order, idx) => {
@@ -115,7 +150,8 @@ const OrderSheetForSeller = () => {
                                             <tbody key={idx}>
                                             <OrderSheetDataForSeller
                                                 order={order}
-                                                handleDelete={handleDelete}
+                                                handleCancelComplite={handleCancelComplite}
+                                                handleDeliveryComplite={handleDeliveryComplite}
                                             />
                                             </tbody>
                                         )
