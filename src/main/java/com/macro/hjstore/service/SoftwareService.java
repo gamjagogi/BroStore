@@ -22,7 +22,7 @@ public class SoftwareService {
 
     @MyLog
     public List<SoftwareResponseDTO> 게시글목록보기(){
-        List<Software> softwareList = softwareRepository.findAll();
+        List<Software> softwareList = softwareRepository.findByAllDesc();
         List<SoftwareResponseDTO>newList = softwareList.stream()
                 .map(software -> new SoftwareResponseDTO(software)).collect(Collectors.toList());
         return newList;

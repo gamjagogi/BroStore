@@ -12,7 +12,7 @@ import {Editor} from "../../components/Styles/Editorform/Editor.style";
 import Card from "react-bootstrap/Card";
 
 
-export default function PostEditor() {
+export default function QuestionPost() {
     const quillRef = useRef(null);
 
     const [title, setTitle] = useState('');
@@ -27,6 +27,9 @@ export default function PostEditor() {
     const [urls, setUrls] = useState([]);
     const [updatedDomArray, setUpdatedDomArray] = useState([]);
     const [deleted, setDeleted] = useState('');
+    const [selectedValue, setSelectedValue] = useState(1);
+    const [category, setCategory] = useState('');
+
     const navigate = useNavigate();
 
 
@@ -170,15 +173,7 @@ export default function PostEditor() {
             const refreshToken = localStorage.getItem('refreshToken');
             console.log(accessToken);
             console.log(refreshToken);
-
-            const config = {
-                headers: {
-                    Authorization: `Bearer ${accessToken}`,
-                    RefreshToken: `Bearer ${refreshToken}`,
-                    'Content-Type': 'application/json',
-                },
-            };
-            const requestData = {title, content};
+            const requestData = {title, content,category};
 
             if (thumbnails !== "") {
                 requestData.thumbnail = thumbnail;
@@ -187,7 +182,7 @@ export default function PostEditor() {
             if (accessToken && refreshToken) {
                 // 요청 보내기
                 console.log(requestData);
-                const response = await axios.post('/auth/board/save', JSON.stringify(requestData), {
+                const response = await axios.post('/auth/question/save', JSON.stringify(requestData), {
                     headers: {
                         'Content-Type': 'application/json',
                         'Authorization': `Bearer ${accessToken}`,
@@ -199,7 +194,7 @@ export default function PostEditor() {
                     // 응답 성공 시 처리할 작업
                     const data = await response.data;
                     console.log(data); // 요청에 대한 응답 처리
-                    navigate('/board');
+                    navigate('/question');
 
                 } else {
                     // 응답 실패 시 처리할 작업
@@ -336,6 +331,21 @@ export default function PostEditor() {
     };
     // ******************************************************************^
 
+
+    const handleSelectChange = (event) => {
+        const selectedValue = event.target.value;
+        setSelectedValue(selectedValue);
+        if(selectedValue==2){
+            setCategory('RequestSeller');
+        }else if(selectedValue==1){
+            setCategory('')
+        }
+    }
+
+    const onClickBack = () => {
+        navigate('/question');
+    }
+
     return (
         <div style={{display: 'flex', flexDirection: 'column', height: '100vh'}}>
             <input
@@ -376,6 +386,12 @@ export default function PostEditor() {
                     position: 'relative',
                     top: '-200px'
                 }}>
+                    <label style={{marginRight:'10px',marginTop:'5px',fontWeight:'bold'}}>Category </label>
+                    <select className="form-select mw-180 float-start" aria-label="Default select" value={selectedValue} onChange={handleSelectChange} style={{marginRight:'10px'}}>
+                        <option value={1}>All</option>
+                        <option value={2} >판매자 신청</option>
+                    </select>
+
                     {/*<ImageLibrary imageSrc={imageSrc} index={index} />*/}
                     <Dropdown show={dropdownOpen} onToggle={toggleDropdown}>
                         <Dropdown.Toggle variant="primary" id="dropdown-basic-button">
@@ -402,7 +418,7 @@ export default function PostEditor() {
                     top: '-200px'
                 }}>
                     <button onClick={handleSubmit} style={{marginRight: '10px'}}>완료</button>
-                    <button style={{}}>취소</button>
+                    <button onClick={onClickBack}>취소</button>
                 </div>
             </div>
         </div>

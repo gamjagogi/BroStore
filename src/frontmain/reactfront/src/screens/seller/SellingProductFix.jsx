@@ -13,7 +13,6 @@ const PriceConfig = lazy(() => import("../../components/posting/PriceConfig"));
 
 const SellingProductFix = () => {
     const [searchParams] = useSearchParams();
-    //const id = searchParams.get("id");
 
 
     const [state, setState] = useState({

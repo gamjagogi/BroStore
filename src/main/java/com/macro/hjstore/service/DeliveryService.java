@@ -26,7 +26,7 @@ public class DeliveryService {
 
     @MyLog
     public List<DeliveryResponseDTO> 게시글목록보기(){
-        List<Delivery> deliveryList = deliveryRepository.findAll();
+        List<Delivery> deliveryList = deliveryRepository.findByAllDesc();
         List<DeliveryResponseDTO>newList = deliveryList.stream()
                 .map(delivery -> new DeliveryResponseDTO(delivery)).collect(Collectors.toList());
         return newList;

@@ -76,15 +76,10 @@ const DeliveryDetail = () => {
 
     const fetchPost = async () => {
         try {
-            const accessToken = localStorage.getItem('accessToken');
-            const refreshToken = localStorage.getItem('refreshToken');
-
             // Fetch post using `id`
             const response = await axios.get(`/delivery/${id}`, {
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${accessToken}`,
-                    'RefreshToken': `Bearer ${refreshToken}`,
                 },
             });
 
@@ -94,11 +89,9 @@ const DeliveryDetail = () => {
                 return postData;
             } else {
                 console.error('게시글을 가져오는데 실패했습니다.');
-                throw new Error('게시글을 가져오는데 실패했습니다.');
             }
         } catch (error) {
-            console.error('인증되지 않은 사용자가 접근하려 합니다.', error);
-            throw error;
+            console.error('에러 발생.', error);
         }
     };
 
@@ -158,7 +151,7 @@ const DeliveryDetail = () => {
                     }
                 }
             } else {
-                alert('에러발생');
+                alert('로그인 후 장바구니 사용이 가능합니다.');
             }
         } catch (error) {
             console.error('인증되지 않은 사용자가 접근하려 합니다..', error);
@@ -203,7 +196,7 @@ const DeliveryDetail = () => {
                     }
                 }
             } else {
-                alert('에러발생');
+                alert('로그인 후 구매가 가능합니다.');
             }
         } catch (error) {
             console.error('인증되지 않은 사용자가 접근하려 합니다..', error);

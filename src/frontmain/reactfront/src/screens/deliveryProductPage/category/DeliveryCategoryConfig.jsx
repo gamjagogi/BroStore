@@ -8,16 +8,10 @@ const DeliveryCategoryConfig = (categoryName) => {
 
     const getAll = async () => {
         return new Promise((resolve, reject) => {
-            const accessToken = localStorage.getItem("accessToken");
-            const refreshToken = localStorage.getItem("refreshToken");
-
-            if (accessToken && refreshToken) {
                 axios
                     .get("/delivery", {
                         headers: {
                             "Content-Type": "application/json",
-                            Authorization: `Bearer ${accessToken}`,
-                            RefreshToken: `Bearer ${refreshToken}`,
                         },
                     })
                     .then((response) => {
@@ -35,26 +29,17 @@ const DeliveryCategoryConfig = (categoryName) => {
                         console.error("게시글을 가져올 수 없습니다..", error);
                         reject(new Error("게시글을 가져올 수 없습니다.."));
                     });
-            } else {
-                console.log("로그인이 필요합니다.");
-                reject(new Error("로그인이 필요합니다."));
-            }
         });
     };
 
 
     const getElectronics = async () => {
         return new Promise((resolve, reject) => {
-            const accessToken = localStorage.getItem("accessToken");
-            const refreshToken = localStorage.getItem("refreshToken");
 
-            if (accessToken && refreshToken) {
                 axios
                     .get("/delivery/electronics", {
                         headers: {
                             "Content-Type": "application/json",
-                            Authorization: `Bearer ${accessToken}`,
-                            RefreshToken: `Bearer ${refreshToken}`,
                         },
                     })
                     .then((response) => {
@@ -72,10 +57,6 @@ const DeliveryCategoryConfig = (categoryName) => {
                         console.error("게시글을 가져올 수 없습니다..", error);
                         reject(new Error("게시글을 가져올 수 없습니다.."));
                     });
-            } else {
-                console.log("로그인이 필요합니다.");
-                reject(new Error("로그인이 필요합니다."));
-            }
         });
     };
 
@@ -83,16 +64,11 @@ const DeliveryCategoryConfig = (categoryName) => {
 
     const getClothes = async () => {
         return new Promise((resolve, reject) => {
-            const accessToken = localStorage.getItem("accessToken");
-            const refreshToken = localStorage.getItem("refreshToken");
 
-            if (accessToken && refreshToken) {
                 axios
                     .get("/delivery/clothes", {
                         headers: {
                             "Content-Type": "application/json",
-                            Authorization: `Bearer ${accessToken}`,
-                            RefreshToken: `Bearer ${refreshToken}`,
                         },
                     })
                     .then((response) => {
@@ -110,25 +86,15 @@ const DeliveryCategoryConfig = (categoryName) => {
                         console.error("게시글을 가져올 수 없습니다..", error);
                         reject(new Error("게시글을 가져올 수 없습니다.."));
                     });
-            } else {
-                console.log("로그인이 필요합니다.");
-                reject(new Error("로그인이 필요합니다."));
-            }
         });
     };
 
     const getToy = async () => {
         return new Promise((resolve, reject) => {
-            const accessToken = localStorage.getItem("accessToken");
-            const refreshToken = localStorage.getItem("refreshToken");
-
-            if (accessToken && refreshToken) {
                 axios
                     .get("/delivery/toy", {
                         headers: {
                             "Content-Type": "application/json",
-                            Authorization: `Bearer ${accessToken}`,
-                            RefreshToken: `Bearer ${refreshToken}`,
                         },
                     })
                     .then((response) => {
@@ -146,10 +112,6 @@ const DeliveryCategoryConfig = (categoryName) => {
                         console.error("게시글을 가져올 수 없습니다..", error);
                         reject(new Error("게시글을 가져올 수 없습니다.."));
                     });
-            } else {
-                console.log("로그인이 필요합니다.");
-                reject(new Error("로그인이 필요합니다."));
-            }
         });
     };
 

@@ -165,14 +165,4 @@ public class UserController {
         return ResponseEntity.ok().build();
     }
 
-//    @PostMapping("/auth/logout/{id}")
-//    @Transactional
-//    public ResponseEntity<?> logOut(@PathVariable("id")Long id, @AuthenticationPrincipal MyUserDetails userDetails, Errors errors) {
-//        if (userDetails.getUser().getId() == id) {
-//            System.out.println("로그아웃 성공");
-//            return ResponseEntity.ok().build();
-//        } else {
-//            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-//        }
-//    }
 }

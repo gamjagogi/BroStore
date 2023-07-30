@@ -1,6 +1,7 @@
 package com.macro.hjstore.dto.board;
 
 import com.macro.hjstore.model.board.Board;
+import com.macro.hjstore.model.question.Question;
 import com.macro.hjstore.model.user.User;
 import lombok.Getter;
 import lombok.Setter;
@@ -35,6 +36,14 @@ public class BoardRequest {
                     .thumbnail(thumbnail)
                     .build();
         }
+
+        public Question toQuestionEntity(User user) {
+            return Question.builder()
+                    .user(user)
+                    .title(title)
+                    .content(content)
+                    .build();
+        }
     }
 
     @Setter
@@ -44,5 +53,51 @@ public class BoardRequest {
         private String title;
         @NotEmpty
         private String content;
+    }
+
+    @Getter
+    public static class QuestionSaveIn{
+        @NotEmpty
+        private String title;
+        @NotEmpty
+        private String content;
+
+        private String thumbnail;
+
+        private String category;
+
+
+        public Question toQuestionEntity(User user) {
+            return Question.builder()
+                    .user(user)
+                    .title(title)
+                    .content(content)
+                    .category(category)
+                    .thumbnail(thumbnail)
+                    .build();
+        }
+    }
+
+    @Getter
+    public static class QuestionUpdateIn{
+        @NotEmpty
+        private String title;
+        @NotEmpty
+        private String content;
+
+        private String category;
+
+        private Long boardId;
+
+
+        public Question toQuestionUpdateEntity(User user) {
+            return Question.builder()
+                    .id(boardId)
+                    .user(user)
+                    .title(title)
+                    .content(content)
+                    .category(category)
+                    .build();
+        }
     }
 }

@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {useNavigate} from 'react-router-dom';
+import {useNavigate, useSearchParams} from 'react-router-dom';
 
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
@@ -10,15 +10,29 @@ import {v4 as uuidv4} from 'uuid';
 import {Button, Dropdown, ListGroup} from "react-bootstrap";
 import {Editor} from "../../components/Styles/Editorform/Editor.style";
 import Card from "react-bootstrap/Card";
+//유저 보드 수정 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
+export default function QuestionPostFix() {
+    const [searchParams] = useSearchParams();
 
-export default function PostEditor() {
+    const [state,setState] = useState({
+        title: searchParams.get("title"),
+        content: searchParams.get("content"),
+        category: searchParams.get("category"),
+        boardId: searchParams.get("boardId")
+    });
+
+    //초기 카테고리값
+    let initCategory;
+    if(state.category=="RequestSeller"){
+        initCategory = 2;
+    }else {
+        initCategory = 1;
+    }
+
     const quillRef = useRef(null);
 
-    const [title, setTitle] = useState('');
-    const [content, setContent] = useState('');
     const [thumbnail, setThumbnail] = useState('');
-    const [thumbnails, setThumbnails] = useState('');
     const [loginError, setLoginError] = useState('');
     const [imageSrc, setImageSrc] = useState('');
 
@@ -27,6 +41,8 @@ export default function PostEditor() {
     const [urls, setUrls] = useState([]);
     const [updatedDomArray, setUpdatedDomArray] = useState([]);
     const [deleted, setDeleted] = useState('');
+    const [selectedValue, setSelectedValue] = useState(initCategory);
+
     const navigate = useNavigate();
 
 
@@ -152,7 +168,7 @@ export default function PostEditor() {
     const onChangeTitle = (event) => {
         const newTitle = event.target.value;
         if (newTitle.length <= 60) {
-            setTitle(newTitle);
+            setState((prevState) => ({...prevState,title:newTitle}));
         } else {
             // 팝업을 띄우는 로직을 추가하거나 원하는 작업을 수행합니다.
             // 예시: alert을 사용하여 팝업을 띄움
@@ -161,33 +177,28 @@ export default function PostEditor() {
     };
 
     const onChangeContent = (content) => {
-        setContent(content);
+        setState((prevState) => ({...prevState,content:content}));
     };
 
     const handleSubmit = async () => {
         try {
             const accessToken = localStorage.getItem('accessToken');
             const refreshToken = localStorage.getItem('refreshToken');
+            const id = sessionStorage.getItem('userData2');
             console.log(accessToken);
             console.log(refreshToken);
+            const {title, content,category,boardId} = state;
 
-            const config = {
-                headers: {
-                    Authorization: `Bearer ${accessToken}`,
-                    RefreshToken: `Bearer ${refreshToken}`,
-                    'Content-Type': 'application/json',
-                },
-            };
-            const requestData = {title, content};
+            const requestData = { title,content,category,boardId};
 
-            if (thumbnails !== "") {
+            if (thumbnail !== "") {
                 requestData.thumbnail = thumbnail;
             }
+            console.log(requestData);
 
             if (accessToken && refreshToken) {
                 // 요청 보내기
-                console.log(requestData);
-                const response = await axios.post('/auth/board/save', JSON.stringify(requestData), {
+                const response = await axios.post(`/auth/question/update/${id}`, JSON.stringify(requestData), {
                     headers: {
                         'Content-Type': 'application/json',
                         'Authorization': `Bearer ${accessToken}`,
@@ -199,7 +210,8 @@ export default function PostEditor() {
                     // 응답 성공 시 처리할 작업
                     const data = await response.data;
                     console.log(data); // 요청에 대한 응답 처리
-                    navigate('/board');
+                    alert('수정완료!');
+                    navigate('/question');
 
                 } else {
                     // 응답 실패 시 처리할 작업
@@ -336,11 +348,26 @@ export default function PostEditor() {
     };
     // ******************************************************************^
 
+
+    const handleSelectChange = (event) => {
+        const selectedValue = event.target.value;
+        setSelectedValue(selectedValue);
+        if(selectedValue==2){
+            setState((prevState) => ({...prevState,category:'RequestSeller'}));
+        }else if(selectedValue==1){
+            setState((prevState) => ({...prevState,category:''}));
+        }
+    }
+
+    const onClickBack = () => {
+        navigate('/question');
+    }
+
     return (
         <div style={{display: 'flex', flexDirection: 'column', height: '100vh'}}>
             <input
                 type="text"
-                value={title}
+                defaultValue={state.title}
                 onChange={onChangeTitle}
                 placeholder="제목"
                 style={{flex: 'none', padding: '10px', fontSize: '18px'}}
@@ -355,6 +382,7 @@ export default function PostEditor() {
                     modules={modules}
                     theme="snow"
                     onChange={onChangeContent}
+                    defaultValue={state.content}
                     style={{
                         flex: '1',
                         minHeight: '0',
@@ -364,7 +392,7 @@ export default function PostEditor() {
                         height: '80%'
                     }}
                 />
-                <div dangerouslySetInnerHTML={{__html: content}} style={{display: 'none'}}/>
+                <div dangerouslySetInnerHTML={{__html: state.content}} style={{display: 'none'}}/>
             </div>
             <br/>
             <div className="footer" style={{marginTop: 'auto', padding: '10px', position: 'relative', top: '70px'}}>
@@ -376,6 +404,12 @@ export default function PostEditor() {
                     position: 'relative',
                     top: '-200px'
                 }}>
+                    <label style={{marginRight:'10px',marginTop:'5px',fontWeight:'bold'}}>Category </label>
+                    <select className="form-select mw-180 float-start" aria-label="Default select" value={selectedValue} onChange={handleSelectChange} style={{marginRight:'10px'}}>
+                        <option value={1}>All</option>
+                        <option value={2} >판매자 신청</option>
+                    </select>
+
                     {/*<ImageLibrary imageSrc={imageSrc} index={index} />*/}
                     <Dropdown show={dropdownOpen} onToggle={toggleDropdown}>
                         <Dropdown.Toggle variant="primary" id="dropdown-basic-button">
@@ -402,7 +436,7 @@ export default function PostEditor() {
                     top: '-200px'
                 }}>
                     <button onClick={handleSubmit} style={{marginRight: '10px'}}>완료</button>
-                    <button style={{}}>취소</button>
+                    <button onClick={onClickBack}>취소</button>
                 </div>
             </div>
         </div>

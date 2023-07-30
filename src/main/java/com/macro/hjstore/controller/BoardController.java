@@ -43,14 +43,14 @@ public class BoardController {
         }
     }
 
-    @GetMapping("/auth/shop/{id}")
+    @GetMapping("/auth/board/detail/{id}")
     public ResponseEntity<?> detail(@PathVariable("id") Long id){
         BoardResponse.DetailDTO detailDTO = boardService.게시글상세보기(id);
         ResponseDTO responseDTO = new ResponseDTO(detailDTO);
         return ResponseEntity.ok().body(responseDTO);
     }
 
-    @PostMapping("/manager/shop/save")
+    @PostMapping("/auth/board/save")
     public ResponseEntity<?> savePost(@RequestBody @Valid BoardRequest.SaveInDTO saveInDTO
             , @AuthenticationPrincipal MyUserDetails userDetails,Errors errors){
 

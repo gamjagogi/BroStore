@@ -30,6 +30,10 @@ import KakaoLogin from "./screens/Login/KakaoLogin"
 import SellingPage from "./screens/seller/SellingPage";
 import SellingProductFix from "./screens/seller/SellingProductFix";
 import OrderSheetForSeller from "./screens/seller/OrderSheetForSeller";
+import QuestionBoard from "./screens/question/QuestionBoard";
+import QuestionDetailPage from "./screens/question/QuestionDetailPage";
+import QuestionPost from "./screens/question/QuestionPost";
+import QuestionPostFix from "./screens/question/QuestionPostFix";
 
 const SoftwareListView = lazy(() => import("./screens/softwareProductPage/List"));
 const SoftwareDetailView = lazy(() => import("./screens/softwareProductPage/Detail"));
@@ -91,16 +95,26 @@ function App() {
                         <Route exact path="/login" element={<LoginPage/>}/>
                         <Route exact path ="/auth" element={<KakaoLogin/>}/>
                         <Route exact path="/about" element={<About/>}/>
+
                         <Route exact path="/board" element={<UserBoard/>}/>
+                        <Route exact path="/detail/:id" element={<DetailPage/>}/>
+                        <Route exact path="/editor" element={<PostEditor/>}/>
+
+                        <Route exact path="/question" element={<QuestionBoard/>}/>
+                        <Route exact path="/question/detail/:id" element={<QuestionDetailPage/>}/>
+                        <Route exact path="/question/editor" element={<QuestionPost/>}/>
+                        <Route exact path="/question/editor/:userId" element={<QuestionPostFix/>}/>
+
+
                         <Route exact path="/software" element={<SoftwareListView/>}/>
                         <Route exact path = "/delivery" element={<DeliveryListView/>}/>
 
                         <Route exact path="/cart" element={<CartView/>}/>
-                        <Route exact path="/questions" element={<Questions/>}/>
+
                         <Route exact path="/reactDoc" element={<ReactDoc/>}/>
                         <Route exact path="/join" element={<JoinPage/>}/>
-                        <Route exact path="/detail/:id" element={<DetailPage/>}/>
-                        <Route exact path="/editor" element={<PostEditor/>}/>
+
+
                         <Route exact path="/notice" element={<Notice/>}/>
                         <Route exact path="/software/:id" element={<SoftwareDetailView/>}/>
                         <Route exact path="/star/zone" element={<StarZoneView/>}/>

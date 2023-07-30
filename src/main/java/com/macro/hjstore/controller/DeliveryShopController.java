@@ -5,7 +5,9 @@ import com.macro.hjstore.dto.ResponseDTO;
 import com.macro.hjstore.dto.shop.DeliveryRequestDTO;
 import com.macro.hjstore.dto.shop.DeliveryResponseDTO;
 import com.macro.hjstore.model.deliveryProduct.Delivery;
+import com.macro.hjstore.model.user.User;
 import com.macro.hjstore.service.DeliveryService;
+import com.macro.hjstore.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,6 +25,8 @@ import java.util.List;
 public class DeliveryShopController {
 
     private final DeliveryService deliveryService;
+
+    private final UserService userService;
 
     @GetMapping("/delivery")
     public ResponseEntity<?> listAll(){
@@ -114,6 +118,13 @@ public class DeliveryShopController {
         }
 
         Delivery deliveryPS = deliveryService.상품찾기(updateDTO.getProductId());
+
+        // 현재 유저와, 게시물 작성자 유저가 일치하는지 확인.
+        User userPS = userService.회원찾기(id);
+        if(deliveryPS.getUserId()!=userPS.getId()){
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+
         deliveryService.게시글수정하기(id,deliveryPS,updateDTO);
         System.out.println("수정완료!!");
 

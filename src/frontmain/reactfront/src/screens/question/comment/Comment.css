@@ -1,0 +1,9 @@
+/* CommentList.module.css (파일 확장자를 .css로 저장) */
+.comment {
+    border-bottom: 1px solid #dddddd;
+    padding: 0.4rem;
+}
+
+.date {
+    font-size: 0.7rem;
+}

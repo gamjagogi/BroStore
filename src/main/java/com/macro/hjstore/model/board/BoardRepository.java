@@ -14,7 +14,7 @@ public interface BoardRepository extends JpaRepository<Board,Long> {
     @Query("select b from Board b join fetch b.user where b.id = :id")
     Optional<Board> findByIdFetchUser(@Param("id") Long id);
 
-    @Query("select b from Board b order by b.id asc")
+    @Query("select b from Board b order by b.id desc")
     List<Board> findAllBySorted();
 
 }

@@ -10,7 +10,7 @@ import java.util.Optional;
 
 public interface OrderRepository extends JpaRepository<Order,Long> {
 
-    @Query("select o from Order o where o.userEmail =:userEmail")
+    @Query("select o from Order o where o.userEmail =:userEmail order by o.id desc")
     List<Order> findByUserEmail(@Param("userEmail") String userEmail);
 
 
