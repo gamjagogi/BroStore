@@ -46,18 +46,9 @@ const UserBoard = () => {
 
     const handlePage = async () => {
         try {
-            const accessToken = localStorage.getItem('accessToken');
-            const refreshToken = localStorage.getItem('refreshToken');
-            const userId = sessionStorage.getItem('userData2');
-            console.log(userId);
-            const id = userId;
-
-            if (accessToken && refreshToken) {
-                const response = await axios.get(`/auth/board/${id}`, {
+                const response = await axios.get(`/board`, {
                     headers: {
                         'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${accessToken}`,
-                        'RefreshToken': `Bearer ${refreshToken}`,
                     },
                 });
 
@@ -66,18 +57,19 @@ const UserBoard = () => {
                     console.log(data);
                     return data;
                 } else {
-                    setLoginError('인증된 유저만 접근 가능합니다.');
+                    console.error('게시글을 가져오지 못했습니다.');
                 }
-            } else {
-                setLoginError('로그인이 필요합니다.');
-            }
         } catch (error) {
             console.error('에러발생..', error);
-            setLoginError('에러 발생.');
         }
     };
 
     const handlePosting = () => {
+        const userId = sessionStorage.getItem('userData2');
+        if(!userId){
+            alert('로그인이 필요합니다.');
+            return window.location.reload();
+        }
         navigate('/editor');
     }
 
@@ -93,9 +85,7 @@ const UserBoard = () => {
                 </form>
             </div>
             <div style={{display: 'flex', justifyContent: 'flex-end', marginTop: '0.5em'}}>
-                <form action="/" method="get">
                     <button onClick={handlePosting} style={{marginLeft: '0.5em'}}>글작성</button>
-                </form>
             </div>
 
             <ListGroup as="ol" numbered={true}>

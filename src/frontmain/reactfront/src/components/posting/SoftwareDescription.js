@@ -279,6 +279,7 @@ const SoftwareDescription = (props) => {
                     modules={modules}
                     theme="snow"
                     onChange={onDescriptionChange}
+                    defaultValue={description}
                     style={{
                         flex: '1',
                         minHeight: '0',
@@ -295,7 +296,7 @@ const SoftwareDescription = (props) => {
                 <div style={{
                     display: 'flex',
                     justifyContent: 'flex-end',
-                    marginTop: 'auto',
+                    marginTop: '30px',
                     marginRight: '10px',
                     position: 'relative',
                     top: '-220px'

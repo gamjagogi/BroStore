@@ -12,23 +12,14 @@ import {Editor} from "../../components/Styles/Editorform/Editor.style";
 import Card from "react-bootstrap/Card";
 //유저 보드 수정 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-export default function QuestionPostFix() {
+export default function PostEditorFix() {
     const [searchParams] = useSearchParams();
 
     const [state,setState] = useState({
         title: searchParams.get("title"),
         content: searchParams.get("content"),
-        category: searchParams.get("category"),
         boardId: searchParams.get("boardId")
     });
-
-    //초기 카테고리값
-    let initCategory;
-    if(state.category=="RequestSeller"){
-        initCategory = 2;
-    }else {
-        initCategory = 1;
-    }
 
     const quillRef = useRef(null);
 
@@ -41,7 +32,6 @@ export default function QuestionPostFix() {
     const [urls, setUrls] = useState([]);
     const [updatedDomArray, setUpdatedDomArray] = useState([]);
     const [deleted, setDeleted] = useState('');
-    const [selectedValue, setSelectedValue] = useState(initCategory);
 
     const navigate = useNavigate();
 
@@ -187,9 +177,9 @@ export default function QuestionPostFix() {
             const id = sessionStorage.getItem('userData2');
             console.log(accessToken);
             console.log(refreshToken);
-            const {title, content,category,boardId} = state;
+            const {title, content,boardId} = state;
 
-            const requestData = { title,content,category,boardId};
+            const requestData = { title,content,boardId};
 
             if (thumbnail !== "") {
                 requestData.thumbnail = thumbnail;
@@ -198,7 +188,7 @@ export default function QuestionPostFix() {
 
             if (accessToken && refreshToken) {
                 // 요청 보내기
-                const response = await axios.post(`/auth/question/update/${id}`, JSON.stringify(requestData), {
+                const response = await axios.post(`/auth/board/update/${id}`, JSON.stringify(requestData), {
                     headers: {
                         'Content-Type': 'application/json',
                         'Authorization': `Bearer ${accessToken}`,
@@ -211,7 +201,7 @@ export default function QuestionPostFix() {
                     const data = await response.data;
                     console.log(data); // 요청에 대한 응답 처리
                     alert('수정완료!');
-                    navigate('/question');
+                    navigate('/board');
 
                 } else {
                     // 응답 실패 시 처리할 작업
@@ -349,18 +339,9 @@ export default function QuestionPostFix() {
     // ******************************************************************^
 
 
-    const handleSelectChange = (event) => {
-        const selectedValue = event.target.value;
-        setSelectedValue(selectedValue);
-        if(selectedValue==2){
-            setState((prevState) => ({...prevState,category:'RequestSeller'}));
-        }else if(selectedValue==1){
-            setState((prevState) => ({...prevState,category:''}));
-        }
-    }
 
     const onClickBack = () => {
-        navigate('/question');
+        navigate('/board');
     }
 
     return (
@@ -404,11 +385,6 @@ export default function QuestionPostFix() {
                     position: 'relative',
                     top: '-200px'
                 }}>
-                    <label style={{marginRight:'10px',marginTop:'5px',fontWeight:'bold'}}>Category </label>
-                    <select className="form-select mw-180 float-start" aria-label="Default select" value={selectedValue} onChange={handleSelectChange} style={{marginRight:'10px'}}>
-                        <option value={1}>All</option>
-                        <option value={2} >판매자 신청</option>
-                    </select>
 
                     {/*<ImageLibrary imageSrc={imageSrc} index={index} />*/}
                     <Dropdown show={dropdownOpen} onToggle={toggleDropdown}>

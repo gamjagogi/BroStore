@@ -34,6 +34,8 @@ public class DeliveryResponseDTO {
 
     private String category;
 
+    private Long userId;
+
     public DeliveryResponseDTO(Delivery delivery){
         this.id = delivery.getId();
         this.sku = delivery.getSku();
@@ -52,6 +54,7 @@ public class DeliveryResponseDTO {
         this.highlights = delivery.getHighlights();
         this.soldBy = delivery.getSoldBy();
         this.category = delivery.getCategory();
+        this.userId = delivery.getUserId();
     }
     @Getter
     public static class Detail{

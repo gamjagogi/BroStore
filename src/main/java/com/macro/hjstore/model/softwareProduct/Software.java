@@ -73,6 +73,8 @@ public class Software {
     @Column(name = "category")
     private String category;
 
+    private Long userId;
+
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
@@ -88,9 +90,8 @@ public class Software {
 
 
     @Builder
-    public Software(Long id, String sku, String name, String thumbnail, String img, Integer price, Integer originPrice, Integer discountPrice, Integer discountPercentage, boolean isNew, boolean isHot, Integer star, boolean isFreeShipping, String highlights, String description, String soldBy, String category, LocalDateTime createdAt, LocalDateTime updatedAt) {
+    public Software(Long id, String name, String thumbnail, String img, Integer price, Integer originPrice, Integer discountPrice, Integer discountPercentage, boolean isNew, boolean isHot, Integer star, boolean isFreeShipping, String highlights, String description, String soldBy, String category, Long userId,LocalDateTime createdAt, LocalDateTime updatedAt) {
         this.id = id;
-        this.sku = sku;
         this.name = name;
         this.thumbnail = thumbnail;
         this.img = img;
@@ -106,11 +107,12 @@ public class Software {
         this.description = description;
         this.soldBy = soldBy;
         this.category = category;
+        this.userId = userId;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
     }
 
-    public static Software toEntity(SoftwareRequestDTO.Save savePS) {
+    public static Software toEntity(Long userId,SoftwareRequestDTO.Save savePS) {
         Software softwarePS = Software.builder()
                 .name(savePS.getTitle())
                 .thumbnail(savePS.getImagePreview())
@@ -126,6 +128,7 @@ public class Software {
                 .description(savePS.getDescription())
                 .soldBy(savePS.getSoldBy())
                 .category(savePS.getCategory())
+                .userId(userId)
                 .build();
         return softwarePS;
     }

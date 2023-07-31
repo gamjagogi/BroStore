@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 
 // 저장할 필요가 있는건 tb로 만든다.
 
-@Builder
+
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Table(name = "board_tb")

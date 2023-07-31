@@ -6,6 +6,7 @@ import com.macro.hjstore.dto.shop.DeliveryRequestDTO;
 import com.macro.hjstore.dto.shop.DeliveryResponseDTO;
 import com.macro.hjstore.dto.shop.SoftwareRequestDTO;
 import com.macro.hjstore.dto.shop.SoftwareResponseDTO;
+import com.macro.hjstore.model.board.Board;
 import com.macro.hjstore.model.deliveryProduct.Delivery;
 import com.macro.hjstore.model.deliveryProduct.DeliveryRepository;
 import com.macro.hjstore.model.softwareProduct.Software;
@@ -84,5 +85,14 @@ public class DeliveryService {
         }catch (Exception e){
             throw new Exception404("판매상품을 찾지 못했습니다."+e.getMessage());
         }
+    }
+
+
+    @MyLog
+    @Transactional
+    public void 글삭제하기(Long id){
+        Delivery deliveryPS = deliveryRepository.findById(id)
+                .orElseThrow(() -> new Exception404("해당 글을 찾을 수 없습니다."));
+        deliveryRepository.delete(deliveryPS);
     }
 }

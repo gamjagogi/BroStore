@@ -171,13 +171,6 @@ export default function PostEditor() {
             console.log(accessToken);
             console.log(refreshToken);
 
-            const config = {
-                headers: {
-                    Authorization: `Bearer ${accessToken}`,
-                    RefreshToken: `Bearer ${refreshToken}`,
-                    'Content-Type': 'application/json',
-                },
-            };
             const requestData = {title, content};
 
             if (thumbnails !== "") {

@@ -34,6 +34,9 @@ import QuestionBoard from "./screens/question/QuestionBoard";
 import QuestionDetailPage from "./screens/question/QuestionDetailPage";
 import QuestionPost from "./screens/question/QuestionPost";
 import QuestionPostFix from "./screens/question/QuestionPostFix";
+import PostEditorFix from "./screens/userBoard/PostEditorFix";
+import PostingFix from "./screens/softwareProductPage/PostingFix";
+import SearchView from "./screens/search/SearchView";
 
 const SoftwareListView = lazy(() => import("./screens/softwareProductPage/List"));
 const SoftwareDetailView = lazy(() => import("./screens/softwareProductPage/Detail"));
@@ -99,6 +102,8 @@ function App() {
                         <Route exact path="/board" element={<UserBoard/>}/>
                         <Route exact path="/detail/:id" element={<DetailPage/>}/>
                         <Route exact path="/editor" element={<PostEditor/>}/>
+                        <Route exact path="/board/editor/:id" element={<PostEditorFix/>}/>
+
 
                         <Route exact path="/question" element={<QuestionBoard/>}/>
                         <Route exact path="/question/detail/:id" element={<QuestionDetailPage/>}/>
@@ -107,6 +112,10 @@ function App() {
 
 
                         <Route exact path="/software" element={<SoftwareListView/>}/>
+                        <Route exact path="/software/:id" element={<SoftwareDetailView/>}/>
+                        <Route exact path="/software/boardFix" element={<PostingFix/>}/>
+
+
                         <Route exact path = "/delivery" element={<DeliveryListView/>}/>
 
                         <Route exact path="/cart" element={<CartView/>}/>
@@ -116,7 +125,7 @@ function App() {
 
 
                         <Route exact path="/notice" element={<Notice/>}/>
-                        <Route exact path="/software/:id" element={<SoftwareDetailView/>}/>
+
                         <Route exact path="/star/zone" element={<StarZoneView/>}/>
                         <Route exact path="/500" element={<InternalServerErrorView/>}/>
                         <Route path="*" element={<NotFoundView/>}/>
@@ -137,6 +146,10 @@ function App() {
                         <Route exact path="/selling" element={<SellingPage/>}/>
                         <Route exact path="/selling/:id" element={<SellingProductFix/>}/>
                         <Route exact path="/selling/orders" element={<OrderSheetForSeller/>}/>
+
+
+                        <Route exact path="/search" element={<SearchView/>}/>
+
 
                     </Routes>
                 </Suspense>

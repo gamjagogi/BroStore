@@ -2,8 +2,10 @@ package com.macro.hjstore.service;
 
 import com.macro.hjstore.core.annotation.MyLog;
 import com.macro.hjstore.core.exception.Exception404;
+import com.macro.hjstore.dto.shop.DeliveryResponseDTO;
 import com.macro.hjstore.dto.shop.SoftwareRequestDTO;
 import com.macro.hjstore.dto.shop.SoftwareResponseDTO;
+import com.macro.hjstore.model.deliveryProduct.Delivery;
 import com.macro.hjstore.model.softwareProduct.Software;
 import com.macro.hjstore.model.softwareProduct.SoftwareRepository;
 import lombok.RequiredArgsConstructor;
@@ -50,8 +52,8 @@ public class SoftwareService {
     }
 
     @MyLog
-    public void 게시글저장하기(SoftwareRequestDTO.Save saveDTO){
-        Software savePS = Software.toEntity(saveDTO);
+    public void 게시글저장하기(Long userId,SoftwareRequestDTO.Save saveDTO){
+        Software savePS = Software.toEntity(userId,saveDTO);
         softwareRepository.save(savePS);
     }
 
@@ -60,5 +62,31 @@ public class SoftwareService {
         Software softwarePS = softwareRepository.findById(itemId)
                 .orElseThrow(() -> new Exception404("상품을 찾을 수 없습니다."));
         return softwarePS;
+    }
+
+    @MyLog
+    public List<SoftwareResponseDTO> 판매상품가져오기(Long id){
+        try {
+            List<Software> sellingList = softwareRepository.findByUserId(id);
+            List<SoftwareResponseDTO> newList = sellingList.stream()
+                    .map(software -> new SoftwareResponseDTO(software)).collect(Collectors.toList());
+            return newList;
+        }catch (Exception e){
+            throw new Exception404("판매상품을 찾지 못했습니다."+e.getMessage());
+        }
+    }
+
+    @MyLog
+    @Transactional
+    public void 게시글수정하기(Software software){
+        softwareRepository.save(software);
+    }
+
+    @MyLog
+    @Transactional
+    public void 글삭제하기(Long id){
+        Software softwarePS = softwareRepository.findById(id)
+                .orElseThrow(() -> new Exception404("해당 글을 찾을 수 없습니다."));
+        softwareRepository.delete(softwarePS);
     }
 }

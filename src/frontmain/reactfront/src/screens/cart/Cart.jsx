@@ -1,13 +1,11 @@
 import React, {lazy, useEffect, useState} from "react";
 import { Link } from "react-router-dom";
-import { ReactComponent as IconHeartFill } from "bootstrap-icons/icons/heart-fill.svg";
-import { ReactComponent as IconTrash } from "bootstrap-icons/icons/trash.svg";
+
 import { ReactComponent as IconChevronRight } from "bootstrap-icons/icons/chevron-right.svg";
 import { ReactComponent as IconChevronLeft } from "bootstrap-icons/icons/chevron-left.svg";
 import { ReactComponent as IconTruck } from "bootstrap-icons/icons/truck.svg";
 import {useNavigate} from "react-router-dom";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faMinus, faPlus } from "@fortawesome/free-solid-svg-icons";
+
 import axios from "../Request/RequestConfig";
 //import CartProduct from "./CartProduct";
 

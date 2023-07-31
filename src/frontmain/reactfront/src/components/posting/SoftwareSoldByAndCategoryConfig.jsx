@@ -5,17 +5,11 @@ import InputGroup from "react-bootstrap/InputGroup";
 import Form from "react-bootstrap/Form";
 
 const SoftwareSoldByAndCategoryConfig = (props) => {
-    const [title,setTitle] = useState('Category');
 
-    const { setSoldBy, setCategory } = props
+    const { soldBy, setCategory,category } = props
 
-
-    const handleSoldByChange = (event) => {
-        setSoldBy(event.target.value);
-    };
 
     const handleCategoryChange = (event) => {
-        setTitle(event);
         setCategory(event);
         console.log(event);
     }
@@ -24,7 +18,7 @@ const SoftwareSoldByAndCategoryConfig = (props) => {
 
     return (
         <div>
-        <DropdownButton id="dropdown-item-button" title={title} style={{marginBottom:'20px'}}>
+        <DropdownButton id="dropdown-item-button" title={category?category:"Category"} style={{marginBottom:'20px'}}>
             <Dropdown.Item as="button" onClick={() => handleCategoryChange('Web Crawling')} >Web Crawling</Dropdown.Item>
             <Dropdown.Item as="button" onClick={() => handleCategoryChange('Monitoring')}>Monitoring</Dropdown.Item>
             <Dropdown.Item as="button" onClick={() => handleCategoryChange('Macro')}>Macro</Dropdown.Item>
@@ -34,7 +28,8 @@ const SoftwareSoldByAndCategoryConfig = (props) => {
                 <InputGroup.Text>Sold By</InputGroup.Text>
                 <Form.Control
                     aria-label="Amount (to the nearest dollar)"
-                    onChange={handleSoldByChange}
+                    value={soldBy}
+                    disabled
                 />
             </InputGroup>
         </div>

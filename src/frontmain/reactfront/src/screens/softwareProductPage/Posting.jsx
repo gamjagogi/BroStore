@@ -13,6 +13,8 @@ const PriceConfig = lazy(() => import("../../components/posting/PriceConfig"));
 
 const Posting = () => {
 
+    const name = sessionStorage.getItem('userData');
+
     // manager또는 admin인지 확인 후 아니면 뒤로 가게 만듬
     useEffect(() => {
         const userRole = sessionStorage.getItem('userRole');
@@ -42,7 +44,7 @@ const Posting = () => {
         originPrice: "",
         discountPrice: "",
         discountPercentage: "",
-        soldBy: "",
+        soldBy: name,
         category: ""
     });
 
@@ -111,12 +113,13 @@ const Posting = () => {
 
         const accessToken = localStorage.getItem("accessToken");
         const refreshToken = localStorage.getItem("refreshToken");
+        const id = sessionStorage.getItem('userData2');
         console.log(accessToken);
         console.log(refreshToken);
 
         if (accessToken && refreshToken) {
             axios
-                .post("/manager/software/save", JSON.stringify(requestData), {
+                .post(`/manager/software/save/${id}`, JSON.stringify(requestData), {
                     headers: {
                         "Content-Type": "application/json",
                         Authorization: `Bearer ${accessToken}`,
@@ -272,12 +275,12 @@ const Posting = () => {
         }
     };
 
-    const setSoldBy = async (soldBy) => {
-        if (soldBy) {
-            console.log(soldBy);
-            setState((prevState) => ({ ...prevState, soldBy: soldBy }));
-        }
-    };
+    // const setSoldBy = async (soldBy) => {
+    //     if (soldBy) {
+    //         console.log(soldBy);
+    //         setState((prevState) => ({ ...prevState, soldBy: soldBy }));
+    //     }
+    // };
 
     const setCategory = async (category) => {
         if (category) {
@@ -285,6 +288,10 @@ const Posting = () => {
             setState((prevState) => ({ ...prevState, category: category }));
         }
     };
+
+    const handleBack = () => {
+        navigate(-1);
+    }
 
     return (
         <div className="container-fluid my-3">
@@ -343,8 +350,9 @@ const Posting = () => {
                 </div>
                 <div style={{ marginTop : '50px', marginRight: "120px"}}>
                     <SoftwareSoldByAndCategoryConfig
-                        setSoldBy={setSoldBy}
+                        soldBy={state.soldBy}
                         setCategory={setCategory}
+                        category={state.category}
                     />
                 </div>
             </div>
@@ -366,7 +374,7 @@ const Posting = () => {
                 >
                     완료
                 </button>
-                <button style={{}}>취소</button>
+                <button onClick={handleBack}>취소</button>
             </div>
         </div>
     );

@@ -9,6 +9,9 @@ module.exports = {
     },
     devtool: "source-map",
     resolve: {
+        fallback: {
+            "path": require.resolve("path-browserify")
+        },
         extensions: [".ts", ".tsx", ".js", ".jsx"],
     },
     module: {

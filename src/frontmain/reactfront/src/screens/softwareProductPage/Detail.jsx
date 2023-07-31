@@ -2,17 +2,15 @@ import React, { useEffect, useState, lazy } from "react";
 import { ReactComponent as IconStarFill } from "bootstrap-icons/icons/star-fill.svg";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faCartPlus,
   faHeart,
   faShoppingCart,
-  faMinus,
-  faPlus,
 } from "@fortawesome/free-solid-svg-icons";
 import { data } from "../../data";
 import DataRequest from "./DataRequest";
 
 import axios from "../Request/RequestConfig";
-import { useParams } from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
+import Button from "react-bootstrap/Button";
 
 const CardFeaturedProduct = lazy(() =>
     import("../../components/card/CardFeaturedProduct")
@@ -27,6 +25,7 @@ const QuestionAnswer = lazy(() =>
 );
 
 const Detail = () => {
+  const [loginError, setLoginError] = useState('');
   const [productList, setProductList] = useState([]);
   const [name, setName] = useState('');
   const [imgSrc, setImgSrc] = useState('');
@@ -37,12 +36,14 @@ const Detail = () => {
   const [discountPrice,setDiscountPrice] = useState('');
   const [highlights, setHighlights] = useState('');
   const [description, setDescription] = useState('');
-
+  const [boardUserId,setBoardUserId] = useState('');
   const [soldBy, setSoldBy] = useState('');
   const [category, setCategory] = useState('');
+  const [star, setStar] = useState(5);
+  const [discountPercent, setDiscountPercent] = useState('');
 
   const { id } = useParams();
-
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchPost()
@@ -52,7 +53,7 @@ const Detail = () => {
             console.log(requestData.data);
             setProductList(requestData.data);
           })
-
+          console.log('페치한 데이터 뿌리기!!');
           setName(postData.data.name);
           setImgSrc(postData.data.thumbnail);
           setIsNew(postData.data.new);
@@ -65,7 +66,9 @@ const Detail = () => {
 
           setSoldBy(postData.data.soldBy);
           setCategory(postData.data.category);
-
+          setBoardUserId(postData.data.userId);
+          setStar(postData.data.star);
+          setDiscountPercent(postData.data.discountPercentage);
         });
   }, []);
 
@@ -97,7 +100,69 @@ const Detail = () => {
     }
   };
 
-  console.log(description);
+  const onUpdatePosting = () => {
+    const userId = sessionStorage.getItem('userData2');
+
+    if(userId!=boardUserId){
+      alert('권한이 없습니다.');
+      return window.location.reload();
+    }
+    console.log(category);
+    navigate(`/software/boardFix?softwareId=${id}&userId=${userId}&title=${name}&imgSrc=${imgSrc}&isNew=${isNew}&isHot=${isHot}&price=${price}&originPrice=${originPrice}&discountPrice=${discountPrice}&highlights=${highlights}&description=${description}&category=${category}&soldBy=${soldBy}&star=${star}&discountPercent=${discountPercent}`);
+  }
+
+  const handleDelete = async () => {
+    const userId = sessionStorage.getItem('userData2');
+    if (boardUserId != userId) {
+      alert('권한이 없습니다.');
+      return window.location.reload();
+    }
+
+    // 확인 문구
+    const shouldDelete = window.confirm('정말로 삭제하시겠습니까?');
+
+    if (!shouldDelete) {
+      return; // 사용자가 "취소"를 선택한 경우 아무 작업도 하지 않고 종료
+    }
+
+
+    try {
+      const accessToken = localStorage.getItem('accessToken');
+      const refreshToken = localStorage.getItem('refreshToken');
+      console.log(accessToken);
+      console.log(refreshToken);
+
+      if(accessToken && refreshToken){
+        const response = await axios.post(`/auth/software/delete/${id}/${userId}`,JSON.stringify(""),{
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${accessToken}`,
+            'RefreshToken': `Bearer ${refreshToken}`,
+          }
+        });
+
+        if (response.status == 200) {
+          // 응답 성공 시 처리할 작업
+          alert('삭제 성공');
+          navigate('/software');
+
+        } else {
+          // 응답 실패 시 처리할 작업
+          const errorMessages = await response.data;
+          console.log(errorMessages.errors);
+          const errors = errorMessages.errors;
+          for (const error of errors) {
+            console.log(error.defaultMessage);
+            alert(error.defaultMessage);
+          }
+        }
+      }else {
+        setLoginError('인증 권한을 가진 유저만 접근 가능합니다.'); // 로그인되지 않은 경우 처리
+      }
+    } catch (error) {
+      console.error("에러발생", error);
+    }
+  }
 
   return (
       <div className="container-fluid mt-3">
@@ -135,9 +200,11 @@ const Detail = () => {
                 <div className="mb-3">
                   <span className="fw-bold h5 me-2">{price}</span>
                   <del className="small text-muted me-2">{originPrice}</del>
-                  <span className="rounded p-1 bg-warning  me-2 small">
+
+                  {discountPrice?(<span className="rounded p-1 bg-warning  me-2 small">
                     {'-'+discountPrice}
-                  </span>
+                  </span>):''}
+
                 </div>
                 <div className="mb-3">
                   <div style={{ marginTop:'10px'}}>
@@ -147,13 +214,6 @@ const Detail = () => {
                       title="Buy now"
                   >
                     <FontAwesomeIcon icon={faShoppingCart} /> Download
-                  </button>
-                  <button
-                      type="button"
-                      className="btn btn-sm btn-outline-secondary"
-                      title="Add to wishlist"
-                  >
-                    <FontAwesomeIcon icon={faHeart} />
                   </button>
                   </div>
                 </div>
@@ -206,6 +266,12 @@ const Detail = () => {
                     >
                       Questions and Answers
                     </a>
+                    <Button style={{height:'40px', marginRight:'3px'}} onClick={onUpdatePosting}>
+                      수정
+                    </Button>
+                    <Button style={{height:'40px', marginTop:'3px'}} onClick={handleDelete}>
+                      삭제
+                    </Button>
                   </div>
                 </nav>
                 <div className="tab-content p-3 small" id="nav-tabContent">

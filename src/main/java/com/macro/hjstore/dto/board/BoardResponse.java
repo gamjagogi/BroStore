@@ -26,11 +26,14 @@ public class BoardResponse {
 
         private String username;
 
-        public DetailDTO(String title, String content, String thumbnail, String username) {
+        private Long userId;
+
+        public DetailDTO(String title, String content, String thumbnail, String username,Long userId) {
             this.title = title;
             this.content = content;
             this.thumbnail = thumbnail;
             this.username = username;
+            this.userId = userId;
         }
     }
     @Getter

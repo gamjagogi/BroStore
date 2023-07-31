@@ -53,6 +53,17 @@ public class BoardRequest {
         private String title;
         @NotEmpty
         private String content;
+
+        private Long boardId;
+
+        public Board toUpdateEntity(User user){
+            return Board.builder()
+                    .user(user)
+                    .title(title)
+                    .content(content)
+                    .id(boardId)
+                    .build();
+        }
     }
 
     @Getter

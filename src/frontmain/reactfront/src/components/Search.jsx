@@ -8,7 +8,7 @@ const Search = () => {
     event.preventDefault(); // 폼 기본 제출 동작 막기
     // 여기서 keyword 변수를 사용하여 원하는 메서드를 호출하거나 다른 작업을 수행합니다.
     console.log("검색어:", keyword);
-
+    // userboard, delivery, software 3가지 글 검색. 제목기준, 맨앞 한글자라도 포함되면 가져오고, 제목 전체 연속 두글자 포함시 가져온다.
     try {
 
     }catch(error){

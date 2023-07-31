@@ -1,16 +1,27 @@
-import React from "react";
+import React, {useState} from "react";
 import { Link } from "react-router-dom";
 import { ReactComponent as IconStarFill } from "bootstrap-icons/icons/star-fill.svg";
 import { ReactComponent as IconTruckFill } from "bootstrap-icons/icons/truck.svg";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCartPlus, faHeart } from "@fortawesome/free-solid-svg-icons";
 
 const CardProductList = (props) => {
   const product = props.data;
-  console.log(product);
+  const MAX_DESCRIPTION_LENGTH = 100; // 표시될 최대 글자 수를 설정합니다.
+  const [showFullDescription, setShowFullDescription] = useState(false);
+
+
+  // 더보기.. 토글
+  const toggleShowFullDescription = () => {
+    setShowFullDescription((prev) => !prev);
+  };
+
+  // 설명(description) 텍스트를 최대 길이로 자릅니다.
+  const truncatedDescription = product.description.substring(0, MAX_DESCRIPTION_LENGTH);
+
+
+
 
   const parser = new DOMParser();
-  const doc = parser.parseFromString(product.description, "text/html");
+  const doc = parser.parseFromString(truncatedDescription, "text/html");
   console.log(doc);
 
 

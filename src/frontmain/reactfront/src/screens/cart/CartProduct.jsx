@@ -95,9 +95,6 @@ const CartProduct = (props) => {
                 </small>
             </td>
             <td className="text-end">
-                <button className="btn btn-sm btn-outline-secondary me-2">
-                    <IconHeartFill className="i-va"/>
-                </button>
                 <button className="btn btn-sm btn-outline-danger" onClick={onClickDelete}>
                     <IconTrash className="i-va"/>
                 </button>

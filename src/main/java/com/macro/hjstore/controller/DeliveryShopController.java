@@ -133,17 +133,35 @@ public class DeliveryShopController {
     }
 
 
+    @PostMapping("/auth/delivery/delete/{id}/{userId}")
+    public ResponseEntity<?> delete(@PathVariable("id") Long id,@PathVariable("userId")Long userId,@AuthenticationPrincipal MyUserDetails userDetails){
+
+        if (userDetails.getUser().getId() == userId) {
+            try {
+                System.out.println("삭제 전!");
+                deliveryService.글삭제하기(id);
+                System.out.println("삭제완료!!");
+                return ResponseEntity.ok().build();
+            }catch (Exception e){
+                System.out.println(e.getMessage());
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+            }
+        } else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+    }
 
 
 
-    @GetMapping("/manager/orders/{id}")
+
+    // 판매중인 목록 불러오기.
+    @GetMapping("/manager/products/{id}")
     public ResponseEntity<?> saleProduct(@PathVariable("id") Long id
             ,@AuthenticationPrincipal MyUserDetails userDetails){
         if (userDetails.getUser().getId() == id) {
-            System.out.println("진입!!");
+
             List<DeliveryResponseDTO>sellingList = deliveryService.판매상품가져오기(id);
-            System.out.println(sellingList);
-            System.out.println("판매상품 찾기완료"+ sellingList.get(0).getName());
+
             ResponseDTO<?> responseDTO = new ResponseDTO<>(sellingList);
             return ResponseEntity.ok().body(responseDTO);
         } else {

@@ -14,7 +14,7 @@ const PriceConfig = lazy(() => import("../../components/posting/PriceConfig"));
 const DeliveryPosting = () => {
     const name = sessionStorage.getItem('userData');
 
-    // manager또는 admin인지 확인 후 아니면 뒤로 가게 만듬
+
     useEffect(() => {
         const userRole = sessionStorage.getItem('userRole');
         console.log(userRole);
@@ -198,10 +198,8 @@ const DeliveryPosting = () => {
     };
 
     const onTitleChange = async (title) => {
-        if (title) {
             console.log(title);
-            setState((prevState) => ({ ...prevState, title }));
-        }
+            setState((prevState) => ({ ...prevState, title}));
     };
 
     const onHighlightChange = async (highlights) => {

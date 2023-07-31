@@ -33,6 +33,8 @@ public class SoftwareResponseDTO {
 
     private String category;
 
+    private Long userId;
+
     public SoftwareResponseDTO(Software software){
         this.id = software.getId();
         this.sku = software.getSku();
@@ -50,6 +52,7 @@ public class SoftwareResponseDTO {
         this.description = software.getDescription();
         this.soldBy = software.getSoldBy();
         this.category = software.getCategory();
+        this.userId = software.getUserId();
     }
     @Getter
     public static class Detail{
@@ -78,6 +81,8 @@ public class SoftwareResponseDTO {
 
         private String category;
 
+        private Long userId;
+
         public Detail(Software software){
             this.id = software.getId();
             this.name = software.getName();
@@ -95,6 +100,7 @@ public class SoftwareResponseDTO {
             this.description = software.getDescription();
             this.soldBy = software.getSoldBy();
             this.category = software.getCategory();
+            this.userId = software.getUserId();
         }
     }
 }

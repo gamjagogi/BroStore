@@ -16,5 +16,4 @@ public interface BoardRepository extends JpaRepository<Board,Long> {
 
     @Query("select b from Board b order by b.id desc")
     List<Board> findAllBySorted();
-
 }

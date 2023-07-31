@@ -25,6 +25,7 @@ const SellingPage = () => {
     },[])
 
 
+
     const onSellingPage = async () => {
         try {
             const accessToken = localStorage.getItem('accessToken');
@@ -33,7 +34,7 @@ const SellingPage = () => {
             console.log(id);
 
             if (accessToken && refreshToken) {
-                const response = await axios.get(`/manager/orders/${id}`, {
+                const response = await axios.get(`/manager/products/${id}`, {
                     headers: {
                         'Content-Type': 'application/json',
                         'Authorization': `Bearer ${accessToken}`,
@@ -59,6 +60,9 @@ const SellingPage = () => {
             console.error('에러발생..', error);
         }
     };
+
+
+
 
 
     const onPageChanged = (page) => {

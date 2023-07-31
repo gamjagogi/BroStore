@@ -19,4 +19,7 @@ public interface SoftwareRepository extends JpaRepository<Software,Long> {
 
     @Query("select b from Software b order by b.id desc")
     List<Software>findByAllDesc();
+
+    @Query("select b from Software b where b.userId =:userId order by b.id desc")
+    List<Software>findByUserId(@Param("userId") Long userId);
 }
