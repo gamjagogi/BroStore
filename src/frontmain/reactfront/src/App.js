@@ -3,24 +3,24 @@ import {BrowserRouter as Router, Routes, Route} from 'react-router-dom';
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.js";
 
-import LoginPage from './screens/Login/LoginPage';
+import LoginPage from './screens/Login/LoginPage.js';
 import JoinPage from './screens/Join/JoinPage';
 import {Suspense, lazy} from "react";
 import About from "./screens/pages/About"
 import Questions from "./screens/pages/Questions";
 import ReactDoc from "./screens/pages/ReactDoc";
-import NavBarElements from "./screens/Navbar/NavBarElements";
-import DetailPage from "./screens/userBoard/DetailPage";
+import NavBarElements from "./screens/Navbar/NavBarElements.js";
+import DetailPage from "./screens/userBoard/DetailPage.js";
 import PostEditor from "./screens/userBoard/PostEditor";
 
-import Notice from "./screens/Notice";
-import Footer from "./components/Footer";
-import Header from "./components/Header";
+import Notice from "./screens/Notice.jsx";
+import Footer from "./components/Footer.jsx";
+import Header from "./components/Header.jsx";
 
 import SoftwarePosting from "./screens/softwareProductPage/Posting"
-import DeliveryPosting from "./screens/deliveryProductPage/DeliveryPosting"
+import DeliveryPosting from "./screens/deliveryProductPage/DeliveryPosting.jsx"
 import "./App.min.css";
-import PurchasePage from "./screens/order/PurchasePage";
+import PurchasePage from "./screens/order/PurchasePage.jsx";
 import {SuccessPage} from "./screens/toss/SuccessPage";
 import {FailPage} from "./screens/toss/FailPage";
 import {CheckoutPage} from "./screens/toss/Checkout";
