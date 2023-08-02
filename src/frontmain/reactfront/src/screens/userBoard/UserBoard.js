@@ -1,12 +1,12 @@
 import React, {useState, useEffect} from 'react';
 import {Container} from "../../components/Styles/Container/Container.style";
 import {useLocation, useNavigate} from "react-router-dom";
-import Pagination from 'react-bootstrap/Pagination';
+
 import ListGroup from 'react-bootstrap/ListGroup';
 import Image from 'react-bootstrap/Image';
 import axios from '../Request/RequestConfig.js';
 import Paging from "../../components/Paging";
-import DeliveryCategoryConfig from "../deliveryProductPage/category/DeliveryCategoryConfig";
+
 
 
 const UserBoard = () => {
@@ -15,18 +15,25 @@ const UserBoard = () => {
     const [currentProducts, setCurrentProducts] = useState([]);
     const [totalPages, setTotalPages] = useState(null);
     const [totalItems, setTotalItems] = useState(0);
-
+    const [keyword, setKeyword] = useState('');
     const navigate = useNavigate();
 
     useEffect(() => {
         handlePage().then((products) => {
             console.log(products.length);
+            setCurrentProducts(products);
             setTotalItems(products.length);
         })
             .catch((error) => {
                 console.error('Error occurred while fetching products:', error);
             })
     }, []);
+
+
+
+
+
+
 
 
     const onPageChanged = (page) => {
@@ -73,6 +80,35 @@ const UserBoard = () => {
         navigate('/editor');
     }
 
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            const response = await axios.get(`/board/search?keyword=${keyword}`, {
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+
+            if (response.status == 200) {
+                const data = await response.data.data;
+                console.log(data);
+                setCurrentProducts(data); // 검색 결과를 현재 페이지 데이터로 설정
+                setTotalItems(data.length); // 총 아이템 개수 설정 (페이징 처리를 위해)
+
+            } else {
+                console.error('게시글을 가져오지 못했습니다.');
+            }
+        } catch (error) {
+            console.error('에러발생..', error);
+        }
+    };
+
+
+    const onSearching = (props) => {
+        const value = props.target.value;
+        console.log(value);
+        setKeyword(value);
+    }
     return (
         <Container>
             <header>
@@ -80,8 +116,8 @@ const UserBoard = () => {
             </header>
             <div style={{display: 'flex', justifyContent: 'flex-end'}}>
                 <form action="/" method="get">
-                    <input type="text" placeholder="Search" name="keyword"/>
-                    <button style={{marginLeft: '0.5em'}}>Search</button>
+                    <input type="text" placeholder="Search" name="search" onChange={onSearching}/>
+                    <button onClick={handleSubmit} style={{marginLeft: '0.5em'}}>Search</button>
                 </form>
             </div>
             <div style={{display: 'flex', justifyContent: 'flex-end', marginTop: '0.5em'}}>
@@ -89,19 +125,18 @@ const UserBoard = () => {
             </div>
 
             <ListGroup as="ol" numbered={true}>
-
                 {currentProducts.map((board) => (
-                    <ListGroup.Item as="li" className="d-flex justify-content-between align-items-start" key={board.id}>
-                        <div className="ms-2 me-auto">
+                    <ListGroup.Item as="li" className="d-flex justify-content-between align-items-start"style={{height:'130px'}} key={board.id}>
+                        <div className="ms-3 me-auto col-1">
                             <h4 className="fw-bold">{board.title}</h4>
-                            <a href={`/detail/${board.id}`}>상세보기</a>
+
                         </div>
-                        <div>
+                        <div className="col-4"> <a href={`/detail/${board.id}`}>상세보기</a></div>
+                        <div className="col-4">
                             <div>작성자 : {board.username}</div>
                         </div>
                         <hr/>
-                        {console.log(board.thumbnail)}
-                        <Image src={board.thumbnail} style={{height: "100px"}} fluid/>
+
                     </ListGroup.Item>
                 ))}
             </ListGroup>

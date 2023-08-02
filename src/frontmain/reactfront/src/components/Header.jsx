@@ -21,11 +21,6 @@ const Header = () => {
     const location = useLocation();
 
 
-    // 로그인 상태 변경 함수
-    const handleLogin = () => {
-        navigate('/login');
-    };
-
     // 로그아웃 상태 변경 함수
     const handleLogout = async () => {
         const id = sessionStorage.getItem('userData2');

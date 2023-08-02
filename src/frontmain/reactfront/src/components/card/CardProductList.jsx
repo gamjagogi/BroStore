@@ -17,14 +17,9 @@ const CardProductList = (props) => {
   // 설명(description) 텍스트를 최대 길이로 자릅니다.
   const truncatedDescription = product.description.substring(0, MAX_DESCRIPTION_LENGTH);
 
-
-
-
   const parser = new DOMParser();
   const doc = parser.parseFromString(truncatedDescription, "text/html");
   console.log(doc);
-
-
   const plainText = doc.body.textContent;
   console.log(plainText);
 

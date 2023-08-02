@@ -116,4 +116,15 @@ public class BoardController {
         }
     }
 
+    @GetMapping("/board/search")
+    public ResponseEntity<?>search(@RequestParam("keyword")String keyword){
+        try {
+            List<BoardResponse.UserBoard>userBoardList = boardService.검색(keyword);
+            ResponseDTO<?>responseDTO = new ResponseDTO<>(userBoardList);
+            return ResponseEntity.ok().body(responseDTO);
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+    }
 }

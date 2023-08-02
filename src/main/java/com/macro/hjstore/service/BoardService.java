@@ -86,4 +86,13 @@ public class BoardService {
         System.out.println("해당 글찾기 완료, 삭제직전!!!!!");
         boardRepository.delete(boardPS);
     }
+
+    @MyLog
+    @Transactional
+    public List<BoardResponse.UserBoard>검색(String keyword) throws Exception{
+        List<Board> boardList = boardJPQLRepository.findAllByKeyword(keyword);
+        List<BoardResponse.UserBoard>userBoardList = boardList.stream()
+                .map(board -> new BoardResponse.UserBoard(board)).collect(Collectors.toList());
+        return userBoardList;
+    }
 }

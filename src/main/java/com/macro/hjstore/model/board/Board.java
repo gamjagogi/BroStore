@@ -33,6 +33,8 @@ public class Board {
     @Column(nullable = true)
     private String thumbnail;
 
+    private String link = "/detail/";
+
 
 
     private LocalDateTime createdAt;
