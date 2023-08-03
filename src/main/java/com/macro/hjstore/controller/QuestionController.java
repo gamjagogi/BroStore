@@ -120,4 +120,34 @@ public class QuestionController {
         }
     }
 
+    @GetMapping("/auth/question/search")
+    public ResponseEntity<?>search(@RequestParam("keyword")String keyword){
+        try {
+            List<BoardResponse.QuestionBoard>userBoardList = questionService.검색(keyword);
+            ResponseDTO<?>responseDTO = new ResponseDTO<>(userBoardList);
+            return ResponseEntity.ok().body(responseDTO);
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+    }
+
+    @PostMapping("/auth/question/delete/{id}/{userId}")
+    public ResponseEntity<?> delete(@PathVariable("id") Long id,@PathVariable("userId")Long userId,@AuthenticationPrincipal MyUserDetails userDetails){
+
+        if (userDetails.getUser().getId() == userId) {
+            try {
+                System.out.println("삭제 전!");
+                questionService.글삭제하기(id);
+                System.out.println("삭제완료!!");
+                return ResponseEntity.ok().build();
+            }catch (Exception e){
+                System.out.println(e.getMessage());
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+            }
+        } else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+    }
+
 }

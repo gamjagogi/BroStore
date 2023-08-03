@@ -89,4 +89,22 @@ public class QuestionService {
         Question questionPS = update.toQuestionUpdateEntity(userPS);
         questionRepository.save(questionPS);
     }
+
+    @MyLog
+    @Transactional
+    public List<BoardResponse.QuestionBoard>검색(String keyword) throws Exception404{
+        List<Question> boardList = questionJPQLRepository.findAllByKeyword(keyword);
+        List<BoardResponse.QuestionBoard>userBoardList = boardList.stream()
+                .map(board -> new BoardResponse.QuestionBoard(board)).collect(Collectors.toList());
+        return userBoardList;
+    }
+
+    @MyLog
+    @Transactional
+    public void 글삭제하기(Long id){
+        Question boardPS = questionRepository.findById(id)
+                .orElseThrow(() -> new Exception404("해당 글을 찾을 수 없습니다."));
+        System.out.println("해당 글찾기 완료, 삭제직전!!!!!");
+        questionRepository.delete(boardPS);
+    }
 }

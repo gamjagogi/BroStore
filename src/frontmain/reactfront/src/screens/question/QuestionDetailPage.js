@@ -3,7 +3,7 @@ import {useParams} from 'react-router-dom';
 import {Container, Card} from 'react-bootstrap';
 import {useNavigate} from 'react-router-dom';
 import axios from '../Request/RequestConfig.js';
-import Comments from "./comment/Comments";
+import Comment from "./comment/Comment";
 
 export default function QuestionDetailPage() {
     const [loginError, setLoginError] = useState('');
@@ -127,6 +127,60 @@ export default function QuestionDetailPage() {
     }, [content]);
 
 
+    const handleDelete = async () => {
+        const userId = sessionStorage.getItem('userData2');
+        if (boardUserId != userId) {
+            alert('권한이 없습니다.');
+            return window.location.reload();
+        }
+
+        // 확인 문구
+        const shouldDelete = window.confirm('정말로 삭제하시겠습니까?');
+
+        if (!shouldDelete) {
+            return; // 사용자가 "취소"를 선택한 경우 아무 작업도 하지 않고 종료
+        }
+
+
+        try {
+            const accessToken = localStorage.getItem('accessToken');
+            const refreshToken = localStorage.getItem('refreshToken');
+            console.log(accessToken);
+            console.log(refreshToken);
+
+            if(accessToken && refreshToken){
+                const response = await axios.post(`/auth/question/delete/${id}/${userId}`,JSON.stringify(""),{
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${accessToken}`,
+                        'RefreshToken': `Bearer ${refreshToken}`,
+                    }
+                });
+
+                if (response.status == 200) {
+                    // 응답 성공 시 처리할 작업
+                    alert('삭제 성공');
+                    navigate('/question');
+
+                } else {
+                    // 응답 실패 시 처리할 작업
+                    const errorMessages = await response.data;
+                    console.log(errorMessages.errors);
+                    const errors = errorMessages.errors;
+                    for (const error of errors) {
+                        console.log(error.defaultMessage);
+                        alert(error.defaultMessage);
+                    }
+                }
+            }else {
+                setLoginError('인증 권한을 가진 유저만 접근 가능합니다.'); // 로그인되지 않은 경우 처리
+            }
+        } catch (error) {
+            console.error("에러발생", error);
+        }
+    }
+
+
     return (
         <div style={{height: '200vh', marginTop: '30px'}}>
             <Container fluid>
@@ -141,7 +195,10 @@ export default function QuestionDetailPage() {
                         />
                     </Card.Body>
                 </Card>
-                <div className="offset-md-9" style={{marginTop: '10px', display: 'flex'}}>
+                <div className="offset-md-8" style={{marginTop: '10px', display: 'flex'}}>
+                    <button onClick={handleDelete} style={{marginRight: '10px', color: 'red'}}>
+                        삭제하기
+                    </button>
                     <button onClick={handleUpdate} style={{marginRight: '10px'}}>
                         수정하기
                     </button>
@@ -149,7 +206,7 @@ export default function QuestionDetailPage() {
                         뒤로가기
                     </button>
                 </div>
-                <Comments/>
+                <Comment/>
             </Container>
         </div>
     );

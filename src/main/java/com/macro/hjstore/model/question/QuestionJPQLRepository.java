@@ -1,5 +1,6 @@
 package com.macro.hjstore.model.question;
 
+import com.macro.hjstore.model.board.Board;
 import com.macro.hjstore.model.question.Question;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -37,5 +38,13 @@ public class QuestionJPQLRepository {
                 .setParameter("keyword", "%" + keyword + "%")
                 .getSingleResult();
         return new PageImpl<>(boardListPS, PageRequest.of(page, size), totalCount);
+    }
+
+
+    public List<Question> findAllByKeyword(String keyword) {
+        List<Question> questionListPS = em.createQuery("select b from Question b where b.title like :keyword or b.content like :keyword")
+                .setParameter("keyword", "%" + keyword + "%")
+                .getResultList();
+        return questionListPS;
     }
 }

@@ -3,6 +3,7 @@ const webpack = require('webpack');
 module.exports = function override(config, env) {
     config.resolve.fallback = {
         net: false,
+        async_hooks: false,
         url: require.resolve('url'),
         fs: require.resolve('fs'),
         assert: require.resolve('assert'),

@@ -21,16 +21,15 @@ const UserBoard = () => {
     useEffect(() => {
         handlePage().then((products) => {
             console.log(products.length);
-            setCurrentProducts(products);
+            const offset = (currentPage - 1) * 9;
+            const currentProducts = products.slice(offset, offset + 9);
+            setCurrentProducts(currentProducts);
             setTotalItems(products.length);
         })
             .catch((error) => {
                 console.error('Error occurred while fetching products:', error);
             })
     }, []);
-
-
-
 
 
 
@@ -115,10 +114,8 @@ const UserBoard = () => {
                 <h1> UserBoard </h1>
             </header>
             <div style={{display: 'flex', justifyContent: 'flex-end'}}>
-                <form action="/" method="get">
-                    <input type="text" placeholder="Search" name="search" onChange={onSearching}/>
-                    <button onClick={handleSubmit} style={{marginLeft: '0.5em'}}>Search</button>
-                </form>
+                <input type="text" placeholder="Search" name="search" onChange={onSearching}/>
+                <button onClick={handleSubmit} style={{marginLeft: '0.5em'}}>Search</button>
             </div>
             <div style={{display: 'flex', justifyContent: 'flex-end', marginTop: '0.5em'}}>
                     <button onClick={handlePosting} style={{marginLeft: '0.5em'}}>글작성</button>
@@ -127,7 +124,7 @@ const UserBoard = () => {
             <ListGroup as="ol" numbered={true}>
                 {currentProducts.map((board) => (
                     <ListGroup.Item as="li" className="d-flex justify-content-between align-items-start"style={{height:'130px'}} key={board.id}>
-                        <div className="ms-3 me-auto col-1">
+                        <div className="ms-3 me-auto col-4">
                             <h4 className="fw-bold">{board.title}</h4>
 
                         </div>

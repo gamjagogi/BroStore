@@ -7,6 +7,8 @@ import com.macro.hjstore.dto.board.BoardResponse;
 import com.macro.hjstore.model.board.Board;
 import com.macro.hjstore.model.board.BoardJPQLRepository;
 import com.macro.hjstore.model.board.BoardRepository;
+import com.macro.hjstore.model.comment.Comment;
+import com.macro.hjstore.model.comment.CommentRepository;
 import com.macro.hjstore.model.question.Question;
 import com.macro.hjstore.model.user.User;
 import lombok.RequiredArgsConstructor;
@@ -30,6 +32,8 @@ public class BoardService {
 
     private final UserService userService;
 
+    private final CommentRepository commentRepository;
+
     @MyLog
     public List<BoardResponse.UserBoard> 게시글목록보기(){
         try {
@@ -50,8 +54,9 @@ public class BoardService {
     public BoardResponse.DetailDTO 게시글상세보기(Long id){
         Board boardPS = boardRepository.findByIdFetchUser(id)
                 .orElseThrow(() -> new Exception404("해당 게시글을 찾을 수가 없습니다."));
+        List<BoardResponse.Comments>comments = boardPS.getCommentList().stream().map(comment -> new BoardResponse.Comments(comment)).collect(Collectors.toList());
         BoardResponse.DetailDTO detailDTO = new BoardResponse.DetailDTO(
-                boardPS.getTitle(),boardPS.getContent(),boardPS.getThumbnail(),boardPS.getUser().getUsername(),boardPS.getUser().getId());
+                boardPS.getTitle(),boardPS.getContent(),boardPS.getThumbnail(),boardPS.getUser().getUsername(),boardPS.getUser().getId(),comments);
         return detailDTO;
     }
 
@@ -89,10 +94,24 @@ public class BoardService {
 
     @MyLog
     @Transactional
-    public List<BoardResponse.UserBoard>검색(String keyword) throws Exception{
+    public List<BoardResponse.UserBoard>검색(String keyword) throws Exception404{
         List<Board> boardList = boardJPQLRepository.findAllByKeyword(keyword);
         List<BoardResponse.UserBoard>userBoardList = boardList.stream()
                 .map(board -> new BoardResponse.UserBoard(board)).collect(Collectors.toList());
         return userBoardList;
+    }
+
+    @MyLog
+    @Transactional
+    public void 댓글저장하기(Comment comment){
+        commentRepository.save(comment);
+    }
+
+    @MyLog
+    @Transactional
+    public Comment 댓글찾기(Long commentId){
+        Comment commentPS = commentRepository.findById(commentId)
+                .orElseThrow(() -> new Exception404("댓글을 찾을 수 없습니다."));
+        return commentPS;
     }
 }

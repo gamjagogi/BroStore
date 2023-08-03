@@ -1,6 +1,7 @@
 package com.macro.hjstore.dto.board;
 
 import com.macro.hjstore.model.board.Board;
+import com.macro.hjstore.model.comment.Comment;
 import com.macro.hjstore.model.question.Question;
 import lombok.Getter;
 import lombok.Setter;
@@ -8,6 +9,8 @@ import lombok.Setter;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.time.LocalDateTime;
+import java.util.List;
 
 public class BoardResponse {
 
@@ -28,14 +31,42 @@ public class BoardResponse {
 
         private Long userId;
 
-        public DetailDTO(String title, String content, String thumbnail, String username,Long userId) {
+        private List<BoardResponse.Comments>comments;
+
+        public DetailDTO(String title, String content, String thumbnail, String username,Long userId,List<BoardResponse.Comments>comments) {
             this.title = title;
             this.content = content;
             this.thumbnail = thumbnail;
             this.username = username;
             this.userId = userId;
+            this.comments = comments;
+        }
+
+    }
+
+    @Getter
+    public static class Comments{
+
+        private Long commentId;
+
+        private String username;
+
+        private Long userId;
+
+        private String content;
+
+        private String createdAt;
+
+        public Comments(Comment comment){
+            this.commentId = comment.getId();
+            this.username = comment.getUsername();
+            this.content = comment.getContent();
+            this.createdAt = comment.getCreatedAt().toString();
+            this.userId = comment.getUserId();
         }
     }
+
+
     @Getter
     public static class UserBoard {
 

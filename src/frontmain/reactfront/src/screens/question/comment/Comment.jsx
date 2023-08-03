@@ -3,7 +3,7 @@ import { Row, Col, Form, Button } from 'react-bootstrap';
 import axios from 'axios';
 import "./Comment.css"
 
-const Comments = (props) => {
+const Comment = (props) => {
     const [comments, setComments] = useState([]);
 
     useEffect(() => {
@@ -62,4 +62,4 @@ const Comments = (props) => {
     );
 };
 
-export default Comments;
+export default Comment;

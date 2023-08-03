@@ -1,6 +1,7 @@
 package com.macro.hjstore.dto.board;
 
 import com.macro.hjstore.model.board.Board;
+import com.macro.hjstore.model.comment.Comment;
 import com.macro.hjstore.model.question.Question;
 import com.macro.hjstore.model.user.User;
 import lombok.Getter;
@@ -65,6 +66,36 @@ public class BoardRequest {
                     .build();
         }
     }
+    @Getter
+    public static class CreateComment{
+
+        private String content;
+
+
+        public Comment toEntity(User user,Board board){
+            return Comment.builder()
+                    .username(user.getUsername())
+                    .userId(user.getId())
+                    .content(content)
+                    .board(board)
+                    .build();
+        }
+    }
+
+    @Getter
+    public static class UpdateComment{
+
+        private String content;
+
+        public Comment toEntity(Comment comment,User user,Board board){
+            return Comment.builder()
+                    .id(comment.getId())
+                    .username(user.getUsername())
+                    .content(content)
+                    .board(board)
+                    .build();
+        }
+    }
 
     @Getter
     public static class QuestionSaveIn{
@@ -111,4 +142,6 @@ public class BoardRequest {
                     .build();
         }
     }
+
+
 }

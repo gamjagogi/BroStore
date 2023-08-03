@@ -7,9 +7,11 @@ import com.macro.hjstore.dto.ResponseDTO;
 import com.macro.hjstore.dto.board.BoardRequest;
 import com.macro.hjstore.dto.board.BoardResponse;
 import com.macro.hjstore.model.board.Board;
+import com.macro.hjstore.model.comment.Comment;
 import com.macro.hjstore.model.question.Question;
 import com.macro.hjstore.model.user.User;
 import com.macro.hjstore.service.BoardService;
+import com.macro.hjstore.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -30,6 +32,8 @@ public class BoardController {
 
     private final BoardService boardService;
 
+    private final UserService userService;
+
     @GetMapping("/board")
     public ResponseEntity<?> mainPage(){
             List<BoardResponse.UserBoard>userBoardList = boardService.게시글목록보기();
@@ -43,6 +47,34 @@ public class BoardController {
         BoardResponse.DetailDTO detailDTO = boardService.게시글상세보기(id);
         ResponseDTO responseDTO = new ResponseDTO(detailDTO);
         return ResponseEntity.ok().body(responseDTO);
+    }
+
+    @PostMapping("/auth/board/comment/save/{userId}/{boardId}")
+    public ResponseEntity<?> createComment(@PathVariable("userId")Long userId,@PathVariable("boardId")Long boardId,@RequestBody BoardRequest.CreateComment comment,@AuthenticationPrincipal MyUserDetails userDetails,Errors errors){
+        if (userDetails.getUser().getId() == userId) {
+            System.out.println("댓글작성진입!!");
+            User userPS = userService.회원찾기(userId);
+            Board boardPS = boardService.보드ID로글찾기(boardId);
+            Comment commentPS = comment.toEntity(userPS,boardPS);
+            boardService.댓글저장하기(commentPS);
+            return ResponseEntity.ok().build();
+        } else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+    }
+
+    @PostMapping("/auth/board/comment/update/{userId}/{boardId}/{commentId}")
+    public ResponseEntity<?> updateComment(@PathVariable("userId")Long userId,@PathVariable("boardId")Long boardId,@PathVariable("commentId")Long commentId,@RequestBody BoardRequest.UpdateComment comment,@AuthenticationPrincipal MyUserDetails userDetails,Errors errors){
+        if (userDetails.getUser().getId() == userId) {
+            User userPS = userService.회원찾기(userId);
+            Board boardPS = boardService.보드ID로글찾기(boardId);
+            Comment commentPS = boardService.댓글찾기(commentId);
+            Comment updatedCommentPS = comment.toEntity(commentPS,userPS,boardPS);
+            boardService.댓글저장하기(updatedCommentPS);
+            return ResponseEntity.ok().build();
+        } else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
     }
 
     @PostMapping("/auth/board/save")
@@ -103,9 +135,7 @@ public class BoardController {
 
         if (userDetails.getUser().getId() == userId) {
             try {
-                System.out.println("삭제 전!");
                 boardService.글삭제하기(id);
-                System.out.println("삭제완료!!");
                 return ResponseEntity.ok().build();
             }catch (Exception e){
                 System.out.println(e.getMessage());

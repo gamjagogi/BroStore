@@ -215,7 +215,7 @@ export default function PostEditor() {
     // **************************************************************
 
 
-    //
+
     const crolling = () => {
         const editor = quillRef.current.getEditor();
         const range = editor.getSelection(true);

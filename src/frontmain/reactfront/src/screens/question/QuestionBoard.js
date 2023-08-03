@@ -16,6 +16,7 @@ const QuestionBoard = () => {
     const [totalPages, setTotalPages] = useState(null);
     const [totalItems, setTotalItems] = useState(0);
     const [selectedValue, setSelectedValue] = useState(1);
+    const [keyword, setKeyword] = useState('');
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -128,16 +129,53 @@ const QuestionBoard = () => {
         }
     };
 
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            const accessToken = localStorage.getItem('accessToken');
+            const refreshToken = localStorage.getItem('refreshToken');
+            const response = await axios.get(`/auth/question/search?keyword=${keyword}`, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${accessToken}`,
+                    'RefreshToken': `Bearer ${refreshToken}`,
+                },
+            });
+
+            if (response.status == 200) {
+                const data = await response.data.data;
+                console.log(data);
+                setCurrentProducts(data); // 검색 결과를 현재 페이지 데이터로 설정
+                setTotalItems(data.length); // 총 아이템 개수 설정 (페이징 처리를 위해)
+
+            } else {
+                console.error('게시글을 가져오지 못했습니다.');
+            }
+        } catch (error) {
+            console.error('에러발생..', error);
+        }
+    };
+
+
+    const onSearching = (props) => {
+        const value = props.target.value;
+        console.log(value);
+        setKeyword(value);
+    }
+
+
+
+
     return (
         <Container>
             <header>
                 <h1> Q/A </h1>
             </header>
             <div style={{display: 'flex', justifyContent: 'flex-end'}}>
-                <form action="/" method="get">
-                    <input type="text" placeholder="Search" name="keyword"/>
-                    <button style={{marginLeft: '0.5em'}}>Search</button>
-                </form>
+                <input type="text" placeholder="Search" name="search" onChange={onSearching}/>
+                <button onClick={handleSubmit} style={{marginLeft: '0.5em'}}>Search</button>
+
             </div>
             <div style={{display: 'flex', justifyContent: 'flex-end', marginTop: '0.5em',marginBottom:'1em'}}>
                 <select className="form-select mw-180 float-start" aria-label="Default select" value={selectedValue} onChange={handleSelectChange}>
@@ -148,19 +186,18 @@ const QuestionBoard = () => {
             </div>
 
             <ListGroup as="ol" numbered={true}>
-
                 {currentProducts.map((board) => (
-                    <ListGroup.Item as="li" className="d-flex justify-content-between align-items-start" key={board.id}>
-                        <div className="ms-2 me-auto">
+                    <ListGroup.Item as="li" className="d-flex justify-content-between align-items-start"style={{height:'130px'}} key={board.id}>
+                        <div className="ms-3 me-auto col-4">
                             <h4 className="fw-bold">{board.title}</h4>
-                            <a href={`/question/detail/${board.id}`}>상세보기</a>
+
                         </div>
-                        <div>
+                        <div className="col-4"> <a href={`/detail/${board.id}`}>상세보기</a></div>
+                        <div className="col-4">
                             <div>작성자 : {board.username}</div>
+                            <div>카테고리 : {board.category=='RequestSeller'?'판매자신청':'All'}</div>
                         </div>
                         <hr/>
-                        {console.log(board.thumbnail)}
-                        <Image src={board.thumbnail} style={{height: "100px"}} fluid/>
                     </ListGroup.Item>
                 ))}
             </ListGroup>
