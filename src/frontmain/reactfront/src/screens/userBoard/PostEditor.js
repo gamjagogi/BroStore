@@ -315,7 +315,7 @@ export default function PostEditor() {
 
                 if (imageIndex == itemIndex) {
                     // 이미지 삭제
-                    editor.deleteText(contents.ops.indexOf(block), 1);
+                    editor.deleteText(contents.ops.indexOf(block, 1));
                     console.log('삭제 성공!')
                 }
             }

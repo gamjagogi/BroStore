@@ -43,7 +43,7 @@ const PriceConfig = (props) => {
         // 정규표현식을 사용하여 숫자인지 확인
         const regex = /^[0-9]*$/;
 
-        if (regex.test(value)&&value.length<=10) {
+        if (regex.test(value) && value.length<=10) {
             setDiscountPercent(value);
         }
     };

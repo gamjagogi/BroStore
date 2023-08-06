@@ -274,7 +274,7 @@ const DeliveryPosting = () => {
     const setDiscountPercent = async (percentage) => {
         if (percentage) {
             console.log(percentage);
-            setState((prevState) => ({ ...prevState, discountPercentage: percentage }));
+            setState((prevState) => ({ ...prevState, discountPercent: percentage }));
         }
     };
 
@@ -340,9 +340,13 @@ const DeliveryPosting = () => {
                 <div style={{ marginRight: "auto" }}>
                     <PriceConfig
                         setPrice={setPrice}
+                        price={state.price}
                         setOriginPrice={setOriginPrice}
+                        originPrice={state.originPrice}
                         setDiscountPrice={setDiscountPrice}
+                        discountPrice={state.discountPrice}
                         setDiscountPercent={setDiscountPercent}
+                        discountPercent={state.discountPercent}
                         setStar={setStar}
                         star={state.star}
                     />

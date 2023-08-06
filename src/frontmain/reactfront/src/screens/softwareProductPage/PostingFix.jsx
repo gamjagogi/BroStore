@@ -272,7 +272,7 @@ const PostingFix = () => {
     const setDiscountPercent = async (percentage) => {
         if (percentage) {
             console.log(percentage);
-            setState((prevState) => ({ ...prevState, discountPercentage: percentage }));
+            setState((prevState) => ({ ...prevState, discountPercent: percentage }));
         }
     };
 

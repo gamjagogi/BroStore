@@ -39,7 +39,7 @@ const Header = () => {
                 localStorage.removeItem('kakaoAccessToken');
                 localStorage.removeItem('kakaoRefreshToken');
                 alert('로그아웃 성공')
-                window.location.reload();
+                navigate('/');
             }
         } catch (error) {
             console.error('로그아웃 에러', error);
@@ -106,11 +106,6 @@ const Header = () => {
                                     <li>
                                         <Link className="dropdown-item" to="/account/orders">
                                             <IconListCheck className="text-primary"/> Orders
-                                        </Link>
-                                    </li>
-                                    <li>
-                                        <Link className="dropdown-item" to="/account/wishlist">
-                                            <IconHeartFill className="text-danger"/> Wishlist
                                         </Link>
                                     </li>
                                     <li>

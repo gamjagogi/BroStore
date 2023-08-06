@@ -22,6 +22,12 @@ public class CartResponseDTO {
 
     private String userName;
 
+    private String tel;
+
+    private String address;
+
+    private String detailAddress;
+
     public CartResponseDTO(List<CartItem> cartItemList, Integer totalPrice, Integer totalCount, User user){
 
         for(CartItem cartItem: cartItemList){
@@ -34,6 +40,9 @@ public class CartResponseDTO {
         this.totalCount = totalCount;
         this.userId = user.getId();
         this.userName = user.getUsername();
+        this.tel = user.getTel();
+        this.address = user.getAddress();
+        this.detailAddress = user.getDetailAddress();
     }
 
 }

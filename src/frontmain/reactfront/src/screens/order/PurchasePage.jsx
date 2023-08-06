@@ -28,12 +28,16 @@ const Purchase = () => {
 
     // 이름, 전번
     const [tel, setTel] = useState('');
+    const [filterTel,setFilterTel] = useState('');
     const [userName, setUserName] = useState('');
+
+    //const [state,setState] = useState({defaultUserName:'',defaultTel:'',defaultAddress:'',defaultDetailAddress:''});
 
 
 
     useEffect(() =>{
         onPurchasePage();
+        return;
     },[])
 
     const onPurchasePage = async () => {
@@ -64,6 +68,17 @@ const Purchase = () => {
                     setItemList(data.deliveryList);
                     setTotalCount(data.totalCount); // orderName: db에서 아이템리스트 첫번째 아이템 title명 외 totalCount-1
                     setTotalPrice(data.totalPrice);
+
+                    setUserName(data.userName);
+                    setTel(data.tel);
+                    setAddress(data.address);
+                    setDetailAddress(data.detailAddress);
+
+                    // setState((prevState) => ({...prevState,defaultUserName: data.userName}));
+                    // setState((prevState) => ({...prevState,defaultTel: data.tel}));
+                    // setState((prevState) => ({...prevState,defaultAddress: data.address}));
+                    // setState((prevState) => ({...prevState,defaultDetailAddress: data.detailAddress}));
+
 
                 } else {
                     console.error('장바구니를 가져오는대 실패했습니다.');
@@ -120,7 +135,7 @@ const Purchase = () => {
             // itemList , totalPrice, address+''+detailAddress, tel, userName
             const orderPrice = discountTotalPrice? discountTotalPrice:totalPrice;
             const receiveAddress = address+' '+detailAddress;
-            const requestData = {itemList , orderPrice, receiveAddress,userName,tel}
+            const requestData = {itemList , orderPrice, receiveAddress,userName,filterTel}
             console.log(requestData);
 
             const id = userId;
@@ -160,16 +175,12 @@ const Purchase = () => {
 
 
     const handleChangeTel = (event) => {
-        const inputNumber = event.target.value;
-        // 입력된 값이 숫자인지 확인하는 정규식
-        const numericRegex = /^[0-9]+$/;
+        const value = event.target.value;
+        // 정규표현식을 사용하여 숫자인지 확인
+        const regex = /^[0-9]*$/;
 
-        if (!numericRegex.test(inputNumber)) {
-            // 숫자가 아닌 문자가 포함된 경우
-            alert('전화번호에는 숫자만 입력해주세요.');
-            setTel(''); // 값 초기화
-        } else {
-            setTel(inputNumber); // 숫자인 경우 상태 업데이트
+        if (regex.test(value) && value.length<=20) {
+            setFilterTel(value);
         }
     };
 
@@ -249,7 +260,8 @@ const Purchase = () => {
                         aria-label="Recipient's username"
                         aria-describedby="basic-addon2"
                         onChange={handleChangeName}
-                        value={userName}
+
+                        defaultValue={userName}
                     />
 
                     <Button variant="outline-secondary" id="button-addon1" disabled
@@ -261,7 +273,8 @@ const Purchase = () => {
                         aria-label="Phone Number"
                         aria-describedby="basic-addon2"
                         onChange={handleChangeTel}
-                        value={tel}
+                        value={filterTel}
+                        defaultValue={tel}
                         style={{ width: "calc(30% - 50px)", marginRight: "30px" }}
                     />
                 </InputGroup>
@@ -283,7 +296,7 @@ const Purchase = () => {
                         aria-label="Example text with button addon"
                         aria-describedby="basic-addon1"
                         onChange={handleAddressChange}
-                        value={address}
+                        defaultValue={address}
                     />
                 </InputGroup>
 
@@ -298,7 +311,7 @@ const Purchase = () => {
                         aria-label="Recipient's username"
                         aria-describedby="basic-addon2"
                         onChange={handleDetailAddressChange}
-                        value={detailAddress}
+                        defaultValue={detailAddress}
                     />
                 </InputGroup>
             </div>

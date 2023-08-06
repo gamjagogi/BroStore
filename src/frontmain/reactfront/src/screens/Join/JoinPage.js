@@ -16,6 +16,7 @@ const JoinPage = () => {
     useEffect(() => {
         // 비밀번호 일치 여부 확인
         setPasswordMismatch(password !== confirmPassword);
+        return;
     }, [password, confirmPassword]);
 
     const handleJoin = async (e) => {
@@ -35,9 +36,9 @@ const JoinPage = () => {
         }
 
         // 이름이 한글인지 확인
-        const nameRegex = /^[가-힣]+$/;
+        const nameRegex =  /^[A-Za-z가-힣]+$/;
         if (!nameRegex.test(username)) {
-            // 이름이 한글이 아님
+            alert('이름(닉네임)은 한글로 작성해주세요..');
             return;
         }
 
@@ -50,11 +51,14 @@ const JoinPage = () => {
 
             if (response.status == 200) {
                 navigate('/login');
-            } else {
-                // 실패 처리 로직
+            } else if(response.status == 409) {
+                alert('중복된 이메일 아이디입니다.');
             }
         } catch (error) {
-            // 오류 처리 로직
+            console.log(error);
+            if(error.response.status==409){
+                alert('중복된 이메일 아이디입니다.');
+            }
         }
     };
 
@@ -98,7 +102,7 @@ const JoinPage = () => {
                 </Form.Group>
 
                 <Form.Group controlId="formBasicName">
-                    <Form.Label>이름</Form.Label>
+                    <Form.Label>이름  (닉네임)</Form.Label>
                     <Form.Control
                         type="text"
                         placeholder="이름"

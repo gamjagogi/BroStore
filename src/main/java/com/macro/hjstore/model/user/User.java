@@ -28,6 +28,17 @@ public class User {
     @Column(name="profile", nullable = true)
     private String profile;
 
+    @Column(name = "address", nullable = true)
+    private String address;
+
+    @Column(name = "detail_address", nullable = true)
+    private String detailAddress;
+
+    @Column(name = "full_address", nullable = true)
+    private String pullAddress = address +" "+detailAddress;
+
+    @Column(name = "phone_number", nullable = true)
+    private String tel;
 
     // 기본 권한이 유저이다. 나중에 setRole()로 변경도 가능하다.
     @Column(name="role", nullable = false)
@@ -45,6 +56,7 @@ public class User {
 
     @Column(name = "provider", nullable = true)
     private String provider;
+
 
     @Column(name = "customer_key", nullable = true)
     private String customerKey;
@@ -64,22 +76,11 @@ public class User {
         this.profile = profile;
     }
 
-    public void changeEmail(String email) {
-        this.email = email;
-    }
-
 
     public void changePassword(String password) {
         this.password = password;
     }
 
-    public void changeUsername(String username) {
-        this.username = username;
-    }
-
-    public void resign() { // 탈퇴
-        this.status = false;
-    }
 
     @PrePersist
     protected void onCreate(){
@@ -91,8 +92,26 @@ public class User {
         this.updatedAt = LocalDateTime.now();
     }
 
+
+    public void updateName(String username){
+        this.username = username;
+    }
+
+    public void updateBirth(String birth){
+        this.birth = birth;
+    }
+
+    public void updateAddress(String address,String detailAddress){
+        this.address = address;
+        this.detailAddress = detailAddress;
+    }
+
+    public void updateTel(String tel){
+        this.tel = tel;
+    }
+
     @Builder
-    public User(Long id, String email, String password, String profile, UserRole role, String username, String birth, Boolean status, String provider,String customerKey, LocalDateTime createdAt, LocalDateTime updatedAt, Cart cart) {
+    public User(Long id, String email, String password, String profile, UserRole role, String username, String birth, Boolean status, String provider,String customerKey,String address,String detailAddress ,String tel ,LocalDateTime createdAt, LocalDateTime updatedAt, Cart cart) {
         this.id = id;
         this.email = email;
         this.password = password;
@@ -105,6 +124,9 @@ public class User {
         this.customerKey = customerKey;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
+        this.address = address;
+        this.detailAddress = detailAddress;
+        this.tel = tel;
         this.cart = cart;
     }
 }

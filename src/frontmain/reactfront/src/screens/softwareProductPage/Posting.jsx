@@ -256,7 +256,7 @@ const Posting = () => {
     const setPrice = async (price) => {
         if (price) {
             console.log(price);
-            setState((prevState) => ({ ...prevState, price }));
+            setState((prevState) => ({ ...prevState, price: price }));
         }
     };
 

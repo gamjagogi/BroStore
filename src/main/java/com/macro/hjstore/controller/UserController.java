@@ -27,10 +27,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.validation.Errors;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
 import javax.validation.Valid;
 import javax.servlet.http.HttpSession;
 import java.util.UUID;
@@ -161,8 +159,82 @@ public class UserController {
     @PostMapping("/join")
     @Transactional
     public ResponseEntity<?> join(@RequestBody @Valid UserRequest.JoinInDTO joinInDTO, Errors errors){
-        userService.회원가입(joinInDTO);
+
+        User userPS = userService.이메일로회원찾기(joinInDTO.getEmail());
+        if(userPS!=null){
+            return ResponseEntity.status(HttpStatus.CONFLICT).build();
+        }
+        try {
+            userService.회원가입(joinInDTO);
+        }catch (Exception e){
+            System.out.println("에러내용:"+e.getMessage());
+            return  ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/auth/user/{id}")
+    public ResponseEntity<?> profile(@PathVariable("id")Long id,@AuthenticationPrincipal MyUserDetails myUserDetails){
+        if(myUserDetails.getUser().getId()==id){
+            User userPS = userService.회원찾기(id);
+            UserResponse.GetProfile profile = new UserResponse.GetProfile(userPS);
+            ResponseDTO<?>responseDTO = new ResponseDTO<>(profile);
+            return ResponseEntity.ok().body(responseDTO);
+        }else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+    }
+
+    @PostMapping("/auth/user/update/name/{id}")
+    public ResponseEntity<?> updateUsername(@PathVariable("id")Long id,@RequestBody UserRequest.EditUsername updateName,@AuthenticationPrincipal MyUserDetails myUserDetails){
+        if(myUserDetails.getUser().getId()==id){
+            User userPS = userService.회원찾기(id);
+            System.out.println("업데이트이름"+updateName.getUsername());
+            userPS.updateName(updateName.getUsername());
+            userService.회원업데이트(userPS);
+            return ResponseEntity.ok().build();
+        }else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+    }
+
+    @PostMapping("/auth/user/update/birth/{id}")
+    public ResponseEntity<?> updateBirth(@PathVariable("id")Long id,@RequestBody UserRequest.EditBirth updateBirth,@AuthenticationPrincipal MyUserDetails myUserDetails){
+        if(myUserDetails.getUser().getId()==id){
+            User userPS = userService.회원찾기(id);
+            System.out.println("업데이트생년월일"+updateBirth.getBirth());
+            userPS.updateBirth(updateBirth.getBirth());
+            userService.회원업데이트(userPS);
+            return ResponseEntity.ok().build();
+        }else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+    }
+
+    @PostMapping("/auth/user/update/address/{id}")
+    public ResponseEntity<?> updateAddress(@PathVariable("id")Long id,@RequestBody UserRequest.EditAddress updateAddress,@AuthenticationPrincipal MyUserDetails myUserDetails){
+        if(myUserDetails.getUser().getId()==id){
+            User userPS = userService.회원찾기(id);
+
+            userPS.updateAddress(updateAddress.getAddress(),updateAddress.getDetailAddress());
+            userService.회원업데이트(userPS);
+            return ResponseEntity.ok().build();
+        }else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+    }
+
+    @PostMapping("/auth/user/update/tel/{id}")
+    public ResponseEntity<?> updateTel(@PathVariable("id")Long id,@RequestBody UserRequest.EditTel updateTel,@AuthenticationPrincipal MyUserDetails myUserDetails){
+        if(myUserDetails.getUser().getId()==id){
+            User userPS = userService.회원찾기(id);
+
+            userPS.updateTel(updateTel.getTel());
+            userService.회원업데이트(userPS);
+            return ResponseEntity.ok().build();
+        }else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
     }
 
 }

@@ -7,7 +7,6 @@ import LoginPage from './screens/Login/LoginPage.js';
 import JoinPage from './screens/Join/JoinPage';
 import {Suspense, lazy} from "react";
 import About from "./screens/pages/About"
-import Questions from "./screens/pages/Questions";
 import ReactDoc from "./screens/pages/ReactDoc";
 import NavBarElements from "./screens/Navbar/NavBarElements.js";
 import DetailPage from "./screens/userBoard/DetailPage.js";
@@ -46,6 +45,7 @@ const DeliveryListView = lazy(() => import("./screens/deliveryProductPage/Delive
 const DeliveryDetailView = lazy(() => import("./screens/deliveryProductPage/DeliveryDetail"))
 const DeliveryStarZoneView = lazy(() => import("./screens/deliveryProductPage/DeliveryStarZone"))
 
+const MyPage = lazy(() => import("./screens/myPage/MyPage"));
 
 const Home = lazy(() => import("./screens/Home"));
 const CartView = lazy(() => import("./screens/cart/Cart"));
@@ -87,7 +87,10 @@ function App() {
                             path="/account/forgotpassword"
                             element={<ForgotPasswordView/>}
                         />
-                        <Route exact path="/account/profile" element={<MyProfileView/>}/>
+
+
+                        <Route exact path="/join" element={<JoinPage/>}/>
+                        <Route exact path="/account/profile" element={<MyPage/>}/>
                         <Route exact path="/account/orders" element={<OrderSheet/>}/>
                         <Route exact path="/account/wishlist" element={<WishlistView/>}/>
                         <Route
@@ -117,12 +120,8 @@ function App() {
 
 
                         <Route exact path = "/delivery" element={<DeliveryListView/>}/>
-
                         <Route exact path="/cart" element={<CartView/>}/>
-
                         <Route exact path="/reactDoc" element={<ReactDoc/>}/>
-                        <Route exact path="/join" element={<JoinPage/>}/>
-
 
                         <Route exact path="/notice" element={<Notice/>}/>
 

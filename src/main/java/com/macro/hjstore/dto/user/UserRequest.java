@@ -3,6 +3,7 @@ package com.macro.hjstore.dto.user;
 import com.macro.hjstore.model.user.User;
 import com.macro.hjstore.model.user.UserRole;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.validation.constraints.NotEmpty;
@@ -60,5 +61,32 @@ public class UserRequest {
                     .birth(birth)
                     .build();
         }
+    }
+
+    @Getter
+    @NoArgsConstructor
+    public static class EditUsername{
+
+        private String username;
+    }
+    @Getter
+    @NoArgsConstructor
+    public static class EditBirth{
+
+        private String birth;
+    }
+    @Getter
+    @NoArgsConstructor
+    public static class EditAddress{
+
+        private String address;
+
+        private String detailAddress;
+    }
+    @Getter
+    @NoArgsConstructor
+    public static class EditTel{
+
+        private String tel;
     }
 }

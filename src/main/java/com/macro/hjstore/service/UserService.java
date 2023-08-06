@@ -167,9 +167,21 @@ public class UserService {
         UserResponse.LoginOutDTO loginOutDTO = new UserResponse.LoginOutDTO(userPS.getUsername(), userPS.getId(), userPS.getRole().toString());
         return loginOutDTO;
     }
+    @MyLog
+    public User 이메일로회원찾기(String email) {
+        User userPS = userRepository.findByKakaoEmail(email);
+        return userPS;
+    }
+
 
     @MyLog
-    public void 회원가입(UserRequest.JoinInDTO joinInDTO) {
+    public User 카카오이메일찾기(String email) {
+        User userPS = userRepository.findByKakaoEmail(email);
+        return userPS;
+    }
+
+    @MyLog
+    public void 회원가입(UserRequest.JoinInDTO joinInDTO) throws Exception {
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         String customerKey = "ID_" + UUID.randomUUID().toString();
         User userPS = User.builder()
@@ -192,9 +204,9 @@ public class UserService {
     }
 
     @MyLog
-    public User 카카오이메일찾기(String email) {
-        User userPS = userRepository.findByKakaoEmail(email);
-        return userPS;
+    @Transactional
+    public void 회원업데이트(User user){
+        userRepository.save(user);
     }
 
 }

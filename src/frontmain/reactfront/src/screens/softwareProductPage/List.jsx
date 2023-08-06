@@ -127,11 +127,11 @@ const ProductListView = () => {
                             </div>
 
                             <div className="col-5 d-flex justify-content-end">
-                                <button aria-label="Grid" type="button" style={{ marginRight: "0.5em" }}>
-                                    <Link to="/posting">
-                                        <FontAwesomeIcon icon={faPencilSquare} />
-                                    </Link>
-                                </button>
+                                <Link to="/posting" style={{ marginRight: '0.5em',marginTop:'5px' }}>
+                                    <button aria-label="Grid" style={{ border: 'none', cursor: 'pointer' }}>
+                                        <FontAwesomeIcon style={{scale:'150%'}} icon={faPencilSquare} />
+                                    </button>
+                                </Link>
                                 <select className="form-select mw-180 float-start" aria-label="Default select">
                                     <option value={1}>Most Popular</option>
                                     <option value={2}>Latest items</option>

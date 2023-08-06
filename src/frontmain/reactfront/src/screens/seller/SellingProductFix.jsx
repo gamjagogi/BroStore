@@ -30,7 +30,7 @@ const SellingProductFix = () => {
         price: searchParams.get("price"),
         originPrice: searchParams.get("originPrice"),
         discountPrice: searchParams.get("discountPrice"),
-        discountPercentage: searchParams.get("discountPercentage"),
+        discountPercent: searchParams.get("discountPercent"),
         soldBy: searchParams.get("soldBy"),
         category: searchParams.get("category")?searchParams.get("category"):"Category"
     });
@@ -50,7 +50,7 @@ const SellingProductFix = () => {
             price,
             originPrice,
             discountPrice,
-            discountPercentage,
+            discountPercent,
             soldBy,
             category,
             productId
@@ -68,7 +68,7 @@ const SellingProductFix = () => {
         console.log(price);
         console.log(originPrice);
         console.log(discountPrice);
-        console.log(discountPercentage);
+        console.log(discountPercent);
         console.log(soldBy);
         console.log(category);
 
@@ -84,14 +84,12 @@ const SellingProductFix = () => {
             price,
             originPrice,
             discountPrice,
-            discountPercentage,
+            discountPercent,
             soldBy,
             category,
             productId
         };
 
-        console.log("리퀘스트데이타");
-        console.log(requestData.title);
 
         if (!requestData.title) {
             alert("제목이 없습니다.");
@@ -189,9 +187,11 @@ const SellingProductFix = () => {
     };
 
     const onTitleChange = async (title) => {
-        if (title) {
+        if (title.length<=60) {
             console.log(title);
-            setState((prevState) => ({ ...prevState, title: title }));
+            setState((prevState) => ({ ...prevState, title }));
+        }else {
+            alert('제목 길이 초과');
         }
     };
 
@@ -262,7 +262,7 @@ const SellingProductFix = () => {
     const setDiscountPercent = async (percentage) => {
         if (percentage) {
             console.log(percentage);
-            setState((prevState) => ({ ...prevState, discountPercentage: percentage }));
+            setState((prevState) => ({ ...prevState, discountPercent: percentage }));
         }
     };
 
@@ -334,7 +334,7 @@ const SellingProductFix = () => {
                         setDiscountPrice={setDiscountPrice}
                         discountPrice={state.discountPrice}
                         setDiscountPercent={setDiscountPercent}
-                        discountPercent={state.discountPercentage}
+                        discountPercent={state.discountPercent}
                         setStar={setStar}
                         star={state.star}
                     />
