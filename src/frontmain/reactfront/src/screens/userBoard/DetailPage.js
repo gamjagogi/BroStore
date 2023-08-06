@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import {useParams} from 'react-router-dom';
 import {Container, Card} from 'react-bootstrap';
 import {useNavigate} from 'react-router-dom';
@@ -9,10 +9,12 @@ import Paging from "../../components/Paging";
 export default function Detail() {
     // 게시글 ID를 URL 파라미터로부터 추출합니다.
     const {id} = useParams();
+
     const [loginError, setLoginError] = useState('');
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
     const [boardUserId, setBoardUserId] = useState('');
+
 
     // 댓글 페이징
     const [totalComments, setTotalComments] = useState(0);
@@ -20,9 +22,27 @@ export default function Detail() {
     const [totalPages, setTotalPages] = useState(null);
     const [currentComments, setCurrentComments] = useState([]);
 
+    const [editCommentId, setEditCommentId] = useState(null);
     const [contentBuf,setContentsBuf] = useState(''); //실시간 댓글 input값
+    const [updateBuf, setUpdateBuf] = useState('');
     const navigate = useNavigate();
+
     const userId = sessionStorage.getItem('userData2');
+    const boardId = id;
+
+
+
+    const commentRowStyle = {
+        wordWrap: 'break-word', // 긴 텍스트를 자동으로 줄바꿈
+        whiteSpace: 'pre-wrap', // 줄바꿈과 공백을 유지하도록 설정
+    };
+    const buttonStyle = {
+        width: '50px', // 버튼의 너비를 100px로 고정
+        maxHeight: '70px'
+    };
+
+
+
 
     useEffect(() => {
         fetchPost().then((comments) => {
@@ -33,6 +53,9 @@ export default function Detail() {
         }).catch((error) => {
             console.error("Error occurred while fetching products:", error);
         });
+        return () => {
+            console.log("Clean up");
+        };
     }, []);
 
 
@@ -51,6 +74,7 @@ export default function Detail() {
                 console.error("Error occurred while fetching products:", error);
             });
     };
+
 
 
 
@@ -84,6 +108,7 @@ export default function Detail() {
                 setContent(postData.data.content);
                 setBoardUserId(postData.data.userId);
 
+                // 댓글 출력
                 const comments = postData.data.comments;
                 return comments;
             } else {
@@ -221,7 +246,6 @@ export default function Detail() {
             console.log(refreshToken);
 
             const requestData = {'content':contentBuf};
-            const boardId = id;
 
             if (accessToken && refreshToken) {
                 // 요청 보내기
@@ -259,12 +283,100 @@ export default function Detail() {
     }
 
 
-    const handleEditComment = () => {
 
+    const handleEditComment = (commentId,commentUserId) => {
+        if(commentUserId!=userId){
+            alert('권한이 없습니다.');
+            return;
+        }
+        setEditCommentId(commentId);
     }
 
-    const handleDeleteComment = () => {
+    const handleUpdateComment = async (commentId,content) => {
+        try {
+            // 수정된 댓글 내용 업데이트 요청을 보냅니다.
+            const accessToken = localStorage.getItem('accessToken');
+            const refreshToken = localStorage.getItem('refreshToken');
+            const requestData = { 'content': updateBuf?updateBuf:content };
 
+            if (accessToken && refreshToken) {
+                const response = await axios.post(`/auth/board/comment/update/${userId}/${boardId}/${commentId}`, JSON.stringify(requestData), {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${accessToken}`,
+                        'RefreshToken': `Bearer ${refreshToken}`,
+                    },
+                });
+
+                if (response.status === 200) {
+                    console.log('댓글 수정 성공');
+                    window.location.reload(); // 페이지 리로드
+                } else {
+                    const errorMessages = await response.data;
+                    console.log(errorMessages.errors);
+                    const errors = errorMessages.errors;
+                    for (const error of errors) {
+                        console.log(error.defaultMessage);
+                        alert(error.defaultMessage);
+                    }
+                }
+            } else {
+                setLoginError('인증 권한을 가진 유저만 접근 가능합니다.');
+            }
+        } catch (error) {
+            console.error('인증되지 않은 사용자가 접근하려 합니다.', error);
+            setLoginError('인증된 유저만 접근 가능합니다.');
+        }
+    }
+
+    const handleCancelEdit = () => {
+        setEditCommentId(null);
+    }
+
+    const handleDeleteComment = async (commentId,commentUserId) => {
+        if(commentUserId!=userId){
+            alert('권한이 없습니다.');
+            return;
+        }
+        // 확인 문구
+        const shouldDelete = window.confirm('정말로 삭제하시겠습니까?');
+
+        if (!shouldDelete) {
+            return; // 사용자가 "취소"를 선택한 경우 아무 작업도 하지 않고 종료
+        }
+
+
+        try{
+            const accessToken = localStorage.getItem('accessToken');
+            const refreshToken = localStorage.getItem('refreshToken');
+            if(accessToken && refreshToken) {
+                const response = await axios.get(`/auth/board/comment/delete/${commentUserId}/${commentId}`, {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${accessToken}`,
+                        'RefreshToken': `Bearer ${refreshToken}`,
+                    },
+                });
+                if(response.status === 200){
+                    alert('삭제 성공');
+                    return window.location.reload();
+                } else {
+                    console.error( response.status+'삭제 실패');
+                    const errorMessages = await response.data;
+                    console.log(errorMessages.errors);
+                    const errors = errorMessages.errors;
+                    for (const error of errors) {
+                        console.log(error.defaultMessage);
+                        alert(error.defaultMessage);
+                    }
+                }
+            }else {
+                setLoginError('인증 권한을 가진 유저만 접근 가능합니다.');
+            }
+
+        }catch (error){
+            console.error(error);
+        }
     }
 
 
@@ -272,7 +384,11 @@ export default function Detail() {
         <div style={{minHeight: '150vh', marginTop: '50px'}}>
             <Container fluid>
                 <Card border="primary">
-                    <Card.Header style={{height: 'calc(8vh - 10px)', fontSize: '30px'}}>{title}</Card.Header>
+                    <Card.Header style={{fontSize: '30px'}}>
+                        <Card.Text>
+                        {title}
+                        </Card.Text>
+                    </Card.Header>
                     <Card.Body style={{height: 'calc(100vh - 50px)'}}>
                         <Card.Text
                             dangerouslySetInnerHTML={{__html: resizedContent}}
@@ -295,23 +411,35 @@ export default function Detail() {
                 <Form className="mb-4" onSubmit={createComment}>
                     <Form.Group controlId="commentText">
                         <Form.Label>댓글</Form.Label>
-                        <Form.Control required as="textarea" rows={4} onChange={inputContent}/>
+                        <Form.Control required as="textarea" rows={4} onChange={inputContent} value={contentBuf} />
                     </Form.Group>
-                    <Button variant="primary" type="submit">
+                    <Button className="col-md offset-md-11" variant="primary" type="submit">
                         등록
                     </Button>
                 </Form>
                 {currentComments.map((comment) => (
-                    <div key={comment.commentId}>
-                        <Row className="comment" key={comment.userId}>
-                            <Col xs={2} className="date">작성 일자: {comment.createdAt}</Col>
-                            <Col xs={2} className="date">작성자: {comment.username}</Col>
-                            <Col xs={6} style={{ wordWrap: 'break-word'}}>내용: {comment.content}</Col>
-                            <Col xs={2} style={{ display: 'flex', justifyContent: 'center' }}>
-                                <Button variant="outline-primary" size="sm" onClick={() => handleEditComment(comment.commentId)}>수정</Button>
-                                <Button variant="outline-danger" size="sm" onClick={() => handleDeleteComment(comment.commentId)}>삭제</Button>
-                            </Col>
-                        </Row>
+                    <div className="comment border" key={comment.commentId}>
+                        {editCommentId === comment.commentId ? (
+                            <Row className="comment">
+                                <Col xs={10} className="date" style={{ paddingRight: '10px' }}>
+                                    <Form.Control as="textarea" rows={2} defaultValue={comment.content} onChange={(e) => setUpdateBuf(e.target.value)} />
+                                </Col>
+                                <Col xs={2} style={{ display: 'flex', justifyContent: 'center' }}>
+                                    <Button variant="outline-primary" size="sm" style={buttonStyle} onClick={() => handleUpdateComment(comment.commentId,comment.content)}>저장</Button>
+                                    <Button variant="outline-secondary" size="sm" style={buttonStyle} onClick={handleCancelEdit}>취소</Button>
+                                </Col>
+                            </Row>
+                        ) : (
+                            <Row className="comment">
+                                <Col xs={2} className="date">작성 일자: {comment.createdAt}</Col>
+                                <Col xs={2} className="date">작성자: {comment.username}</Col>
+                                <Col xs={6} style={commentRowStyle}>{comment.content}</Col>
+                                <Col xs={2} style={{ display: 'flex', justifyContent: 'center' }}>
+                                    <Button variant="outline-primary" size="sm" style={buttonStyle} onClick={() => handleEditComment(comment.commentId,comment.userId)}>수정</Button>
+                                    <Button variant="outline-danger" size="sm" style={buttonStyle} onClick={() => handleDeleteComment(comment.commentId,comment.userId)}>삭제</Button>
+                                </Col>
+                            </Row>
+                        )}
                     </div>
                 ))}
             </div>

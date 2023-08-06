@@ -41,7 +41,7 @@ public class MyDummyEntity{
                 .price(1800)
                 .originPrice(2000)
                 .discountPrice(1800)
-                .discountPercentage(10)
+                .discountPercent(10)
                 .isNew(true)
                 .isHot(true)
                 .star(5)

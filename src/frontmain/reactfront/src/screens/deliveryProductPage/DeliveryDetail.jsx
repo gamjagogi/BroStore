@@ -42,11 +42,17 @@ const DeliveryDetail = () => {
 
     const [soldBy, setSoldBy] = useState('');
     const [category, setCategory] = useState('');
-
+    const [star, setStar] = useState(5);
     const [count, setCount] = useState(1);
     const navigate = useNavigate();
 
     const {id} = useParams();
+
+    const commentRowStyle = {
+        wordWrap: 'break-word', // 긴 텍스트를 자동으로 줄바꿈
+        whiteSpace: 'pre-wrap', // 줄바꿈과 공백을 유지하도록 설정
+    };
+
 
 
     useEffect(() => {
@@ -67,11 +73,12 @@ const DeliveryDetail = () => {
                 setDiscountPrice(postData.data.discountPrice);
                 setHighlights(postData.data.highlights);
                 setDescription(postData.data.description);
-
+                setStar(postData.data.star);
                 setSoldBy(postData.data.soldBy);
                 setCategory(postData.data.category);
 
             });
+        return;
     }, []);
 
     const fetchPost = async () => {
@@ -120,8 +127,6 @@ const DeliveryDetail = () => {
             console.log(refreshToken);
 
 
-
-
             if (accessToken && refreshToken) {
                 // 요청 보내기
                 console.log(count);
@@ -164,8 +169,6 @@ const DeliveryDetail = () => {
             const refreshToken = localStorage.getItem('refreshToken');
             console.log(accessToken);
             console.log(refreshToken);
-
-
 
 
             if (accessToken && refreshToken) {
@@ -216,18 +219,25 @@ const DeliveryDetail = () => {
                             />
                         </div>
                         <div className="col-md-7">
-                            <h1 className="h5 d-inline me-2">
+                            <h1 className="h5 d-inline me-2" style={commentRowStyle}>
                                 {name}
                             </h1>
                             <span className="badge bg-success me-2">{isNew}</span>
                             <span className="badge bg-danger me-2">{isHot}</span>
                             <div className="mb-3">
-                                <IconStarFill className="text-warning me-1"/>
-                                <IconStarFill className="text-warning me-1"/>
-                                <IconStarFill className="text-warning me-1"/>
-                                <IconStarFill className="text-warning me-1"/>
-                                <IconStarFill className="text-secondary me-1"/>|{" "}
-
+                                <div>
+                                    {star > 0 &&
+                                        Array.from({length: 5}, (_, key) => {
+                                            if (key <= star)
+                                                return (
+                                                    <IconStarFill className="text-warning me-1" key={key}/>
+                                                );
+                                            else
+                                                return (
+                                                    <IconStarFill className="text-secondary me-1" key={key}/>
+                                                );
+                                        })}
+                                </div>
                             </div>
                             <dl className="row small mb-3">
                                 <dt className="col-sm-3">Category</dt>
@@ -241,7 +251,7 @@ const DeliveryDetail = () => {
                                 <del className="small text-muted me-2">{originPrice}</del>
                                 {discountPrice !== null && (
                                     <span className="rounded p-1 bg-warning me-2 small">
-                                          {'-' + discountPrice }
+                                          {'-' + discountPrice}
                                     </span>
                                 )}
                             </div>
@@ -289,7 +299,7 @@ const DeliveryDetail = () => {
                                     </button>
                                 </div>
                             </div>
-                            <div>
+                            <div style={commentRowStyle}>
                                 <p className="fw-bold mb-2 small">
                                     Product Highlights
                                 </p>

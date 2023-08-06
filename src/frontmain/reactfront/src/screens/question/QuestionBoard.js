@@ -18,6 +18,12 @@ const QuestionBoard = () => {
     const [selectedValue, setSelectedValue] = useState(1);
     const [keyword, setKeyword] = useState('');
     const navigate = useNavigate();
+    const userId = sessionStorage.getItem('userData2');
+
+    const commentRowStyle = {
+        wordWrap: 'break-word', // 긴 텍스트를 자동으로 줄바꿈
+        whiteSpace: 'pre-wrap', // 줄바꿈과 공백을 유지하도록 설정
+    };
 
     useEffect(() => {
         handlePage().then((products) => {
@@ -33,7 +39,10 @@ const QuestionBoard = () => {
         })
             .catch((error) => {
                 console.error('Error occurred while fetching products:', error);
+                alert('로그인이 필요합니다.');
+                return navigate('/');
             })
+        return;
     }, []);
 
 
@@ -168,7 +177,7 @@ const QuestionBoard = () => {
 
 
     return (
-        <Container>
+        <Container style={commentRowStyle}>
             <header>
                 <h1> Q/A </h1>
             </header>
@@ -187,12 +196,12 @@ const QuestionBoard = () => {
 
             <ListGroup as="ol" numbered={true}>
                 {currentProducts.map((board) => (
-                    <ListGroup.Item as="li" className="d-flex justify-content-between align-items-start"style={{height:'130px'}} key={board.id}>
+                    <ListGroup.Item as="li" className="d-flex justify-content-between align-items-start"style={{minHeight:'130px'}} key={board.id}>
                         <div className="ms-3 me-auto col-4">
                             <h4 className="fw-bold">{board.title}</h4>
 
                         </div>
-                        <div className="col-4"> <a href={`/detail/${board.id}`}>상세보기</a></div>
+                        <div className="col-4"> <a href={`/question/detail/${board.id}`}>상세보기</a></div>
                         <div className="col-4">
                             <div>작성자 : {board.username}</div>
                             <div>카테고리 : {board.category=='RequestSeller'?'판매자신청':'All'}</div>

@@ -151,17 +151,21 @@ export default function PostEditor() {
 
     const onChangeTitle = (event) => {
         const newTitle = event.target.value;
-        if (newTitle.length <= 60) {
+        if (newTitle.length <= 50) {
             setTitle(newTitle);
         } else {
             // 팝업을 띄우는 로직을 추가하거나 원하는 작업을 수행합니다.
             // 예시: alert을 사용하여 팝업을 띄움
-            alert('제목은 60자 이하여야 합니다.');
+            alert('제목은 50자 이하여야 합니다.');
         }
     };
 
     const onChangeContent = (content) => {
-        setContent(content);
+        if(content) {
+            setContent(content);
+        }else {
+            return alert('내용을 입력해주세요.');
+        }
     };
 
     const handleSubmit = async () => {
@@ -329,6 +333,12 @@ export default function PostEditor() {
     };
     // ******************************************************************^
 
+
+    const handleCancel = () => {
+        navigate('/board');
+    }
+
+
     return (
         <div style={{display: 'flex', flexDirection: 'column', height: '100vh'}}>
             <input
@@ -395,7 +405,7 @@ export default function PostEditor() {
                     top: '-200px'
                 }}>
                     <button onClick={handleSubmit} style={{marginRight: '10px'}}>완료</button>
-                    <button style={{}}>취소</button>
+                    <button onClick={handleCancel}>취소</button>
                 </div>
             </div>
         </div>

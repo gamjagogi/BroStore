@@ -276,6 +276,7 @@ export default function QuestionPost() {
         })];
         console.log(domArray);
         setUpdatedDomArray(domArray);
+        return;
     }, [urls]);
 
 
@@ -299,22 +300,22 @@ export default function QuestionPost() {
 
     const deleteImage = (itemIndex) => {
         const editor = quillRef.current.getEditor();
-        const range = editor.getSelection(true);
+        //const range = editor.getSelection(true);
         const contents = editor.getContents();
         console.log('에디터');
-        console.log(contents);
         console.log(itemIndex);
 
         // Quill 컨텐츠의 각 블록을 순회하면서 이미지를 찾고, 식별자와 일치하는 이미지를 삭제
         contents.ops.forEach((block) => {
             if (block.insert && block.insert.image ) {
                 const imageIndex = contents.ops.indexOf(block);
-                console.log('quill내부');
-
                 if (imageIndex == itemIndex) {
                     // 이미지 삭제
-                    editor.deleteText(contents.ops.indexOf(block), 1);
+                    console.log(block.insert.image);
+                    console.log(imageIndex);
+                    editor.deleteText(imageIndex,1);
                     console.log('삭제 성공!')
+                    return;
                 }
             }
         });
@@ -392,20 +393,20 @@ export default function QuestionPost() {
                         <option value={2} >판매자 신청</option>
                     </select>
 
-                    {/*<ImageLibrary imageSrc={imageSrc} index={index} />*/}
-                    <Dropdown show={dropdownOpen} onToggle={toggleDropdown}>
-                        <Dropdown.Toggle variant="primary" id="dropdown-basic-button">
-                            사진 라이브러리
-                        </Dropdown.Toggle>
 
-                        <Dropdown.Menu show={true} align="right">
-                            <Editor>
-                                <ListGroup as="ul" className="se-sidebar-list">
-                                    {updatedDomArray}
-                                </ListGroup>
-                            </Editor>
-                        </Dropdown.Menu>
-                    </Dropdown>
+                    {/*<Dropdown show={dropdownOpen} onToggle={toggleDropdown}>*/}
+                    {/*    <Dropdown.Toggle variant="primary" id="dropdown-basic-button">*/}
+                    {/*        사진 라이브러리*/}
+                    {/*    </Dropdown.Toggle>*/}
+
+                    {/*    <Dropdown.Menu show={true} align="right">*/}
+                    {/*        <Editor>*/}
+                    {/*            <ListGroup as="ul" className="se-sidebar-list">*/}
+                    {/*                {updatedDomArray}*/}
+                    {/*            </ListGroup>*/}
+                    {/*        </Editor>*/}
+                    {/*    </Dropdown.Menu>*/}
+                    {/*</Dropdown>*/}
                 </div>
 
                 <br/>

@@ -198,17 +198,23 @@ const DeliveryPosting = () => {
     };
 
     const onTitleChange = async (title) => {
+        if (title.length<=60) {
             console.log(title);
-            setState((prevState) => ({ ...prevState, title}));
+            setState((prevState) => ({ ...prevState, title }));
+        }else {
+            alert('제목 길이 초과');
+        }
     };
 
     const onHighlightChange = async (highlights) => {
-        if (highlights) {
+        if (highlights.length<=200) {
             const parser = new DOMParser();
             const doc = parser.parseFromString(highlights, "text/html");
             const plainText = doc.body.textContent;
             console.log(plainText);
             setState((prevState) => ({ ...prevState, highlights: plainText }));
+        }else {
+            alert('길이 초과');
         }
     };
 

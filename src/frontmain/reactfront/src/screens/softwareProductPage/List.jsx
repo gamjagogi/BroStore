@@ -2,7 +2,7 @@ import React, { lazy, useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTh, faBars, faPencilSquare } from "@fortawesome/free-solid-svg-icons";
 import axios from "../Request/RequestConfig";
-import { Link } from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import CategoryConfig from "./category/CategoryConfig";
 
 const Paging = lazy(() => import("../../components/Paging"));
@@ -22,6 +22,7 @@ const ProductListView = () => {
     const [totalItems, setTotalItems] = useState(0);
     const [view, setView] = useState("list");
     const [category, setCategory] = useState('');
+    const navigate = useNavigate();
 
     useEffect(() => {
         CategoryConfig(category)
@@ -37,7 +38,10 @@ const ProductListView = () => {
             })
             .catch((error) => {
                 console.error("Error occurred while fetching products:", error);
+                alert('로그인이 필요합니다.');
+                return navigate('/');
             });
+        return;
     }, []);
 
 
@@ -58,6 +62,7 @@ const ProductListView = () => {
             .catch((error) => {
                 console.error("Error occurred while fetching products:", error);
             });
+        return;
     }, [category]);
 
 

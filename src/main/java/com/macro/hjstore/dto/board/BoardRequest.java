@@ -2,6 +2,7 @@ package com.macro.hjstore.dto.board;
 
 import com.macro.hjstore.model.board.Board;
 import com.macro.hjstore.model.comment.Comment;
+import com.macro.hjstore.model.comment.QuestionComment;
 import com.macro.hjstore.model.question.Question;
 import com.macro.hjstore.model.user.User;
 import lombok.Getter;
@@ -57,12 +58,13 @@ public class BoardRequest {
 
         private Long boardId;
 
-        public Board toUpdateEntity(User user){
+        public Board toUpdateEntity(Board board,User user){
             return Board.builder()
                     .user(user)
                     .title(title)
                     .content(content)
                     .id(boardId)
+                    .createdAt(board.getCreatedAt())
                     .build();
         }
     }
@@ -80,7 +82,18 @@ public class BoardRequest {
                     .board(board)
                     .build();
         }
+
+        public QuestionComment toQuestionEntity(User user, Question question){
+            return QuestionComment.builder()
+                    .username(user.getUsername())
+                    .userId(user.getId())
+                    .content(content)
+                    .question(question)
+                    .build();
+        }
     }
+
+
 
     @Getter
     public static class UpdateComment{
@@ -91,8 +104,20 @@ public class BoardRequest {
             return Comment.builder()
                     .id(comment.getId())
                     .username(user.getUsername())
+                    .userId(user.getId())
                     .content(content)
+                    .createdAt(comment.getCreatedAt())
                     .board(board)
+                    .build();
+        }
+        public QuestionComment toQuestionEntity(QuestionComment questionComment,User user, Question question){
+            return QuestionComment.builder()
+                    .id(questionComment.getId())
+                    .username(user.getUsername())
+                    .userId(user.getId())
+                    .content(content)
+                    .question(question)
+                    .createdAt(questionComment.getCreatedAt())
                     .build();
         }
     }
@@ -132,13 +157,14 @@ public class BoardRequest {
         private Long boardId;
 
 
-        public Question toQuestionUpdateEntity(User user) {
+        public Question toQuestionUpdateEntity(Question question,User user) {
             return Question.builder()
                     .id(boardId)
                     .user(user)
                     .title(title)
                     .content(content)
                     .category(category)
+                    .createdAt(question.getCreatedAt())
                     .build();
         }
     }

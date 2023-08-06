@@ -1,9 +1,11 @@
 import React, {useState, useEffect} from 'react';
 import {useParams} from 'react-router-dom';
-import {Container, Card} from 'react-bootstrap';
+import {Container, Card, Col, Button, Row, Form} from 'react-bootstrap';
 import {useNavigate} from 'react-router-dom';
 import axios from '../Request/RequestConfig.js';
-import Comment from "./comment/Comment";
+import Paging from "../../components/Paging";
+
+import CommentStyle from "./comment/Comment.style";
 
 export default function QuestionDetailPage() {
     const [loginError, setLoginError] = useState('');
@@ -12,20 +14,70 @@ export default function QuestionDetailPage() {
     const [boardUserId, setBoardUserId] = useState('');
     const [category, setCategory] = useState('');
     const [frontCategory, setFrontCategory] = useState('');
+    const [comments, setComments] = useState([]);
+
+    // 댓글 편집
+    const [editCommentId, setEditCommentId] = useState(null);
+    const [contentBuf,setContentsBuf] = useState(''); //실시간 댓글 input값
+    const [updateBuf, setUpdateBuf] = useState('');
+
+    // 페이징
+    const [totalComments, setTotalComments] = useState(0);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(null);
+    const [currentComments, setCurrentComments] = useState([]);
+
+
     const navigate = useNavigate();
     const {id} = useParams();
+    const boardId = id;
+    const userId = sessionStorage.getItem('userData2');
+
+    const commentRowStyle = {
+        wordWrap: 'break-word', // 긴 텍스트를 자동으로 줄바꿈
+        whiteSpace: 'pre-wrap', // 줄바꿈과 공백을 유지하도록 설정
+    };
 
     useEffect(() => {
-        fetchPost(); // 컴포넌트가 마운트될 때(fetchPost()의 의존성 배열이 빈 배열) fetchPost 함수를 호출합니다.
+        fetchPost().then((comments) => {
+            const offset = (currentPage - 1) * 9;
+            const currentProducts = comments.slice(offset, offset + 9);
+            setCurrentComments(currentProducts);
+            setTotalComments(comments.length);
+
+        }).catch((error) => {
+            console.error("Error occurred while fetching products:", error);
+        });
+
+        return () => {
+            console.log("Clean up");
+        };
     }, []);
 
 
+    //댓글 페이징
+    const onPageChanged = (page) => {
+        fetchPost().then((comments) => {
+            const {currentPage, totalPages, pageLimit} = page;
+            const offset = (currentPage - 1) * pageLimit;
+            const currentProducts = comments.slice(offset, offset + pageLimit);
+
+            setCurrentPage(currentPage);
+            setCurrentComments(currentProducts);
+            setTotalPages(totalPages);
+        })
+            .catch((error) => {
+                console.error("Error occurred while fetching products:", error);
+            });
+    };
+
+
     const handleGoBack = () => {
-        navigate(-1); // 뒤로가기 버튼을 누를 때 이전 페이지로 이동
+        navigate('/question'); // 뒤로가기 버튼을 누를 때 이전 페이지로 이동
     };
 
     const handleUpdate = () => {
-        const userId = sessionStorage.getItem('userData2');
+
         if (boardUserId != userId) {
             alert('권한이 없습니다.');
             return window.location.reload();
@@ -59,6 +111,10 @@ export default function QuestionDetailPage() {
                     setContent(postData.data.content);
                     setBoardUserId(postData.data.userId);
                     setCategory(postData.data.category);
+
+                    // 댓글 출력
+                    const comments = postData.data.comments;
+                    return comments;
                 } else {
                     console.error('게시글을 가져오는데 실패했습니다.');
                 }
@@ -122,8 +178,8 @@ export default function QuestionDetailPage() {
                 console.error('이미지 리사이징 중 오류 발생:', error);
             }
         };
-
         resizeContent();
+        return;
     }, [content]);
 
 
@@ -148,8 +204,8 @@ export default function QuestionDetailPage() {
             console.log(accessToken);
             console.log(refreshToken);
 
-            if(accessToken && refreshToken){
-                const response = await axios.post(`/auth/question/delete/${id}/${userId}`,JSON.stringify(""),{
+            if (accessToken && refreshToken) {
+                const response = await axios.post(`/auth/question/delete/${id}/${userId}`, JSON.stringify(""), {
                     headers: {
                         'Content-Type': 'application/json',
                         'Authorization': `Bearer ${accessToken}`,
@@ -172,7 +228,7 @@ export default function QuestionDetailPage() {
                         alert(error.defaultMessage);
                     }
                 }
-            }else {
+            } else {
                 setLoginError('인증 권한을 가진 유저만 접근 가능합니다.'); // 로그인되지 않은 경우 처리
             }
         } catch (error) {
@@ -181,14 +237,180 @@ export default function QuestionDetailPage() {
     }
 
 
+
+
+    const inputContent = (props) => {
+        const value = props.target.value;
+        console.log(value);
+        if(value.length<=300){
+            setContentsBuf(value);
+        }else{
+            alert('길이 초과');
+        }
+    }
+
+
+
+    const createComment = async () => {
+        try {
+            const accessToken = localStorage.getItem('accessToken');
+            const refreshToken = localStorage.getItem('refreshToken');
+
+            console.log(accessToken);
+            console.log(refreshToken);
+
+            const requestData = {'content':contentBuf};
+
+            if (accessToken && refreshToken) {
+                // 요청 보내기
+                console.log("댓글데이터!!!!!"+requestData);
+                const response = await axios.post(`/auth/question/comment/save/${userId}/${boardId}`, JSON.stringify(requestData), {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${accessToken}`,
+                        'RefreshToken': `Bearer ${refreshToken}`,
+                    },
+                });
+
+                if (response.status == 200) {
+                    // 응답 성공 시 처리할 작업
+                    console.log('댓글쓰기 성공'); // 요청에 대한 응답 처리
+                    window.location.reload();
+
+                } else {
+                    // 응답 실패 시 처리할 작업
+                    const errorMessages = await response.data;
+                    console.log(errorMessages.errors);
+                    const errors = errorMessages.errors;
+                    for (const error of errors) {
+                        console.log(error.defaultMessage);
+                        alert(error.defaultMessage);
+                    }
+                }
+            } else {
+                setLoginError('인증 권한을 가진 유저만 접근 가능합니다.'); // 로그인되지 않은 경우 처리
+            }
+        } catch (error) {
+            console.error('인증되지 않은 사용자가 접근하려 합니다..', error);
+            setLoginError('인증된 유저만 접근 가능합니다.');
+        }
+    }
+
+
+
+    const handleEditComment = (commentId,commentUserId) => {
+        if(commentUserId!=userId){
+            alert('권한이 없습니다.');
+            return;
+        }
+        setEditCommentId(commentId);
+    }
+
+    const handleUpdateComment = async (commentId,content) => {
+        try {
+            // 수정된 댓글 내용 업데이트 요청을 보냅니다.
+            const accessToken = localStorage.getItem('accessToken');
+            const refreshToken = localStorage.getItem('refreshToken');
+            const requestData = { 'content': updateBuf?updateBuf:content };
+
+            if (accessToken && refreshToken) {
+                const response = await axios.post(`/auth/question/comment/update/${userId}/${boardId}/${commentId}`, JSON.stringify(requestData), {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${accessToken}`,
+                        'RefreshToken': `Bearer ${refreshToken}`,
+                    },
+                });
+
+                if (response.status === 200) {
+                    console.log('댓글 수정 성공');
+                    window.location.reload(); // 페이지 리로드
+                } else {
+                    const errorMessages = await response.data;
+                    console.log(errorMessages.errors);
+                    const errors = errorMessages.errors;
+                    for (const error of errors) {
+                        console.log(error.defaultMessage);
+                        alert(error.defaultMessage);
+                    }
+                }
+            } else {
+                setLoginError('인증 권한을 가진 유저만 접근 가능합니다.');
+            }
+        } catch (error) {
+            console.error('에러발생 : ', error);
+        }
+    }
+
+
+    const handleCancelEdit = () => {
+        setEditCommentId(null);
+    }
+
+    const handleDeleteComment = async (commentId,commentUserId) => {
+        if(commentUserId!=userId){
+            alert('권한이 없습니다.');
+            return;
+        }
+        // 확인 문구
+        const shouldDelete = window.confirm('정말로 삭제하시겠습니까?');
+
+        if (!shouldDelete) {
+            return; // 사용자가 "취소"를 선택한 경우 아무 작업도 하지 않고 종료
+        }
+
+
+        try{
+            const accessToken = localStorage.getItem('accessToken');
+            const refreshToken = localStorage.getItem('refreshToken');
+            if(accessToken && refreshToken) {
+                const response = await axios.get(`/auth/question/comment/delete/${commentUserId}/${commentId}`, {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${accessToken}`,
+                        'RefreshToken': `Bearer ${refreshToken}`,
+                    },
+                });
+                if(response.status === 200){
+                    alert('삭제 성공');
+                    return window.location.reload();
+                } else {
+                    console.error( response.status+'삭제 실패');
+                    const errorMessages = await response.data;
+                    console.log(errorMessages.errors);
+                    const errors = errorMessages.errors;
+                    for (const error of errors) {
+                        console.log(error.defaultMessage);
+                        alert(error.defaultMessage);
+                    }
+                }
+            }else {
+                setLoginError('인증 권한을 가진 유저만 접근 가능합니다.');
+            }
+
+        }catch (error){
+            console.error(error);
+        }
+    }
+
+
+
+
+
+
+
     return (
         <div style={{height: '200vh', marginTop: '30px'}}>
             <Container fluid>
-                <div className="col-3" style={{marginBottom:'10px'}}>
+                <div className="col-3" style={{marginBottom: '10px'}}>
                     <label style={{fontWeight: 'bold'}}>카테고리: {frontCategory}</label>
                 </div>
                 <Card border="primary">
-                    <Card.Header style={{height: 'calc(8vh - 10px)', fontSize: '30px'}}>{title}</Card.Header>
+                    <Card.Header style={{ fontSize: '30px'}}>
+                        <Card.Text>
+                        {title}
+                        </Card.Text>
+                    </Card.Header>
                     <Card.Body style={{height: 'calc(100vh - 50px)'}}>
                         <Card.Text
                             dangerouslySetInnerHTML={{__html: resizedContent}}
@@ -206,8 +428,55 @@ export default function QuestionDetailPage() {
                         뒤로가기
                     </button>
                 </div>
-                <Comment/>
             </Container>
+
+            <div>
+                <Form className="mb-4" onSubmit={createComment}>
+                    <Form.Group controlId="commentText">
+                        <Form.Label>댓글</Form.Label>
+                        <Form.Control required as="textarea" rows={4} onChange={inputContent} value={contentBuf} />
+                    </Form.Group>
+                    <Button className="col-md offset-md-11" variant="primary" type="submit">
+                        등록
+                    </Button>
+                </Form>
+                {currentComments.map((comment) => (
+                    <div className="comment border" key={comment.commentId}>
+                        {editCommentId === comment.commentId ? (
+                            <Row className="comment">
+                                <Col xs={10} className="date" style={{ paddingRight: '10px' }}>
+                                    <Form.Control as="textarea" rows={2} defaultValue={comment.content} onChange={(e) => setUpdateBuf(e.target.value)} />
+                                </Col>
+                                <Col xs={2} style={{ display: 'flex', justifyContent: 'center' }}>
+                                    <Button variant="outline-primary" size="sm" style={CommentStyle.buttonStyle} onClick={() => handleUpdateComment(comment.commentId,comment.content)}>저장</Button>
+                                    <Button variant="outline-secondary" size="sm" style={CommentStyle.buttonStyle} onClick={handleCancelEdit}>취소</Button>
+                                </Col>
+                            </Row>
+                        ) : (
+                            <Row className="comment">
+                                <Col xs={2} className="date">작성 일자: {comment.createdAt}</Col>
+                                <Col xs={2} className="date">작성자: {comment.username}</Col>
+                                <Col xs={6} style={commentRowStyle}>{comment.content}</Col>
+                                <Col xs={2} style={{ display: 'flex', justifyContent: 'center' }}>
+                                    <Button variant="outline-primary" size="sm" style={CommentStyle.buttonStyle} onClick={() => handleEditComment(comment.commentId,comment.userId)}>수정</Button>
+                                    <Button variant="outline-danger" size="sm" style={CommentStyle.buttonStyle} onClick={() => handleDeleteComment(comment.commentId,comment.userId)}>삭제</Button>
+                                </Col>
+                            </Row>
+                        )}
+                    </div>
+                ))}
+            </div>
+            <div style={{display: "flex", justifyContent: "center", marginTop: "20px"}}>
+                <Paging
+                    totalRecords={totalComments}
+                    pageLimit={9}
+                    pageNeighbours={3}
+                    onPageChanged={onPageChanged}
+                    sizing=""
+                    alignment="justify-content-center"
+                />
+            </div>
+
         </div>
     );
 }

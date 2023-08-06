@@ -18,6 +18,15 @@ const UserBoard = () => {
     const [keyword, setKeyword] = useState('');
     const navigate = useNavigate();
 
+
+    const commentRowStyle = {
+        wordWrap: 'break-word', // 긴 텍스트를 자동으로 줄바꿈
+        whiteSpace: 'pre-wrap', // 줄바꿈과 공백을 유지하도록 설정
+    };
+
+
+
+
     useEffect(() => {
         handlePage().then((products) => {
             console.log(products.length);
@@ -29,6 +38,7 @@ const UserBoard = () => {
             .catch((error) => {
                 console.error('Error occurred while fetching products:', error);
             })
+        return;
     }, []);
 
 
@@ -109,7 +119,7 @@ const UserBoard = () => {
         setKeyword(value);
     }
     return (
-        <Container>
+        <Container style={commentRowStyle}>
             <header>
                 <h1> UserBoard </h1>
             </header>
@@ -123,7 +133,7 @@ const UserBoard = () => {
 
             <ListGroup as="ol" numbered={true}>
                 {currentProducts.map((board) => (
-                    <ListGroup.Item as="li" className="d-flex justify-content-between align-items-start"style={{height:'130px'}} key={board.id}>
+                    <ListGroup.Item as="li" className="d-flex justify-content-between align-items-start"style={{minHeight:'130px'}} key={board.id}>
                         <div className="ms-3 me-auto col-4">
                             <h4 className="fw-bold">{board.title}</h4>
 

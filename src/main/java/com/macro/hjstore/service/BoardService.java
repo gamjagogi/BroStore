@@ -42,8 +42,6 @@ public class BoardService {
             List<BoardResponse.UserBoard>userBoardList = boardList.stream()
                     .map(board -> new BoardResponse.UserBoard(board)).collect(Collectors.toList());
 
-            System.out.println(userBoardList.toString());
-
             return userBoardList;
         }catch (Exception e){
             throw new Exception404("게시글이 존재하지 않습니다.");
@@ -76,10 +74,10 @@ public class BoardService {
 
     @MyLog
     @Transactional
-    public void 게시글수정하기(Long userId, BoardRequest.UpdateInDTO update){
+    public void 게시글수정하기(Board board,Long userId, BoardRequest.UpdateInDTO update){
         User userPS =  userService.회원찾기(userId);
         System.out.println("수정한 게시글 제목: "+update.getTitle());
-        Board boardPS = update.toUpdateEntity(userPS);
+        Board boardPS = update.toUpdateEntity(board,userPS);
         boardRepository.save(boardPS);
     }
 
@@ -113,5 +111,11 @@ public class BoardService {
         Comment commentPS = commentRepository.findById(commentId)
                 .orElseThrow(() -> new Exception404("댓글을 찾을 수 없습니다."));
         return commentPS;
+    }
+
+    @MyLog
+    @Transactional
+    public void 댓글삭제하기(Comment comment){
+        commentRepository.delete(comment);
     }
 }

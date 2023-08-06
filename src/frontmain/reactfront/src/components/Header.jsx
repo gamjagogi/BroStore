@@ -54,8 +54,8 @@ const Header = () => {
         if (userData) {
             setIsLoggedIn(true);
             setUserName(userData.username);
-
         }
+        return;
     }, [userData]);
 
     return (

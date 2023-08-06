@@ -27,6 +27,8 @@ const Posting = () => {
             alert('판매자 기능입니다.');
             return navigate('/software');
         }
+
+        return ;
     },[])
 
     const [state, setState] = useState({
@@ -63,7 +65,7 @@ const Posting = () => {
             price,
             originPrice,
             discountPrice,
-            discountPercentage,
+            discountPercent,
             soldBy,
             category
         } = state;
@@ -79,7 +81,7 @@ const Posting = () => {
         console.log(price);
         console.log(originPrice);
         console.log(discountPrice);
-        console.log(discountPercentage);
+        console.log(discountPercent);
         console.log(soldBy);
         console.log(category);
 
@@ -95,7 +97,7 @@ const Posting = () => {
             price,
             originPrice,
             discountPrice,
-            discountPercentage,
+            discountPercent,
             soldBy,
             category
         };
@@ -199,19 +201,23 @@ const Posting = () => {
     };
 
     const onTitleChange = async (title) => {
-        if (title) {
+        if (title.length<=50) {
             console.log(title);
             setState((prevState) => ({ ...prevState, title }));
+        }else {
+            alert('제목 길이 초과');
         }
     };
 
     const onHighlightChange = async (highlights) => {
-        if (highlights) {
+        if (highlights.length<=200) {
             const parser = new DOMParser();
             const doc = parser.parseFromString(highlights, "text/html");
             const plainText = doc.body.textContent;
             console.log(plainText);
             setState((prevState) => ({ ...prevState, highlights: plainText }));
+        }else {
+            alert('길이 초과');
         }
     };
 
@@ -271,7 +277,7 @@ const Posting = () => {
     const setDiscountPercent = async (percentage) => {
         if (percentage) {
             console.log(percentage);
-            setState((prevState) => ({ ...prevState, discountPercentage: percentage }));
+            setState((prevState) => ({ ...prevState, discountPercent: percentage }));
         }
     };
 
@@ -341,9 +347,13 @@ const Posting = () => {
                 <div style={{ marginRight: "auto" }}>
                     <PriceConfig
                         setPrice={setPrice}
+                        price={state.price}
                         setOriginPrice={setOriginPrice}
+                        originPrice={state.originPrice}
                         setDiscountPrice={setDiscountPrice}
+                        discountPrice={state.discountPrice}
                         setDiscountPercent={setDiscountPercent}
+                        discountPercent={state.discountPercent}
                         setStar={setStar}
                         star={state.star}
                     />

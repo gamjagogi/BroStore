@@ -77,6 +77,18 @@ public class BoardController {
         }
     }
 
+    @GetMapping("/auth/board/comment/delete/{userId}/{commentId}")
+    public ResponseEntity<?> deleteComment(@PathVariable("userId")Long userId,@PathVariable("commentId")Long commentId,@AuthenticationPrincipal MyUserDetails userDetails){
+        if (userDetails.getUser().getId() == userId) {
+            System.out.println("댓삭 진입!");
+            Comment commentPS = boardService.댓글찾기(commentId);
+            boardService.댓글삭제하기(commentPS);
+            return ResponseEntity.ok().build();
+        } else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+    }
+
     @PostMapping("/auth/board/save")
     public ResponseEntity<?> savePost(@RequestBody @Valid BoardRequest.SaveInDTO saveInDTO
             , @AuthenticationPrincipal MyUserDetails userDetails,Errors errors){
@@ -116,7 +128,7 @@ public class BoardController {
                     return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
                 }
 
-                boardService.게시글수정하기(id,updateDTO);
+                boardService.게시글수정하기(boardPS,id,updateDTO);
                 System.out.println("수정완료!!");
 
                 ResponseDTO<?> responseDTO = new ResponseDTO<>();

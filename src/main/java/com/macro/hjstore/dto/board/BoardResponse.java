@@ -2,6 +2,7 @@ package com.macro.hjstore.dto.board;
 
 import com.macro.hjstore.model.board.Board;
 import com.macro.hjstore.model.comment.Comment;
+import com.macro.hjstore.model.comment.QuestionComment;
 import com.macro.hjstore.model.question.Question;
 import lombok.Getter;
 import lombok.Setter;
@@ -63,6 +64,14 @@ public class BoardResponse {
             this.content = comment.getContent();
             this.createdAt = comment.getCreatedAt().toString();
             this.userId = comment.getUserId();
+        }
+
+        public Comments(QuestionComment questionComment){
+            this.commentId = questionComment.getId();
+            this.username = questionComment.getUsername();
+            this.content = questionComment.getContent();
+            this.createdAt = questionComment.getCreatedAt().toString();
+            this.userId = questionComment.getUserId();
         }
     }
 
@@ -149,7 +158,9 @@ public class BoardResponse {
 
         private Long userId;
 
-        public QuestionDetail(Long id,String title, String content, String thumbnail, String username,String category,Long userId) {
+        private List<BoardResponse.Comments>comments;
+
+        public QuestionDetail(Long id,String title, String content, String thumbnail, String username,String category,Long userId,List<BoardResponse.Comments>comments) {
             this.id = id;
             this.title = title;
             this.content = content;
@@ -157,6 +168,7 @@ public class BoardResponse {
             this.username = username;
             this.category = category;
             this.userId = userId;
+            this.comments = comments;
         }
     }
 }

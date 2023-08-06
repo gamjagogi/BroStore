@@ -157,7 +157,7 @@ export default function PostEditorFix() {
 
     const onChangeTitle = (event) => {
         const newTitle = event.target.value;
-        if (newTitle.length <= 60) {
+        if (newTitle.length <= 50) {
             setState((prevState) => ({...prevState,title:newTitle}));
         } else {
             // 팝업을 띄우는 로직을 추가하거나 원하는 작업을 수행합니다.

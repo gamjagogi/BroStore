@@ -9,11 +9,14 @@ import com.macro.hjstore.dto.board.BoardResponse;
 import com.macro.hjstore.dto.shop.DeliveryRequestDTO;
 import com.macro.hjstore.dto.shop.DeliveryResponseDTO;
 import com.macro.hjstore.model.board.Board;
+import com.macro.hjstore.model.comment.Comment;
+import com.macro.hjstore.model.comment.QuestionComment;
 import com.macro.hjstore.model.deliveryProduct.Delivery;
 import com.macro.hjstore.model.question.Question;
 import com.macro.hjstore.model.user.User;
 import com.macro.hjstore.service.BoardService;
 import com.macro.hjstore.service.QuestionService;
+import com.macro.hjstore.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,6 +34,8 @@ import java.util.List;
 public class QuestionController {
 
     private final QuestionService questionService;
+
+    private final UserService userService;
 
     @GetMapping("/auth/question/{id}")
     public ResponseEntity<?> mainPage(
@@ -106,8 +111,8 @@ public class QuestionController {
                     return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
                 }
 
-                questionService.게시글수정하기(id,updateDTO);
-                System.out.println("수정완료!!");
+                questionService.게시글수정하기(questionPS,id,updateDTO);
+
 
                 ResponseDTO<?> responseDTO = new ResponseDTO<>();
                 return ResponseEntity.ok().body(responseDTO);
@@ -149,5 +154,46 @@ public class QuestionController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
     }
+
+    @PostMapping("/auth/question/comment/save/{userId}/{boardId}")
+    public ResponseEntity<?> createComment(@PathVariable("userId")Long userId,@PathVariable("boardId")Long boardId,@RequestBody BoardRequest.CreateComment comment,@AuthenticationPrincipal MyUserDetails userDetails,Errors errors){
+        if (userDetails.getUser().getId() == userId) {
+            System.out.println("댓글작성진입!!");
+            User userPS = userService.회원찾기(userId);
+            Question questionPS = questionService.보드ID로글찾기(boardId);
+            QuestionComment commentPS = comment.toQuestionEntity(userPS,questionPS);
+            questionService.댓글저장하기(commentPS);
+            return ResponseEntity.ok().build();
+        } else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+    }
+
+    @PostMapping("/auth/question/comment/update/{userId}/{boardId}/{commentId}")
+    public ResponseEntity<?> updateComment(@PathVariable("userId")Long userId,@PathVariable("boardId")Long boardId,@PathVariable("commentId")Long commentId,@RequestBody BoardRequest.UpdateComment comment,@AuthenticationPrincipal MyUserDetails userDetails,Errors errors){
+        if (userDetails.getUser().getId() == userId) {
+            User userPS = userService.회원찾기(userId);
+            Question questionPS = questionService.보드ID로글찾기(boardId);
+            QuestionComment commentPS = questionService.댓글찾기(commentId);
+            QuestionComment updatedCommentPS = comment.toQuestionEntity(commentPS,userPS,questionPS);
+            questionService.댓글저장하기(updatedCommentPS);
+            return ResponseEntity.ok().build();
+        } else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+    }
+
+    @GetMapping("/auth/question/comment/delete/{userId}/{commentId}")
+    public ResponseEntity<?> deleteComment(@PathVariable("userId")Long userId,@PathVariable("commentId")Long commentId,@AuthenticationPrincipal MyUserDetails userDetails){
+        if (userDetails.getUser().getId() == userId) {
+            System.out.println("댓삭 진입!");
+            QuestionComment commentPS = questionService.댓글찾기(commentId);
+            questionService.댓글삭제하기(commentPS);
+            return ResponseEntity.ok().build();
+        } else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+    }
+
 
 }

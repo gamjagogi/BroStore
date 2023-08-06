@@ -21,7 +21,7 @@ public class SoftwareResponseDTO {
     private Integer price;
     private Integer originPrice;
     private Integer discountPrice;
-    private Integer discountPercentage;
+    private Integer discountPercent;
     private boolean isNew;
     private boolean isHot;
     private Integer star;
@@ -44,7 +44,7 @@ public class SoftwareResponseDTO {
         this.price = software.getPrice();
         this.originPrice = software.getOriginPrice();
         this.discountPrice = software.getDiscountPrice();
-        this.discountPercentage = software.getDiscountPercentage();
+        this.discountPercent = software.getDiscountPercent();
         this.isNew = software.isNew();
         this.isHot = software.isHot();
         this.star = software.getStar();
@@ -68,7 +68,7 @@ public class SoftwareResponseDTO {
         private Integer price;
         private Integer originPrice;
         private Integer discountPrice;
-        private Integer discountPercentage;
+        private Integer discountPercent;
         private boolean isNew;
         private boolean isHot;
         private Integer star;
@@ -91,7 +91,7 @@ public class SoftwareResponseDTO {
             this.price = software.getPrice();
             this.originPrice = software.getOriginPrice();
             this.discountPrice = software.getDiscountPrice();
-            this.discountPercentage = software.getDiscountPercentage();
+            this.discountPercent = software.getDiscountPercent();
             this.isNew = software.isNew();
             this.isHot = software.isHot();
             this.star = software.getStar();

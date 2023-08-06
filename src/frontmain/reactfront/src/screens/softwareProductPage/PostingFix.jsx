@@ -28,6 +28,7 @@ const PostingFix = () => {
             alert('판매자 기능입니다.');
             return navigate('/software');
         }
+        return ;
     },[])
 
     const [state, setState] = useState({
@@ -193,19 +194,23 @@ const PostingFix = () => {
     };
 
     const onTitleChange = async (title) => {
-        if (title) {
+        if (title.length<=50) {
             console.log(title);
             setState((prevState) => ({ ...prevState, title }));
+        }else {
+            alert('제목 길이 초과');
         }
     };
 
     const onHighlightChange = async (highlights) => {
-        if (highlights) {
+        if (highlights.length<=200) {
             const parser = new DOMParser();
             const doc = parser.parseFromString(highlights, "text/html");
             const plainText = doc.body.textContent;
             console.log(plainText);
             setState((prevState) => ({ ...prevState, highlights: plainText }));
+        }else {
+            alert('길이 초과');
         }
     };
 
@@ -213,6 +218,8 @@ const PostingFix = () => {
         if (description) {
             console.log(description);
             setState((prevState) => ({ ...prevState, description: description }));
+        }else {
+            alert('내용을 입력해주세요.');
         }
     };
 
@@ -234,10 +241,10 @@ const PostingFix = () => {
         console.log(state.isHot);
     };
 
-    const setStar = async (value) => {
-        if (value) {
-            console.log(value);
-            setState((prevState) => ({ ...prevState, star: value }));
+    const setStar = async (index) => {
+        if (index) {
+            console.log(index);
+            setState((prevState) => ({ ...prevState, star: index }));
         }
     };
 

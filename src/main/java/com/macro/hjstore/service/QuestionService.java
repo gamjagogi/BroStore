@@ -8,6 +8,9 @@ import com.macro.hjstore.dto.shop.DeliveryResponseDTO;
 import com.macro.hjstore.model.board.Board;
 import com.macro.hjstore.model.board.BoardJPQLRepository;
 import com.macro.hjstore.model.board.BoardRepository;
+import com.macro.hjstore.model.comment.Comment;
+import com.macro.hjstore.model.comment.QuestionComment;
+import com.macro.hjstore.model.comment.QuestionCommentRepository;
 import com.macro.hjstore.model.deliveryProduct.Delivery;
 import com.macro.hjstore.model.question.Question;
 import com.macro.hjstore.model.question.QuestionJPQLRepository;
@@ -30,6 +33,8 @@ public class QuestionService {
     private final QuestionRepository questionRepository;
 
     private final UserService userService;
+
+    private final QuestionCommentRepository questionCommentRepository;
 
     @MyLog
     public List<BoardResponse.QuestionBoard> 게시글목록보기(){
@@ -64,8 +69,9 @@ public class QuestionService {
     public BoardResponse.QuestionDetail 게시글상세보기(Long id){
         Question boardPS = questionRepository.findByIdFetchUser(id)
                 .orElseThrow(() -> new Exception404("해당 게시글을 찾을 수가 없습니다."));
-        BoardResponse.QuestionDetail detailDTO = new BoardResponse.QuestionDetail(boardPS.getId(),
-                boardPS.getTitle(),boardPS.getContent(),boardPS.getThumbnail(),boardPS.getUser().getUsername(),boardPS.getCategory(),boardPS.getUser().getId());
+        List<BoardResponse.Comments>comments = boardPS.getCommentList().stream().map(comment -> new BoardResponse.Comments(comment)).collect(Collectors.toList());
+        BoardResponse.QuestionDetail detailDTO = new BoardResponse.QuestionDetail(id,
+                boardPS.getTitle(),boardPS.getContent(),boardPS.getThumbnail(),boardPS.getUser().getUsername(),boardPS.getCategory(),boardPS.getUser().getId(),comments);
         return detailDTO;
     }
 
@@ -83,10 +89,10 @@ public class QuestionService {
 
     @MyLog
     @Transactional
-    public void 게시글수정하기(Long userId, BoardRequest.QuestionUpdateIn update){
+    public void 게시글수정하기(Question question,Long userId, BoardRequest.QuestionUpdateIn update){
         User userPS =  userService.회원찾기(userId);
         System.out.println("수정한 게시글 제목: "+update.getTitle());
-        Question questionPS = update.toQuestionUpdateEntity(userPS);
+        Question questionPS = update.toQuestionUpdateEntity(question,userPS);
         questionRepository.save(questionPS);
     }
 
@@ -106,5 +112,26 @@ public class QuestionService {
                 .orElseThrow(() -> new Exception404("해당 글을 찾을 수 없습니다."));
         System.out.println("해당 글찾기 완료, 삭제직전!!!!!");
         questionRepository.delete(boardPS);
+    }
+
+    @MyLog
+    @Transactional
+    public void 댓글저장하기(QuestionComment comment){
+        questionCommentRepository.save(comment);
+    }
+
+    @MyLog
+    @Transactional
+    public QuestionComment 댓글찾기(Long commentId){
+        QuestionComment commentPS = questionCommentRepository.findById(commentId)
+                .orElseThrow(() -> new Exception404("댓글을 찾을 수 없습니다."));
+        return commentPS;
+    }
+
+
+    @MyLog
+    @Transactional
+    public void 댓글삭제하기(QuestionComment comment){
+        questionCommentRepository.delete(comment);
     }
 }

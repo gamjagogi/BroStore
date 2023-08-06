@@ -1,5 +1,7 @@
 package com.macro.hjstore.model.question;
 
+import com.macro.hjstore.model.comment.Comment;
+import com.macro.hjstore.model.comment.QuestionComment;
 import com.macro.hjstore.model.user.User;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -8,6 +10,8 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 // 저장할 필요가 있는건 tb로 만든다.
 
@@ -39,6 +43,10 @@ public class Question {
     @Column(name = "category")
     private String category;
 
+
+    @OneToMany(mappedBy = "question",fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, orphanRemoval = true)
+    @OrderBy("createdAt DESC")
+    private List<QuestionComment> commentList = new ArrayList<>();
 
 
     private LocalDateTime createdAt;

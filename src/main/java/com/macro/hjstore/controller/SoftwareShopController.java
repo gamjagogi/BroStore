@@ -120,19 +120,16 @@ public class SoftwareShopController {
             return ResponseEntity.badRequest().body(errorMessages); // 예시로 "오류 발생"이라는 메시지를 반환하였습니다.
         }
 
-        System.out.println("성품찾기 직전");
         // 요청 유저와 글 작성자가 일치하는지 확인
         Software softwarePS = softwareService.상품찾기(updateDTO.getSoftwareId());
-        System.out.println("작성자 확인");
+
         if(!softwarePS.getUserId().equals(id)){
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
 
-        System.out.println("엔티티객체 만들기!");
-        Software softwareUd = updateDTO.toEntity(id);
+        Software softwareUd = updateDTO.toEntity(softwarePS);
 
         softwareService.게시글수정하기(softwareUd);
-        System.out.println("수정완료!!");
 
         ResponseDTO<?>responseDTO = new ResponseDTO<>();
         return ResponseEntity.ok().body(responseDTO);

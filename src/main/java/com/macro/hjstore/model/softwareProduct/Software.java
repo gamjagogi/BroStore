@@ -45,8 +45,8 @@ public class Software {
     @Column(name = "discountPrice",nullable = true)
     private Integer discountPrice;
 
-    @Column(name = "discountPercentage",nullable = true)
-    private Integer discountPercentage;
+    @Column(name = "discountPercent",nullable = true)
+    private Integer discountPercent;
 
     @Column(name = "isNew",nullable = true)
     private boolean isNew;
@@ -59,6 +59,7 @@ public class Software {
 
     @Column(name = "isFreeShipping",nullable = true)
     private boolean isFreeShipping;
+
 
     @Column(name = "highlights", nullable = true)
     private String highlights;
@@ -90,7 +91,7 @@ public class Software {
 
 
     @Builder
-    public Software(Long id, String name, String thumbnail, String img, Integer price, Integer originPrice, Integer discountPrice, Integer discountPercentage, boolean isNew, boolean isHot, Integer star, boolean isFreeShipping, String highlights, String description, String soldBy, String category, Long userId,LocalDateTime createdAt, LocalDateTime updatedAt) {
+    public Software(Long id, String name, String thumbnail, String img, Integer price, Integer originPrice, Integer discountPrice, Integer discountPercent, boolean isNew, boolean isHot, Integer star, boolean isFreeShipping, String highlights, String description, String soldBy, String category, Long userId,LocalDateTime createdAt, LocalDateTime updatedAt) {
         this.id = id;
         this.name = name;
         this.thumbnail = thumbnail;
@@ -98,7 +99,7 @@ public class Software {
         this.price = price;
         this.originPrice = originPrice;
         this.discountPrice = discountPrice;
-        this.discountPercentage = discountPercentage;
+        this.discountPercent = discountPercent;
         this.isNew = isNew;
         this.isHot = isHot;
         this.star = star;
@@ -119,7 +120,7 @@ public class Software {
                 .price(savePS.getPrice())
                 .originPrice(savePS.getOriginPrice())
                 .discountPrice(savePS.getDiscountPrice())
-                .discountPercentage(savePS.getDiscountPercentage())
+                .discountPercent(savePS.getDiscountPercent())
                 .isNew(savePS.isNew())
                 .isHot(savePS.isHot())
                 .star(savePS.getStar())

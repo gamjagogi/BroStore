@@ -12,6 +12,7 @@ import javax.validation.constraints.NotEmpty;
 public class SoftwareRequestDTO {
 
     @Getter
+    @AllArgsConstructor
     public static class Save{
 
         @NotEmpty
@@ -20,7 +21,7 @@ public class SoftwareRequestDTO {
         private Integer price;
         private Integer originPrice;
         private Integer discountPrice;
-        private Integer discountPercentage;
+        private Integer discountPercent;
         private boolean isNew;
         private boolean isHot;
         private Integer star;
@@ -68,7 +69,7 @@ public class SoftwareRequestDTO {
 
         private Integer discountPercent;
 
-        public Software toEntity(Long userId){
+        public Software toEntity(Software software){
             return Software.builder()
                     .id(softwareId)
                     .name(title)
@@ -83,8 +84,9 @@ public class SoftwareRequestDTO {
                     .discountPrice(discountPrice)
                     .soldBy(soldBy)
                     .category(category)
-                    .discountPercentage(discountPercent)
-                    .userId(userId)
+                    .discountPercent(discountPercent)
+                    .userId(software.getUserId())
+                    .createdAt(software.getCreatedAt())
                     .build();
         }
     }

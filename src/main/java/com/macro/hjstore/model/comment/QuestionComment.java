@@ -1,7 +1,7 @@
 package com.macro.hjstore.model.comment;
 
-
 import com.macro.hjstore.model.board.Board;
+import com.macro.hjstore.model.question.Question;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -12,9 +12,9 @@ import java.time.LocalDateTime;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-@Table(name = "comment_tb")
+@Table(name = "question_comment_tb")
 @Entity
-public class Comment {
+public class QuestionComment {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,8 +28,8 @@ public class Comment {
     private String content;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "board_id")
-    private Board board;
+    @JoinColumn(name = "question_id")
+    private Question question;
 
     private LocalDateTime createdAt;
 
@@ -46,12 +46,12 @@ public class Comment {
     }
 
     @Builder
-    public Comment(Long id, String username,Long userId ,String content, Board board, LocalDateTime createdAt, LocalDateTime updatedAt) {
+    public QuestionComment(Long id, String username,Long userId ,String content, Question question, LocalDateTime createdAt, LocalDateTime updatedAt) {
         this.id = id;
         this.username = username;
         this.userId = userId;
         this.content = content;
-        this.board = board;
+        this.question = question;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
     }

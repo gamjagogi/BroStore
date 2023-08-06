@@ -45,6 +45,13 @@ const Detail = () => {
   const { id } = useParams();
   const navigate = useNavigate();
 
+  const commentRowStyle = {
+    wordWrap: 'break-word', // 긴 텍스트를 자동으로 줄바꿈
+    whiteSpace: 'pre-wrap', // 줄바꿈과 공백을 유지하도록 설정
+  };
+
+
+
   useEffect(() => {
     fetchPost()
         .then((postData) => {
@@ -54,6 +61,8 @@ const Detail = () => {
             setProductList(requestData.data);
           })
           console.log('페치한 데이터 뿌리기!!');
+          console.log(postData.data.discountPercent);
+
           setName(postData.data.name);
           setImgSrc(postData.data.thumbnail);
           setIsNew(postData.data.new);
@@ -68,8 +77,9 @@ const Detail = () => {
           setCategory(postData.data.category);
           setBoardUserId(postData.data.userId);
           setStar(postData.data.star);
-          setDiscountPercent(postData.data.discountPercentage);
+          setDiscountPercent(postData.data.discountPercent);
         });
+    return;
   }, []);
 
   const fetchPost = async () => {
@@ -107,7 +117,7 @@ const Detail = () => {
       alert('권한이 없습니다.');
       return window.location.reload();
     }
-    console.log(category);
+    console.log(discountPercent);
     navigate(`/software/boardFix?softwareId=${id}&userId=${userId}&title=${name}&imgSrc=${imgSrc}&isNew=${isNew}&isHot=${isHot}&price=${price}&originPrice=${originPrice}&discountPrice=${discountPrice}&highlights=${highlights}&description=${description}&category=${category}&soldBy=${soldBy}&star=${star}&discountPercent=${discountPercent}`);
   }
 
@@ -177,18 +187,25 @@ const Detail = () => {
                 />
               </div>
               <div className="col-md-7">
-                <h1 className="h5 d-inline me-2">
+                <h1 className="h5 d-inline me-2" style={commentRowStyle}>
                   {name}
                 </h1>
                 <span className="badge bg-success me-2">{isNew}</span>
                 <span className="badge bg-danger me-2">{isHot}</span>
                 <div className="mb-3">
-                  <IconStarFill className="text-warning me-1" />
-                  <IconStarFill className="text-warning me-1" />
-                  <IconStarFill className="text-warning me-1" />
-                  <IconStarFill className="text-warning me-1" />
-                  <IconStarFill className="text-secondary me-1" />|{" "}
-
+                  <div>
+                    {star > 0 &&
+                        Array.from({ length: 5 }, (_, key) => {
+                          if (key <= star)
+                            return (
+                                <IconStarFill className="text-warning me-1" key={key} />
+                            );
+                          else
+                            return (
+                                <IconStarFill className="text-secondary me-1" key={key} />
+                            );
+                        })}
+                  </div>
                 </div>
                 <dl className="row small mb-3">
                   <dt className="col-sm-3">Category</dt>
@@ -217,7 +234,7 @@ const Detail = () => {
                   </button>
                   </div>
                 </div>
-                <div>
+                <div style={commentRowStyle}>
                   <p className="fw-bold mb-2 small">
                     Product Highlights
                   </p>
@@ -269,7 +286,7 @@ const Detail = () => {
                     <Button style={{height:'40px', marginRight:'3px'}} onClick={onUpdatePosting}>
                       수정
                     </Button>
-                    <Button style={{height:'40px', marginTop:'3px'}} onClick={handleDelete}>
+                    <Button style={{height:'40px'}} onClick={handleDelete}>
                       삭제
                     </Button>
                   </div>

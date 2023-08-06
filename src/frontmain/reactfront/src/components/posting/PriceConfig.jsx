@@ -9,19 +9,43 @@ const PriceConfig = (props) => {
         , setDiscountPercent, discountPercent,setStar,star} = props
 
     const handlePriceChange = (event) => {
-        setPrice(event.target.value);
+        const value = event.target.value;
+        // 정규표현식을 사용하여 숫자인지 확인
+        const regex = /^[0-9]*$/;
+
+        if (regex.test(value)&&value.length<=10) {
+            setPrice(value);
+        }
     };
 
     const handleOriginPriceChange = (event) => {
-        setOriginPrice(event.target.value);
+        const value = event.target.value;
+        // 정규표현식을 사용하여 숫자인지 확인
+        const regex = /^[0-9]*$/;
+
+        if (regex.test(value)&&value.length<=10) {
+            setOriginPrice(value);
+        }
     };
 
     const handleDiscountPriceChange = (event) => {
-        setDiscountPrice(event.target.value);
+        const value = event.target.value;
+        // 정규표현식을 사용하여 숫자인지 확인
+        const regex = /^[0-9]*$/;
+
+        if (regex.test(value)&&value.length<=10) {
+            setDiscountPrice(value);
+        }
     };
 
     const handleDiscountPercentChange = (event) => {
-        setDiscountPercent(event.target.value);
+        const value = event.target.value;
+        // 정규표현식을 사용하여 숫자인지 확인
+        const regex = /^[0-9]*$/;
+
+        if (regex.test(value)&&value.length<=10) {
+            setDiscountPercent(value);
+        }
     };
 
     const handleStarChange = (event) => {
