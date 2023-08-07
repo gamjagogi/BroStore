@@ -56,6 +56,7 @@ export default function Detail() {
         return () => {
             console.log("Clean up");
         };
+        return ;
     }, []);
 
 
@@ -169,6 +170,7 @@ export default function Detail() {
         };
 
         resizeContent();
+        return;
     }, [content]);
 
 
@@ -238,6 +240,9 @@ export default function Detail() {
 
 
     const createComment = async () => {
+        if(userId==null){
+            alert('로그인이 필요합니다.');
+        }
         try {
             const accessToken = localStorage.getItem('accessToken');
             const refreshToken = localStorage.getItem('refreshToken');
@@ -389,7 +394,7 @@ export default function Detail() {
                         {title}
                         </Card.Text>
                     </Card.Header>
-                    <Card.Body style={{height: 'calc(100vh - 50px)'}}>
+                    <Card.Body style={{minHeight: 'calc(100vh - 50px)'}}>
                         <Card.Text
                             dangerouslySetInnerHTML={{__html: resizedContent}}
                         />

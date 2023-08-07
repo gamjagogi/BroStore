@@ -25,7 +25,7 @@ const NavBarElements = () => {
                         <Nav.Link href="/software" className="navbar-text">Software Product</Nav.Link>
                         <Nav.Link href="/delivery" className="navbar-text">Delivery Product</Nav.Link>
                         <Nav.Link href="/board" className="navbar-text">User Board</Nav.Link>
-                        <div className="container col-6">
+                        <div className="container col-4">
                         <NavDropdown title="ACCOUNT" id="collasible-nav-dropdown" >
                             <NavDropdown.Item style={{ width: '50%', height: '100px' }}>
                                 <UserHeader />
@@ -33,10 +33,10 @@ const NavBarElements = () => {
                         </NavDropdown>
                         </div>
                     </Nav>
-                    <Nav>
-                        <Nav.Link href="/question">Question</Nav.Link>
-                        <Nav.Link href="#deets">Notification</Nav.Link>
-                        <Nav.Link eventKey={2} href="#memes">
+                    <Nav className="me-auto">
+                        <Nav.Link href="/question" >Question</Nav.Link>
+                        <Nav.Link href="/notice">Notification</Nav.Link>
+                        <Nav.Link eventKey={2} href="/document">
                             Documentation
                         </Nav.Link>
                         {isManager ? (<Nav.Link href="/selling">SellerPage</Nav.Link>):''}

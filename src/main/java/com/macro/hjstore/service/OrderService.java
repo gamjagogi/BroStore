@@ -55,16 +55,37 @@ public class OrderService {
 
     @MyLog
     public void 주문목록삭제(String orderCode){
-        System.out.println("주문서찾기직전!");
+
         Order orderPS = orderRepository.findByOrderId(orderCode)
                 .orElseThrow(()-> new Exception404("해당 주문목록을 찾을 수 없습니다."));
         orderRepository.delete(orderPS);
     }
 
     @MyLog
-    public void 주문상태변경(String orderCode){
+    public void 주문상태변경(String orderCode,Integer code) throws Exception{
+        Order orderPS = orderRepository.findByOrderId(orderCode)
+                .orElseThrow(()-> new Exception404("해당 주문목록을 찾을 수 없습니다."));
+        if(code==10){
+            orderPS.setStatus(OrderStatus.WAITE_PAYMENT);
+            orderRepository.save(orderPS);
+        }else if(code==11){
+            orderPS.setStatus(OrderStatus.SHIPPING_IN_PROGRESS);
+            orderRepository.save(orderPS);
+        }else if(code==100){
+            orderPS.setStatus(OrderStatus.DELIVERY_COMPLETED);
+            orderRepository.save(orderPS);
+        }else if(code==101){
+            orderPS.setStatus(OrderStatus.CANCELLATION_PROCESSING);
+            orderRepository.save(orderPS);
+        }else if(code==111){
+            orderPS.setStatus(OrderStatus.CANCELLATION_COMPLETED);
+            orderRepository.save(orderPS);
+        }
+    }
 
-        System.out.println("주문서찾기직전!");
+    @MyLog
+    public void 주문취소(String orderCode){
+
         Order orderPS = orderRepository.findByOrderId(orderCode)
                 .orElseThrow(()-> new Exception404("해당 주문목록을 찾을 수 없습니다."));
         orderPS.setState(false);

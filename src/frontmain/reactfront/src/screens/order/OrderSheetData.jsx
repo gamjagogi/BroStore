@@ -8,7 +8,7 @@ import {ReactComponent as IconTrash} from "bootstrap-icons/icons/trash.svg";
 
 const OrderSheetData = (props) => {
 
-    const {order, handleDelete} = props;
+    const {order, handleDelete,handlePayments} = props;
     let status;
     console.log("주문목록 진입");
 
@@ -21,6 +21,8 @@ const OrderSheetData = (props) => {
     console.log(order.status);
     if(order.status=="SHIPPING_IN_PROGRESS"){
         status = "배송 중";
+    }else if(order.status=="WAITE_PAYMENT") {
+        status = "결제 대기중";
     }else if(order.status=="CANCELLATION_PROCESSING"){
         status = "취소 처리 중";
     }else if(order.status=="DELIVERY_COMPLETED"){
@@ -32,7 +34,18 @@ const OrderSheetData = (props) => {
 
 
     const onClickDelete = async () => {
+        // 확인 문구
+        const shouldDelete = window.confirm('정말로 취소하시겠습니까?');
+
+        if (!shouldDelete) {
+            return; // 사용자가 "취소"를 선택한 경우 아무 작업도 하지 않고 종료
+        }
+
         handleDelete(order.orderCode);
+    }
+
+    const onClickPayments = async () => {
+        handlePayments(order.orderCode);
     }
 
     return (
@@ -82,6 +95,9 @@ const OrderSheetData = (props) => {
                 <div className="row">
                     {status=="배송 중"?(<button className="btn btn-sm btn-outline-danger"
                             style={{width:"50px"}} onClick={onClickDelete}>
+                        <IconTrash className="i-va"/>
+                    </button>):status=="결제 대기중"?
+                        (<button className="btn btn-sm btn-outline-danger" style={{width:"50px"}} onClick={onClickPayments}>
                         <IconTrash className="i-va"/>
                     </button>):""}
                 </div>

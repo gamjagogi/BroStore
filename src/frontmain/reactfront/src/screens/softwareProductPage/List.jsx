@@ -23,8 +23,13 @@ const ProductListView = () => {
     const [view, setView] = useState("list");
     const [category, setCategory] = useState('');
     const navigate = useNavigate();
+    const userId = sessionStorage.getItem('userData2');
 
     useEffect(() => {
+        if(userId==null){
+            alert('로그인이 필요합니다.');
+            return navigate('/');
+        }
         CategoryConfig(category)
             .then((products) => {
                 console.log('처음 렌더링');

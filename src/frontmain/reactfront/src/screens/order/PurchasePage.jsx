@@ -9,8 +9,9 @@ import InputGroup from 'react-bootstrap/InputGroup';
 import PopupDom from "./PopupDom";
 import PopupPostCode from "./PopupPostCode";
 import axios from "../Request/RequestConfig";
-
-
+import Timer from "../toss/Timer";
+//const SuccessPage = lazy(() => import("../toss/SuccessPage"));
+//const Timer = lazy(() => import("../toss/Timer"));
 const PurchaseProduct = lazy(() => import("./PurchaseProduct"));
 const CouponApplyForm = lazy(() => import("../../components/others/CouponApplyForm"));
 
@@ -65,6 +66,7 @@ const Purchase = () => {
                     console.log(data);
                     console.log(data.deliveryList);
 
+
                     setItemList(data.deliveryList);
                     setTotalCount(data.totalCount); // orderName: db에서 아이템리스트 첫번째 아이템 title명 외 totalCount-1
                     setTotalPrice(data.totalPrice);
@@ -73,11 +75,6 @@ const Purchase = () => {
                     setTel(data.tel);
                     setAddress(data.address);
                     setDetailAddress(data.detailAddress);
-
-                    // setState((prevState) => ({...prevState,defaultUserName: data.userName}));
-                    // setState((prevState) => ({...prevState,defaultTel: data.tel}));
-                    // setState((prevState) => ({...prevState,defaultAddress: data.address}));
-                    // setState((prevState) => ({...prevState,defaultDetailAddress: data.detailAddress}));
 
 
                 } else {
@@ -135,7 +132,7 @@ const Purchase = () => {
             // itemList , totalPrice, address+''+detailAddress, tel, userName
             const orderPrice = discountTotalPrice? discountTotalPrice:totalPrice;
             const receiveAddress = address+' '+detailAddress;
-            const requestData = {itemList , orderPrice, receiveAddress,userName,filterTel}
+            const requestData = {itemList , orderPrice, receiveAddress,userName,tel}
             console.log(requestData);
 
             const id = userId;
@@ -153,8 +150,12 @@ const Purchase = () => {
                 if (response.status == 200) {
                     console.log('결제 정보 전송 완료')
                     console.log(response.data);
-                    const value = response.data; // orderId
-                    navigate(`/payments?or=${value}`);
+                    const orderId = response.data; // orderId
+                    //const state = 'start';
+                    //navigate(`/payments/timer?orderId=${orderId}&state=${state}`);
+                    //Timer(orderId,"wait");
+                    navigate(`/payments?or=${orderId}`);
+
                 } else {
                     console.error('결제를 실패하였습니다.');
                     alert('결제를 실패하였습니다.');
@@ -176,11 +177,12 @@ const Purchase = () => {
 
     const handleChangeTel = (event) => {
         const value = event.target.value;
+
         // 정규표현식을 사용하여 숫자인지 확인
         const regex = /^[0-9]*$/;
 
         if (regex.test(value) && value.length<=20) {
-            setFilterTel(value);
+            setTel(value);
         }
     };
 
@@ -273,7 +275,7 @@ const Purchase = () => {
                         aria-label="Phone Number"
                         aria-describedby="basic-addon2"
                         onChange={handleChangeTel}
-                        value={filterTel}
+                        value={tel}
                         defaultValue={tel}
                         style={{ width: "calc(30% - 50px)", marginRight: "30px" }}
                     />

@@ -9,7 +9,7 @@ import Paging from "../../components/Paging";
 
 
 
-const UserBoard = () => {
+const Notice = () => {
     const [loginError, setLoginError] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
     const [currentProducts, setCurrentProducts] = useState([]);
@@ -17,12 +17,13 @@ const UserBoard = () => {
     const [totalItems, setTotalItems] = useState(0);
     const [keyword, setKeyword] = useState('');
     const navigate = useNavigate();
-
+    const MAX_DESCRIPTION_LENGTH = 100;
 
     const commentRowStyle = {
         wordWrap: 'break-word', // 긴 텍스트를 자동으로 줄바꿈
         whiteSpace: 'pre-wrap', // 줄바꿈과 공백을 유지하도록 설정
     };
+
 
 
 
@@ -43,6 +44,16 @@ const UserBoard = () => {
 
 
 
+    const contentLengthConfig = (props) => {
+        const truncatedDescription = props.content.substring(0, MAX_DESCRIPTION_LENGTH);
+
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(truncatedDescription, "text/html");
+        console.log(doc);
+        const plainText = doc.body.textContent;
+        console.log(plainText);
+        return plainText;
+    }
 
 
     const onPageChanged = (page) => {
@@ -62,7 +73,7 @@ const UserBoard = () => {
 
     const handlePage = async () => {
         try {
-                const response = await axios.get(`/board`, {
+                const response = await axios.get("/notice", {
                     headers: {
                         'Content-Type': 'application/json',
                     },
@@ -86,13 +97,13 @@ const UserBoard = () => {
             alert('로그인이 필요합니다.');
             return window.location.reload();
         }
-        navigate('/editor');
+        navigate('/noticeEditor');
     }
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.get(`/board/search?keyword=${keyword}`, {
+            const response = await axios.get(`/notice/search?keyword=${keyword}`, {
                 headers: {
                     'Content-Type': 'application/json',
                 },
@@ -121,7 +132,7 @@ const UserBoard = () => {
     return (
         <Container fluid style={commentRowStyle}>
             <header style={{marginTop:'30px'}}>
-                <h1 style={{fontSize:'80px'}}> 유저게시판 </h1>
+                <h1 style={{fontSize:'80px'}}> Notice </h1>
             </header>
             <div style={{display: 'flex', justifyContent: 'flex-end'}}>
                 <input type="text" placeholder="Search" name="search" onChange={onSearching}/>
@@ -131,19 +142,24 @@ const UserBoard = () => {
                     <button onClick={handlePosting} style={{marginLeft: '0.5em'}}>글작성</button>
             </div>
 
-            <ListGroup as="ol" numbered={true} style={{margin:'20px'}}>
+            <ListGroup as="ol" style={{margin:'20px'}}>
                 {currentProducts.map((board) => (
-                    <ListGroup.Item as="li" className="d-flex justify-content-between align-items-start"style={{minHeight:'130px'}} key={board.id}>
-                        <div className="ms-3 me-auto col-4">
-                            <h4 className="fw-bold">{board.title}</h4>
+                    <ListGroup.Item as="li" key={board.id}>
+                        <div className="row" style={{ minHeight: '130px' }}>
+                            <div className="col-8 d-flex justify-content-center align-items-center"> {/* d-flex와 justify-content-center, align-items-center를 추가 */}
+                                <h4 className="fw-bold">{board.title}</h4>
+                            </div>
 
-                        </div>
-                        <div className="col-4"> <a href={`/detail/${board.id}`}>상세보기</a></div>
-                        <div className="col-4">
-                            <div>작성자 : {board.username}</div>
-                        </div>
-                        <hr/>
+                            <div className="col-4 d-flex justify-content-center align-items-center"> {/* d-flex와 justify-content-center, align-items-center를 추가 */}
+                                <div style={{fontStyle:'italic'}}>작성자: {board.username}</div>
+                            </div>
 
+                            <div className="col-12 d-flex justify-content-center"> {/* d-flex와 justify-content-center를 추가 */}
+                                <a href={`/notice/${board.id}`}>
+                                    {contentLengthConfig(board)}
+                                </a>
+                            </div>
+                        </div>
                     </ListGroup.Item>
                 ))}
             </ListGroup>
@@ -162,4 +178,4 @@ const UserBoard = () => {
     );
 }
 
-export default UserBoard;
+export default Notice;

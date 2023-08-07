@@ -3,13 +3,14 @@ import React, {useEffect} from "react";
 import axios from "../Request/RequestConfig";
 import {useNavigate} from "react-router-dom";
 
-export function FailPage() {
+export function FailPage(id) {
     const [searchParams] = useSearchParams();
-    const orderId = searchParams.get("orderId");
+    const orderId = id?id:searchParams.get("orderId");
     const navigate = useNavigate();
 
     useEffect(() => {
         deleteOrderSheet();
+        return;
     }, []);
 
 

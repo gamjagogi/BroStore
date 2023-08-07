@@ -51,7 +51,7 @@ public class OrderDTO {
                     .tel(this.tel)
                     .receiveAddress(this.receiveAddress)
                     .orderPrice(this.orderPrice)
-                    .orderStatus(OrderStatus.SHIPPING_IN_PROGRESS)
+                    .orderStatus(OrderStatus.WAITE_PAYMENT)
                     .state(true)
                     .build();
             return orderPS;

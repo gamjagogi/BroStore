@@ -45,7 +45,7 @@ const Posting = () => {
         price: "",
         originPrice: "",
         discountPrice: "",
-        discountPercentage: "",
+        discountPercent: "",
         soldBy: name,
         category: ""
     });

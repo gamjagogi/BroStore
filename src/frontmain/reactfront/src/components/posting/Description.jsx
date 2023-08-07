@@ -72,10 +72,10 @@ const Description = (props) => {
 
 
     return (
-        <div style={{ height: '120vh', marginTop: '50px' }}>
+        <div style={{ minHeight: '120vh', marginTop: '50px' }}>
             <Container fluid>
                 <Card>
-                    <Card.Body style={{ height: 'calc(100vh - 50px)' }}>
+                    <Card.Body style={{ minHeight: 'calc(100vh - 50px)' }}>
                         <Card.Text
                             dangerouslySetInnerHTML={{ __html: resizedContent }}
                         />

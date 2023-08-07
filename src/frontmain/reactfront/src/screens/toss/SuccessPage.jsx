@@ -20,6 +20,7 @@ export function SuccessPage() {
 
     console.log(searchParams.get("paymentKey"));
     console.log(basicToken);
+
     // 토스에 결제 승인 요청을 보낸다. 토스 결제승인요청url: https://api.tosspayments.com/v1/payments/confirm
     // basicToken을 만든다. 시크릿키: base64로 인코딩
     // headers: Authorization: `Basic #{basicToken}`, 을 넣어서 토스에 post요청을 보낸다.
@@ -42,7 +43,7 @@ export function SuccessPage() {
 
                 if (response.status == 200) {
                     console.log('결제 성공, 장바구니 삭제 완료')
-                    navigate("/")
+                    navigate("/account/orders");
                 }
             } else {
                 console.error('인증되지 않은 사용자가 접근하려 합니다.');
@@ -53,6 +54,9 @@ export function SuccessPage() {
             alert('결제 실패 및 에러발생, 잠시 후 다시 진행해 주세요.');
         }
     }
+
+
+
 
     const RequestOrderSheet = async () => {
         try {
@@ -97,6 +101,7 @@ export function SuccessPage() {
 
     useEffect( () => {
        RequestOrderSheet();
+       return;
     }, []);
 
 
@@ -120,7 +125,8 @@ export function SuccessPage() {
             if(response.status==200){
                 console.log('성공');
                 console.log(response);
-                DeleteCart();
+                changeOrderStatus();
+
             }else {
                 console.log('실패');
                 console.log(response);
@@ -130,6 +136,42 @@ export function SuccessPage() {
 
         }catch (error){
             alert(error);
+        }
+    }
+
+    const changeOrderStatus = async () => {
+        try {
+            const accessToken = localStorage.getItem('accessToken');
+            const refreshToken = localStorage.getItem('refreshToken');
+            const userId = sessionStorage.getItem('userData2');
+            let code = 11;
+            console.log(accessToken);
+            console.log(refreshToken);
+            console.log(orderId);
+
+            if (accessToken && refreshToken) {
+                const response = await axios.post(`/auth/order/status/${userId}/${orderId}`
+                    ,JSON.stringify(code) ,{
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${accessToken}`,
+                        'RefreshToken': `Bearer ${refreshToken}`,
+                    },
+                });
+
+                if (response.status == 200) {
+                    console.log('결제완료');
+                    DeleteCart();
+
+                } else {
+                    console.error('결제 실패');
+                }
+            } else {
+                console.error('인증되지않은 유저는 접근할 수 없습니다.'); // 토큰 인증 실패
+            }
+        } catch (error) {
+            console.error('에러 발생.', error);
+            alert('잠시 후 다시 결제를 진행해 주세요.');
         }
     }
 

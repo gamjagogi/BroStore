@@ -411,7 +411,7 @@ export default function QuestionDetailPage() {
                         {title}
                         </Card.Text>
                     </Card.Header>
-                    <Card.Body style={{height: 'calc(100vh - 50px)'}}>
+                    <Card.Body style={{minHeight: 'calc(100vh - 50px)'}}>
                         <Card.Text
                             dangerouslySetInnerHTML={{__html: resizedContent}}
                         />

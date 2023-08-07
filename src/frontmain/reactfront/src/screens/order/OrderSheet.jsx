@@ -13,7 +13,13 @@ const OrderSheet = () => {
     const [orderList, setOrderList ] = useState([]);
 
     useEffect(()=>{
+        const id = sessionStorage.getItem('userData2');
+        if(id==null){
+            alert('로그인이 필요합니다.');
+            navigate('/');
+        }
         onOrderSheetPage();
+        return;
     },[])
 
 
@@ -59,6 +65,7 @@ const OrderSheet = () => {
             const accessToken = localStorage.getItem('accessToken');
             const refreshToken = localStorage.getItem('refreshToken');
             const id = sessionStorage.getItem('userData2');
+            console.log("토큰확인전")
 
             if (accessToken && refreshToken) {
                 const response = await axios.post(`/auth/order/delete/${id}`,JSON.stringify(orderId) ,{
@@ -84,6 +91,11 @@ const OrderSheet = () => {
             alert('에러발생, 잠시 후 다시 진행해 주세요.');
             navigate('/');
         }
+    }
+
+    const handlePayments = async (props) => {
+        console.log(props);
+        navigate(`/payments?or=${props}`);
     }
 
     return (
@@ -117,6 +129,7 @@ const OrderSheet = () => {
                                             <OrderSheetData
                                                 order={order}
                                                 handleDelete={handleDelete}
+                                                handlePayments={handlePayments}
                                             />
                                             </tbody>
                                         )

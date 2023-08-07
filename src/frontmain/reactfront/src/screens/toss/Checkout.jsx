@@ -69,11 +69,11 @@ export function CheckoutPage() {
 
     useEffect(() => {
         getOrderSheet();
-        console.log(price,orderId,orderName,customerName,customerEmail);
+        return;
     },[])
 
     useEffect(() => {
-        console.log(price,orderId,orderName,customerName,customerEmail);
+
         (async () => {
             // ------  결제위젯 초기화 ------
             // 비회원 결제에는 customerKey 대신 ANONYMOUS를 사용하세요.
@@ -94,6 +94,7 @@ export function CheckoutPage() {
             paymentWidgetRef.current = paymentWidget;
             paymentMethodsWidgetRef.current = paymentMethodsWidget;
         })();
+        return;
     }, [getOrderSheet()]);
 
     useEffect(() => {
@@ -109,6 +110,7 @@ export function CheckoutPage() {
             price,
             paymentMethodsWidget.UPDATE_REASON.COUPON
         );
+        return;
     }, [price]);
 
     return (
@@ -146,6 +148,7 @@ export function CheckoutPage() {
                     } catch (error) {
                         // 에러 처리하기
                         console.error(error);
+
                     }
                 }}
             >

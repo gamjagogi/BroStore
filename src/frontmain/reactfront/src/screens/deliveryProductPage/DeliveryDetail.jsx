@@ -13,8 +13,6 @@ import DataRequest from "./DataRequest";
 import axios from "../Request/RequestConfig";
 import {useNavigate, useParams} from "react-router-dom";
 
-//import AddCart from "../../components/cart/AddCart";
-
 const CardFeaturedProduct = lazy(() =>
     import("../../components/card/CardFeaturedProduct")
 );

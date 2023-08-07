@@ -1,12 +1,14 @@
 package com.macro.hjstore.model.user;
 
 import com.macro.hjstore.model.cart.Cart;
+import com.macro.hjstore.model.notice.Notice;
 import com.macro.hjstore.model.order.Order;
 import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -71,6 +73,9 @@ public class User {
     @JoinColumn(name="cart_id") // 무한 참조
     private Cart cart;
 
+    @OneToMany(mappedBy = "user",fetch = FetchType.LAZY)
+    private List<Notice> noticeList;
+
 
     public void changeProfile(String profile) {
         this.profile = profile;
@@ -111,7 +116,7 @@ public class User {
     }
 
     @Builder
-    public User(Long id, String email, String password, String profile, UserRole role, String username, String birth, Boolean status, String provider,String customerKey,String address,String detailAddress ,String tel ,LocalDateTime createdAt, LocalDateTime updatedAt, Cart cart) {
+    public User(Long id, String email, String password, String profile, UserRole role, String username, String birth, Boolean status, String provider,String customerKey,String address,String detailAddress ,String tel ,LocalDateTime createdAt, LocalDateTime updatedAt, Cart cart,List<Notice>noticeList) {
         this.id = id;
         this.email = email;
         this.password = password;
@@ -128,5 +133,6 @@ public class User {
         this.detailAddress = detailAddress;
         this.tel = tel;
         this.cart = cart;
+        this.noticeList = noticeList;
     }
 }

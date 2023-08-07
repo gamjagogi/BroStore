@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {useNavigate, useSearchParams} from 'react-router-dom';
+import {useNavigate} from 'react-router-dom';
 
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
@@ -10,21 +10,15 @@ import {v4 as uuidv4} from 'uuid';
 import {Button, Dropdown, ListGroup} from "react-bootstrap";
 import {Editor} from "../../components/Styles/Editorform/Editor.style";
 import Card from "react-bootstrap/Card";
-//유저 보드 수정 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-export default function PostEditorFix() {
-    const [searchParams] = useSearchParams();
-    console.log(searchParams.get("content"));
 
-    const [state,setState] = useState({
-        title: searchParams.get("title"),
-        content: searchParams.get("content"),
-        boardId: searchParams.get("boardId")
-    });
-
+export default function NoticeEditor() {
     const quillRef = useRef(null);
 
+    const [title, setTitle] = useState('');
+    const [content, setContent] = useState('');
     const [thumbnail, setThumbnail] = useState('');
+    const [thumbnails, setThumbnails] = useState('');
     const [loginError, setLoginError] = useState('');
     const [imageSrc, setImageSrc] = useState('');
 
@@ -33,7 +27,6 @@ export default function PostEditorFix() {
     const [urls, setUrls] = useState([]);
     const [updatedDomArray, setUpdatedDomArray] = useState([]);
     const [deleted, setDeleted] = useState('');
-
     const navigate = useNavigate();
 
 
@@ -159,37 +152,36 @@ export default function PostEditorFix() {
     const onChangeTitle = (event) => {
         const newTitle = event.target.value;
         if (newTitle.length <= 50) {
-            setState((prevState) => ({...prevState,title:newTitle}));
+            setTitle(newTitle);
         } else {
             // 팝업을 띄우는 로직을 추가하거나 원하는 작업을 수행합니다.
             // 예시: alert을 사용하여 팝업을 띄움
-            alert('제목은 60자 이하여야 합니다.');
+            alert('제목은 50자 이하여야 합니다.');
         }
     };
 
     const onChangeContent = (content) => {
-        setState((prevState) => ({...prevState,content:content}));
+        if(content) {
+            setContent(content);
+        }else {
+            return alert('내용을 입력해주세요.');
+        }
     };
 
     const handleSubmit = async () => {
         try {
             const accessToken = localStorage.getItem('accessToken');
             const refreshToken = localStorage.getItem('refreshToken');
-            const id = sessionStorage.getItem('userData2');
             console.log(accessToken);
             console.log(refreshToken);
-            const {title, content,boardId} = state;
 
-            const requestData = { title,content,boardId};
+            const requestData = {title, content};
 
-            if (thumbnail !== "") {
-                requestData.thumbnail = thumbnail;
-            }
-            console.log(requestData);
 
             if (accessToken && refreshToken) {
                 // 요청 보내기
-                const response = await axios.post(`/auth/board/update/${id}`, JSON.stringify(requestData), {
+                console.log(requestData);
+                const response = await axios.post('/auth/notice/save', JSON.stringify(requestData), {
                     headers: {
                         'Content-Type': 'application/json',
                         'Authorization': `Bearer ${accessToken}`,
@@ -199,10 +191,8 @@ export default function PostEditorFix() {
 
                 if (response.status == 200) {
                     // 응답 성공 시 처리할 작업
-                    const data = await response.data;
-                    console.log(data); // 요청에 대한 응답 처리
-                    alert('수정완료!');
-                    navigate('/board');
+                    alert('글 작성 성공');
+                    navigate('/notice');
 
                 } else {
                     // 응답 실패 시 처리할 작업
@@ -225,7 +215,7 @@ export default function PostEditorFix() {
     // **************************************************************
 
 
-    //
+
     const crolling = () => {
         const editor = quillRef.current.getEditor();
         const range = editor.getSelection(true);
@@ -309,9 +299,7 @@ export default function PostEditorFix() {
         const editor = quillRef.current.getEditor();
         const range = editor.getSelection(true);
         const contents = editor.getContents();
-        console.log('에디터');
-        console.log(contents);
-        console.log(itemIndex);
+
 
         // Quill 컨텐츠의 각 블록을 순회하면서 이미지를 찾고, 식별자와 일치하는 이미지를 삭제
         contents.ops.forEach((block) => {
@@ -321,7 +309,7 @@ export default function PostEditorFix() {
 
                 if (imageIndex == itemIndex) {
                     // 이미지 삭제
-                    editor.deleteText(contents.ops.indexOf(block), 1);
+                    editor.deleteText(contents.ops.indexOf(block, 1));
                     console.log('삭제 성공!')
                 }
             }
@@ -340,16 +328,16 @@ export default function PostEditorFix() {
     // ******************************************************************^
 
 
-
-    const onClickBack = () => {
+    const handleCancel = () => {
         navigate('/board');
     }
+
 
     return (
         <div style={{display: 'flex', flexDirection: 'column', height: '100vh'}}>
             <input
                 type="text"
-                defaultValue={state.title}
+                value={title}
                 onChange={onChangeTitle}
                 placeholder="제목"
                 style={{flex: 'none', padding: '10px', fontSize: '18px'}}
@@ -364,7 +352,6 @@ export default function PostEditorFix() {
                     modules={modules}
                     theme="snow"
                     onChange={onChangeContent}
-                    defaultValue={state.content}
                     style={{
                         flex: '1',
                         minHeight: '0',
@@ -374,7 +361,7 @@ export default function PostEditorFix() {
                         height: '80%'
                     }}
                 />
-                <div dangerouslySetInnerHTML={{__html: state.content}} style={{display: 'none'}}/>
+                <div dangerouslySetInnerHTML={{__html: content}} style={{display: 'none'}}/>
             </div>
             <br/>
             <div className="footer" style={{marginTop: 'auto', padding: '10px', position: 'relative', top: '70px'}}>
@@ -386,7 +373,6 @@ export default function PostEditorFix() {
                     position: 'relative',
                     top: '-200px'
                 }}>
-
                     {/*<ImageLibrary imageSrc={imageSrc} index={index} />*/}
                     <Dropdown show={dropdownOpen} onToggle={toggleDropdown}>
                         <Dropdown.Toggle variant="primary" id="dropdown-basic-button">
@@ -413,7 +399,7 @@ export default function PostEditorFix() {
                     top: '-200px'
                 }}>
                     <button onClick={handleSubmit} style={{marginRight: '10px'}}>완료</button>
-                    <button onClick={onClickBack}>취소</button>
+                    <button onClick={handleCancel}>취소</button>
                 </div>
             </div>
         </div>

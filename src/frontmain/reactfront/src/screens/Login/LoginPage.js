@@ -3,6 +3,7 @@ import {Login} from "../../components/Styles/Loginform/Login.style";
 import {useNavigate, useLocation} from 'react-router-dom';
 import axios from '../Request/RequestConfig.js';
 import {ReactComponent as IconKakaoLogo} from '../../assets/kakaologo.svg'
+import {Button, Card, Container} from "react-bootstrap";
 
 
 const LoginPage = () => {
@@ -12,8 +13,31 @@ const LoginPage = () => {
     const [loginError, setLoginError] = useState('');
     const code = new URL(window.location.href).searchParams.get("code");
 
+    const buttonStyle = {
+        width: '90px',
+        height: '40px',
+        fontSize: '14px',
+        marginRight: '3px'
+        // Add more styles here as needed
+    };
+
+    const iconStyle = {
+        width: '40px', // 아이콘의 가로 크기를 지정합니다.
+        height: '20px', // 아이콘의 세로 크기를 지정합니다.
+        marginRight: '5px', // 아이콘과 텍스트 사이의 간격을 조절합니다.
+        // Add more styles here as needed
+    };
+
+    const cardStyle = {
+        minHeight: '40vh',
+        marginTop: '50px',
+        marginRight: '160px',
+        marginLeft: '160px',
+        marginBottom: '50px'
+    };
+
     useEffect(() => {
-        console.log(code);
+        return console.log(code);
     }, [code]);
 
 
@@ -29,13 +53,12 @@ const LoginPage = () => {
             window.location.href = kakaoURL
         }
         return (
-            <button onClick={handleLogin}>
-  <span className="kakao-icon">
-    <IconKakaoLogo/> {/* 이 아이콘은 이전에 정의한 IconKakaoLogo입니다. */}
-      kakao login
-  </span>
-            </button>
-
+            <Button onClick={handleLogin} style={buttonStyle}> {/* 여기에 버튼 스타일을 적용 */}
+                <span className="kakao-icon">
+                    <IconKakaoLogo style={{ width: '30px', height: '30px' }}/>
+                    login
+                </span>
+            </Button>
         )
     }
 
@@ -90,25 +113,35 @@ const LoginPage = () => {
 
 
     return (
-        <Login className="d-grid gap-2">
-            <input
-                type="email"
-                placeholder="Email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-            />
-            <input
-                type="password"
-                placeholder="Password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-            />
-            <div style={{width: "300px",marginTop:'5px'}}>
-                <button onClick={handleLogin}>로그인</button>
-                <SocialKakao/>
-                <button onClick={handleJoin}>회원가입</button>
-            </div>
-        </Login>
+        <div style={cardStyle}>
+        <Container fluid >
+            <Card border="primary">
+                <h1 style={{fontSize:'50px'}}>로그인</h1>
+                <Login className="d-grid gap-2">
+                    <input
+                        type="email"
+                        placeholder="Email"
+                        value={email}
+                        maxLength={50}
+                        onChange={(e) => setEmail(e.target.value)}
+                    />
+                    <input
+                        type="password"
+                        placeholder="Password"
+                        value={password}
+                        maxLength={40}
+                        onChange={(e) => setPassword(e.target.value)}
+                    />
+
+                </Login>
+                <div className="ui-button" style={{marginBottom:'30px'}}>
+                    <Button onClick={handleLogin} style={buttonStyle}>로그인</Button>
+                    <SocialKakao/>
+                    <Button onClick={handleJoin} style={buttonStyle}>회원가입</Button>
+                </div>
+            </Card>
+        </Container>
+        </div>
     );
 }
 

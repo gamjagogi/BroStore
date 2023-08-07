@@ -177,9 +177,9 @@ const QuestionBoard = () => {
 
 
     return (
-        <Container style={commentRowStyle}>
-            <header>
-                <h1> Q/A </h1>
+        <Container fluid style={commentRowStyle}>
+            <header style={{marginTop:'30px'}}>
+                <h1 style={{fontSize:'80px'}}> QA게시판 </h1>
             </header>
             <div style={{display: 'flex', justifyContent: 'flex-end'}}>
                 <input type="text" placeholder="Search" name="search" onChange={onSearching}/>
@@ -194,7 +194,7 @@ const QuestionBoard = () => {
                     <button onClick={handlePosting} style={{marginLeft: '0.5em'}}>글작성</button>
             </div>
 
-            <ListGroup as="ol" numbered={true}>
+            <ListGroup as="ol" numbered={true} style={{margin:'20px'}}>
                 {currentProducts.map((board) => (
                     <ListGroup.Item as="li" className="d-flex justify-content-between align-items-start"style={{minHeight:'130px'}} key={board.id}>
                         <div className="ms-3 me-auto col-4">

@@ -37,7 +37,6 @@ public class BoardController {
     @GetMapping("/board")
     public ResponseEntity<?> mainPage(){
             List<BoardResponse.UserBoard>userBoardList = boardService.게시글목록보기();
-            System.out.println("게시물리스트 가져옴!!!");
             ResponseDTO<?> responseDTO = new ResponseDTO<>(userBoardList);
             return ResponseEntity.ok().body(responseDTO);
     }

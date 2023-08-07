@@ -118,7 +118,7 @@ const ProductListView = () => {
                             </div>
 
                             <div className="col-5 d-flex justify-content-end">
-                                <Link to="/posting" style={{ marginRight: '0.5em',marginTop:'5px' }}>
+                                <Link to="/deliveryPosting" style={{ marginRight: '0.5em',marginTop:'5px' }}>
                                     <button aria-label="Grid" style={{ border: 'none', cursor: 'pointer' }}>
                                         <FontAwesomeIcon style={{scale:'150%'}} icon={faPencilSquare} />
                                     </button>

@@ -10,21 +10,19 @@ import {v4 as uuidv4} from 'uuid';
 import {Button, Dropdown, ListGroup} from "react-bootstrap";
 import {Editor} from "../../components/Styles/Editorform/Editor.style";
 import Card from "react-bootstrap/Card";
-//유저 보드 수정 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-export default function PostEditorFix() {
+
+export default function NoticeEditorFix() {
     const [searchParams] = useSearchParams();
-    console.log(searchParams.get("content"));
+    const boardId = searchParams.get("boardId");
+    const id = sessionStorage.getItem('userData2');
 
-    const [state,setState] = useState({
-        title: searchParams.get("title"),
-        content: searchParams.get("content"),
-        boardId: searchParams.get("boardId")
-    });
+    const [title, setTitle] = useState(searchParams.get("title"));
+    const [content,setContent] = useState(searchParams.get("content"));
+    //const [updateContent,setUpdateContent] = useState('');
 
     const quillRef = useRef(null);
 
-    const [thumbnail, setThumbnail] = useState('');
     const [loginError, setLoginError] = useState('');
     const [imageSrc, setImageSrc] = useState('');
 
@@ -35,6 +33,42 @@ export default function PostEditorFix() {
     const [deleted, setDeleted] = useState('');
 
     const navigate = useNavigate();
+
+    // useEffect(() => {
+    //    fetchPost().then((content) => {
+    //        console.log(content);
+    //        setContent(content);
+    //    })
+    //
+    //    return;
+    // },[])
+    //
+    // const fetchPost = async () => {
+    //     try {
+    //         const response = await axios.get(`/notice/detail/${boardId}`, {
+    //             headers: {
+    //                 'Content-Type': 'application/json',
+    //             },
+    //         });
+    //
+    //         if (response.status == 200) {
+    //             const postData = await response.data;
+    //             console.log(postData.data);
+    //             setTitle(postData.data.title);
+    //             const parsedString = postData.data.content.replace(/<p>(.*?)<\/p>/gi, "$1");
+    //             console.log(parsedString);
+    //             setContent(parsedString);
+    //             return parsedString;
+    //         } else {
+    //             console.error('게시글을 가져오는데 실패했습니다.');
+    //         }
+    //     } catch (error) {
+    //         console.error('에러발생..', error);
+    //     }
+    // };
+    //
+
+
 
 
     // 이미지 편집기에 추가 로직 *************************************v
@@ -159,7 +193,7 @@ export default function PostEditorFix() {
     const onChangeTitle = (event) => {
         const newTitle = event.target.value;
         if (newTitle.length <= 50) {
-            setState((prevState) => ({...prevState,title:newTitle}));
+            setTitle(newTitle);
         } else {
             // 팝업을 띄우는 로직을 추가하거나 원하는 작업을 수행합니다.
             // 예시: alert을 사용하여 팝업을 띄움
@@ -167,29 +201,26 @@ export default function PostEditorFix() {
         }
     };
 
-    const onChangeContent = (content) => {
-        setState((prevState) => ({...prevState,content:content}));
+    const onChangeContent = (event) => {
+        console.log(event)
+        setContent(event);
     };
 
     const handleSubmit = async () => {
         try {
             const accessToken = localStorage.getItem('accessToken');
             const refreshToken = localStorage.getItem('refreshToken');
-            const id = sessionStorage.getItem('userData2');
+
             console.log(accessToken);
             console.log(refreshToken);
-            const {title, content,boardId} = state;
 
             const requestData = { title,content,boardId};
 
-            if (thumbnail !== "") {
-                requestData.thumbnail = thumbnail;
-            }
             console.log(requestData);
 
             if (accessToken && refreshToken) {
                 // 요청 보내기
-                const response = await axios.post(`/auth/board/update/${id}`, JSON.stringify(requestData), {
+                const response = await axios.post(`/auth/notice/update/${id}`, JSON.stringify(requestData), {
                     headers: {
                         'Content-Type': 'application/json',
                         'Authorization': `Bearer ${accessToken}`,
@@ -202,7 +233,7 @@ export default function PostEditorFix() {
                     const data = await response.data;
                     console.log(data); // 요청에 대한 응답 처리
                     alert('수정완료!');
-                    navigate('/board');
+                    navigate('/notice');
 
                 } else {
                     // 응답 실패 시 처리할 작업
@@ -250,6 +281,7 @@ export default function PostEditorFix() {
     // 이미지 라이브러리 로직 **********************************v
     useEffect(() => {
         setUrls(crolling());
+        return;
     }, [imageSrc, index]);
 
 
@@ -284,6 +316,8 @@ export default function PostEditorFix() {
         })];
         console.log(domArray);
         setUpdatedDomArray(domArray);
+        return;
+
     }, [urls]);
 
 
@@ -342,14 +376,14 @@ export default function PostEditorFix() {
 
 
     const onClickBack = () => {
-        navigate('/board');
+        navigate('/notice');
     }
 
     return (
         <div style={{display: 'flex', flexDirection: 'column', height: '100vh'}}>
             <input
                 type="text"
-                defaultValue={state.title}
+                defaultValue={title}
                 onChange={onChangeTitle}
                 placeholder="제목"
                 style={{flex: 'none', padding: '10px', fontSize: '18px'}}
@@ -364,7 +398,7 @@ export default function PostEditorFix() {
                     modules={modules}
                     theme="snow"
                     onChange={onChangeContent}
-                    defaultValue={state.content}
+                    defaultValue={content}
                     style={{
                         flex: '1',
                         minHeight: '0',
@@ -374,7 +408,7 @@ export default function PostEditorFix() {
                         height: '80%'
                     }}
                 />
-                <div dangerouslySetInnerHTML={{__html: state.content}} style={{display: 'none'}}/>
+                <div dangerouslySetInnerHTML={{__html: content}} style={{display: 'none'}}/>
             </div>
             <br/>
             <div className="footer" style={{marginTop: 'auto', padding: '10px', position: 'relative', top: '70px'}}>

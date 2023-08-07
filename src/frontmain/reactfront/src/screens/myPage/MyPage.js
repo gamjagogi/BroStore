@@ -310,7 +310,7 @@ const MyPage = () => {
                             <Form.Control placeholder={username} plaintext readOnly defaultValue={username}
                                           style={{border: '1px solid #ced4da'}}/>
                         )}
-                        <Button variant="primary" onClick={handleEditName}>
+                        <Button variant="primary" onClick={handleEditName} style={{ backgroundColor: editName ? 'red' : 'primary' }}>
                             {editName ? '저장' : '수정'} {/* 수정 모드에 따라 버튼의 레이블을 변경합니다. */}
                         </Button>
                     </Form>
@@ -329,7 +329,7 @@ const MyPage = () => {
                             <Form.Control placeholder={birth} plaintext readOnly defaultValue={birth}
                                           style={{border: '1px solid #ced4da'}}/>
                         )}
-                        <Button variant="primary" onClick={handleEditBirth}>
+                        <Button variant="primary" onClick={handleEditBirth} style={{ backgroundColor: editBirth ? 'red' : 'primary' }}>
                             {editBirth ? '저장' : '수정'} {/* 수정 모드에 따라 버튼의 레이블을 변경합니다. */}
                         </Button>
                     </Form>
@@ -382,7 +382,7 @@ const MyPage = () => {
                             </Form>
                         )}
 
-                        <Button variant="primary" onClick={handleEditAddress}>
+                        <Button variant="primary" onClick={handleEditAddress} style={{ backgroundColor: editAddress ? 'red' : 'primary' }}>
                             {editAddress ? '저장' : '수정'} {/* 수정 모드에 따라 버튼의 레이블을 변경합니다. */}
                         </Button>
                     </Form>
@@ -401,7 +401,7 @@ const MyPage = () => {
                         ) : ( // 수정 모드가 아니면 일반 텍스트 형태로 렌더링합니다.
                             <Form.Control placeholder={tel} plaintext readOnly defaultValue={tel} style={{ border: '1px solid #ced4da' }}  />
                         )}
-                        <Button variant="primary" onClick={handleEditTel}>
+                        <Button variant="primary" onClick={handleEditTel} style={{ backgroundColor: editTel ? 'red' : 'primary' }}>
                             {editTel ? '저장' : '수정'} {/* 수정 모드에 따라 버튼의 레이블을 변경합니다. */}
                         </Button>
                     </Form>
