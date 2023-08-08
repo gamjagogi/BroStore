@@ -7,14 +7,22 @@ import {useRef, useMemo} from 'react';
 import axios from '../../screens/Request/RequestConfig.js';
 import AWS from 'aws-sdk';
 import {v4 as uuidv4} from 'uuid';
-import {Button, Dropdown, ListGroup} from "react-bootstrap";
+import {Button, Dropdown, ListGroup, Form, FloatingLabel, InputGroup} from "react-bootstrap";
 import {Editor} from "../../components/Styles/Editorform/Editor.style";
 import Card from "react-bootstrap/Card";
+import {required} from "../../helpers/validation";
 
 
 const SoftwareDescription = (props) => {
 
     const { onDescriptionChange,description } = props;
+    // const multer = required('multer');
+    // const upload = multer({
+    //     storage: storage,
+    //     limit: {
+    //         fileSize: 300 * 1024 * 1024,
+    //     },
+    // });
 
     const quillRef = useRef(null);
 
@@ -27,6 +35,7 @@ const SoftwareDescription = (props) => {
     const [updatedDomArray, setUpdatedDomArray] = useState([]);
     const [deleted, setDeleted] = useState('');
     const navigate = useNavigate();
+    const [selectedFiles, setSelectedFiles] = useState([]);
 
 
 
@@ -148,11 +157,6 @@ const SoftwareDescription = (props) => {
         'div'
     ];
 
-    //
-    // const onChangeDescription = (description) => {
-    //     onDescriptionChange(description);
-    // };
-
 
 
     const crolling = () => {
@@ -268,6 +272,19 @@ const SoftwareDescription = (props) => {
     };
     // ******************************************************************^
 
+
+
+    const handleFileChange = (event) => {
+        const files = event.target.files;
+        console.log(files);
+        // upload.single('file');
+        // console.log(upload);
+        setSelectedFiles(files);
+    };
+
+
+
+
     return (
         <div style={{display: 'flex', flexDirection: 'column', height: '100vh'}}>
 
@@ -301,7 +318,15 @@ const SoftwareDescription = (props) => {
                     position: 'relative',
                     top: '-220px'
                 }}>
-                    <Dropdown show={dropdownOpen} onToggle={toggleDropdown}>
+
+                    <Form.Group controlId="formFileMultiple" className="mb-5">
+                        <InputGroup>
+                            <InputGroup.Text> 여러개 파일 업로드 가능</InputGroup.Text>
+                            <Form.Control type="file" multiple onChange={handleFileChange}/>
+                        </InputGroup>
+                    </Form.Group>
+
+                    <Dropdown show={dropdownOpen} onToggle={toggleDropdown} style={{marginLeft:'10px'}}>
                         <Dropdown.Toggle variant="primary" id="dropdown-basic-button">
                             사진 라이브러리
                         </Dropdown.Toggle>

@@ -244,38 +244,38 @@ const DeliveryPosting = () => {
     };
 
     const setStar = async (value) => {
-        if (value) {
+
             console.log(value);
             setState((prevState) => ({ ...prevState, star: value }));
-        }
+
     };
 
     const setPrice = async (price) => {
-        if (price) {
+
             console.log(price);
             setState((prevState) => ({ ...prevState, price }));
-        }
+
     };
 
     const setOriginPrice = async (price) => {
-        if (price) {
+
             console.log(price);
             setState((prevState) => ({ ...prevState, originPrice: price }));
-        }
+
     };
 
     const setDiscountPrice = async (price) => {
-        if (price) {
+
             console.log(price);
             setState((prevState) => ({ ...prevState, discountPrice: price }));
-        }
+
     };
 
     const setDiscountPercent = async (percentage) => {
-        if (percentage) {
+
             console.log(percentage);
             setState((prevState) => ({ ...prevState, discountPercent: percentage }));
-        }
+
     };
 
     // const setSoldBy = async (soldBy) => {

@@ -119,7 +119,7 @@ const CardProductListForSeller = (props) => {
             <div>
               {product.star > 0 &&
                 Array.from({ length: 5 }, (_, key) => {
-                  if (key <= product.star)
+                  if (key <= product.star -1)
                     return (
                       <IconStarFill className="text-warning me-1" key={key} />
                     );

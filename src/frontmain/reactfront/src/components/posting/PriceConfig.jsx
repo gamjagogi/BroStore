@@ -1,12 +1,14 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
 import ReactStars from "react-rating-stars-component";
+import {Button} from "react-bootstrap";
 
 
 const PriceConfig = (props) => {
     const { setPrice,price, setOriginPrice,originPrice, setDiscountPrice,discountPrice
         , setDiscountPercent, discountPercent,setStar,star} = props
+
 
     const handlePriceChange = (event) => {
         const value = event.target.value;
@@ -52,6 +54,7 @@ const PriceConfig = (props) => {
         setStar(event);
     }
 
+
     const thirdExample = {
         size: 40,
         count: 5,
@@ -68,6 +71,19 @@ const PriceConfig = (props) => {
         step: 0.5
     };
 
+    const onClickResetPrice = () => {
+        setPrice('');
+    }
+    const onClickResetOriginPrice = () => {
+        setOriginPrice('');
+    }
+    const onClickResetDiscountPirce = () => {
+        setDiscountPrice('');
+    }
+    const onClickResetDiscountPercent = () => {
+        setDiscountPercent('');
+    }
+
 
     return (
         <div>
@@ -79,6 +95,7 @@ const PriceConfig = (props) => {
                     value={price}
                 />
                 <InputGroup.Text>원</InputGroup.Text>
+                <Button style={{color:'red'}} variant="outline-secondary" onClick={onClickResetPrice}>reset</Button>
             </InputGroup>
             <InputGroup className="mb-3">
                 <InputGroup.Text>Origin Price</InputGroup.Text>
@@ -88,6 +105,7 @@ const PriceConfig = (props) => {
                     value={originPrice}
                 />
                 <InputGroup.Text>원</InputGroup.Text>
+                <Button style={{color:'red'}} variant="outline-secondary" onClick={onClickResetOriginPrice}>reset</Button>
             </InputGroup>
             <InputGroup className="mb-3">
                 <InputGroup.Text>Discount Price</InputGroup.Text>
@@ -97,6 +115,7 @@ const PriceConfig = (props) => {
                     value={discountPrice}
                 />
                 <InputGroup.Text>원</InputGroup.Text>
+                <Button style={{color:'red'}} variant="outline-secondary" onClick={onClickResetDiscountPirce}>reset</Button>
             </InputGroup>
             <InputGroup className="mb-3">
                 <InputGroup.Text>Discount Percent</InputGroup.Text>
@@ -106,6 +125,7 @@ const PriceConfig = (props) => {
                     value={discountPercent}
                 />
                 <InputGroup.Text>%</InputGroup.Text>
+                <Button style={{color:'red'}} variant="outline-secondary" onClick={onClickResetDiscountPercent}>reset</Button>
             </InputGroup>
             <div className="App" style={{marginRight : '20px'}}>
                 <ReactStars {...thirdExample} />

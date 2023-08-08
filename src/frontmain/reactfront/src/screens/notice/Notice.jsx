@@ -146,7 +146,7 @@ const Notice = () => {
                 {currentProducts.map((board) => (
                     <ListGroup.Item as="li" key={board.id}>
                         <div className="row" style={{ minHeight: '130px' }}>
-                            <div className="col-8 d-flex justify-content-center align-items-center"> {/* d-flex와 justify-content-center, align-items-center를 추가 */}
+                            <div className="col-8 d-flex justify-content-center align-items-center text-break text-wrap"> {/* d-flex와 justify-content-center, align-items-center를 추가 */}
                                 <h4 className="fw-bold">{board.title}</h4>
                             </div>
 
@@ -154,7 +154,7 @@ const Notice = () => {
                                 <div style={{fontStyle:'italic'}}>작성자: {board.username}</div>
                             </div>
 
-                            <div className="col-12 d-flex justify-content-center"> {/* d-flex와 justify-content-center를 추가 */}
+                            <div className="col-12 d-flex justify-content-center text-break text-wrap"> {/* d-flex와 justify-content-center를 추가 */}
                                 <a href={`/notice/${board.id}`}>
                                     {contentLengthConfig(board)}
                                 </a>

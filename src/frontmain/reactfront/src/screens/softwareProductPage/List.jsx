@@ -127,7 +127,7 @@ const ProductListView = () => {
                         <div className="row">
                             <div className="col-7">
                 <span className="align-middle fw-bold">
-                  {totalItems} results for <span className="text-warning">""</span>
+                    results <span className="text">{totalItems}</span>
                 </span>
                             </div>
 

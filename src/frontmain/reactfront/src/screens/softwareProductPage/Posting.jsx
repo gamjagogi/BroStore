@@ -1,11 +1,11 @@
-import React, { useState, useEffect, lazy } from "react";
+import React, {useState, useEffect, lazy} from "react";
 import FrontContent from "../../components/posting/FrontContent";
 import ContentForm from "../../components/posting/ContentForm";
-import { v4 as uuidv4 } from "uuid";
+import {v4 as uuidv4} from "uuid";
 import AWS from "aws-sdk";
 import axios from "../Request/RequestConfig";
 import SoftwareDescription from "../../components/posting/SoftwareDescription";
-import { useNavigate } from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 import SoftwareSoldByAndCategoryConfig from "../../components/posting/SoftwareSoldByAndCategoryConfig";
 
 const SettingForm = lazy(() => import("../../components/account/SettingForm"));
@@ -19,17 +19,17 @@ const Posting = () => {
     useEffect(() => {
         const userRole = sessionStorage.getItem('userRole');
         console.log(userRole);
-        if(userRole==null){
+        if (userRole == null) {
             alert('판매자 기능입니다.');
             return navigate('/software');
         }
-        if(!(userRole.match("ROLE_ADMIN")||userRole.match("ROLE_MANAGER"))){
+        if (!(userRole.match("ROLE_ADMIN") || userRole.match("ROLE_MANAGER"))) {
             alert('판매자 기능입니다.');
             return navigate('/software');
         }
 
-        return ;
-    },[])
+        return;
+    }, [])
 
     const [state, setState] = useState({
         imagePreview: "",
@@ -103,7 +103,8 @@ const Posting = () => {
         };
 
         console.log("리퀘스트데이타");
-        console.log(requestData.title);
+        console.log(requestData);
+        console.log(requestData.star);
 
         if (!requestData.title) {
             alert("제목이 없습니다.");
@@ -192,7 +193,7 @@ const Posting = () => {
                         const {Bucket, Key} = params; // params 객체에서 Bucket과 Key를 추출합니다.
                         const imageUrl = `https://${Bucket}.s3.amazonaws.com/${Key}`; // 이미지의 위치(URL)을 구성합니다.
                         console.log('업로드 완료. 이미지 위치:', imageUrl);
-                        setState((prevState) => ({ ...prevState, imagePreview: imageUrl }));
+                        setState((prevState) => ({...prevState, imagePreview: imageUrl}));
                     }
                 });
         } else {
@@ -201,22 +202,22 @@ const Posting = () => {
     };
 
     const onTitleChange = async (title) => {
-        if (title.length<=50) {
+        if (title.length <= 50) {
             console.log(title);
-            setState((prevState) => ({ ...prevState, title }));
-        }else {
+            setState((prevState) => ({...prevState, title}));
+        } else {
             alert('제목 길이 초과');
         }
     };
 
     const onHighlightChange = async (highlights) => {
-        if (highlights.length<=200) {
+        if (highlights.length <= 200) {
             const parser = new DOMParser();
             const doc = parser.parseFromString(highlights, "text/html");
             const plainText = doc.body.textContent;
             console.log(plainText);
-            setState((prevState) => ({ ...prevState, highlights: plainText }));
-        }else {
+            setState((prevState) => ({...prevState, highlights: plainText}));
+        } else {
             alert('길이 초과');
         }
     };
@@ -224,7 +225,7 @@ const Posting = () => {
     const onDescriptionChange = async (description) => {
         if (description) {
             console.log(description);
-            setState((prevState) => ({ ...prevState, description: description }));
+            setState((prevState) => ({...prevState, description: description}));
         }
     };
 
@@ -237,48 +238,48 @@ const Posting = () => {
     };
 
     const onNewTagToggle = () => {
-        setState((prevState) => ({ ...prevState, isNew: !prevState.isNew }));
+        setState((prevState) => ({...prevState, isNew: !prevState.isNew}));
         console.log(state.isNew);
     };
 
     const onHotTagToggle = () => {
-        setState((prevState) => ({ ...prevState, isHot: !prevState.isHot }));
+        setState((prevState) => ({...prevState, isHot: !prevState.isHot}));
         console.log(state.isHot);
     };
 
     const setStar = async (value) => {
-        if (value) {
-            console.log(value);
-            setState((prevState) => ({ ...prevState, star: value }));
-        }
+
+        console.log(value);
+        setState((prevState) => ({...prevState, star: value}));
+
     };
 
     const setPrice = async (price) => {
-        if (price) {
-            console.log(price);
-            setState((prevState) => ({ ...prevState, price: price }));
-        }
+
+        console.log(price);
+        setState((prevState) => ({...prevState, price: price}));
+
     };
 
     const setOriginPrice = async (price) => {
-        if (price) {
-            console.log(price);
-            setState((prevState) => ({ ...prevState, originPrice: price }));
-        }
+
+        console.log(price);
+        setState((prevState) => ({...prevState, originPrice: price}));
+
     };
 
     const setDiscountPrice = async (price) => {
-        if (price) {
-            console.log(price);
-            setState((prevState) => ({ ...prevState, discountPrice: price }));
-        }
+
+        console.log(price);
+        setState((prevState) => ({...prevState, discountPrice: price}));
+
     };
 
     const setDiscountPercent = async (percentage) => {
-        if (percentage) {
-            console.log(percentage);
-            setState((prevState) => ({ ...prevState, discountPercent: percentage }));
-        }
+
+        console.log(percentage);
+        setState((prevState) => ({...prevState, discountPercent: percentage}));
+
     };
 
     // const setSoldBy = async (soldBy) => {
@@ -291,7 +292,7 @@ const Posting = () => {
     const setCategory = async (category) => {
         if (category) {
             console.log(category);
-            setState((prevState) => ({ ...prevState, category: category }));
+            setState((prevState) => ({...prevState, category: category}));
         }
     };
 
@@ -315,7 +316,7 @@ const Posting = () => {
                         title={state.title}
                         highlights={state.highlights}
                     />
-                    <div style={{ marginTop: "-600px" }}>
+                    <div style={{marginTop: "-600px"}}>
                         <SettingForm
                             onDeliveryToggle={onDeliveryToggle}
                             deliveryEnabled={state.deliveryFree}
@@ -344,7 +345,7 @@ const Posting = () => {
                     top: "-200px",
                 }}
             >
-                <div style={{ marginRight: "auto" }}>
+                <div style={{marginRight: "auto"}}>
                     <PriceConfig
                         setPrice={setPrice}
                         price={state.price}
@@ -358,7 +359,7 @@ const Posting = () => {
                         star={state.star}
                     />
                 </div>
-                <div style={{ marginTop : '50px', marginRight: "120px"}}>
+                <div style={{marginTop: '20px', marginRight: "70px"}}>
                     <SoftwareSoldByAndCategoryConfig
                         soldBy={state.soldBy}
                         setCategory={setCategory}
@@ -377,15 +378,17 @@ const Posting = () => {
                     top: "-450px",
                 }}
             >
+
                 <button
                     type="submit"
                     onClick={() => saveProduct()}
-                    style={{ marginRight: "10px" }}
+                    style={{marginRight: "10px"}}
                 >
                     완료
                 </button>
                 <button onClick={handleBack}>취소</button>
             </div>
+
         </div>
     );
 };

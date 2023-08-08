@@ -15,10 +15,12 @@ const PostingFix = () => {
     const [searchParams] = useSearchParams();
     const name = sessionStorage.getItem('userData');
 
+
     // manager또는 admin인지 확인 후 아니면 뒤로 가게 만듬
     useEffect(() => {
         const userRole = sessionStorage.getItem('userRole');
         console.log(searchParams.get('category'));
+
         console.log(userRole);
         if(userRole==null){
             alert('판매자 기능입니다.');
@@ -242,38 +244,38 @@ const PostingFix = () => {
     };
 
     const setStar = async (index) => {
-        if (index) {
+
             console.log(index);
             setState((prevState) => ({ ...prevState, star: index }));
-        }
+
     };
 
     const setPrice = async (price) => {
-        if (price) {
+
             console.log(price);
             setState((prevState) => ({ ...prevState, price }));
-        }
+
     };
 
     const setOriginPrice = async (price) => {
-        if (price) {
+
             console.log(price);
             setState((prevState) => ({ ...prevState, originPrice: price }));
-        }
+
     };
 
     const setDiscountPrice = async (price) => {
-        if (price) {
+
             console.log(price);
             setState((prevState) => ({ ...prevState, discountPrice: price }));
-        }
+
     };
 
     const setDiscountPercent = async (percentage) => {
-        if (percentage) {
+
             console.log(percentage);
             setState((prevState) => ({ ...prevState, discountPercent: percentage }));
-        }
+
     };
 
     // const setSoldBy = async (soldBy) => {
@@ -284,10 +286,10 @@ const PostingFix = () => {
     // };
 
     const setCategory = async (category) => {
-        if (category) {
+
             console.log(category);
             setState((prevState) => ({ ...prevState, category: category }));
-        }
+
     };
 
     const handleBack = () => {
@@ -353,7 +355,7 @@ const PostingFix = () => {
                         star={state.star}
                     />
                 </div>
-                <div style={{ marginTop : '50px', marginRight: "120px"}}>
+                <div style={{marginTop: '20px', marginRight: "70px"}}>
                     <SoftwareSoldByAndCategoryConfig
                         soldBy={state.soldBy}
                         setCategory={setCategory}

@@ -232,38 +232,38 @@ const SellingProductFix = () => {
     };
 
     const setStar = async (value) => {
-        if (value) {
+
             console.log(value);
             setState((prevState) => ({ ...prevState, star: value }));
-        }
+
     };
 
     const setPrice = async (price) => {
-        if (price) {
+
             console.log(price);
             setState((prevState) => ({ ...prevState, price: price }));
-        }
+
     };
 
     const setOriginPrice = async (price) => {
-        if (price) {
+
             console.log(price);
             setState((prevState) => ({ ...prevState, originPrice: price }));
-        }
+
     };
 
     const setDiscountPrice = async (price) => {
-        if (price) {
+
             console.log(price);
             setState((prevState) => ({ ...prevState, discountPrice: price }));
-        }
+
     };
 
     const setDiscountPercent = async (percentage) => {
-        if (percentage) {
+
             console.log(percentage);
             setState((prevState) => ({ ...prevState, discountPercent: percentage }));
-        }
+
     };
 
     // const setSoldBy = async (soldBy) => {
@@ -279,6 +279,10 @@ const SellingProductFix = () => {
             setState((prevState) => ({ ...prevState, category: category }));
         }
     };
+
+    const onClickBack = () => {
+        navigate(`/selling`);
+    }
 
     return (
         <div className="container-fluid my-3">
@@ -365,7 +369,7 @@ const SellingProductFix = () => {
                 >
                     완료
                 </button>
-                <button style={{}}>취소</button>
+                <button onClick={onClickBack}>취소</button>
             </div>
         </div>
     );
