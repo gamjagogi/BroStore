@@ -94,7 +94,7 @@ public class SoftwareShopController {
             return ResponseEntity.badRequest().body(errorMessages); // 예시로 "오류 발생"이라는 메시지를 반환하였습니다.
         }
 
-        System.out.println("저장하기직전");
+
         softwareService.게시글저장하기(id,saveDTO);
 
         ResponseDTO<?>responseDTO = new ResponseDTO<>();

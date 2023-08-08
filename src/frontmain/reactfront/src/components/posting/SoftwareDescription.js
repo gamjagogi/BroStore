@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {useNavigate} from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
 
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
@@ -15,14 +15,7 @@ import {required} from "../../helpers/validation";
 
 const SoftwareDescription = (props) => {
 
-    const { onDescriptionChange,description } = props;
-    // const multer = required('multer');
-    // const upload = multer({
-    //     storage: storage,
-    //     limit: {
-    //         fileSize: 300 * 1024 * 1024,
-    //     },
-    // });
+    const { onDescriptionChange,description,handleUploadFile,uploadFile } = props;
 
     const quillRef = useRef(null);
 
@@ -35,7 +28,6 @@ const SoftwareDescription = (props) => {
     const [updatedDomArray, setUpdatedDomArray] = useState([]);
     const [deleted, setDeleted] = useState('');
     const navigate = useNavigate();
-    const [selectedFiles, setSelectedFiles] = useState([]);
 
 
 
@@ -274,19 +266,16 @@ const SoftwareDescription = (props) => {
 
 
 
-    const handleFileChange = (event) => {
-        const files = event.target.files;
-        console.log(files);
-        // upload.single('file');
-        // console.log(upload);
-        setSelectedFiles(files);
+
+    const handleUploadLink = (event) => {
+        const link = event.target.value;
+        console.log(link);
+        handleUploadFile(link);
     };
 
 
-
-
     return (
-        <div style={{display: 'flex', flexDirection: 'column', height: '100vh'}}>
+        <div style={{display: 'flex', flexDirection: 'column', height: '100vh',marginBottom:'50px'}}>
 
             <div style={{flex: '1', minHeight: '0', padding: '10px', fontSize: '14px', marginBottom: 'auto'}}>
                 {/* <ReactQuill/> 컴포넌트를 감싸는 div */}
@@ -319,14 +308,20 @@ const SoftwareDescription = (props) => {
                     top: '-220px'
                 }}>
 
-                    <Form.Group controlId="formFileMultiple" className="mb-5">
+                    <Form.Group className="container">
+
+                            <InputGroup.Text> Dropbox로 연결됩니다. 파일 업로드 후, 업로드 링크를 복사 붙여넣기를 해 주세요.</InputGroup.Text>
                         <InputGroup>
-                            <InputGroup.Text> 여러개 파일 업로드 가능</InputGroup.Text>
-                            <Form.Control type="file" multiple onChange={handleFileChange}/>
+                            <InputGroup.Text>
+                                <a href="https://www.dropbox.com/transfer" target="_blank" rel="noopener noreferrer">
+                                    Dropbox
+                                </a>
+                            </InputGroup.Text>
+                            <Form.Control placeholder="업로드 링크 첨부" type="input" value={uploadFile} onChange={handleUploadLink}/>
                         </InputGroup>
                     </Form.Group>
 
-                    <Dropdown show={dropdownOpen} onToggle={toggleDropdown} style={{marginLeft:'10px'}}>
+                    <Dropdown show={dropdownOpen} onToggle={toggleDropdown} style={{marginLeft:'50px'}}>
                         <Dropdown.Toggle variant="primary" id="dropdown-basic-button">
                             사진 라이브러리
                         </Dropdown.Toggle>

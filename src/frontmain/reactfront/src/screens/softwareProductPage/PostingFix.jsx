@@ -7,6 +7,7 @@ import axios from "../Request/RequestConfig";
 import SoftwareDescription from "../../components/posting/SoftwareDescription";
 import {useNavigate, useSearchParams} from "react-router-dom";
 import SoftwareSoldByAndCategoryConfig from "../../components/posting/SoftwareSoldByAndCategoryConfig";
+import {Button} from "react-bootstrap";
 
 const SettingForm = lazy(() => import("../../components/account/SettingForm"));
 const PriceConfig = lazy(() => import("../../components/posting/PriceConfig"));
@@ -47,7 +48,8 @@ const PostingFix = () => {
         discountPrice: searchParams.get("discountPrice"),
         soldBy: searchParams.get("soldBy"),
         category: searchParams.get("category")?searchParams.get("category"):"Category",
-        discountPercent: searchParams.get("discountPercent")
+        discountPercent: searchParams.get("discountPercent"),
+        uploadFile: searchParams.get("uploadFile")
     });
 
 
@@ -68,7 +70,8 @@ const PostingFix = () => {
             discountPrice,
             soldBy,
             category,
-            discountPercent
+            discountPercent,
+            uploadFile
         } = state;
 
         console.log(softwareId);
@@ -85,6 +88,7 @@ const PostingFix = () => {
         console.log(discountPrice);
         console.log(soldBy);
         console.log(category);
+        console.log(uploadFile);
 
         const requestData = {
             softwareId,
@@ -100,7 +104,8 @@ const PostingFix = () => {
             discountPrice,
             soldBy,
             category,
-            discountPercent
+            discountPercent,
+            uploadFile
         };
 
         console.log("리퀘스트데이타");
@@ -278,12 +283,6 @@ const PostingFix = () => {
 
     };
 
-    // const setSoldBy = async (soldBy) => {
-    //     if (soldBy) {
-    //         console.log(soldBy);
-    //         setState((prevState) => ({ ...prevState, soldBy: soldBy }));
-    //     }
-    // };
 
     const setCategory = async (category) => {
 
@@ -295,6 +294,12 @@ const PostingFix = () => {
     const handleBack = () => {
         navigate(-1);
     }
+
+    const handleUploadFile = (props) => {
+        console.log(props);
+        setState((prevState) => ({...prevState, uploadFile: props}));
+    }
+
 
     return (
         <div className="container-fluid my-3">
@@ -327,6 +332,8 @@ const PostingFix = () => {
                     <SoftwareDescription
                         onDescriptionChange={onDescriptionChange}
                         description={state.description}
+                        handleUploadFile={handleUploadFile}
+                        uploadFile={state.uploadFile}
                     />
                 </div>
             </div>
@@ -355,33 +362,36 @@ const PostingFix = () => {
                         star={state.star}
                     />
                 </div>
-                <div style={{marginTop: '20px', marginRight: "70px"}}>
-                    <SoftwareSoldByAndCategoryConfig
-                        soldBy={state.soldBy}
-                        setCategory={setCategory}
-                        category={state.category}
-                    />
-                </div>
             </div>
 
             <div
                 style={{
                     display: "flex",
                     justifyContent: "flex-end",
+                    alignItems: "center",
                     marginTop: "auto",
                     marginRight: "10px",
                     position: "relative",
-                    top: "-450px",
+                    top: "-490px",
                 }}
             >
-                <button
+                <div >
+                    <SoftwareSoldByAndCategoryConfig
+                        soldBy={state.soldBy}
+                        setCategory={setCategory}
+                        category={state.category}
+                    />
+                </div>
+                <div style={{marginTop: '-75px'}}>
+                <Button
                     type="submit"
                     onClick={() => saveProduct()}
-                    style={{ marginRight: "10px" }}
+                    style={{ marginLeft: "10px" }}
                 >
                     완료
-                </button>
-                <button onClick={handleBack}>취소</button>
+                </Button>
+                <Button style={{ marginLeft: "10px" }} onClick={handleBack}>취소</Button>
+                </div>
             </div>
         </div>
     );

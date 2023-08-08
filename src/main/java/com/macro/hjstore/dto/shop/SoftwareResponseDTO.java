@@ -83,6 +83,8 @@ public class SoftwareResponseDTO {
 
         private Long userId;
 
+        private String uploadFile;
+
         public Detail(Software software){
             this.id = software.getId();
             this.name = software.getName();
@@ -101,6 +103,7 @@ public class SoftwareResponseDTO {
             this.soldBy = software.getSoldBy();
             this.category = software.getCategory();
             this.userId = software.getUserId();
+            this.uploadFile = software.getUploadFile();
         }
     }
 }

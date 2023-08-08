@@ -41,6 +41,7 @@ const Detail = () => {
   const [category, setCategory] = useState('');
   const [star, setStar] = useState(5);
   const [discountPercent, setDiscountPercent] = useState('');
+  const [uploadFile, setUploadFile] = useState('');
 
   const { id } = useParams();
   const navigate = useNavigate();
@@ -78,6 +79,8 @@ const Detail = () => {
           setBoardUserId(postData.data.userId);
           setStar(postData.data.star);
           setDiscountPercent(postData.data.discountPercent);
+          setUploadFile(postData.data.uploadFile);
+          console.log(postData.data.uploadFile);
         });
     return;
   }, []);
@@ -118,7 +121,7 @@ const Detail = () => {
       return window.location.reload();
     }
     console.log(discountPercent);
-    navigate(`/software/boardFix?softwareId=${id}&userId=${userId}&title=${name}&imgSrc=${imgSrc}&isNew=${isNew}&isHot=${isHot}&price=${price}&originPrice=${originPrice}&discountPrice=${discountPrice}&highlights=${highlights}&description=${description}&category=${category}&soldBy=${soldBy}&star=${star}&discountPercent=${discountPercent}`);
+    navigate(`/software/boardFix?softwareId=${id}&userId=${userId}&title=${name}&imgSrc=${imgSrc}&isNew=${isNew}&isHot=${isHot}&price=${price}&originPrice=${originPrice}&discountPrice=${discountPrice}&highlights=${highlights}&description=${description}&category=${category}&soldBy=${soldBy}&star=${star}&discountPercent=${discountPercent}&uploadFile=${uploadFile}`);
   }
 
   const handleDelete = async () => {
@@ -173,6 +176,12 @@ const Detail = () => {
       console.error("에러발생", error);
     }
   }
+
+
+  const handleDownload = () => {
+    window.location.href = uploadFile;
+  }
+
 
   return (
       <div className="container-fluid mt-3">
@@ -229,6 +238,7 @@ const Detail = () => {
                       type="button"
                       className="btn btn-sm btn-warning me-2"
                       title="Buy now"
+                      onClick={handleDownload}
                   >
                     <FontAwesomeIcon icon={faShoppingCart} /> Download
                   </button>

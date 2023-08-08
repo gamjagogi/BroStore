@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import {useNavigate} from 'react-router-dom';
 
-import ReactQuill from 'react-quill';
+import ReactQuill, {Quill} from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import {useRef, useMemo} from 'react';
 import axios from '../Request/RequestConfig.js';
@@ -14,6 +14,7 @@ import Card from "react-bootstrap/Card";
 
 export default function PostEditor() {
     const quillRef = useRef(null);
+    const Delta = Quill.import('delta');
 
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
@@ -304,18 +305,22 @@ export default function PostEditor() {
         const range = editor.getSelection(true);
         const contents = editor.getContents();
         console.log('에디터');
-        console.log(contents);
+        console.log(contents.ops);
         console.log(itemIndex);
 
         // Quill 컨텐츠의 각 블록을 순회하면서 이미지를 찾고, 식별자와 일치하는 이미지를 삭제
         contents.ops.forEach((block) => {
             if (block.insert && block.insert.image ) {
                 const imageIndex = contents.ops.indexOf(block);
-                console.log('quill내부');
+                console.log('quill내부'+ imageIndex+ block.insert.image, block.insert.image.length);
 
                 if (imageIndex == itemIndex) {
                     // 이미지 삭제
-                    editor.deleteText(contents.ops.indexOf(block, 1));
+                    //editor.deleteText(contents.ops.indexOf(block),1);
+                    editor.updateContents(new Delta()
+                        .retain(imageIndex)
+                        .delete(block.insert.image.length)
+                        .insert(''));
                     console.log('삭제 성공!')
                 }
             }

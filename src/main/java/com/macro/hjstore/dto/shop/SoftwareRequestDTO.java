@@ -33,6 +33,8 @@ public class SoftwareRequestDTO {
         private String soldBy;
 
         private String category;
+
+        private String uploadFile;
     }
 
     @Getter
@@ -69,6 +71,8 @@ public class SoftwareRequestDTO {
 
         private Integer discountPercent;
 
+        private String uploadFile;
+
         public Software toEntity(Software software){
             return Software.builder()
                     .id(softwareId)
@@ -85,6 +89,7 @@ public class SoftwareRequestDTO {
                     .soldBy(soldBy)
                     .category(category)
                     .discountPercent(discountPercent)
+                    .uploadFile(uploadFile)
                     .userId(software.getUserId())
                     .createdAt(software.getCreatedAt())
                     .build();

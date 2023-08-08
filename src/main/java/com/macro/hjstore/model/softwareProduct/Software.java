@@ -57,6 +57,7 @@ public class Software {
     @Column(name = "star",nullable = true)
     private Integer star;
 
+
     @Column(name = "isFreeShipping",nullable = true)
     private boolean isFreeShipping;
 
@@ -67,6 +68,8 @@ public class Software {
     @Lob
     @Column(name = "description",nullable = false)
     private String description;
+
+    private String uploadFile;
 
     @Column(name = "soldBy")
     private String soldBy;
@@ -91,7 +94,7 @@ public class Software {
 
 
     @Builder
-    public Software(Long id, String name, String thumbnail, String img, Integer price, Integer originPrice, Integer discountPrice, Integer discountPercent, boolean isNew, boolean isHot, Integer star, boolean isFreeShipping, String highlights, String description, String soldBy, String category, Long userId,LocalDateTime createdAt, LocalDateTime updatedAt) {
+    public Software(Long id, String name, String thumbnail, String img, Integer price, Integer originPrice, Integer discountPrice, Integer discountPercent, boolean isNew, boolean isHot, Integer star, boolean isFreeShipping, String highlights, String description,String uploadFile ,String soldBy, String category, Long userId,LocalDateTime createdAt, LocalDateTime updatedAt) {
         this.id = id;
         this.name = name;
         this.thumbnail = thumbnail;
@@ -106,6 +109,7 @@ public class Software {
         this.isFreeShipping = isFreeShipping;
         this.highlights = highlights;
         this.description = description;
+        this.uploadFile = uploadFile;
         this.soldBy = soldBy;
         this.category = category;
         this.userId = userId;
@@ -129,6 +133,7 @@ public class Software {
                 .description(savePS.getDescription())
                 .soldBy(savePS.getSoldBy())
                 .category(savePS.getCategory())
+                .uploadFile(savePS.getUploadFile())
                 .userId(userId)
                 .build();
         return softwarePS;

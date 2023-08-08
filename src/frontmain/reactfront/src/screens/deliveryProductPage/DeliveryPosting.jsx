@@ -292,6 +292,10 @@ const DeliveryPosting = () => {
         }
     };
 
+    const handleBack = () => {
+        navigate('/delivery')
+    }
+
     return (
         <div className="container-fluid my-3">
             <div className="row">
@@ -377,7 +381,7 @@ const DeliveryPosting = () => {
                 >
                     완료
                 </button>
-                <button style={{}}>취소</button>
+                <button style={{handleBack}}>취소</button>
             </div>
         </div>
     );

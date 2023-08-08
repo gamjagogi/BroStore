@@ -317,15 +317,7 @@ const DeliveryDescription = (props) => {
                 </div>
 
                 <br/>
-                <div style={{
-                    display: 'flex',
-                    justifyContent: 'flex-end',
-                    marginTop: 'auto',
-                    marginRight: '10px',
-                    position: 'relative',
-                    top: '-200px'
-                }}>
-                </div>
+
             </div>
         </div>
 

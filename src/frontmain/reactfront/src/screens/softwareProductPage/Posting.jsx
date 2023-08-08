@@ -7,6 +7,7 @@ import axios from "../Request/RequestConfig";
 import SoftwareDescription from "../../components/posting/SoftwareDescription";
 import {useNavigate} from "react-router-dom";
 import SoftwareSoldByAndCategoryConfig from "../../components/posting/SoftwareSoldByAndCategoryConfig";
+import {Button} from "react-bootstrap";
 
 const SettingForm = lazy(() => import("../../components/account/SettingForm"));
 const PriceConfig = lazy(() => import("../../components/posting/PriceConfig"));
@@ -47,7 +48,8 @@ const Posting = () => {
         discountPrice: "",
         discountPercent: "",
         soldBy: name,
-        category: ""
+        category: "",
+        uploadFile: ""
     });
 
     const navigate = useNavigate();
@@ -67,7 +69,8 @@ const Posting = () => {
             discountPrice,
             discountPercent,
             soldBy,
-            category
+            category,
+            uploadFile
         } = state;
 
         console.log(title);
@@ -84,6 +87,7 @@ const Posting = () => {
         console.log(discountPercent);
         console.log(soldBy);
         console.log(category);
+        console.log(uploadFile);
 
         const requestData = {
             title,
@@ -99,7 +103,8 @@ const Posting = () => {
             discountPrice,
             discountPercent,
             soldBy,
-            category
+            category,
+            uploadFile
         };
 
         console.log("리퀘스트데이타");
@@ -282,12 +287,6 @@ const Posting = () => {
 
     };
 
-    // const setSoldBy = async (soldBy) => {
-    //     if (soldBy) {
-    //         console.log(soldBy);
-    //         setState((prevState) => ({ ...prevState, soldBy: soldBy }));
-    //     }
-    // };
 
     const setCategory = async (category) => {
         if (category) {
@@ -295,6 +294,11 @@ const Posting = () => {
             setState((prevState) => ({...prevState, category: category}));
         }
     };
+
+    const handleUploadFile = (props) => {
+        console.log(props);
+        setState((prevState) => ({...prevState, uploadFile: props}));
+    }
 
     const handleBack = () => {
         navigate(-1);
@@ -331,6 +335,8 @@ const Posting = () => {
                     <SoftwareDescription
                         onDescriptionChange={onDescriptionChange}
                         description={state.description}
+                        handleUploadFile={handleUploadFile}
+                        uploadFile={state.uploadFile}
                     />
                 </div>
             </div>
@@ -359,34 +365,36 @@ const Posting = () => {
                         star={state.star}
                     />
                 </div>
-                <div style={{marginTop: '20px', marginRight: "70px"}}>
-                    <SoftwareSoldByAndCategoryConfig
-                        soldBy={state.soldBy}
-                        setCategory={setCategory}
-                        category={state.category}
-                    />
-                </div>
             </div>
 
             <div
                 style={{
                     display: "flex",
                     justifyContent: "flex-end",
+                    alignItems: "center",
                     marginTop: "auto",
                     marginRight: "10px",
                     position: "relative",
-                    top: "-450px",
+                    top: "-490px",
                 }}
             >
-
-                <button
-                    type="submit"
-                    onClick={() => saveProduct()}
-                    style={{marginRight: "10px"}}
-                >
-                    완료
-                </button>
-                <button onClick={handleBack}>취소</button>
+                <div >
+                    <SoftwareSoldByAndCategoryConfig
+                        soldBy={state.soldBy}
+                        setCategory={setCategory}
+                        category={state.category}
+                    />
+                </div>
+                <div style={{marginTop: '-75px'}}>
+                    <Button
+                        type="submit"
+                        onClick={() => saveProduct()}
+                        style={{ marginLeft: "10px" }}
+                    >
+                        완료
+                    </Button>
+                    <Button style={{ marginLeft: "10px" }} onClick={handleBack}>취소</Button>
+                </div>
             </div>
 
         </div>
