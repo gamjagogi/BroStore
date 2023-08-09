@@ -33,7 +33,11 @@ public class MyUserDetailsService implements UserDetailsService {
         User userPS = userRepository.findByEmail(email).orElseThrow(
                 () -> new InternalAuthenticationServiceException("인증 실패")); // 나중에 테스트할 때 설명해드림.
 
-        System.out.println(userPS.getEmail());
+        System.out.println("test: "+userPS.getEmail());
+        System.out.println(userPS.getUsername());
+        System.out.println(userPS.getId());
+        System.out.println(userPS.getRole());
+        System.out.println(userPS.getStatus());
 
         return new MyUserDetails(userPS);
     }

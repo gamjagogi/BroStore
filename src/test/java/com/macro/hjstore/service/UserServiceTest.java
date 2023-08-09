@@ -41,7 +41,7 @@ public class UserServiceTest extends MyDummyEntity{
 
 
     // 진짜 객체를 만들어서 Mockito 환경에 Load
-    @InjectMocks
+    @Mock
     private UserRepository userRepository;
 
     // 가짜 객체를 만들어서 Mockito 환경에 Load

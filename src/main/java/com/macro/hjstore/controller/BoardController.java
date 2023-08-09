@@ -2,14 +2,19 @@ package com.macro.hjstore.controller;
 
 import com.macro.hjstore.core.auth.session.MyUserDetails;
 import com.macro.hjstore.core.exception.Exception400;
+import com.macro.hjstore.core.exception.Exception404;
 import com.macro.hjstore.dto.ResponseDTO;
 import com.macro.hjstore.dto.board.BoardRequest;
 import com.macro.hjstore.dto.board.BoardResponse;
 import com.macro.hjstore.model.board.Board;
+import com.macro.hjstore.model.comment.Comment;
+import com.macro.hjstore.model.question.Question;
 import com.macro.hjstore.model.user.User;
 import com.macro.hjstore.service.BoardService;
+import com.macro.hjstore.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.ui.Model;
@@ -27,28 +32,63 @@ public class BoardController {
 
     private final BoardService boardService;
 
-    @GetMapping("/auth/shop")  // /auth/shop?page=1
-    public ResponseEntity<?> mainPage(
-            @RequestParam(defaultValue = "0") int page,
-    @AuthenticationPrincipal MyUserDetails userDetails
-    ){
-        //checkpoint : 권한 체크
-        System.out.println(userDetails.getUser().getRole());
-        Page<Board> boardPG = boardService.게시글목록보기(page);
-        System.out.println(boardPG);
-        System.out.println(boardPG.getTotalPages());
-        ResponseDTO<?> responseDTO = new ResponseDTO<>(boardPG);
-        return ResponseEntity.ok().body(responseDTO);
+    private final UserService userService;
+
+    @GetMapping("/board")
+    public ResponseEntity<?> mainPage(){
+            List<BoardResponse.UserBoard>userBoardList = boardService.게시글목록보기();
+            ResponseDTO<?> responseDTO = new ResponseDTO<>(userBoardList);
+            return ResponseEntity.ok().body(responseDTO);
     }
 
-    @GetMapping("/auth/shop/{id}")
+    @GetMapping("/board/detail/{id}")
     public ResponseEntity<?> detail(@PathVariable("id") Long id){
         BoardResponse.DetailDTO detailDTO = boardService.게시글상세보기(id);
         ResponseDTO responseDTO = new ResponseDTO(detailDTO);
         return ResponseEntity.ok().body(responseDTO);
     }
 
-    @PostMapping("/manager/shop/save")
+    @PostMapping("/auth/board/comment/save/{userId}/{boardId}")
+    public ResponseEntity<?> createComment(@PathVariable("userId")Long userId,@PathVariable("boardId")Long boardId,@RequestBody BoardRequest.CreateComment comment,@AuthenticationPrincipal MyUserDetails userDetails,Errors errors){
+        if (userDetails.getUser().getId() == userId) {
+            System.out.println("댓글작성진입!!");
+            User userPS = userService.회원찾기(userId);
+            Board boardPS = boardService.보드ID로글찾기(boardId);
+            Comment commentPS = comment.toEntity(userPS,boardPS);
+            boardService.댓글저장하기(commentPS);
+            return ResponseEntity.ok().build();
+        } else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+    }
+
+    @PostMapping("/auth/board/comment/update/{userId}/{boardId}/{commentId}")
+    public ResponseEntity<?> updateComment(@PathVariable("userId")Long userId,@PathVariable("boardId")Long boardId,@PathVariable("commentId")Long commentId,@RequestBody BoardRequest.UpdateComment comment,@AuthenticationPrincipal MyUserDetails userDetails,Errors errors){
+        if (userDetails.getUser().getId() == userId) {
+            User userPS = userService.회원찾기(userId);
+            Board boardPS = boardService.보드ID로글찾기(boardId);
+            Comment commentPS = boardService.댓글찾기(commentId);
+            Comment updatedCommentPS = comment.toEntity(commentPS,userPS,boardPS);
+            boardService.댓글저장하기(updatedCommentPS);
+            return ResponseEntity.ok().build();
+        } else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+    }
+
+    @GetMapping("/auth/board/comment/delete/{userId}/{commentId}")
+    public ResponseEntity<?> deleteComment(@PathVariable("userId")Long userId,@PathVariable("commentId")Long commentId,@AuthenticationPrincipal MyUserDetails userDetails){
+        if (userDetails.getUser().getId() == userId) {
+            System.out.println("댓삭 진입!");
+            Comment commentPS = boardService.댓글찾기(commentId);
+            boardService.댓글삭제하기(commentPS);
+            return ResponseEntity.ok().build();
+        } else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+    }
+
+    @PostMapping("/auth/board/save")
     public ResponseEntity<?> savePost(@RequestBody @Valid BoardRequest.SaveInDTO saveInDTO
             , @AuthenticationPrincipal MyUserDetails userDetails,Errors errors){
 
@@ -77,5 +117,55 @@ public class BoardController {
         return ResponseEntity.ok().body(responseDTO);
     }
 
+    @PostMapping("/auth/board/update/{id}")
+    public ResponseEntity<?> update(@PathVariable("id") Long id, @RequestBody @Valid BoardRequest.UpdateInDTO updateDTO, @AuthenticationPrincipal MyUserDetails userDetails, Errors errors) {
+        if (userDetails.getUser().getId() == id) {
+            try {
+                Board boardPS = boardService.보드ID로글찾기(updateDTO.getBoardId());
 
+                if (boardPS.getUser().getId() != id) {
+                    return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+                }
+
+                boardService.게시글수정하기(boardPS,id,updateDTO);
+                System.out.println("수정완료!!");
+
+                ResponseDTO<?> responseDTO = new ResponseDTO<>();
+                return ResponseEntity.ok().body(responseDTO);
+            }catch (Exception e){
+                System.out.println(e.getMessage());
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+            }
+        } else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+    }
+
+    @PostMapping("/auth/board/delete/{id}/{userId}")
+    public ResponseEntity<?> delete(@PathVariable("id") Long id,@PathVariable("userId")Long userId,@AuthenticationPrincipal MyUserDetails userDetails){
+
+        if (userDetails.getUser().getId() == userId) {
+            try {
+                boardService.글삭제하기(id);
+                return ResponseEntity.ok().build();
+            }catch (Exception e){
+                System.out.println(e.getMessage());
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+            }
+        } else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+    }
+
+    @GetMapping("/board/search")
+    public ResponseEntity<?>search(@RequestParam("keyword")String keyword){
+        try {
+            List<BoardResponse.UserBoard>userBoardList = boardService.검색(keyword);
+            ResponseDTO<?>responseDTO = new ResponseDTO<>(userBoardList);
+            return ResponseEntity.ok().body(responseDTO);
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+    }
 }

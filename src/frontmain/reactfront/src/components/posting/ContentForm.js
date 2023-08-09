@@ -2,11 +2,12 @@ import React, {useState, useEffect} from 'react';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import {useRef, useMemo} from 'react';
+import {disabled} from "express/lib/application";
+
 
 
 const ContentForm = (props) => {
 
-    const [highlight,setHighlight]  = useState('');
 
     const {
         title,
@@ -14,6 +15,8 @@ const ContentForm = (props) => {
         onTitleChange,
         onHighlightChange
     } = props;
+
+
 
     const quillRef = useRef(null);
 
@@ -45,26 +48,37 @@ const ContentForm = (props) => {
 
 
 
+    const handleHighlightsChange = (event) => {
+        const updatedHighlights = event;
+        console.log(updatedHighlights);
+        onHighlightChange(updatedHighlights);
+    };
+
+
+    // useEffect(() => {
+    //     console.log(quillRef.current.props.value);
+    // },[quillRef.current.props.value])
+
 
     return (
         <div style={{display: 'flex', flexDirection: 'column', height: '100vh'}}>
             <input
                 type="text"
                 onChange={handleTitleChange}
-
+                value={title}
                 placeholder="title"
                 style={{ flex: 'none', padding: '10px', fontSize: '18px' }}
             />
 
             <div style={{flex: '1', minHeight: '0', padding: '10px', fontSize: '14px', marginBottom: 'auto'}}>
-                {/* <ReactQuill/> 컴포넌트를 감싸는 div */}
                 <ReactQuill
                     ref={quillRef}
                     formats={formats}
                     modules={modules}
                     theme="snow"
-                    onChange={onHighlightChange}
-                    placeholder="Product Highlight"
+                    onChange={handleHighlightsChange}
+                    placeholder="Fix Highlight"
+                    defaultValue={highlights}
                     style={{
                         flex: '1',
                         minHeight: '0',

@@ -1,14 +1,17 @@
 package com.macro.hjstore.model.board;
 
+import com.macro.hjstore.model.comment.Comment;
 import com.macro.hjstore.model.user.User;
 import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 // 저장할 필요가 있는건 tb로 만든다.
 
-@Builder
+
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Table(name = "board_tb")
@@ -33,6 +36,11 @@ public class Board {
     @Column(nullable = true)
     private String thumbnail;
 
+    private String link = "/detail/";
+
+    @OneToMany(mappedBy = "board",fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, orphanRemoval = true)
+    @OrderBy("createdAt DESC")
+    private List<Comment>commentList = new ArrayList<>();
 
 
     private LocalDateTime createdAt;

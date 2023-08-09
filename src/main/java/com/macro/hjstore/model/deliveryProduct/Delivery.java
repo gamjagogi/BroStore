@@ -6,7 +6,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-
+import java.util.Optional;
 // 저장할 필요가 있는건 tb로 만든다.
 
 
@@ -17,6 +17,7 @@ import java.time.LocalDateTime;
 public class Delivery {
 
     @Id
+    @Column(name = "delivery_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
@@ -27,7 +28,7 @@ public class Delivery {
     @Column(name = "title",nullable = false, length = 60)
     private String name;
 
-    private String link = "/software/";
+    private String link = "/delivery/";
 
 
     @Column(name = "thumbnail", nullable = true)
@@ -45,8 +46,8 @@ public class Delivery {
     @Column(name = "discountPrice",nullable = true)
     private Integer discountPrice;
 
-    @Column(name = "discountPercentage",nullable = true)
-    private Integer discountPercentage;
+    @Column(name = "discountPercent",nullable = true)
+    private Integer discountPercent;
 
     @Column(name = "isNew",nullable = true)
     private boolean isNew;
@@ -70,8 +71,12 @@ public class Delivery {
     @Column(name = "soldBy")
     private String soldBy;
 
+    @Column(name = "userId")
+    private Long userId;
+
     @Column(name = "category")
     private String category;
+
 
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
@@ -88,7 +93,7 @@ public class Delivery {
 
 
     @Builder
-    public Delivery(Long id, String sku, String name, String thumbnail, String img, Integer price, Integer originPrice, Integer discountPrice, Integer discountPercentage, boolean isNew, boolean isHot, Integer star, boolean isFreeShipping, String highlights, String description, String soldBy, String category, LocalDateTime createdAt, LocalDateTime updatedAt) {
+    public Delivery(Long id, String sku, String name,Long userId, String thumbnail, String img, Integer price, Integer originPrice, Integer discountPrice, Integer discountPercent, boolean isNew, boolean isHot, Integer star, boolean isFreeShipping, String highlights, String description, String soldBy, String category, LocalDateTime createdAt, LocalDateTime updatedAt) {
         this.id = id;
         this.sku = sku;
         this.name = name;
@@ -97,7 +102,7 @@ public class Delivery {
         this.price = price;
         this.originPrice = originPrice;
         this.discountPrice = discountPrice;
-        this.discountPercentage = discountPercentage;
+        this.discountPercent = discountPercent;
         this.isNew = isNew;
         this.isHot = isHot;
         this.star = star;
@@ -105,19 +110,25 @@ public class Delivery {
         this.highlights = highlights;
         this.description = description;
         this.soldBy = soldBy;
+        this.userId = userId;
         this.category = category;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
     }
 
-    public static Delivery toEntity(DeliveryRequestDTO.Save savePS) {
+    // Getter 메서드
+    public Integer getPrice() {
+        return Optional.ofNullable(price).orElse(0);
+    }
+
+    public static Delivery toEntity(Long id,DeliveryRequestDTO.Save savePS) {
         Delivery deliveryPS = Delivery.builder()
                 .name(savePS.getTitle())
                 .thumbnail(savePS.getImagePreview())
                 .price(savePS.getPrice())
                 .originPrice(savePS.getOriginPrice())
                 .discountPrice(savePS.getDiscountPrice())
-                .discountPercentage(savePS.getDiscountPercentage())
+                .discountPercent(savePS.getDiscountPercent())
                 .isNew(savePS.isNew())
                 .isHot(savePS.isHot())
                 .star(savePS.getStar())
@@ -125,9 +136,28 @@ public class Delivery {
                 .highlights(savePS.getHighlights())
                 .description(savePS.getDescription())
                 .soldBy(savePS.getSoldBy())
+                .userId(id)
                 .category(savePS.getCategory())
                 .build();
         return deliveryPS;
     }
 
+    public Delivery update(Long userId,DeliveryRequestDTO.Update updatePS){
+        this.name = updatePS.getTitle();
+        this.thumbnail = updatePS.getImagePreview();
+        this.price = updatePS.getPrice();
+        this.originPrice = updatePS.getOriginPrice();
+        this.discountPrice = updatePS.getDiscountPrice();
+        this.discountPercent = updatePS.getDiscountPercent();
+        this.isHot = updatePS.isHot();
+        this.isNew = updatePS.isNew();
+        this.star = updatePS.getStar();
+        this.isFreeShipping = updatePS.isDeliveryFree();
+        this.highlights = updatePS.getHighlights();
+        this.description = updatePS.getDescription();
+        this.soldBy = updatePS.getSoldBy();
+        this.userId = userId;
+        this.category = updatePS.getCategory();
+        return this;
+    }
 }

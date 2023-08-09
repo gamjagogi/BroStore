@@ -66,10 +66,7 @@ const Footer = () => {
               <div className="h6">Company Name</div>
               <hr />
               <p>
-                Lorem Ipsum is simply dummy text of the printing and typesetting
-                industry. Lorem Ipsum has been the industry's standard dummy
-                text ever since the 1500s, when an unknown printer took a galley
-                of type and scrambled it to make a type specimen book.
+                Bro.store is a growing company that is now embarking on an expansion journey. Our company's motto is about growing together. It's not just about the company's growth, but rather, it's about growing together with our clients who use our products and, ultimately, moving society in a better direction. This is our true motto.
               </p>
             </div>
             <div className="col-md-3 py-3">
@@ -78,7 +75,7 @@ const Footer = () => {
               <ul className="list-group list-group-flush">
                 <li className="list-group-item bg-dark text-white border-light">
                   <Link
-                    to="/"
+                    to="/delivery"
                     className="text-decoration-none text-white stretched-link"
                   >
                     Electronics
@@ -86,34 +83,34 @@ const Footer = () => {
                 </li>
                 <li className="list-group-item bg-dark text-white border-light">
                   <Link
-                    to="/"
+                    to="/delivery"
                     className="text-decoration-none text-white stretched-link"
                   >
-                    Mobiles
+                    Clothes
                   </Link>
                 </li>
                 <li className="list-group-item bg-dark text-white border-light">
                   <Link
-                    to="/"
+                    to="/delivery"
                     className="text-decoration-none text-white stretched-link"
                   >
-                    Car & bike
+                    Toy
                   </Link>
                 </li>
                 <li className="list-group-item bg-dark text-white border-light">
                   <Link
-                    to="/"
+                    to="/software"
                     className="text-decoration-none text-white stretched-link"
                   >
-                    Super Market
+                    Software
                   </Link>
                 </li>
                 <li className="list-group-item bg-dark text-white border-light">
                   <Link
-                    to="/"
+                    to="/delivery"
                     className="text-decoration-none text-white stretched-link"
                   >
-                    Travel Cards
+                    Interesting Product
                   </Link>
                 </li>
               </ul>
@@ -170,17 +167,19 @@ const Footer = () => {
               <address>
                 <strong>Twitter, Inc.</strong>
                 <br />
-                1355 Market St, Suite 900
+                272 Hamil-yeodang 1-ro,
                 <br />
-                San Francisco, CA 94103
+                Namyangju-si, Gyeonggi-do
                 <br />
-                <abbr title="Phone">P:</abbr> (123) 456-7890
+                South Korea
+                <br />
+                <abbr title="Phone">P:</abbr> (031) 529-9372
               </address>
               <div className="h6">Customer Care</div>
               <hr />
-              <IconTelephone /> +1800 100 1000
+              <IconTelephone /> 010 2968 1680
               <br />
-              <IconEnvelope /> info@email.com
+              <IconEnvelope /> cocobo1275@gmail.com
             </div>
           </div>
         </div>

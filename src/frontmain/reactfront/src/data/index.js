@@ -21,7 +21,7 @@ export const data = {
     ],
     iconProducts: [
         {
-            to: "/UserBoard",
+            to: "/software",
             img: "IconLaptop",
             title: "Software",
             text: " Upto 10% off",
@@ -29,7 +29,7 @@ export const data = {
             cssClass: "text-primary",
         },
         {
-            to: "/Questions",
+            to: "/delivery",
             img: "IconTruck",
             title: "Delivery Product",
             text: " Upto 10% off",
@@ -37,18 +37,18 @@ export const data = {
             cssClass: "text-secondary",
         },
         {
-            to: "/product/detail",
+            to: "/board",
             img: "IconPhone",
             title: "User board",
-            text: " free talk ",
+            text: " Free Talk ",
             tips: "Except for illegal",
             cssClass: "text-danger",
         },
         {
-            to: "/product/detail",
+            to: "/question",
             img: "IconHeadset",
             title: "Question",
-            text: "please ask",
+            text: "Please Ask",
             tips: "manual, Delivery",
             cssClass: "text-warning",
         },

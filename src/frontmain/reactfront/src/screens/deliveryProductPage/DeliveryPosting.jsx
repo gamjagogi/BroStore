@@ -7,11 +7,28 @@ import axios from "../Request/RequestConfig";
 import { useNavigate } from "react-router-dom";
 import DeliveryDescription from "../../components/posting/DeliveryDescription";
 import DeliverySoldByAndCategoryConfig from "../../components/posting/DeliverySoldByAndCategoryConfig";
+import {Button} from "react-bootstrap";
 
 const SettingForm = lazy(() => import("../../components/account/SettingForm"));
 const PriceConfig = lazy(() => import("../../components/posting/PriceConfig"));
 
 const DeliveryPosting = () => {
+    const name = sessionStorage.getItem('userData');
+
+
+    useEffect(() => {
+        const userRole = sessionStorage.getItem('userRole');
+        console.log(userRole);
+        if(userRole==null){
+            alert('판매자 기능입니다.');
+            return navigate('/software');
+        }
+        if(!(userRole.match("ROLE_ADMIN")||userRole.match("ROLE_MANAGER"))){
+            alert('판매자 기능입니다.');
+            return navigate('/software');
+        }
+    },[])
+
     const [state, setState] = useState({
         imagePreview: "",
         isDeleting: false,
@@ -26,9 +43,9 @@ const DeliveryPosting = () => {
         price: "",
         originPrice: "",
         discountPrice: "",
-        discountPercentage: "",
-        soldBy: "",
-        category: ""
+        discountPercent: "",
+        soldBy: name,
+        category: "All"
     });
 
     const navigate = useNavigate();
@@ -46,7 +63,7 @@ const DeliveryPosting = () => {
             price,
             originPrice,
             discountPrice,
-            discountPercentage,
+            discountPercent,
             soldBy,
             category
         } = state;
@@ -62,7 +79,7 @@ const DeliveryPosting = () => {
         console.log(price);
         console.log(originPrice);
         console.log(discountPrice);
-        console.log(discountPercentage);
+        console.log(discountPercent);
         console.log(soldBy);
         console.log(category);
 
@@ -78,7 +95,7 @@ const DeliveryPosting = () => {
             price,
             originPrice,
             discountPrice,
-            discountPercentage,
+            discountPercent,
             soldBy,
             category
         };
@@ -96,12 +113,13 @@ const DeliveryPosting = () => {
 
         const accessToken = localStorage.getItem("accessToken");
         const refreshToken = localStorage.getItem("refreshToken");
+        const id = sessionStorage.getItem('userData2');
         console.log(accessToken);
         console.log(refreshToken);
 
         if (accessToken && refreshToken) {
             axios
-                .post("/manager/delivery/save", JSON.stringify(requestData), {
+                .post(`/manager/delivery/save/${id}`, JSON.stringify(requestData), {
                     headers: {
                         "Content-Type": "application/json",
                         Authorization: `Bearer ${accessToken}`,
@@ -181,19 +199,23 @@ const DeliveryPosting = () => {
     };
 
     const onTitleChange = async (title) => {
-        if (title) {
+        if (title.length<=60) {
             console.log(title);
             setState((prevState) => ({ ...prevState, title }));
+        }else {
+            alert('제목 길이 초과');
         }
     };
 
     const onHighlightChange = async (highlights) => {
-        if (highlights) {
+        if (highlights.length<=200) {
             const parser = new DOMParser();
             const doc = parser.parseFromString(highlights, "text/html");
             const plainText = doc.body.textContent;
             console.log(plainText);
             setState((prevState) => ({ ...prevState, highlights: plainText }));
+        }else {
+            alert('길이 초과');
         }
     };
 
@@ -223,46 +245,40 @@ const DeliveryPosting = () => {
     };
 
     const setStar = async (value) => {
-        if (value) {
+
             console.log(value);
             setState((prevState) => ({ ...prevState, star: value }));
-        }
+
     };
 
     const setPrice = async (price) => {
-        if (price) {
+
             console.log(price);
             setState((prevState) => ({ ...prevState, price }));
-        }
+
     };
 
     const setOriginPrice = async (price) => {
-        if (price) {
+
             console.log(price);
             setState((prevState) => ({ ...prevState, originPrice: price }));
-        }
+
     };
 
     const setDiscountPrice = async (price) => {
-        if (price) {
+
             console.log(price);
             setState((prevState) => ({ ...prevState, discountPrice: price }));
-        }
+
     };
 
     const setDiscountPercent = async (percentage) => {
-        if (percentage) {
+
             console.log(percentage);
-            setState((prevState) => ({ ...prevState, discountPercentage: percentage }));
-        }
+            setState((prevState) => ({ ...prevState, discountPercent: percentage }));
+
     };
 
-    const setSoldBy = async (soldBy) => {
-        if (soldBy) {
-            console.log(soldBy);
-            setState((prevState) => ({ ...prevState, soldBy: soldBy }));
-        }
-    };
 
     const setCategory = async (category) => {
         if (category) {
@@ -270,6 +286,10 @@ const DeliveryPosting = () => {
             setState((prevState) => ({ ...prevState, category: category }));
         }
     };
+
+    const handleBack = () => {
+        navigate('/delivery')
+    }
 
     return (
         <div className="container-fluid my-3">
@@ -313,22 +333,27 @@ const DeliveryPosting = () => {
                     marginTop: "auto",
                     marginLeft: "0",
                     position: "relative",
-                    top: "-200px",
+                    top: "-180px",
                 }}
             >
                 <div style={{ marginRight: "auto" }}>
                     <PriceConfig
                         setPrice={setPrice}
+                        price={state.price}
                         setOriginPrice={setOriginPrice}
+                        originPrice={state.originPrice}
                         setDiscountPrice={setDiscountPrice}
+                        discountPrice={state.discountPrice}
                         setDiscountPercent={setDiscountPercent}
+                        discountPercent={state.discountPercent}
                         setStar={setStar}
                         star={state.star}
                     />
                 </div>
-                <div style={{ marginTop : '50px', marginRight: "120px"}}>
+                <div style={{ marginTop : '50px', marginRight: "10px"}}>
                     <DeliverySoldByAndCategoryConfig
-                        setSoldBy={setSoldBy}
+                        name={name}
+                        category={state.category}
                         setCategory={setCategory}
                     />
                 </div>
@@ -341,17 +366,17 @@ const DeliveryPosting = () => {
                     marginTop: "auto",
                     marginRight: "10px",
                     position: "relative",
-                    top: "-450px",
+                    top: "-480px",
                 }}
             >
-                <button
+                <Button
                     type="submit"
                     onClick={() => saveProduct()}
                     style={{ marginRight: "10px" }}
                 >
                     완료
-                </button>
-                <button style={{}}>취소</button>
+                </Button>
+                <Button onClick={handleBack}>취소</Button>
             </div>
         </div>
     );

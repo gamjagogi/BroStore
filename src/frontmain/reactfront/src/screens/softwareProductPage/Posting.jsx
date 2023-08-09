@@ -1,17 +1,37 @@
-import React, { useState, useEffect, lazy } from "react";
+import React, {useState, useEffect, lazy} from "react";
 import FrontContent from "../../components/posting/FrontContent";
 import ContentForm from "../../components/posting/ContentForm";
-import { v4 as uuidv4 } from "uuid";
+import {v4 as uuidv4} from "uuid";
 import AWS from "aws-sdk";
 import axios from "../Request/RequestConfig";
 import SoftwareDescription from "../../components/posting/SoftwareDescription";
-import { useNavigate } from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 import SoftwareSoldByAndCategoryConfig from "../../components/posting/SoftwareSoldByAndCategoryConfig";
+import {Button} from "react-bootstrap";
 
 const SettingForm = lazy(() => import("../../components/account/SettingForm"));
 const PriceConfig = lazy(() => import("../../components/posting/PriceConfig"));
 
 const Posting = () => {
+
+    const name = sessionStorage.getItem('userData');
+
+    // manager또는 admin인지 확인 후 아니면 뒤로 가게 만듬
+    useEffect(() => {
+        const userRole = sessionStorage.getItem('userRole');
+        console.log(userRole);
+        if (userRole == null) {
+            alert('판매자 기능입니다.');
+            return navigate('/software');
+        }
+        if (!(userRole.match("ROLE_ADMIN") || userRole.match("ROLE_MANAGER"))) {
+            alert('판매자 기능입니다.');
+            return navigate('/software');
+        }
+
+        return;
+    }, [])
+
     const [state, setState] = useState({
         imagePreview: "",
         isDeleting: false,
@@ -26,9 +46,10 @@ const Posting = () => {
         price: "",
         originPrice: "",
         discountPrice: "",
-        discountPercentage: "",
-        soldBy: "",
-        category: ""
+        discountPercent: "",
+        soldBy: name,
+        category: "All",
+        uploadFile: ""
     });
 
     const navigate = useNavigate();
@@ -46,9 +67,10 @@ const Posting = () => {
             price,
             originPrice,
             discountPrice,
-            discountPercentage,
+            discountPercent,
             soldBy,
-            category
+            category,
+            uploadFile
         } = state;
 
         console.log(title);
@@ -62,9 +84,10 @@ const Posting = () => {
         console.log(price);
         console.log(originPrice);
         console.log(discountPrice);
-        console.log(discountPercentage);
+        console.log(discountPercent);
         console.log(soldBy);
         console.log(category);
+        console.log(uploadFile);
 
         const requestData = {
             title,
@@ -78,13 +101,15 @@ const Posting = () => {
             price,
             originPrice,
             discountPrice,
-            discountPercentage,
+            discountPercent,
             soldBy,
-            category
+            category,
+            uploadFile
         };
 
         console.log("리퀘스트데이타");
-        console.log(requestData.title);
+        console.log(requestData);
+        console.log(requestData.star);
 
         if (!requestData.title) {
             alert("제목이 없습니다.");
@@ -96,12 +121,13 @@ const Posting = () => {
 
         const accessToken = localStorage.getItem("accessToken");
         const refreshToken = localStorage.getItem("refreshToken");
+        const id = sessionStorage.getItem('userData2');
         console.log(accessToken);
         console.log(refreshToken);
 
         if (accessToken && refreshToken) {
             axios
-                .post("/manager/software/save", JSON.stringify(requestData), {
+                .post(`/manager/software/save/${id}`, JSON.stringify(requestData), {
                     headers: {
                         "Content-Type": "application/json",
                         Authorization: `Bearer ${accessToken}`,
@@ -172,7 +198,7 @@ const Posting = () => {
                         const {Bucket, Key} = params; // params 객체에서 Bucket과 Key를 추출합니다.
                         const imageUrl = `https://${Bucket}.s3.amazonaws.com/${Key}`; // 이미지의 위치(URL)을 구성합니다.
                         console.log('업로드 완료. 이미지 위치:', imageUrl);
-                        setState((prevState) => ({ ...prevState, imagePreview: imageUrl }));
+                        setState((prevState) => ({...prevState, imagePreview: imageUrl}));
                     }
                 });
         } else {
@@ -181,26 +207,30 @@ const Posting = () => {
     };
 
     const onTitleChange = async (title) => {
-        if (title) {
+        if (title.length <= 50) {
             console.log(title);
-            setState((prevState) => ({ ...prevState, title }));
+            setState((prevState) => ({...prevState, title}));
+        } else {
+            alert('제목 길이 초과');
         }
     };
 
     const onHighlightChange = async (highlights) => {
-        if (highlights) {
+        if (highlights.length <= 200) {
             const parser = new DOMParser();
             const doc = parser.parseFromString(highlights, "text/html");
             const plainText = doc.body.textContent;
             console.log(plainText);
-            setState((prevState) => ({ ...prevState, highlights: plainText }));
+            setState((prevState) => ({...prevState, highlights: plainText}));
+        } else {
+            alert('길이 초과');
         }
     };
 
     const onDescriptionChange = async (description) => {
         if (description) {
             console.log(description);
-            setState((prevState) => ({ ...prevState, description: description }));
+            setState((prevState) => ({...prevState, description: description}));
         }
     };
 
@@ -213,63 +243,66 @@ const Posting = () => {
     };
 
     const onNewTagToggle = () => {
-        setState((prevState) => ({ ...prevState, isNew: !prevState.isNew }));
+        setState((prevState) => ({...prevState, isNew: !prevState.isNew}));
         console.log(state.isNew);
     };
 
     const onHotTagToggle = () => {
-        setState((prevState) => ({ ...prevState, isHot: !prevState.isHot }));
+        setState((prevState) => ({...prevState, isHot: !prevState.isHot}));
         console.log(state.isHot);
     };
 
     const setStar = async (value) => {
-        if (value) {
-            console.log(value);
-            setState((prevState) => ({ ...prevState, star: value }));
-        }
+
+        console.log(value);
+        setState((prevState) => ({...prevState, star: value}));
+
     };
 
     const setPrice = async (price) => {
-        if (price) {
-            console.log(price);
-            setState((prevState) => ({ ...prevState, price }));
-        }
+
+        console.log(price);
+        setState((prevState) => ({...prevState, price: price}));
+
     };
 
     const setOriginPrice = async (price) => {
-        if (price) {
-            console.log(price);
-            setState((prevState) => ({ ...prevState, originPrice: price }));
-        }
+
+        console.log(price);
+        setState((prevState) => ({...prevState, originPrice: price}));
+
     };
 
     const setDiscountPrice = async (price) => {
-        if (price) {
-            console.log(price);
-            setState((prevState) => ({ ...prevState, discountPrice: price }));
-        }
+
+        console.log(price);
+        setState((prevState) => ({...prevState, discountPrice: price}));
+
     };
 
     const setDiscountPercent = async (percentage) => {
-        if (percentage) {
-            console.log(percentage);
-            setState((prevState) => ({ ...prevState, discountPercentage: percentage }));
-        }
+
+        console.log(percentage);
+        setState((prevState) => ({...prevState, discountPercent: percentage}));
+
     };
 
-    const setSoldBy = async (soldBy) => {
-        if (soldBy) {
-            console.log(soldBy);
-            setState((prevState) => ({ ...prevState, soldBy: soldBy }));
-        }
-    };
 
     const setCategory = async (category) => {
         if (category) {
             console.log(category);
-            setState((prevState) => ({ ...prevState, category: category }));
+            setState((prevState) => ({...prevState, category: category}));
         }
     };
+
+    const handleUploadFile = (props) => {
+        console.log(props);
+        setState((prevState) => ({...prevState, uploadFile: props}));
+    }
+
+    const handleBack = () => {
+        navigate(-1);
+    }
 
     return (
         <div className="container-fluid my-3">
@@ -287,7 +320,7 @@ const Posting = () => {
                         title={state.title}
                         highlights={state.highlights}
                     />
-                    <div style={{ marginTop: "-600px" }}>
+                    <div style={{marginTop: "-600px"}}>
                         <SettingForm
                             onDeliveryToggle={onDeliveryToggle}
                             deliveryEnabled={state.deliveryFree}
@@ -302,6 +335,8 @@ const Posting = () => {
                     <SoftwareDescription
                         onDescriptionChange={onDescriptionChange}
                         description={state.description}
+                        handleUploadFile={handleUploadFile}
+                        uploadFile={state.uploadFile}
                     />
                 </div>
             </div>
@@ -313,23 +348,28 @@ const Posting = () => {
                     marginTop: "auto",
                     marginLeft: "0",
                     position: "relative",
-                    top: "-200px",
+                    top: "-180px",
                 }}
             >
                 <div style={{ marginRight: "auto" }}>
                     <PriceConfig
                         setPrice={setPrice}
+                        price={state.price}
                         setOriginPrice={setOriginPrice}
+                        originPrice={state.originPrice}
                         setDiscountPrice={setDiscountPrice}
+                        discountPrice={state.discountPrice}
                         setDiscountPercent={setDiscountPercent}
+                        discountPercent={state.discountPercent}
                         setStar={setStar}
                         star={state.star}
                     />
                 </div>
-                <div style={{ marginTop : '50px', marginRight: "120px"}}>
+                <div style={{ marginTop : '50px', marginRight: "10px"}}>
                     <SoftwareSoldByAndCategoryConfig
-                        setSoldBy={setSoldBy}
+                        soldBy={state.soldBy}
                         setCategory={setCategory}
+                        category={state.category}
                     />
                 </div>
             </div>
@@ -338,20 +378,22 @@ const Posting = () => {
                 style={{
                     display: "flex",
                     justifyContent: "flex-end",
+
                     marginTop: "auto",
                     marginRight: "10px",
                     position: "relative",
-                    top: "-450px",
+                    top: "-480px",
                 }}
             >
-                <button
-                    type="submit"
-                    onClick={() => saveProduct()}
-                    style={{ marginRight: "10px" }}
-                >
-                    완료
-                </button>
-                <button style={{}}>취소</button>
+
+                    <Button
+                        type="submit"
+                        onClick={() => saveProduct()}
+                        style={{ marginRight: "10px" }}
+                    >
+                        완료
+                    </Button>
+                    <Button onClick={handleBack}>취소</Button>
             </div>
         </div>
     );

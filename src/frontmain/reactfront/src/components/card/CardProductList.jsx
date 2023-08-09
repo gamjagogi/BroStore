@@ -1,21 +1,28 @@
-import React from "react";
+import React, {useState} from "react";
 import { Link } from "react-router-dom";
 import { ReactComponent as IconStarFill } from "bootstrap-icons/icons/star-fill.svg";
 import { ReactComponent as IconTruckFill } from "bootstrap-icons/icons/truck.svg";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCartPlus, faHeart } from "@fortawesome/free-solid-svg-icons";
 
 const CardProductList = (props) => {
   const product = props.data;
-  console.log(product);
+  const MAX_DESCRIPTION_LENGTH = 100; // 표시될 최대 글자 수를 설정합니다.
+  const [showFullDescription, setShowFullDescription] = useState(false);
+
+
+  // 더보기.. 토글
+  const toggleShowFullDescription = () => {
+    setShowFullDescription((prev) => !prev);
+  };
+
+  // 설명(description) 텍스트를 최대 길이로 자릅니다.
+  const truncatedDescription = product.description.substring(0, MAX_DESCRIPTION_LENGTH);
 
   const parser = new DOMParser();
-  const doc = parser.parseFromString(product.description, "text/html");
+  const doc = parser.parseFromString(truncatedDescription, "text/html");
   console.log(doc);
-
-
   const plainText = doc.body.textContent;
   console.log(plainText);
+
 
 
   return (
@@ -39,7 +46,7 @@ const CardProductList = (props) => {
             <div>
               {product.star > 0 &&
                 Array.from({ length: 5 }, (_, key) => {
-                  if (key <= product.star)
+                  if (key <= product.star -1)
                     return (
                       <IconStarFill className="text-warning me-1" key={key} />
                     );
@@ -65,17 +72,17 @@ const CardProductList = (props) => {
         <div className="col-md-3">
           <div className="card-body">
           <div className="mb-2">
-            <span className="fw-bold h5">${product.price}</span>
+            <span className="fw-bold h5">${product.price} 원</span>
             {product.originPrice > 0 && (
               <del className="small text-muted ms-2">
-                ${product.originPrice}
+                ${product.originPrice}원
               </del>
             )}
-            {(product.discountPercentage > 0 || product.discountPrice > 0) && (
+            {(product.discountPercent > 0 || product.discountPrice > 0) && (
               <span className={`rounded p-1 bg-warning ms-2 small`}>
-                -
-                {product.discountPercentage > 0
-                  ? product.discountPercentage + "%"
+                -{product.discountPrice+'원'+' '}-
+                {product.discountPercent > 0
+                  ? product.discountPercent + "%"
                   : "$" + product.discountPrice}
               </span>
             )}
@@ -86,22 +93,6 @@ const CardProductList = (props) => {
             </p>
           )}
 
-          <div className="btn-group d-flex" role="group">
-            <button
-              type="button"
-              className="btn btn-sm btn-primary"
-              title="Add to cart"
-            >
-              <FontAwesomeIcon icon={faCartPlus} />
-            </button>
-            <button
-              type="button"
-              className="btn btn-sm btn-outline-secondary"
-              title="Add to wishlist"
-            >
-              <FontAwesomeIcon icon={faHeart} />
-            </button>
-          </div>
             <br />
 
             <div className="mb-2">

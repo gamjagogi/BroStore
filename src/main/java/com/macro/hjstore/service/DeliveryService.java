@@ -6,6 +6,7 @@ import com.macro.hjstore.dto.shop.DeliveryRequestDTO;
 import com.macro.hjstore.dto.shop.DeliveryResponseDTO;
 import com.macro.hjstore.dto.shop.SoftwareRequestDTO;
 import com.macro.hjstore.dto.shop.SoftwareResponseDTO;
+import com.macro.hjstore.model.board.Board;
 import com.macro.hjstore.model.deliveryProduct.Delivery;
 import com.macro.hjstore.model.deliveryProduct.DeliveryRepository;
 import com.macro.hjstore.model.softwareProduct.Software;
@@ -26,7 +27,7 @@ public class DeliveryService {
 
     @MyLog
     public List<DeliveryResponseDTO> 게시글목록보기(){
-        List<Delivery> deliveryList = deliveryRepository.findAll();
+        List<Delivery> deliveryList = deliveryRepository.findByAllDesc();
         List<DeliveryResponseDTO>newList = deliveryList.stream()
                 .map(delivery -> new DeliveryResponseDTO(delivery)).collect(Collectors.toList());
         return newList;
@@ -54,8 +55,44 @@ public class DeliveryService {
     }
 
     @MyLog
-    public void 게시글저장하기(DeliveryRequestDTO.Save saveDTO){
-        Delivery deliveryPS = Delivery.toEntity(saveDTO);
+    public void 게시글저장하기(Long id,DeliveryRequestDTO.Save saveDTO){
+        Delivery deliveryPS = Delivery.toEntity(id,saveDTO);
         deliveryRepository.save(deliveryPS);
+    }
+
+    @MyLog
+    @Transactional
+    public void 게시글수정하기(Long userId, Delivery deliveryPS, DeliveryRequestDTO.Update updateDTO){
+        Delivery deliveryUpdated = deliveryPS.update(userId,updateDTO);
+        System.out.println(deliveryUpdated.getName());
+        deliveryRepository.save(deliveryUpdated);
+    }
+
+    @MyLog
+    public Delivery 상품찾기(Long itemId){
+        Delivery deliveryPS = deliveryRepository.findById(itemId)
+                .orElseThrow(() -> new Exception404("상품을 찾을 수 없습니다."));
+        return deliveryPS;
+    }
+
+    @MyLog
+    public List<DeliveryResponseDTO> 판매상품가져오기(Long id){
+        try {
+            List<Delivery> sellingList = deliveryRepository.findByUserId(id);
+            List<DeliveryResponseDTO> newList = sellingList.stream()
+                    .map(delivery -> new DeliveryResponseDTO(delivery)).collect(Collectors.toList());
+            return newList;
+        }catch (Exception e){
+            throw new Exception404("판매상품을 찾지 못했습니다."+e.getMessage());
+        }
+    }
+
+
+    @MyLog
+    @Transactional
+    public void 글삭제하기(Long id){
+        Delivery deliveryPS = deliveryRepository.findById(id)
+                .orElseThrow(() -> new Exception404("해당 글을 찾을 수 없습니다."));
+        deliveryRepository.delete(deliveryPS);
     }
 }

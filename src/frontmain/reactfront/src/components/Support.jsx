@@ -12,17 +12,17 @@ const Support = (props) => {
             <span className="p-3 bg-light rounded-circle me-3 text-dark">
               <IconMegaphone width={40} height={40} />
             </span>
-            <a href="./Notice"  style={{color : "white"}}> Notice </a>
+            <a href="./Notice"  style={{color : "white", fontSize:'25px'}}> Notice </a>
           </div>
         </div>
       </div>
       <div className="col-md-4">
-        <div className="card bg-danger">
+        <div className="card bg-danger" style={{fontWeight:'bold'}}>
           <div className="card-body text-white">
             <span className="p-3 bg-light rounded-circle me-3 text-dark">
               <IconHeadset width={40} height={40} />
             </span>
-            Manager kakaotalk: gamja123
+            Manager kakao : gamja123
           </div>
         </div>
       </div>

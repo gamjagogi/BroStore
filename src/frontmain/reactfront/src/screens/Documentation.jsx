@@ -4,7 +4,7 @@ class DocumentationView extends Component {
   render() {
     return (
       <React.Fragment>
-        <div className="container mt-3">
+        <div className="container mt-3" style={{minHeight:'80vh'}}>
           <div className="row">
             <div className="col-3">
               <div
@@ -69,51 +69,9 @@ class DocumentationView extends Component {
                 >
                   <h4>Introduction</h4>
                   <hr />
-                  {/* <div className="container">
-          <div className="row g-3 justify-content-md-center">
-            <div className="col col-md-3">
-              <div className="card h-100 border-success text-center mb-3">
-                <div className="card-header text-white bg-success">
-                  Live Demo
-                </div>
-                <div className="card-body">
-                  <Link to="/demo">
-                    <span className="display-6">{link45}</span>
-                    <p className="card-text">
-                      Live sample demo for Contact Form
-                    </p>
-                  </Link>
-                </div>
-              </div>
-            </div>
-            <div className="col col-md-3">
-              <div className="card h-100 border-danger text-center mb-3">
-                <div className="card-header text-white bg-danger">
-                  Documentation
-                </div>
-                <div className="card-body">
-                  <Link to="/documentation">
-                    <span className="display-6">{file}</span>
-                    <p className="card-text">
-                      Refer to the complete documentation
-                    </p>
-                  </Link>
-                </div>
-              </div>
-            </div>
-            <div className="col col-md-3">
-              <div className="card h-100 border-info text-center mb-3">
-                <div className="card-header text-white bg-info">Download</div>
-                <div className="card-body">
-                  <Link to="/demo">
-                    <span className="display-6">{check2all}</span>
-                    <p className="card-text">Download the source code</p>
-                  </Link>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div> */}
+                  쇼핑몰 사이트를 소개합니다.
+                  <span style={{fontSize:"30px"}}> hahah</span>
+                  ㅋㅋ
                 </div>
                 <div
                   className="tab-pane fade"

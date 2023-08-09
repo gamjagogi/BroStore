@@ -26,10 +26,14 @@ const ProductListView = () => {
     useEffect(() => {
         DeliveryCategoryConfig(category)
             .then((products) => {
-                console.log('처음 렌더링');
-                console.log(products);
-                console.log(products.length);
+                // 상품들의 총 개수 설정
                 setTotalItems(products.length);
+
+                // 현재 페이지를 1로 설정하여 1페이지의 상품들만 보여줌
+                setCurrentPage(1);
+
+                // 1페이지의 상품들만 설정
+                setCurrentProducts(products.slice(0, 9));
             })
             .catch((error) => {
                 console.error("Error occurred while fetching products:", error);
@@ -42,28 +46,28 @@ const ProductListView = () => {
             .then((products) => {
                 console.log('처음 렌더링');
                 console.log(products);
-
                 setTotalItems(products.length);
-                setCurrentProducts(products);
+
+                // 현재 페이지를 1로 설정하여 1페이지의 상품들만 보여줌
+                setCurrentPage(1);
+
+                // 1페이지의 상품들만 설정
+                setCurrentProducts(products.slice(0, 9));
 
             })
             .catch((error) => {
                 console.error("Error occurred while fetching products:", error);
             });
+            return;
     }, [category]);
 
 
     const onPageChanged = (page) => {
         DeliveryCategoryConfig(category)
             .then((products) => {
-                console.log("onPageChanged 진입");
-                console.log(products);
                 const { currentPage, totalPages, pageLimit } = page;
-                console.log(currentPage, totalPages, pageLimit);
                 const offset = (currentPage - 1) * pageLimit;
-                console.log(offset);
                 const currentProducts = products.slice(offset, offset + pageLimit);
-                console.log(currentProducts);
 
                 setCurrentPage(currentPage);
                 setCurrentProducts(currentProducts);
@@ -114,11 +118,11 @@ const ProductListView = () => {
                             </div>
 
                             <div className="col-5 d-flex justify-content-end">
-                                <button aria-label="Grid" type="button" style={{ marginRight: "0.5em" }}>
-                                    <Link to="/deliveryPosting">
-                                        <FontAwesomeIcon icon={faPencilSquare} />
-                                    </Link>
-                                </button>
+                                <Link to="/deliveryPosting" style={{ marginRight: '0.5em',marginTop:'5px' }}>
+                                    <button aria-label="Grid" style={{ border: 'none', cursor: 'pointer' }}>
+                                        <FontAwesomeIcon style={{scale:'150%'}} icon={faPencilSquare} />
+                                    </button>
+                                </Link>
                                 <select className="form-select mw-180 float-start" aria-label="Default select">
                                     <option value={1}>Most Popular</option>
                                     <option value={2}>Latest items</option>
@@ -164,6 +168,7 @@ const ProductListView = () => {
                                 })}
                         </div>
                         <hr />
+
                         <Paging
                             totalRecords={totalItems}
                             pageLimit={9}

@@ -1,0 +1,12 @@
+.kakao-icon {
+    /* 아이콘과 버튼을 가로로 정렬 */
+    display: flex;
+    align-items: center;
+}
+
+.kakao-icon svg {
+    /* 아이콘의 크기와 여백 설정 */
+    width: 24px;
+    height: 15px;
+    margin-right: 5px; /* 아이콘과 텍스트 사이의 간격 조정 */
+}

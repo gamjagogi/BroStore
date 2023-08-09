@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {useNavigate} from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
 
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
@@ -7,14 +7,15 @@ import {useRef, useMemo} from 'react';
 import axios from '../../screens/Request/RequestConfig.js';
 import AWS from 'aws-sdk';
 import {v4 as uuidv4} from 'uuid';
-import {Button, Dropdown, ListGroup} from "react-bootstrap";
+import {Button, Dropdown, ListGroup, Form, FloatingLabel, InputGroup} from "react-bootstrap";
 import {Editor} from "../../components/Styles/Editorform/Editor.style";
 import Card from "react-bootstrap/Card";
+import {required} from "../../helpers/validation";
 
 
 const SoftwareDescription = (props) => {
 
-    const { onDescriptionChange,description } = props;
+    const { onDescriptionChange,description,handleUploadFile,uploadFile } = props;
 
     const quillRef = useRef(null);
 
@@ -148,11 +149,6 @@ const SoftwareDescription = (props) => {
         'div'
     ];
 
-    //
-    // const onChangeDescription = (description) => {
-    //     onDescriptionChange(description);
-    // };
-
 
 
     const crolling = () => {
@@ -268,8 +264,18 @@ const SoftwareDescription = (props) => {
     };
     // ******************************************************************^
 
+
+
+
+    const handleUploadLink = (event) => {
+        const link = event.target.value;
+        console.log(link);
+        handleUploadFile(link);
+    };
+
+
     return (
-        <div style={{display: 'flex', flexDirection: 'column', height: '100vh'}}>
+        <div style={{display: 'flex', flexDirection: 'column', height: '100vh',marginBottom:'50px'}}>
 
             <div style={{flex: '1', minHeight: '0', padding: '10px', fontSize: '14px', marginBottom: 'auto'}}>
                 {/* <ReactQuill/> 컴포넌트를 감싸는 div */}
@@ -279,6 +285,7 @@ const SoftwareDescription = (props) => {
                     modules={modules}
                     theme="snow"
                     onChange={onDescriptionChange}
+                    defaultValue={description}
                     style={{
                         flex: '1',
                         minHeight: '0',
@@ -290,29 +297,30 @@ const SoftwareDescription = (props) => {
                 />
                 <div dangerouslySetInnerHTML={{__html: description}} style={{display: 'none'}}/>
             </div>
-            <br/>
+
             <div className="footer" style={{marginTop: 'auto', padding: '10px', position: 'relative', top: '70px'}}>
                 <div style={{
                     display: 'flex',
                     justifyContent: 'flex-end',
-                    marginTop: 'auto',
+                    marginTop: '30px',
                     marginRight: '10px',
                     position: 'relative',
                     top: '-220px'
                 }}>
-                    <Dropdown show={dropdownOpen} onToggle={toggleDropdown}>
-                        <Dropdown.Toggle variant="primary" id="dropdown-basic-button">
-                            사진 라이브러리
-                        </Dropdown.Toggle>
 
-                        <Dropdown.Menu show={true} align="right">
-                            <Editor>
-                                <ListGroup as="ul" className="se-sidebar-list">
-                                    {updatedDomArray}
-                                </ListGroup>
-                            </Editor>
-                        </Dropdown.Menu>
-                    </Dropdown>
+                    <Form.Group className="col-12">
+
+                            <InputGroup.Text> Dropbox로 연결됩니다. 파일 업로드 후, 업로드 링크를 복사 붙여넣기를 해 주세요.</InputGroup.Text>
+                        <InputGroup>
+                            <InputGroup.Text>
+                                <a href="https://www.dropbox.com/transfer" target="_blank" rel="noopener noreferrer">
+                                    Dropbox
+                                </a>
+                            </InputGroup.Text>
+                            <Form.Control placeholder="업로드 링크 첨부" type="input" value={uploadFile} onChange={handleUploadLink}/>
+                        </InputGroup>
+                    </Form.Group>
+
                 </div>
 
                 <br/>

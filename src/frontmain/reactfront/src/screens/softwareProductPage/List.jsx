@@ -2,7 +2,7 @@ import React, { lazy, useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTh, faBars, faPencilSquare } from "@fortawesome/free-solid-svg-icons";
 import axios from "../Request/RequestConfig";
-import { Link } from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import CategoryConfig from "./category/CategoryConfig";
 
 const Paging = lazy(() => import("../../components/Paging"));
@@ -22,18 +22,31 @@ const ProductListView = () => {
     const [totalItems, setTotalItems] = useState(0);
     const [view, setView] = useState("list");
     const [category, setCategory] = useState('');
+    const navigate = useNavigate();
+    const userId = sessionStorage.getItem('userData2');
 
     useEffect(() => {
+        if(userId==null){
+            alert('로그인이 필요합니다.');
+            return navigate('/');
+        }
         CategoryConfig(category)
             .then((products) => {
                 console.log('처음 렌더링');
-                console.log(products);
-                console.log(products.length);
                 setTotalItems(products.length);
+
+                // 현재 페이지를 1로 설정하여 1페이지의 상품들만 보여줌
+                setCurrentPage(1);
+
+                // 1페이지의 상품들만 설정
+                setCurrentProducts(products.slice(0, 9));
             })
             .catch((error) => {
                 console.error("Error occurred while fetching products:", error);
+                alert('로그인이 필요합니다.');
+                return navigate('/');
             });
+        return;
     }, []);
 
 
@@ -42,14 +55,19 @@ const ProductListView = () => {
             .then((products) => {
                 console.log('처음 렌더링');
                 console.log(products);
-
                 setTotalItems(products.length);
-                setCurrentProducts(products);
+
+                // 현재 페이지를 1로 설정하여 1페이지의 상품들만 보여줌
+                setCurrentPage(1);
+
+                // 1페이지의 상품들만 설정
+                setCurrentProducts(products.slice(0, 9));
 
             })
             .catch((error) => {
                 console.error("Error occurred while fetching products:", error);
             });
+        return;
     }, [category]);
 
 
@@ -109,16 +127,16 @@ const ProductListView = () => {
                         <div className="row">
                             <div className="col-7">
                 <span className="align-middle fw-bold">
-                  {totalItems} results for <span className="text-warning">""</span>
+                    results <span className="text">{totalItems}</span>
                 </span>
                             </div>
 
                             <div className="col-5 d-flex justify-content-end">
-                                <button aria-label="Grid" type="button" style={{ marginRight: "0.5em" }}>
-                                    <Link to="/posting">
-                                        <FontAwesomeIcon icon={faPencilSquare} />
-                                    </Link>
-                                </button>
+                                <Link to="/posting" style={{ marginRight: '0.5em',marginTop:'5px' }}>
+                                    <button aria-label="Grid" style={{ border: 'none', cursor: 'pointer' }}>
+                                        <FontAwesomeIcon style={{scale:'150%'}} icon={faPencilSquare} />
+                                    </button>
+                                </Link>
                                 <select className="form-select mw-180 float-start" aria-label="Default select">
                                     <option value={1}>Most Popular</option>
                                     <option value={2}>Latest items</option>

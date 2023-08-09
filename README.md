@@ -1,3 +1,6 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:9fbc3dc51b4b3b84b62b5ea60c29511a8349c5337152190b66fa3ecabf08bf36
-size 33
+# BroStore-WebStore-Full-Stack-project
+스프링 부트 + 리액트 부트스트랩 웹스토어, 유저 커뮤니티 사이트
+
+## 
+
+##

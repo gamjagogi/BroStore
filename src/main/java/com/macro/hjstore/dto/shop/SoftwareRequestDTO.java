@@ -1,7 +1,10 @@
 package com.macro.hjstore.dto.shop;
 
 import com.macro.hjstore.model.softwareProduct.Software;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 
 import javax.validation.constraints.NotEmpty;
 
@@ -9,6 +12,7 @@ import javax.validation.constraints.NotEmpty;
 public class SoftwareRequestDTO {
 
     @Getter
+    @AllArgsConstructor
     public static class Save{
 
         @NotEmpty
@@ -17,7 +21,7 @@ public class SoftwareRequestDTO {
         private Integer price;
         private Integer originPrice;
         private Integer discountPrice;
-        private Integer discountPercentage;
+        private Integer discountPercent;
         private boolean isNew;
         private boolean isHot;
         private Integer star;
@@ -29,5 +33,66 @@ public class SoftwareRequestDTO {
         private String soldBy;
 
         private String category;
+
+        private String uploadFile;
+    }
+
+    @Getter
+    @AllArgsConstructor
+    public static class Update{
+
+        private Long softwareId;
+
+        @NotEmpty
+        private String title;
+
+        private String highlights;
+
+        @NotEmpty
+        private String description;
+
+        private String imagePreview;
+
+        private boolean isNew;
+
+        private boolean isHot;
+
+        private Integer star;
+
+        private Integer price;
+
+        private Integer originPrice;
+
+        private Integer discountPrice;
+
+        private String soldBy;
+
+        private String category;
+
+        private Integer discountPercent;
+
+        private String uploadFile;
+
+        public Software toEntity(Software software){
+            return Software.builder()
+                    .id(softwareId)
+                    .name(title)
+                    .highlights(highlights)
+                    .description(description)
+                    .thumbnail(imagePreview)
+                    .isNew(isNew)
+                    .isHot(isHot)
+                    .star(star)
+                    .price(price)
+                    .originPrice(originPrice)
+                    .discountPrice(discountPrice)
+                    .soldBy(soldBy)
+                    .category(category)
+                    .discountPercent(discountPercent)
+                    .uploadFile(uploadFile)
+                    .userId(software.getUserId())
+                    .createdAt(software.getCreatedAt())
+                    .build();
+        }
     }
 }
