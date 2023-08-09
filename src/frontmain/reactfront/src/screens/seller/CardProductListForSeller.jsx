@@ -14,7 +14,7 @@ const CardProductListForSeller = (props) => {
   const id = product.id;
   const category = product.category;
   const description = product.description;
-  const discountPercentage = product.discountPercentage;
+  const discountPercent = product.discountPercent;
   const discountPrice = product.discountPrice;
   const freeShipping = product.isFreeShipping?true:false;
   const isHot = product.hot?true:false;
@@ -39,7 +39,7 @@ const CardProductListForSeller = (props) => {
 
   const onFixProduct = () => {
 
-    navigate(`/selling/${product.id}?id=${id}&category=${category}&description=${description}&discountPercentage=${discountPercentage}&discountPrice=${discountPrice}&freeShipping=${freeShipping}&isHot=${isHot}&isNew=${isNew}&name=${name}&originPrice=${originPrice}&price=${price}&soldBy=${soldBy}&star=${star}&thumbnail=${thumbnail}&highlights=${highlights}`);
+    navigate(`/selling/${product.id}?id=${id}&category=${category}&description=${description}&discountPercent=${discountPercent}&discountPrice=${discountPrice}&freeShipping=${freeShipping}&isHot=${isHot}&isNew=${isNew}&name=${name}&originPrice=${originPrice}&price=${price}&soldBy=${soldBy}&star=${star}&thumbnail=${thumbnail}&highlights=${highlights}`);
   }
 
 
@@ -148,14 +148,14 @@ const CardProductListForSeller = (props) => {
             <span className="fw-bold h5">${product.price}</span>
             {product.originPrice > 0 && (
               <del className="small text-muted ms-2">
-                ${product.originPrice}
+                ${product.originPrice}원
               </del>
             )}
-            {(product.discountPercentage > 0 || product.discountPrice > 0) && (
+            {(product.discountPercent > 0 || product.discountPrice > 0) && (
               <span className={`rounded p-1 bg-warning ms-2 small`}>
-                -
-                {product.discountPercentage > 0
-                  ? product.discountPercentage + "%"
+                -{product.discountPrice+'원'+' '}-
+                {product.discountPercent > 0
+                  ? product.discountPercent + "%"
                   : "$" + product.discountPrice}
               </span>
             )}

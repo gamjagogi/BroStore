@@ -48,7 +48,7 @@ const Posting = () => {
         discountPrice: "",
         discountPercent: "",
         soldBy: name,
-        category: "",
+        category: "All",
         uploadFile: ""
     });
 
@@ -348,10 +348,10 @@ const Posting = () => {
                     marginTop: "auto",
                     marginLeft: "0",
                     position: "relative",
-                    top: "-200px",
+                    top: "-180px",
                 }}
             >
-                <div style={{marginRight: "auto"}}>
+                <div style={{ marginRight: "auto" }}>
                     <PriceConfig
                         setPrice={setPrice}
                         price={state.price}
@@ -365,38 +365,36 @@ const Posting = () => {
                         star={state.star}
                     />
                 </div>
-            </div>
-
-            <div
-                style={{
-                    display: "flex",
-                    justifyContent: "flex-end",
-                    alignItems: "center",
-                    marginTop: "auto",
-                    marginRight: "10px",
-                    position: "relative",
-                    top: "-490px",
-                }}
-            >
-                <div >
+                <div style={{ marginTop : '50px', marginRight: "10px"}}>
                     <SoftwareSoldByAndCategoryConfig
                         soldBy={state.soldBy}
                         setCategory={setCategory}
                         category={state.category}
                     />
                 </div>
-                <div style={{marginTop: '-75px'}}>
+            </div>
+
+            <div
+                style={{
+                    display: "flex",
+                    justifyContent: "flex-end",
+
+                    marginTop: "auto",
+                    marginRight: "10px",
+                    position: "relative",
+                    top: "-480px",
+                }}
+            >
+
                     <Button
                         type="submit"
                         onClick={() => saveProduct()}
-                        style={{ marginLeft: "10px" }}
+                        style={{ marginRight: "10px" }}
                     >
                         완료
                     </Button>
-                    <Button style={{ marginLeft: "10px" }} onClick={handleBack}>취소</Button>
-                </div>
+                    <Button onClick={handleBack}>취소</Button>
             </div>
-
         </div>
     );
 };

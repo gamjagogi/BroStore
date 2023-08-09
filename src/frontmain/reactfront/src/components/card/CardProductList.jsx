@@ -72,17 +72,17 @@ const CardProductList = (props) => {
         <div className="col-md-3">
           <div className="card-body">
           <div className="mb-2">
-            <span className="fw-bold h5">${product.price}</span>
+            <span className="fw-bold h5">${product.price} 원</span>
             {product.originPrice > 0 && (
               <del className="small text-muted ms-2">
-                ${product.originPrice}
+                ${product.originPrice}원
               </del>
             )}
-            {(product.discountPercentage > 0 || product.discountPrice > 0) && (
+            {(product.discountPercent > 0 || product.discountPrice > 0) && (
               <span className={`rounded p-1 bg-warning ms-2 small`}>
-                -
-                {product.discountPercentage > 0
-                  ? product.discountPercentage + "%"
+                -{product.discountPrice+'원'+' '}-
+                {product.discountPercent > 0
+                  ? product.discountPercent + "%"
                   : "$" + product.discountPrice}
               </span>
             )}

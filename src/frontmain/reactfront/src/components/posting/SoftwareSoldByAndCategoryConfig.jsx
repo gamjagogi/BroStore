@@ -18,7 +18,8 @@ const SoftwareSoldByAndCategoryConfig = (props) => {
 
     return (
         <div>
-        <DropdownButton id="dropdown-item-button" title={category?category:"Category"} style={{marginBottom:'20px'}}>
+        <DropdownButton id="dropdown-item-button" title={category?category:'All'} style={{marginBottom:'20px' ,marginRight:'-180px'}}>
+            <Dropdown.Item as="button" onClick={() => handleCategoryChange('All')} >All</Dropdown.Item>
             <Dropdown.Item as="button" onClick={() => handleCategoryChange('Web Crawling')} >Web Crawling</Dropdown.Item>
             <Dropdown.Item as="button" onClick={() => handleCategoryChange('Monitoring')}>Monitoring</Dropdown.Item>
             <Dropdown.Item as="button" onClick={() => handleCategoryChange('Macro')}>Macro</Dropdown.Item>

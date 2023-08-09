@@ -155,13 +155,13 @@ const Header = () => {
 
 
                             <a
-                                href="https://www.buymeacoffee.com/bhaumik"
+                                href="https://github.com/gamjagogi/hjStore"
                                 target="_blank"
                                 rel="noopener noreferrer"
                             >
                                 <img
-                                    src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png"
-                                    alt="BuyMeACoffee" width="120"
+                                    src="https://image-gamja.s3.ap-northeast-2.amazonaws.com/githubname.jpeg"
+                                    alt="BuyMeACoffee" width="120" height="40"
                                 />
                             </a>
                             {/* <Link to="/account/signin">Sign In</Link> |{" "}

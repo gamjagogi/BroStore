@@ -32,7 +32,7 @@ const CardDealsOfTheDay = (props) => {
             renderer={renderer}
           />
           <span className="float-end">
-            <Link to={props.to} className="btn btn-sm btn-outline-primary">
+            <Link to='/delivery' className="btn btn-sm btn-outline-primary">
               View All
             </Link>
           </span>

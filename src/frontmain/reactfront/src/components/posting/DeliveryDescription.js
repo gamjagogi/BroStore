@@ -154,122 +154,122 @@ const DeliveryDescription = (props) => {
     // };
 
 
-
-    const crolling = () => {
-        const editor = quillRef.current.getEditor();
-        const range = editor.getSelection(true);
-        const contents = editor.getContents();
-        const psUrls = [];
-        // Quill 컨텐츠의 각 블록을 순회하면서 이미지를 찾고, 식별자와 일치하는 이미지를 삭제
-        contents.ops.forEach((block) => {
-                if (block.insert && block.insert.image) {
-                    const imageIndex = contents.ops.indexOf(block);
-                    const libElement = {url: block.insert.image, index: imageIndex};
-                    psUrls.push(libElement);
-                }else {
-                    setUrls([]);
-                }
-            }
-        );
-        console.log(psUrls);
-        return psUrls;
-    };
-
-
-    // 이미지 라이브러리 로직 **********************************v
-    useEffect(() => {
-        setUrls(crolling());
-    }, [imageSrc, index]);
-
-
-
-
-
-
-    // urls배열의 요소를 하나씩 dom형태로 만들어, updatedDomArray배열에 넣는다. (기존 요소 초기화됨)
-    useEffect(() => {
-        const domArray = [urls.map((element) => {
-            const itemIndex = element.index;
-            const uniqueKey = uuidv4();
-            return (
-                <ListGroup.Item
-                    as="li"
-                    draggable="true"
-                    data-log="lib.diplomat"
-                    data-index={itemIndex}
-                    key={uniqueKey}
-                >
-                    <Card style={{width: '5rem'}}>
-                        <Card.Img variant="top" src={element.url}/>
-                        <Card.Body>
-                            <Button onClick={() => handleDelete(itemIndex)} variant="primary"
-                                    style={{width: '3rem', fontSize: '11px'}}>
-                                삭제
-                            </Button>
-                        </Card.Body>
-                    </Card>
-                </ListGroup.Item>
-            );
-        })];
-        console.log(domArray);
-        setUpdatedDomArray(domArray);
-    }, [urls]);
-
-
-    // 라이브로 특정 이미지 삭제
-    const handleDelete = async (itemIndex) => {
-        try {
-            console.log(urls);
-            console.log(itemIndex);
-            // 편집기에서 삭제할 요소 전달
-            deleteImage(itemIndex);
-        } catch (error) {
-            console.error('삭제 중 오류 발생.', error);
-            setLoginError('삭제 중 오류가 발생했습니다.');
-        }
-    };
-
-    // 이미지 편집기 삭제 로직 **********************************v
+    //
+    // const crolling = () => {
+    //     const editor = quillRef.current.getEditor();
+    //     const range = editor.getSelection(true);
+    //     const contents = editor.getContents();
+    //     const psUrls = [];
+    //     // Quill 컨텐츠의 각 블록을 순회하면서 이미지를 찾고, 식별자와 일치하는 이미지를 삭제
+    //     contents.ops.forEach((block) => {
+    //             if (block.insert && block.insert.image) {
+    //                 const imageIndex = contents.ops.indexOf(block);
+    //                 const libElement = {url: block.insert.image, index: imageIndex};
+    //                 psUrls.push(libElement);
+    //             }else {
+    //                 setUrls([]);
+    //             }
+    //         }
+    //     );
+    //     console.log(psUrls);
+    //     return psUrls;
+    // };
+    //
+    //
+    // // 이미지 라이브러리 로직 **********************************v
     // useEffect(() => {
-    //     deleteImage(deleted);
-    // }, [deleted]);
-
-    const deleteImage = (itemIndex) => {
-        const editor = quillRef.current.getEditor();
-        const range = editor.getSelection(true);
-        const contents = editor.getContents();
-        console.log('에디터');
-        console.log(contents);
-        console.log(itemIndex);
-
-        // Quill 컨텐츠의 각 블록을 순회하면서 이미지를 찾고, 식별자와 일치하는 이미지를 삭제
-        contents.ops.forEach((block) => {
-            if (block.insert && block.insert.image ) {
-                const imageIndex = contents.ops.indexOf(block);
-                console.log('quill내부');
-
-                if (imageIndex == itemIndex) {
-                    // 이미지 삭제
-                    editor.deleteText(contents.ops.indexOf(block), 1);
-                    console.log('삭제 성공!')
-                }
-            }
-        });
-        setUrls(crolling());
-    };
-    //*********************************************************^
-
-
-    // 라이브러리 열림,닫힘 초기화
-    const [dropdownOpen, setDropdownOpen] = useState(false);
-
-    const toggleDropdown = () => {
-        setDropdownOpen(!dropdownOpen);
-    };
+    //     setUrls(crolling());
+    // }, [imageSrc, index]);
+    //
+    //
+    //
+    //
+    //
+    //
+    // // urls배열의 요소를 하나씩 dom형태로 만들어, updatedDomArray배열에 넣는다. (기존 요소 초기화됨)
+    // useEffect(() => {
+    //     const domArray = [urls.map((element) => {
+    //         const itemIndex = element.index;
+    //         const uniqueKey = uuidv4();
+    //         return (
+    //             <ListGroup.Item
+    //                 as="li"
+    //                 draggable="true"
+    //                 data-log="lib.diplomat"
+    //                 data-index={itemIndex}
+    //                 key={uniqueKey}
+    //             >
+    //                 <Card style={{width: '5rem'}}>
+    //                     <Card.Img variant="top" src={element.url}/>
+    //                     <Card.Body>
+    //                         <Button onClick={() => handleDelete(itemIndex)} variant="primary"
+    //                                 style={{width: '3rem', fontSize: '11px'}}>
+    //                             삭제
+    //                         </Button>
+    //                     </Card.Body>
+    //                 </Card>
+    //             </ListGroup.Item>
+    //         );
+    //     })];
+    //     console.log(domArray);
+    //     setUpdatedDomArray(domArray);
+    // }, [urls]);
+    //
+    //
+    // // 라이브로 특정 이미지 삭제
+    // const handleDelete = async (itemIndex) => {
+    //     try {
+    //         console.log(urls);
+    //         console.log(itemIndex);
+    //         // 편집기에서 삭제할 요소 전달
+    //         deleteImage(itemIndex);
+    //     } catch (error) {
+    //         console.error('삭제 중 오류 발생.', error);
+    //         setLoginError('삭제 중 오류가 발생했습니다.');
+    //     }
+    // };
+    //
+    // // 이미지 편집기 삭제 로직 **********************************v
+    // // useEffect(() => {
+    // //     deleteImage(deleted);
+    // // }, [deleted]);
+    //
+    // const deleteImage = (itemIndex) => {
+    //     const editor = quillRef.current.getEditor();
+    //     const range = editor.getSelection(true);
+    //     const contents = editor.getContents();
+    //     console.log('에디터');
+    //     console.log(contents);
+    //     console.log(itemIndex);
+    //
+    //     // Quill 컨텐츠의 각 블록을 순회하면서 이미지를 찾고, 식별자와 일치하는 이미지를 삭제
+    //     contents.ops.forEach((block) => {
+    //         if (block.insert && block.insert.image ) {
+    //             const imageIndex = contents.ops.indexOf(block);
+    //             console.log('quill내부');
+    //
+    //             if (imageIndex == itemIndex) {
+    //                 // 이미지 삭제
+    //                 editor.deleteText(contents.ops.indexOf(block), 1);
+    //                 console.log('삭제 성공!')
+    //             }
+    //         }
+    //     });
+    //     setUrls(crolling());
+    // };
+    // //*********************************************************^
+    //
+    //
+    // // 라이브러리 열림,닫힘 초기화
+    // const [dropdownOpen, setDropdownOpen] = useState(false);
+    //
+    // const toggleDropdown = () => {
+    //     setDropdownOpen(!dropdownOpen);
+    // };
     // ******************************************************************^
 
     return (
-        <div style={{display: 'flex', flexDirection: 'column', height: '100vh'}}>
+        <div style={{display: 'flex', flexDirection: 'column', height: '100vh', marginBottom:'50px'}}>
 
             <div style={{flex: '1', minHeight: '0', padding: '10px', fontSize: '14px', marginBottom: 'auto'}}>
                 {/* <ReactQuill/> 컴포넌트를 감싸는 div */}
@@ -289,35 +289,6 @@ const DeliveryDescription = (props) => {
                         height: '80%'
                     }}
                 />
-                <div dangerouslySetInnerHTML={{__html: description}} style={{display: 'none'}}/>
-            </div>
-            <br/>
-            <div className="footer" style={{marginTop: 'auto', padding: '10px', position: 'relative', top: '70px'}}>
-                <div style={{
-                    display: 'flex',
-                    justifyContent: 'flex-end',
-                    marginTop: '30px',
-                    marginRight: '10px',
-                    position: 'relative',
-                    top: '-220px'
-                }}>
-                    <Dropdown show={dropdownOpen} onToggle={toggleDropdown}>
-                        <Dropdown.Toggle variant="primary" id="dropdown-basic-button">
-                            사진 라이브러리
-                        </Dropdown.Toggle>
-
-                        <Dropdown.Menu show={true} align="right">
-                            <Editor>
-                                <ListGroup as="ul" className="se-sidebar-list">
-                                    {updatedDomArray}
-                                </ListGroup>
-                            </Editor>
-                        </Dropdown.Menu>
-                    </Dropdown>
-                </div>
-
-                <br/>
-
             </div>
         </div>
 

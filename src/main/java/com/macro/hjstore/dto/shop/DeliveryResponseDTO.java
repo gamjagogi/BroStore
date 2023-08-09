@@ -22,7 +22,7 @@ public class DeliveryResponseDTO {
     private Integer price;
     private Integer originPrice;
     private Integer discountPrice;
-    private Integer discountPercentage;
+    private Integer discountPercent;
     private boolean isNew;
     private boolean isHot;
     private Integer star;
@@ -45,7 +45,7 @@ public class DeliveryResponseDTO {
         this.price = delivery.getPrice();
         this.originPrice = delivery.getOriginPrice();
         this.discountPrice = delivery.getDiscountPrice();
-        this.discountPercentage = delivery.getDiscountPercentage();
+        this.discountPercent = delivery.getDiscountPercent();
         this.isNew = delivery.isNew();
         this.isHot = delivery.isHot();
         this.star = delivery.getStar();
@@ -70,7 +70,7 @@ public class DeliveryResponseDTO {
         private Integer price;
         private Integer originPrice;
         private Integer discountPrice;
-        private Integer discountPercentage;
+        private Integer discountPercent;
         private boolean isNew;
         private boolean isHot;
         private Integer star;
@@ -91,7 +91,7 @@ public class DeliveryResponseDTO {
             this.price = delivery.getPrice();
             this.originPrice = delivery.getOriginPrice();
             this.discountPrice = delivery.getDiscountPrice();
-            this.discountPercentage = delivery.getDiscountPercentage();
+            this.discountPercent = delivery.getDiscountPercent();
             this.isNew = delivery.isNew();
             this.isHot = delivery.isHot();
             this.star = delivery.getStar();
@@ -119,7 +119,7 @@ public class DeliveryResponseDTO {
         private Integer price;
         private Integer originPrice;
         private Integer discountPrice;
-        private Integer discountPercentage;
+        private Integer discountPercent;
         private boolean isNew;
         private boolean isHot;
         private Integer star;
@@ -145,7 +145,7 @@ public class DeliveryResponseDTO {
             this.price = delivery.getPrice();
             this.originPrice = delivery.getOriginPrice();
             this.discountPrice = delivery.getDiscountPrice();
-            this.discountPercentage = delivery.getDiscountPercentage();
+            this.discountPercent = delivery.getDiscountPercent();
             this.isNew = delivery.isNew();
             this.isHot = delivery.isHot();
             this.star = delivery.getStar();

@@ -7,6 +7,7 @@ import axios from "../Request/RequestConfig";
 import {useNavigate, useSearchParams} from "react-router-dom";
 import DeliveryDescription from "../../components/posting/DeliveryDescription";
 import DeliverySoldByAndCategoryConfig from "../../components/posting/DeliverySoldByAndCategoryConfig";
+import {Button} from "react-bootstrap";
 
 const SettingForm = lazy(() => import("../../components/account/SettingForm"));
 const PriceConfig = lazy(() => import("../../components/posting/PriceConfig"));
@@ -32,7 +33,7 @@ const SellingProductFix = () => {
         discountPrice: searchParams.get("discountPrice"),
         discountPercent: searchParams.get("discountPercent"),
         soldBy: searchParams.get("soldBy"),
-        category: searchParams.get("category")?searchParams.get("category"):"Category"
+        category: searchParams.get("category")?searchParams.get("category"):"All"
     });
 
     const navigate = useNavigate();
@@ -266,12 +267,7 @@ const SellingProductFix = () => {
 
     };
 
-    // const setSoldBy = async (soldBy) => {
-    //     if (soldBy) {
-    //         console.log(soldBy);
-    //         setState((prevState) => ({ ...prevState, soldBy: soldBy }));
-    //     }
-    // };
+
 
     const setCategory = async (category) => {
         if (category) {
@@ -326,7 +322,7 @@ const SellingProductFix = () => {
                     marginTop: "auto",
                     marginLeft: "0",
                     position: "relative",
-                    top: "-200px",
+                    top: "-180px",
                 }}
             >
                 <div style={{ marginRight: "auto" }}>
@@ -343,7 +339,7 @@ const SellingProductFix = () => {
                         star={state.star}
                     />
                 </div>
-                <div style={{ marginTop : '50px', marginRight: "120px"}}>
+                <div style={{ marginTop : '50px', marginRight: "10px"}}>
                     <DeliverySoldByAndCategoryConfig
                         name={state.soldBy}
                         setCategory={setCategory}
@@ -359,17 +355,17 @@ const SellingProductFix = () => {
                     marginTop: "auto",
                     marginRight: "10px",
                     position: "relative",
-                    top: "-450px",
+                    top: "-480px",
                 }}
             >
-                <button
+                <Button
                     type="submit"
                     onClick={() => saveProduct()}
                     style={{ marginRight: "10px" }}
                 >
                     완료
-                </button>
-                <button onClick={onClickBack}>취소</button>
+                </Button>
+                <Button onClick={onClickBack}>취소</Button>
             </div>
         </div>
     );

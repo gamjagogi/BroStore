@@ -201,7 +201,7 @@ const QuestionBoard = () => {
                             <h4 className="fw-bold">{board.title}</h4>
 
                         </div>
-                        <div className="col-4"> <a href={`/question/detail/${board.id}`}>상세보기</a></div>
+                        <div className="col-4"> <a style={{fontSize:'25px'}} href={`/question/detail/${board.id}`}>상세보기</a></div>
                         <div className="col-4">
                             <div>작성자 : {board.username}</div>
                             <div>카테고리 : {board.category=='RequestSeller'?'판매자신청':'All'}</div>

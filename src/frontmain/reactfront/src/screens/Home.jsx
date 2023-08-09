@@ -121,7 +121,7 @@ class Home extends Component {
                 </div>
 
                 <div className="bg-info bg-gradient p-3 text-center mb-3">
-                    <h4 className="m-0">HJ Store</h4>
+                    <h4 className="m-0" style={{fontWeight:'bold'}}>BRO Store</h4>
                 </div>
 
                 <div className="container">
@@ -147,7 +147,7 @@ class Home extends Component {
                             </Link>
                         </div>
                         <div className="col-md-3">
-                            <Link to="/my" className="text-decoration-none">
+                            <Link to="/" className="text-decoration-none">
                                 <img
                                     src="../../images/category/smartwatch.webp"
                                     className="img-fluid rounded-circle"
@@ -157,7 +157,7 @@ class Home extends Component {
                             </Link>
                         </div>
                         <div className="col-md-3">
-                            <Link to="/payments" className="text-decoration-none">
+                            <Link to="/" className="text-decoration-none">
                                 <img
                                     src="../../images/category/footwear.webp"
                                     className="img-fluid rounded-circle"

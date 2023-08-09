@@ -403,7 +403,7 @@ export default function QuestionDetailPage() {
         <div style={{height: '200vh', marginTop: '30px'}}>
             <Container fluid>
                 <div className="col-3" style={{marginBottom: '10px'}}>
-                    <label style={{fontWeight: 'bold'}}>카테고리: {frontCategory}</label>
+                    <label style={{fontWeight: 'bold', fontSize:'20px'}}>Category : {frontCategory}</label>
                 </div>
                 <Card border="primary">
                     <Card.Header style={{ fontSize: '30px'}}>

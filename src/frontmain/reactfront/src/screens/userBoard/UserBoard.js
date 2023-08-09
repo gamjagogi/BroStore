@@ -138,7 +138,7 @@ const UserBoard = () => {
                             <h4 className="fw-bold">{board.title}</h4>
 
                         </div>
-                        <div className="col-4"> <a href={`/detail/${board.id}`}>상세보기</a></div>
+                        <div className="col-4"> <a style={{fontSize:'25px'}} href={`/detail/${board.id}`}>상세보기</a></div>
                         <div className="col-4">
                             <div>작성자 : {board.username}</div>
                         </div>

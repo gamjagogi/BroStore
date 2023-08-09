@@ -297,7 +297,7 @@ const SoftwareDescription = (props) => {
                 />
                 <div dangerouslySetInnerHTML={{__html: description}} style={{display: 'none'}}/>
             </div>
-            <br/>
+
             <div className="footer" style={{marginTop: 'auto', padding: '10px', position: 'relative', top: '70px'}}>
                 <div style={{
                     display: 'flex',
@@ -308,7 +308,7 @@ const SoftwareDescription = (props) => {
                     top: '-220px'
                 }}>
 
-                    <Form.Group className="container">
+                    <Form.Group className="col-12">
 
                             <InputGroup.Text> Dropbox로 연결됩니다. 파일 업로드 후, 업로드 링크를 복사 붙여넣기를 해 주세요.</InputGroup.Text>
                         <InputGroup>
@@ -321,19 +321,6 @@ const SoftwareDescription = (props) => {
                         </InputGroup>
                     </Form.Group>
 
-                    <Dropdown show={dropdownOpen} onToggle={toggleDropdown} style={{marginLeft:'50px'}}>
-                        <Dropdown.Toggle variant="primary" id="dropdown-basic-button">
-                            사진 라이브러리
-                        </Dropdown.Toggle>
-
-                        <Dropdown.Menu show={true} align="right">
-                            <Editor>
-                                <ListGroup as="ul" className="se-sidebar-list">
-                                    {updatedDomArray}
-                                </ListGroup>
-                            </Editor>
-                        </Dropdown.Menu>
-                    </Dropdown>
                 </div>
 
                 <br/>

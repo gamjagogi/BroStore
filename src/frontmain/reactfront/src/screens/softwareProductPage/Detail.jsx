@@ -179,7 +179,7 @@ const Detail = () => {
 
 
   const handleDownload = () => {
-    window.location.href = uploadFile;
+      window.location.href = uploadFile;
   }
 
 

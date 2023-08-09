@@ -37,7 +37,7 @@ const DeliveryDetail = () => {
     const [discountPrice, setDiscountPrice] = useState('');
     const [highlights, setHighlights] = useState('');
     const [description, setDescription] = useState('');
-
+    const [discountPercent, setDiscountPercent] = useState('');
     const [soldBy, setSoldBy] = useState('');
     const [category, setCategory] = useState('');
     const [star, setStar] = useState(5);
@@ -74,6 +74,7 @@ const DeliveryDetail = () => {
                 setStar(postData.data.star);
                 setSoldBy(postData.data.soldBy);
                 setCategory(postData.data.category);
+                setDiscountPercent(postData.data.discountPercent);
 
             });
         return;
@@ -246,13 +247,21 @@ const DeliveryDetail = () => {
 
                             <div className="mb-3">
                                 <span className="fw-bold h5 me-2">{price + ' 원'}</span>
-                                <del className="small text-muted me-2">{originPrice}</del>
+                                <del className="small text-muted me-2">{originPrice}원</del>
                                 {discountPrice !== null && (
                                     <span className="rounded p-1 bg-warning me-2 small">
-                                          {'-' + discountPrice}
+                                          {'-' + discountPrice}원
                                     </span>
+
+                                )}
+                                {discountPercent !== null && (
+                                    <span className="rounded p-1 bg-warning me-2 small">
+                                          -{discountPercent}%
+                                    </span>
+
                                 )}
                             </div>
+
                             <div className="mb-3">
                                 <div className="d-inline float-start me-2">
                                     <div className="input-group input-group-sm mw-140">

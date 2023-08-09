@@ -108,18 +108,7 @@ const CardProductGridForSeller = (props) => {
           Hot
         </span>
       )}
-      {(product.discountPercentage > 0 || product.discountPrice > 0) && (
-        <span
-          className={`rounded position-absolute p-2 bg-warning  ms-2 small ${
-            product.isNew ? "mt-5" : "mt-2"
-          }`}
-        >
-          -
-          {product.discountPercentage > 0
-            ? product.discountPercentage + "%"
-            : "$" + product.discountPrice}
-        </span>
-      )}
+
       <div className="card-body">
         <h6 className="card-subtitle mb-2">
           <Link to={product.link + product.id} className="text-decoration-none">
@@ -127,9 +116,9 @@ const CardProductGridForSeller = (props) => {
           </Link>
         </h6>
         <div className="my-2">
-          <span className="fw-bold h5">${product.price}</span>
+          <span className="fw-bold h5">${product.price}원</span>
           {product.originPrice > 0 && (
-            <del className="small text-muted ms-2">${product.originPrice}</del>
+            <del className="small text-muted ms-2">${product.originPrice}원</del>
           )}
           <span className="ms-2">
             {Array.from({ length: product.star }, (_, key) => (

@@ -46,8 +46,8 @@ public class Delivery {
     @Column(name = "discountPrice",nullable = true)
     private Integer discountPrice;
 
-    @Column(name = "discountPercentage",nullable = true)
-    private Integer discountPercentage;
+    @Column(name = "discountPercent",nullable = true)
+    private Integer discountPercent;
 
     @Column(name = "isNew",nullable = true)
     private boolean isNew;
@@ -93,7 +93,7 @@ public class Delivery {
 
 
     @Builder
-    public Delivery(Long id, String sku, String name,Long userId, String thumbnail, String img, Integer price, Integer originPrice, Integer discountPrice, Integer discountPercentage, boolean isNew, boolean isHot, Integer star, boolean isFreeShipping, String highlights, String description, String soldBy, String category, LocalDateTime createdAt, LocalDateTime updatedAt) {
+    public Delivery(Long id, String sku, String name,Long userId, String thumbnail, String img, Integer price, Integer originPrice, Integer discountPrice, Integer discountPercent, boolean isNew, boolean isHot, Integer star, boolean isFreeShipping, String highlights, String description, String soldBy, String category, LocalDateTime createdAt, LocalDateTime updatedAt) {
         this.id = id;
         this.sku = sku;
         this.name = name;
@@ -102,7 +102,7 @@ public class Delivery {
         this.price = price;
         this.originPrice = originPrice;
         this.discountPrice = discountPrice;
-        this.discountPercentage = discountPercentage;
+        this.discountPercent = discountPercent;
         this.isNew = isNew;
         this.isHot = isHot;
         this.star = star;
@@ -128,7 +128,7 @@ public class Delivery {
                 .price(savePS.getPrice())
                 .originPrice(savePS.getOriginPrice())
                 .discountPrice(savePS.getDiscountPrice())
-                .discountPercentage(savePS.getDiscountPercentage())
+                .discountPercent(savePS.getDiscountPercent())
                 .isNew(savePS.isNew())
                 .isHot(savePS.isHot())
                 .star(savePS.getStar())
@@ -148,7 +148,7 @@ public class Delivery {
         this.price = updatePS.getPrice();
         this.originPrice = updatePS.getOriginPrice();
         this.discountPrice = updatePS.getDiscountPrice();
-        this.discountPercentage = updatePS.getDiscountPercentage();
+        this.discountPercent = updatePS.getDiscountPercent();
         this.isHot = updatePS.isHot();
         this.isNew = updatePS.isNew();
         this.star = updatePS.getStar();

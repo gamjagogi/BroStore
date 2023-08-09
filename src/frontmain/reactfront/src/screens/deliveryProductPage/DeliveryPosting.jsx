@@ -7,6 +7,7 @@ import axios from "../Request/RequestConfig";
 import { useNavigate } from "react-router-dom";
 import DeliveryDescription from "../../components/posting/DeliveryDescription";
 import DeliverySoldByAndCategoryConfig from "../../components/posting/DeliverySoldByAndCategoryConfig";
+import {Button} from "react-bootstrap";
 
 const SettingForm = lazy(() => import("../../components/account/SettingForm"));
 const PriceConfig = lazy(() => import("../../components/posting/PriceConfig"));
@@ -42,9 +43,9 @@ const DeliveryPosting = () => {
         price: "",
         originPrice: "",
         discountPrice: "",
-        discountPercentage: "",
+        discountPercent: "",
         soldBy: name,
-        category: ""
+        category: "All"
     });
 
     const navigate = useNavigate();
@@ -62,7 +63,7 @@ const DeliveryPosting = () => {
             price,
             originPrice,
             discountPrice,
-            discountPercentage,
+            discountPercent,
             soldBy,
             category
         } = state;
@@ -78,7 +79,7 @@ const DeliveryPosting = () => {
         console.log(price);
         console.log(originPrice);
         console.log(discountPrice);
-        console.log(discountPercentage);
+        console.log(discountPercent);
         console.log(soldBy);
         console.log(category);
 
@@ -94,7 +95,7 @@ const DeliveryPosting = () => {
             price,
             originPrice,
             discountPrice,
-            discountPercentage,
+            discountPercent,
             soldBy,
             category
         };
@@ -278,12 +279,6 @@ const DeliveryPosting = () => {
 
     };
 
-    // const setSoldBy = async (soldBy) => {
-    //     if (soldBy) {
-    //         console.log(soldBy);
-    //         setState((prevState) => ({ ...prevState, soldBy: soldBy }));
-    //     }
-    // };
 
     const setCategory = async (category) => {
         if (category) {
@@ -338,7 +333,7 @@ const DeliveryPosting = () => {
                     marginTop: "auto",
                     marginLeft: "0",
                     position: "relative",
-                    top: "-200px",
+                    top: "-180px",
                 }}
             >
                 <div style={{ marginRight: "auto" }}>
@@ -355,7 +350,7 @@ const DeliveryPosting = () => {
                         star={state.star}
                     />
                 </div>
-                <div style={{ marginTop : '50px', marginRight: "120px"}}>
+                <div style={{ marginTop : '50px', marginRight: "10px"}}>
                     <DeliverySoldByAndCategoryConfig
                         name={name}
                         category={state.category}
@@ -371,17 +366,17 @@ const DeliveryPosting = () => {
                     marginTop: "auto",
                     marginRight: "10px",
                     position: "relative",
-                    top: "-450px",
+                    top: "-480px",
                 }}
             >
-                <button
+                <Button
                     type="submit"
                     onClick={() => saveProduct()}
                     style={{ marginRight: "10px" }}
                 >
                     완료
-                </button>
-                <button style={{handleBack}}>취소</button>
+                </Button>
+                <Button onClick={handleBack}>취소</Button>
             </div>
         </div>
     );

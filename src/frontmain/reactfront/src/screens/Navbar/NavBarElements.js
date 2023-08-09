@@ -18,16 +18,16 @@ const NavBarElements = () => {
     return (
         <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
             <Container>
-                <Navbar.Brand href="/">HJ-Store</Navbar.Brand>
+                <Navbar.Brand href="/">BRO-Store</Navbar.Brand>
                 <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                 <Navbar.Collapse id="responsive-navbar-nav">
                     <Nav className="me-auto">
                         <Nav.Link href="/software" className="navbar-text">Software Product</Nav.Link>
                         <Nav.Link href="/delivery" className="navbar-text">Delivery Product</Nav.Link>
                         <Nav.Link href="/board" className="navbar-text">User Board</Nav.Link>
-                        <div className="container col-4">
+                        <div className="container col-6">
                         <NavDropdown title="ACCOUNT" id="collasible-nav-dropdown" >
-                            <NavDropdown.Item style={{ width: '50%', height: '100px' }}>
+                            <NavDropdown.Item style={{ width: '100%', height: '100px' }}>
                                 <UserHeader />
                             </NavDropdown.Item>
                         </NavDropdown>
