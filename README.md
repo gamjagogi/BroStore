@@ -41,7 +41,6 @@
 - 광고 상품 이미지
 
 #### 로그인 - <a href="" >상세보기 - WIKI 이동</a>
-- DB값 검증
 - ID찾기, PW찾고, 입력된 PW를 비교 검증
 - 시큐리티 사용, 로그인 시, AuthenticationManager에 추가한 CustomAuthenticationProvider()를 통해, MyUserDetailsService로
   가져온, DB정보와 일치하는지 확인
