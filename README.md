@@ -42,9 +42,7 @@
 
 #### 로그인 - <a href="" >상세보기 - WIKI 이동</a>
 - ID찾기, PW찾고, 입력된 PW를 비교 검증
-- 시큐리티 사용, 로그인 시, AuthenticationManager에 추가한 CustomAuthenticationProvider()를 통해, MyUserDetailsService로
-  가져온, DB정보와 일치하는지 확인
-- 로그인 시, JWT access토큰, refresh토큰 발급. 차후 서버에 모든 요청에, 시큐리티 설정을 토대로, 시큐리티 인증절차와 토큰 검증을 거침.
+- 시큐리티 사용
 - 카카오 로그인 (kakao Rest api)
 
 #### 회원가입 - <a href="" >상세보기 - WIKI 이동</a>
