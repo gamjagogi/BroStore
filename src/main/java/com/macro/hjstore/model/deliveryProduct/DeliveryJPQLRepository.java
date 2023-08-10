@@ -1,6 +1,6 @@
 package com.macro.hjstore.model.deliveryProduct;
 
-import com.macro.hjstore.model.board.Board;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -19,14 +19,6 @@ public class DeliveryJPQLRepository {
 
         return deliveryListPS;
     }
-
-//    public List<Delivery,Board> findBoardAndDeliveryByKeyword(String keyword) {
-//        List<Delivery,Board> deliveryListPS = em.createQuery("select Delivery,Board from Board.title ,Delivery.name where Delivery.name like:keyword or Board.title like :keyword")
-//                .setParameter("keyword", "%" + keyword + "%")
-//                .getResultList();
-//
-//        return deliveryListPS;
-//    }
 }
 
 

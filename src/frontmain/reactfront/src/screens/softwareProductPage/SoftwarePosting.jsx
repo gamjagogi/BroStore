@@ -9,10 +9,10 @@ import {useNavigate} from "react-router-dom";
 import SoftwareSoldByAndCategoryConfig from "../../components/posting/SoftwareSoldByAndCategoryConfig";
 import {Button} from "react-bootstrap";
 
-const SettingForm = lazy(() => import("../../components/account/SettingForm"));
+const SettingForm = lazy(() => import("../../components/account/SettingFormForSoftware"));
 const PriceConfig = lazy(() => import("../../components/posting/PriceConfig"));
 
-const Posting = () => {
+const SoftwarePosting = () => {
 
     const name = sessionStorage.getItem('userData');
 
@@ -399,4 +399,4 @@ const Posting = () => {
     );
 };
 
-export default Posting;
+export default SoftwarePosting;

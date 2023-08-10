@@ -56,7 +56,11 @@ public class DeliveryService {
 
     @MyLog
     public void 게시글저장하기(Long id,DeliveryRequestDTO.Save saveDTO){
+        System.out.println(saveDTO.isHot());
+        System.out.println(saveDTO.isNew());
         Delivery deliveryPS = Delivery.toEntity(id,saveDTO);
+        System.out.println(deliveryPS.isHot());
+        System.out.println(deliveryPS.isNew());
         deliveryRepository.save(deliveryPS);
     }
 

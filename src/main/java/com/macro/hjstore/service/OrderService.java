@@ -31,13 +31,13 @@ public class OrderService {
     }
 
     @MyLog
-    public OrderDTO.ResponseOrderSheet 주문목록가져오기(String orderCode){
+    public OrderDTO.ResponseOrderSheet 주문목록가져오기(String orderCode,String customerKey){
 
         Order orderPS = orderRepository.findByOrderId(orderCode)
                 .orElseThrow(()-> new Exception404("해당 주문목록을 찾을 수 없습니다."));
 
         System.out.println("인코딩전");
-        OrderDTO.ResponseOrderSheet responseOrderSheet = new OrderDTO.ResponseOrderSheet(orderPS);
+        OrderDTO.ResponseOrderSheet responseOrderSheet = new OrderDTO.ResponseOrderSheet(orderPS,customerKey);
         System.out.println("인코딩완료");
         return responseOrderSheet;
     }

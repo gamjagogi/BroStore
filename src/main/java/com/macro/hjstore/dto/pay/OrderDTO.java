@@ -123,15 +123,18 @@ public class OrderDTO {
 
         private String customerEmail;
 
+        private String customerKey;
+
         private Integer price;
 
-        public ResponseOrderSheet(Order order){
+        public ResponseOrderSheet(Order order,String customerKey){
 
             this.orderCode = order.getOrderCode();
             this.orderName = order.getOrderName();
             this.customerName = order.getUserName();
             this.customerEmail = order.getUserEmail();
             this.price = order.getOrderPrice();
+            this.customerKey = customerKey;
         }
     }
     @Getter

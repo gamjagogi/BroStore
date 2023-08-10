@@ -2,16 +2,6 @@ import React, {useEffect, useState} from 'react';
 import DaumPostcode from "react-daum-postcode";
 
 const PopupPostCode = (props) => {
-    // const [fAddress,setFaddress ] = useState('');
-    // const [zCode, setZcode] = useState('');
-    //
-    // const { setFullAddress , setZoneCode } = props;
-    //
-    // useEffect(() => {
-    //     setFullAddress(fAddress);
-    //     setZoneCode(zCode);
-    // }, [fAddress,zCode]);
-
 
 
     // 우편번호 검색 후 주소 클릭 시 실행될 함수, data callback 용

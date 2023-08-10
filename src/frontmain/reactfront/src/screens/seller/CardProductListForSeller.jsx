@@ -16,10 +16,10 @@ const CardProductListForSeller = (props) => {
   const description = product.description;
   const discountPercent = product.discountPercent;
   const discountPrice = product.discountPrice;
-  const freeShipping = product.isFreeShipping?true:false;
-  const isHot = product.hot?true:false;
+  const freeShipping = product.freeShipping==true?product.freeShipping:false;
+  const isHot = product.hot==true?product.hot:false;
   const name = product.name;
-  const isNew = product.new?true:false;
+  const isNew = product.new==true?product.new:false;
   const originPrice = product.originPrice?product.originPrice:0;
   const price = product.price;
   const soldBy = product.soldBy;

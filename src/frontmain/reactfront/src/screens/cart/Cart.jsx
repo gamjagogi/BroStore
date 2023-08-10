@@ -7,7 +7,7 @@ import { ReactComponent as IconTruck } from "bootstrap-icons/icons/truck.svg";
 import {useNavigate} from "react-router-dom";
 
 import axios from "../Request/RequestConfig";
-//import CartProduct from "./CartProduct";
+
 
 const CartProduct = lazy(() => import("./CartProduct"))
 
@@ -180,14 +180,14 @@ const CartView = () => {
                   <table className="table table-borderless">
                     <thead className="text-muted">
                     <tr className="small text-uppercase">
-                      <th scope="col">Product</th>
-                      <th scope="col" width={120}>
+                      <th scope="col"width={150}>Product</th>
+                      <th scope="col" width={70}>
                         Quantity
                       </th>
-                      <th scope="col" width={150}>
+                      <th scope="col" width={70}>
                         Price
                       </th>
-                      <th scope="col" className="text-end" width={130}></th>
+                      <th scope="col" className="text-end" width={50}></th>
                     </tr>
                     </thead>
                     {itemList.map((item, idx) => {
@@ -263,22 +263,20 @@ const CartView = () => {
           <div className="container">
             <h6>Payment and refund policy</h6>
             <p>
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-              enim ad minim veniam, quis nostrud exercitation ullamco laboris
-              nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
-              reprehenderit in voluptate velit esse cillum dolore eu fugiat
-              nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-              sunt in culpa qui officia deserunt mollit anim id est laborum.
+              대금 결제 및 정산 방식 관련 전자금융거래법, 여신전문금융업법, 외국환거래법 등 규제의 준수(특히, 판매법인과 쇼핑몰운영법인이 다른 경우나 해외법인이 관련되어 있는 경우, 전자금융업 license 및/또는 외국환업무 license 필요 여부를 포함하여 보다 면밀한 검토가 필요함)
+              제3자의 결제서비스(전자지급결제대행, 에스크로, 통신과금 등)를 이용하는 경우 제3자의 license 구비 여부 및 관련 규제 준수 여부 등 검토
+              포인트 등을 지급하는 경우, 선불전자지급수단 license 필요 여부 등 검토
             </p>
             <p>
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-              enim ad minim veniam, quis nostrud exercitation ullamco laboris
-              nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
-              reprehenderit in voluptate velit esse cillum dolore eu fugiat
-              nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-              sunt in culpa qui officia deserunt mollit anim id est laborum.
+              온라인 쇼핑몰 회원가입 및 고객안내 등 과정에서 개인정보를 수집·이용하거나 수집된 개인정보를 제3자에 제공 또는 처리위탁하는 업무, 고객에 대한 광고성 정보 전송, 휴면고객 정보 관리 등을 처리하는 과정에서 통상적으로 다음의 규제 준수 여부가 문제가 됩니다.
+
+              개인정보 수집·이용, 제공, 위탁 등에 필요한 고지 및 동의취득 준수 여부(선택동의·필수동의 항목의 구분 포함)
+              행태정보1 처리 및 온라인 맞춤형 광고 관련 유의사항
+              광고성 정보 전송 시 준수하여야 하는 절차 점검
+              개인정보 처리방침 및 이용약관 고지
+              장기 미이용 고객의 개인정보 분리보관 내지 파기 의무 준수여부
+              매출액 및 이용자 규모에 따라 정보보호관리체계(ISMS) 인증 필요 여부 검토
+              정보보호최고책임자(CISO) 및 개인정보보호책임자(CPO) 자격요건 검토 및 지정∙신고
             </p>
           </div>
         </div>

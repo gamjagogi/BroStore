@@ -101,6 +101,7 @@ const DeliveryDescription = (props) => {
 
                         // 이미지 업로드 후 커서 이미지 한칸 옆으로 이동.
                         editor.setSelection(range.index + 1);
+                        return;
                     }
                 });
         });

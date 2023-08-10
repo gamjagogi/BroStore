@@ -66,8 +66,8 @@ const Header = () => {
                         <div className="col-md-3 text-center">
                             <Link to="/">
                                 <img
-                                    alt="logo"
-                                    src="../../images/logo.webp"
+                                    src="https://image-gamja.s3.ap-northeast-2.amazonaws.com/2023-08-10+23+23+17.png"
+                                    alt="BuyMeACoffee" width="120" height="40"
                                 />
                             </Link>
                         </div>

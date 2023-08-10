@@ -32,6 +32,7 @@ const DeliveryDetail = () => {
     const [imgSrc, setImgSrc] = useState('');
     const [isNew, setIsNew] = useState('');
     const [isHot, setIsHot] = useState('');
+    const [freeShipping, setFreeShipping] = useState(false);
     const [price, setPrice] = useState('');
     const [originPrice, setOriginPrice] = useState('');
     const [discountPrice, setDiscountPrice] = useState('');
@@ -75,6 +76,8 @@ const DeliveryDetail = () => {
                 setSoldBy(postData.data.soldBy);
                 setCategory(postData.data.category);
                 setDiscountPercent(postData.data.discountPercent);
+                setFreeShipping(postData.data.freeShipping);
+
 
             });
         return;
@@ -221,8 +224,9 @@ const DeliveryDetail = () => {
                             <h1 className="h5 d-inline me-2" style={commentRowStyle}>
                                 {name}
                             </h1>
-                            <span className="badge bg-success me-2">{isNew}</span>
-                            <span className="badge bg-danger me-2">{isHot}</span>
+                            <span className="badge bg-success me-2">{isNew==true?'New':''}</span>
+                            <span className="badge bg-danger me-2">{isHot==true?'Hot':''}</span>
+                            <span className="badge bg-info me-2">{freeShipping==true?'Delivery Free':''}</span>
                             <div className="mb-3">
                                 <div>
                                     {star > 0 &&
