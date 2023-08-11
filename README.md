@@ -43,12 +43,12 @@
 - 타임 세일 상품
 - 광고 상품 이미지
 
-#### 로그인 - <a href="" >상세보기 - WIKI 이동</a>
+#### 로그인 - <a href="https://github.com/gamjagogi/hjStore/wiki/%EC%A3%BC%EC%9A%94-%EA%B8%B0%EB%8A%A5-%EC%86%8C%EA%B0%9C(Login,Join)" >상세보기 - WIKI 이동</a>
 - ID찾기, PW찾고, 입력된 PW를 비교 검증
 - 시큐리티 사용
 - 카카오 로그인 (kakao Rest api)
 
-#### 회원가입 - <a href="" >상세보기 - WIKI 이동</a>
+#### 회원가입 - <a href="https://github.com/gamjagogi/hjStore/wiki/%EC%A3%BC%EC%9A%94-%EA%B8%B0%EB%8A%A5-%EC%86%8C%EA%B0%9C(Login,Join)" >상세보기 - WIKI 이동</a>
 - ID 중복체크
 - 회원가입시, uuid로 회원 key 생성
 
