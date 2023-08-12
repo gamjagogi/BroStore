@@ -9,6 +9,6 @@ import java.util.Optional;
 
 public interface SellerRepository extends JpaRepository<Seller,Long> {
 
-    @Query("select s from Seller s where s.sellerUserId =:sellerUserId")
+    @Query("select s from Seller s where s.sellerUserId =:sellerUserId order by s.id desc")
     List<Seller> findBySellerId(@Param("sellerUserId") Long sellerUserId);
 }

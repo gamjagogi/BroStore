@@ -1,7 +1,6 @@
 package com.macro.hjstore.model.question;
 
-import com.macro.hjstore.model.deliveryProduct.Delivery;
-import com.macro.hjstore.model.question.Question;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

@@ -28,11 +28,11 @@ public class SellerController {
         if (userDetails.getUser().getId() == id) {
             // Errors errors 는 @RequestBody 뒤에 붙어야한다.
             try {
-                System.out.println("판매자오더진입!");
+
                 List<Seller> sellerListPS = sellerService.판매자아이디로주문서찾기(id);
-                System.out.println("셀러찾음");
+
                 List<SellerDTO.ResponseOrders>responseOrders = sellerListPS.stream().map(seller -> new SellerDTO.ResponseOrders(seller)).collect(Collectors.toList());
-                System.out.println("dto로 만듬!!!");
+           ;
                 ResponseDTO<?>responseDTO = new ResponseDTO<>(responseOrders);
                 return ResponseEntity.ok().body(responseDTO);
             }catch (Exception e){

@@ -16,6 +16,7 @@ const Header = () => {
     const [userName, setUserName] = useState('');
     const userDataString = sessionStorage.getItem('userData');
     const userData = userDataString ? JSON.parse(userDataString) : null;
+    const role = sessionStorage.getItem('userRole');
 
     const navigate = useNavigate();
     const location = useLocation();
@@ -54,6 +55,7 @@ const Header = () => {
         if (userData) {
             setIsLoggedIn(true);
             setUserName(userData.username);
+            console.log(role);
         }
         return;
     }, [userData]);
@@ -112,10 +114,18 @@ const Header = () => {
                                         <hr className="dropdown-divider"/>
                                     </li>
                                     <li>
-                                        <Link className="dropdown-item" to="/account/notification">
+                                        <Link className="dropdown-item" to="/admin/adConfig">
                                             <IconBellFill className="text-primary"/> Notification
                                         </Link>
                                     </li>
+                                    <li>
+                                        <hr className="dropdown-divider"/>
+                                    </li>
+                                    {role.match('ROLE_ADMIN')?(<li>
+                                        <Link className="dropdown-item" to="/admin/adConfig">
+                                            <IconHeartFill className="text-primary"/> Admin Page
+                                        </Link>
+                                    </li>):''}
                                     <li>
                                         <hr className="dropdown-divider"/>
                                     </li>

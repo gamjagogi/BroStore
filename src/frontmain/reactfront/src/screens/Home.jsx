@@ -1,6 +1,5 @@
-import React, { lazy, Component,startTransition } from "react";
+import React, {lazy, useEffect, useState} from "react";
 import { Link } from "react-router-dom";
-// import { link45, file, check2all } from "../npm/icon";
 import { data } from "../data";
 import { ReactComponent as IconLaptop } from "bootstrap-icons/icons/laptop.svg";
 import { ReactComponent as IconHeadset } from "bootstrap-icons/icons/headset.svg";
@@ -11,24 +10,35 @@ import { ReactComponent as IconHdd } from "bootstrap-icons/icons/hdd.svg";
 import { ReactComponent as IconUpcScan } from "bootstrap-icons/icons/upc-scan.svg";
 import { ReactComponent as IconTools } from "bootstrap-icons/icons/tools.svg";
 import { ReactComponent as IconTruck } from "bootstrap-icons/icons/truck.svg";
+import Support from "../components/Support";
+import Banner from "../components/carousel/Banner";
+import Carousel from "../components/carousel/Carousel";
+import CardIcon from "../components/card/CardIcon";
+import CardLogin from "../components/card/CardLogin";
+import CardImage from "../components/card/CardImage";
+import CardDealsOfTheDay from "../components/card/CardDealsOfTheDay";
+import axios from "./Request/RequestConfig";
+import HomeCardIcon from "../components/card/HomeCardIcon";
 
-const Support = lazy(() => import("../components/Support"));
-const Banner = lazy(() => import("../components/carousel/Banner"));
-const Carousel = lazy(() => import("../components/carousel/Carousel"));
-const CardIcon = lazy(() => import("../components/card/CardIcon"));
-const CardLogin = lazy(() => import("../components/card/CardLogin"));
-const CardImage = lazy(() => import("../components/card/CardImage"));
-const CardDealsOfTheDay = lazy(() =>
-    import("../components/card/CardDealsOfTheDay")
-);
+const Home = () => {
+    const [slide, setSlide] = useState([]);
+    const [card, setCard] = useState([]);
+    const [hour, setHour] = useState(14);
 
-class Home extends Component {
-    components = {
+
+    useEffect(() => {
+        fetchSlide();
+        fetchCard();
+        return;
+    }, []);
+
+
+
+    const components = {
         IconLaptop: IconLaptop,
         IconHeadset: IconHeadset,
         IconPhone: IconPhone,
         IconTruck: IconTruck,
-
         IconTv: IconTv,
         IconDisplay: IconDisplay,
         IconHdd: IconHdd,
@@ -36,141 +46,183 @@ class Home extends Component {
         IconTools: IconTools,
     };
 
-    render() {
 
-        const adProducts = data.mainProducts
+    const fetchSlide = async () => {
+        try {
+            const response = await axios.get(`/home/slide`, {
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
 
-        const iconProducts =  data.iconProducts;
-        const rows = [...Array(Math.ceil(iconProducts.length / 4))];
-        const adRows = [...Array(Math.ceil(adProducts.length / 4))];
-        // chunk the products into the array of rows
+            if (response.status == 200) {
+                const data = await response.data.data;
+                console.log(data);
+                setSlide(data);
 
-        const productRow = rows.map((row, idx) =>
-            iconProducts.slice(idx * 4, idx * 4 + 4) //아이콘 4개씩 가져온다.
-        );
-
-        const adProductRow = adRows.map((row, idx) =>
-            adProducts.slice(idx * 4, idx * 4 + 4) //아이콘 4개씩 가져온다.
-        );
-
-        // map the rows as div.row
-        const generateCarouselContent = (productRows) => {
-            return productRows.map((row, idx) => (
-                <div className={`carousel-item ${idx === 0 ? "active" : ""}`} key={idx}>
-                    <div className="row g-3">
-                        {row.map((product, idx) => {
-                            const ProductImage = this.components[product.img];
-                            return (
-                                <div key={idx} className="col-md-3">
-                                    <CardIcon
-                                        title={product.title}
-                                        text={product.text}
-                                        tips={product.tips}
-                                        to={product.to}
-                                    >
-                                        <ProductImage className={product.cssClass} width="80" height="80" />
-                                    </CardIcon>
-                                </div>
-                            );
-                        })}
-                    </div>
-                </div>
-            ));
-        };
-
-        const carouselContent = generateCarouselContent(productRow);
-
-        const carouselAdContent = generateCarouselContent(adProductRow);
-
-
-        return (
-            <React.Fragment>
-
-                <Banner className="mb-3" id="carouselHomeBanner" data={data.banner} />
-
-                <div className="container-fluid bg-light mb-3">
-                    <div className="row g-3">
-                        <div className="col-md-9">
-                            <Carousel id="product-category" className="mb-3" >
-                                {carouselContent}
-                            </Carousel>
-                            <Support />
-                        </div>
-
-                        <div className="col-md-3">
-                            <CardLogin className="mb-3" />
-                            <CardImage src="../../images/banner/Watches.webp" to="promo" />
-                        </div>
-
-                    </div>
-                </div>
-                <div className="container-fluid bg-light mb-3">
-                    <div className="row">
-                        <div className="col-md-12">
-                            <CardDealsOfTheDay
-                                endDate={Date.now() + 1000 * 60 * 60 * 14}
-                                title="Time Attack Special Sale"
-                                to="/"
-                            >
-                                <Carousel id="product-category1">
-                                    {carouselAdContent}
-                                </Carousel>
-                            </CardDealsOfTheDay>
-                        </div>
-                    </div>
-                </div>
-
-                <div className="bg-info bg-gradient p-3 text-center mb-3">
-                    <h4 className="m-0" style={{fontWeight:'bold'}}>BRO Store</h4>
-                </div>
-
-                <div className="container">
-                    <div className="row">
-                        <div className="col-md-3">
-                            <Link to="/" className="text-decoration-none">
-                                <img
-                                    src="../../images/category/male.webp"
-                                    className="img-fluid rounded-circle"
-                                    alt="..."
-                                />
-                                <div className="text-center h6">AD</div>
-                            </Link>
-                        </div>
-                        <div className="col-md-3">
-                            <Link to="/" className="text-decoration-none">
-                                <img
-                                    src="../../images/category/female.webp"
-                                    className="img-fluid rounded-circle"
-                                    alt="..."
-                                />
-                                <div className="text-center h6">AD</div>
-                            </Link>
-                        </div>
-                        <div className="col-md-3">
-                            <Link to="/" className="text-decoration-none">
-                                <img
-                                    src="../../images/category/smartwatch.webp"
-                                    className="img-fluid rounded-circle"
-                                    alt="..."
-                                />
-                                <div className="text-center h6">AD</div>
-                            </Link>
-                        </div>
-                        <div className="col-md-3">
-                            <Link to="/" className="text-decoration-none">
-                                <img
-                                    src="../../images/category/footwear.webp"
-                                    className="img-fluid rounded-circle"
-                                    alt="..."
-                                />
-                                <div className="text-center h6">AD</div>
-                            </Link>
-                        </div>
-                    </div>
-                </div>
-            </React.Fragment>
-        );
+                return;
+            } else {
+                console.error('게시글을 가져오지 못했습니다.');
+            }
+        } catch (error) {
+            console.error('에러발생..', error);
+        }
     }
-}
+
+    const fetchCard = async () => {
+        try {
+            const response = await axios.get(`/home/card`, {
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+
+            if (response.status == 200) {
+                const data = await response.data.data;
+                console.log(data);
+                setCard(data);
+                return;
+            } else {
+                console.error('게시글을 가져오지 못했습니다.');
+            }
+        } catch (error) {
+            console.error('에러발생..', error);
+        }
+    }
+
+
+    const adProducts = card;
+
+    const categoryProduct = data.iconProducts;
+    const rows = [...Array(Math.ceil(categoryProduct.length / 4))];
+    const adRows = [...Array(Math.ceil(adProducts.length / 4))];
+
+    const productRow = rows.map((row, idx) =>
+        categoryProduct.slice(idx * 4, idx * 4 + 4)
+    );
+
+    const adProductRow = adRows.map((row, idx) =>
+        adProducts.slice(idx * 4, idx * 4 + 4)
+    );
+
+
+    const generateCarouselContent = (productRows) => {
+        return productRows.map((row, idx) => (
+            <div
+                className={`carousel-item ${idx === 0 ? "active" : ""}`}
+                key={idx}
+            >
+                <div className="row g-3">
+                    {row.map((product, idx) => {
+                        const ProductImage = components[product.img];
+                        return (
+                            <div key={idx} className="col-md-3">
+                                <CardIcon
+                                    title={product.title}
+                                    text={product.description}
+                                    tips={product.tips}
+                                    to={product.to}
+                                >
+                                    <ProductImage
+                                        className={product.cssClass}
+                                        width="80"
+                                        height="80"
+                                    />
+                                </CardIcon>
+                            </div>
+                        );
+                    })}
+                </div>
+            </div>
+        ));
+    };
+
+
+
+    const generateAdCarouselContent = (productRows) => {
+        return productRows.map((row, idx) => (
+            <div
+                className={`carousel-item ${idx === 0 ? "active" : ""}`}
+                key={idx}
+            >
+                <div className="row g-3">
+                    {row.map((product, idx) => {
+                        return (
+                            <div key={idx} className="col-md-3">
+
+                                <HomeCardIcon
+                                    img={product.img}
+                                    title={product.title}
+                                    text={product.description}
+                                    to={product.to}
+                                />
+                            </div>
+                        );
+                    })}
+                </div>
+            </div>
+        ));
+    };
+
+    const carouselContent = generateCarouselContent(productRow);
+
+    const carouselAdContent = generateAdCarouselContent(adProductRow);
+
+    return (
+        <React.Fragment>
+            <Banner className="mb-3" id="carouselHomeBanner" data={slide} />
+            <div className="container-fluid bg-light mb-3">
+                <div className="row g-3">
+                    <div className="col-md-9">
+                        <Carousel id="product-category" className="mb-3">
+                            {carouselContent}
+                        </Carousel>
+                        <Support />
+                    </div>
+                    <div className="col-md-3">
+                        <CardLogin className="mb-3" />
+                        <CardImage src="../../images/banner/Watches.webp" to="promo" />
+                    </div>
+                </div>
+            </div>
+            <div className="container-fluid bg-light mb-3">
+                <div className="row">
+                    <div className="col-md-12">
+                        <CardDealsOfTheDay
+                            endDate={Date.now() + 1000 * 60 * 60 * hour}
+                            title="Time Attack Special Sale"
+                            to="/"
+                        >
+                            <Carousel id="product-category1">
+                                {carouselAdContent}
+                            </Carousel>
+                        </CardDealsOfTheDay>
+                    </div>
+                </div>
+            </div>
+            <div className="bg-info bg-gradient p-3 text-center mb-3">
+                <h4 className="m-0" style={{ fontWeight: "bold" }}>
+                    BRO Store
+                </h4>
+            </div>
+            <div className="container">
+                <div className="row">
+                    <div className="col-md-3">
+                        <Link to="/" className="text-decoration-none">
+                            <img
+                                src="../../images/category/male.webp"
+                                className="img-fluid rounded-circle"
+                                alt="..."
+                            />
+                            <div className="text-center h6">AD</div>
+                        </Link>
+                    </div>
+                    {/* Add similar blocks for other categories */}
+                </div>
+            </div>
+        </React.Fragment>
+    );
+};
+
 
 export default Home;

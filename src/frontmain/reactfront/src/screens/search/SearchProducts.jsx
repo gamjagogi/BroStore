@@ -11,7 +11,7 @@ const SearchProduct = (props) => {
         <tr>
             <td>
                 <div className="row">
-                    <div className="col-3 d-none d-md-block">
+                    <div className="d-block text-muted">
                         <img
                             src={item.thumbnail}
                             width="70"
@@ -21,8 +21,8 @@ const SearchProduct = (props) => {
                 </div>
             </td>
             <td>
-                <div className="input-group input-group-sm mw-140">
-                    <div className="col" style={{width: '200px'}}>
+                <div className="d-block text-muted">
+                    <div >
                         <Link
                             to={item.link + item.id}
                             className="text-decoration-none"

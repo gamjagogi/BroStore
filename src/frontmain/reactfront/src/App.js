@@ -4,34 +4,6 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.js";
 import {Suspense, lazy} from "react";
 
-//import LoginPage from './screens/Login/LoginPage.js';
-//import JoinPage from './screens/Join/JoinPage';
-//import ReactDoc from "./screens/pages/ReactDoc";
-//import DetailPage from "./screens/userBoard/DetailPage.js";
-//import PostEditor from "./screens/userBoard/PostEditor";
-//import PurchasePage from "./screens/order/PurchasePage.jsx";
-//import Notice from "./screens/Notice.jsx";
-//import SoftwarePosting from "./screens/softwareProductPage/SoftwarePosting"
-//import DeliveryPosting from "./screens/deliveryProductPage/DeliveryPosting.jsx"
-//import IndexTest from "./my/IndexTest";
-//import KakaoLogin from "./screens/Login/KakaoLogin"
-//import SellingPage from "./screens/seller/SellingPage";
-//import SellingProductFix from "./screens/seller/SellingProductFix";
-//import OrderSheetForSeller from "./screens/seller/OrderSheetForSeller";
-//import QuestionBoard from "./screens/question/QuestionBoard";
-//import QuestionDetailPage from "./screens/question/QuestionDetailPage";
-//import QuestionPost from "./screens/question/QuestionPost";
-//import QuestionPostFix from "./screens/question/QuestionPostFix";
-//import PostEditorFix from "./screens/userBoard/PostEditorFix";
-//import SoftwarePostingFix from "./screens/softwareProductPage/SoftwarePostingFix";
-//import SearchView from "./screens/search/SearchView";
-//const CheckoutPage = lazy(() => import("./screens/toss/Checkout"));
-//const FailPage = lazy(() => import("./screens/toss/FailPage"));
-//const SuccessPage = lazy(() => import("./screens/toss/SuccessPage"));
-//const IndexTest = lazy(() => import("./my/IndexTest"))
-// const WishlistView = lazy(() => import("./screens/account/Wishlist"));
-// const NotificationView = lazy(() => import("./screens/account/Notification"));
-
 import NavBarElements from "./screens/Navbar/NavBarElements.js";
 
 import Footer from "./components/Footer.jsx";
@@ -42,9 +14,9 @@ import "./App.min.css";
 import {SuccessPage} from "./screens/toss/SuccessPage";
 import {FailPage} from "./screens/toss/FailPage";
 import {CheckoutPage} from "./screens/toss/Checkout";
-//import NoticeEditor from "./screens/notice/NoticeEditor";
-//import NoticeEditorFix from "./screens/notice/NoticeEditorFix";
-//import NoticeDetailPage from "./screens/notice/NoticeDetailPage";
+import AdminPage from "./screens/admin/UpdateSlideAd";
+import UpdateCardAd from "./screens/admin/UpdateCardAd";
+
 
 const NoticeEditor = lazy(() => import("./screens/notice/NoticeEditor"));
 const NoticeEditorFix = lazy(() => import("./screens/notice/NoticeEditorFix"));
@@ -101,8 +73,6 @@ const PurchasePage = lazy(() => import("./screens/order/PurchasePage.jsx"));
 const LoginPage = lazy(() => import('./screens/Login/LoginPage.js'));
 const JoinPage = lazy(() => import('./screens/Join/JoinPage'));
 const ForgotPasswordView = lazy(() => import("./screens/account/ForgotPassword"));
-
-
 
 
 function App() {
@@ -182,9 +152,10 @@ function App() {
                         <Route exact path="/notice/editor/:id" element={<NoticeEditorFix/>}/>
                         <Route exact path="/notice/:id" element={<NoticeDetailPage/>}/>
 
+                        <Route exact path="/admin/adConfig" element={<AdminPage/>}/>
+                        <Route exact path="/admin/cardAdConfig" element={<UpdateCardAd/>}/>
 
                         <Route exact path="/document" element={<Documentation/>}/>
-
                     </Routes>
                 </Suspense>
                 <Footer/>

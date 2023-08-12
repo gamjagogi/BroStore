@@ -7,6 +7,7 @@ import com.macro.hjstore.dto.shop.SoftwareRequestDTO;
 import com.macro.hjstore.dto.shop.SoftwareResponseDTO;
 import com.macro.hjstore.model.deliveryProduct.Delivery;
 import com.macro.hjstore.model.softwareProduct.Software;
+import com.macro.hjstore.model.softwareProduct.SoftwareJPQLRepository;
 import com.macro.hjstore.model.softwareProduct.SoftwareRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -21,6 +22,8 @@ import java.util.stream.Collectors;
 public class SoftwareService {
 
     private final SoftwareRepository softwareRepository;
+
+    private final SoftwareJPQLRepository softwareJPQLRepository;
 
     @MyLog
     public List<SoftwareResponseDTO> 게시글목록보기(){
@@ -88,5 +91,14 @@ public class SoftwareService {
         Software softwarePS = softwareRepository.findById(id)
                 .orElseThrow(() -> new Exception404("해당 글을 찾을 수 없습니다."));
         softwareRepository.delete(softwarePS);
+    }
+
+    @MyLog
+    @Transactional
+    public List<SoftwareResponseDTO> 검색(String keyword) throws Exception{
+        List<Software>softwareList = softwareJPQLRepository.findAllByKeyword(keyword);
+        List<SoftwareResponseDTO>newList = softwareList.stream()
+                .map(software -> new SoftwareResponseDTO(software)).collect(Collectors.toList());
+        return newList;
     }
 }

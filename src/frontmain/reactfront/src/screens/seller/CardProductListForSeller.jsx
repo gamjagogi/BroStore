@@ -170,7 +170,7 @@ const CardProductListForSeller = (props) => {
             <button
               type="button"
               className="btn btn-sm btn-outline-secondary"
-              title="Add to wishlist"
+              title="Update Product"
               onClick={onFixProduct}
             >
               <span>수정하기</span>
@@ -178,7 +178,7 @@ const CardProductListForSeller = (props) => {
             <button
                 type="button"
                 className="btn btn-sm btn-outline-secondary"
-                title="Add to wishlist"
+                title="Delete Product"
                 onClick={handleDelete}
             >
               <span style={{color:'red'}}>삭제하기</span>

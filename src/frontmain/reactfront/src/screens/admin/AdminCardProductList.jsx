@@ -2,8 +2,9 @@ import React, {useState} from "react";
 import { Link } from "react-router-dom";
 import { ReactComponent as IconStarFill } from "bootstrap-icons/icons/star-fill.svg";
 import { ReactComponent as IconTruckFill } from "bootstrap-icons/icons/truck.svg";
+import {Button} from "react-bootstrap";
 
-const CardProductList = (props) => {
+const AdminCardProductList = (props) => {
   const product = props.data;
   const MAX_DESCRIPTION_LENGTH = 100; // 표시될 최대 글자 수를 설정합니다.
   const [showFullDescription, setShowFullDescription] = useState(false);
@@ -24,6 +25,13 @@ const CardProductList = (props) => {
   console.log(plainText);
 
 
+  const onAddSlide = () => {
+
+  }
+
+  const onAddCard = () => {
+
+  }
 
   return (
     <div className="card">
@@ -93,7 +101,24 @@ const CardProductList = (props) => {
             </p>
           )}
 
-            <br />
+            <div className="btn-group d-flex" role="group" style={{width : '100%'}}>
+              <button
+                  type="button"
+                  className="btn btn-sm btn-outline-secondary"
+                  title="Add to slide AD"
+                  onClick={onAddSlide}
+              >
+                <span>Slide</span>
+              </button>
+              <button
+                  type="button"
+                  className="btn btn-sm btn-outline-secondary"
+                  title="Add to Card AD"
+                  onClick={onAddCard}
+              >
+                <span style={{color:'red'}}>Time</span>
+              </button>
+            </div>
 
             <div className="mb-2">
               <span className="fw-bold h9">Category : {product.category}</span>
@@ -105,4 +130,4 @@ const CardProductList = (props) => {
   );
 };
 
-export default React.memo(CardProductList);
+export default React.memo(AdminCardProductList);

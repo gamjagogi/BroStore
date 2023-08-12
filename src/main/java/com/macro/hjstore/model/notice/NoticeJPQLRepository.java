@@ -1,6 +1,5 @@
 package com.macro.hjstore.model.notice;
 
-import com.macro.hjstore.model.board.Board;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
