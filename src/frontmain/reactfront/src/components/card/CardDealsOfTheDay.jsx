@@ -27,10 +27,6 @@ const CardDealsOfTheDay = (props) => {
       <div className="card-body">
         <h5 className="card-title pb-3 border-bottom">
           {props.title} <IconStopwatch className="text-primary" />{" "}
-          <Countdown
-            date={props.endDate}
-            renderer={renderer}
-          />
           <span className="float-end">
             <Link to='/delivery' className="btn btn-sm btn-outline-primary">
               View All

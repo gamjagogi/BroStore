@@ -4,6 +4,8 @@ import com.macro.hjstore.model.admin.Admin;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
+import java.util.List;
+
 public class AdminDTO {
 
     @Getter
@@ -39,6 +41,19 @@ public class AdminDTO {
             this.to = admin.getUrl();
             this.title = admin.getTitle();
             this.description = admin.getDescription();
+        }
+    }
+
+    @Getter
+    public static class GetHomeData{
+
+        private List<GetAd>adList;
+
+        private Integer timer;
+
+        public GetHomeData(List<GetAd>adList,Integer timer){
+            this.adList = adList;
+            this.timer = timer;
         }
     }
 }
