@@ -89,36 +89,36 @@
 - 주문 상태(결제 대기중, 배송 중, 배송 완료, 취소 처리중, 취소 완료)
 
 
-#### Seller 카테고리 페이지 - <a href="" >상세보기 - WIKI 이동</a>
+#### Seller 카테고리 페이지 - <a href="https://github.com/gamjagogi/hjStore/wiki/%EC%A3%BC%EC%9A%94-%EA%B8%B0%EB%8A%A5-%EC%86%8C%EA%B0%9C(SellerPage)" >상세보기 - WIKI 이동</a>
 - manager 권한 유저에 한에, 해당 카테고리를 확인 가능
 - 본인 판매 상품 리스트
 - 판매글 수정, 삭제 (CRUD)
 
-#### 판매자용 주문서 페이지 - <a href="" >상세보기 - WIKI 이동</a>
+#### 판매자용 주문서 페이지 - <a href="https://github.com/gamjagogi/hjStore/wiki/%EC%A3%BC%EC%9A%94-%EA%B8%B0%EB%8A%A5-%EC%86%8C%EA%B0%9C(OrderSheet)" >상세보기 - WIKI 이동</a>
 - 주문요청 확인
 - 주문 상태 변경 ( 취소 요청 -> 취소 완료, 배송 중 -> 배송 완료, 배송 중 -> 취소 완료)
 
 
-#### User Board 카테고리 페이지 - <a href="" >상세보기 - WIKI 이동</a>
+#### User Board 카테고리 페이지 - <a href="https://github.com/gamjagogi/hjStore/wiki/%EC%A3%BC%EC%9A%94-%EA%B8%B0%EB%8A%A5-%EC%86%8C%EA%B0%9C(User-Board)" >상세보기 - WIKI 이동</a>
 - 회원 유저 글 작성.
 - 페이징, 최신글 순으로 정렬.
 - 카테고리 작성글 검색
 
-#### User Board 게시판 글 작성 - <a href="" >상세보기 - WIKI 이동</a>
+#### User Board 게시판 글 작성 - <a href="https://github.com/gamjagogi/hjStore/wiki/%EC%A3%BC%EC%9A%94-%EA%B8%B0%EB%8A%A5-%EC%86%8C%EA%B0%9C(User-Board)" >상세보기 - WIKI 이동</a>
 - quill 에디터 사용
   
-#### User Board 게시판 상세보기 - <a href="" >상세보기 - WIKI 이동</a>
+#### User Board 게시판 상세보기 - <a href="https://github.com/gamjagogi/hjStore/wiki/%EC%A3%BC%EC%9A%94-%EA%B8%B0%EB%8A%A5-%EC%86%8C%EA%B0%9C(User-Board)" >상세보기 - WIKI 이동</a>
 - 댓글 작성
 - 댓글 페이징
 - 글 수정, 삭제 (CRPD)
 
-#### Question 카테고리 페이지 - <a href="" >상세보기 - WIKI 이동</a>
+#### Question 카테고리 페이지 - <a href="https://github.com/gamjagogi/hjStore/wiki/%EC%A3%BC%EC%9A%94-%EA%B8%B0%EB%8A%A5-%EC%86%8C%EA%B0%9C(Question)" >상세보기 - WIKI 이동</a>
 - 상품 관련 QA 또는, 판매자 권한 요청 글 작성
 - 카테고리(All, 판매자 신청)
 - 페이징, 최신글 순으로 정렬
 - 카테고리 작성글 검색
 
-#### Question 게시판 상세보기 - <a href="" >상세보기 - WIKI 이동</a>
+#### Question 게시판 상세보기 - <a href="https://github.com/gamjagogi/hjStore/wiki/%EC%A3%BC%EC%9A%94-%EA%B8%B0%EB%8A%A5-%EC%86%8C%EA%B0%9C(Question)" >상세보기 - WIKI 이동</a>
 - 댓글 작성
 - 댓글 페이징
 - 글 수정, 삭제 (CRPD) 
@@ -126,9 +126,9 @@
 #### Notice 카테고리 페이지, 상세보기 - <a href="" >상세보기 - WIKI 이동</a>
 - admin권한 유저 글 작성, 수정, 삭제 (CRUD)
 
-#### Admin 카테고리 페이지  - <a href="" >상세보기 - WIKI 이동</a>
+#### Admin 카테고리 페이지  - <a href="https://github.com/gamjagogi/hjStore/wiki/%EC%A3%BC%EC%9A%94-%EA%B8%B0%EB%8A%A5-%EC%86%8C%EA%B0%9C(Admin-Page)" >상세보기 - WIKI 이동</a>
 - 메인 페이지 슬라이드 광고 상품 설정
 - 타임 세일 상품 설정
 
-#### 통합 검색  - <a href="" >상세보기 - WIKI 이동</a>
+#### 통합 검색  - <a href="https://github.com/gamjagogi/hjStore/wiki/%EC%A3%BC%EC%9A%94-%EA%B8%B0%EB%8A%A5-%EC%86%8C%EA%B0%9C(Search)" >상세보기 - WIKI 이동</a>
 - 최상단 검색 창 키워드 (제목, 내용 일부 발취 후 User board, Deliver 카테고리 내 작성글 추출)
