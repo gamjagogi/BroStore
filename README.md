@@ -52,39 +52,39 @@
 - ID 중복체크
 - 회원가입시, uuid로 회원 key 생성
 
-#### 마이 페이지 - <a href="" >상세보기 - WIKI 이동</a>
+#### 마이 페이지 - <a href="https://github.com/gamjagogi/hjStore/wiki/%EC%A3%BC%EC%9A%94-%EA%B8%B0%EB%8A%A5-%EC%86%8C%EA%B0%9C(MyPage)" >상세보기 - WIKI 이동</a>
 - 주소 API 연동
 - 회원정보 변경
 - 설정한 회원 이름, 전화번호, 주소는 추후 주문시, 자동으로 이름,전화번호,주소 란에 입력됨.
 
-#### Delivery, Software 상품 카테고리 페이지 - <a href="" >상세보기 - WIKI 이동</a>
+#### Delivery, Software 상품 카테고리 페이지 - <a href="https://github.com/gamjagogi/hjStore/wiki/%EC%A3%BC%EC%9A%94-%EA%B8%B0%EB%8A%A5-%EC%86%8C%EA%B0%9C(Delivery-,-Software-Product)" >상세보기 - WIKI 이동</a>
 - DB에 저장된 상품 판매글 (제목, 썸네일, 내용 일부분, 가격(할인정보), 카테고리) 나열
 - 카테고리 구현
 - 페이징, 최신글 순으로 정렬.
 - Software 상품 페이지의 경우, 로그인 유저만 접근
 - Delivery 상품 페이지는 회원가입 유무 상관없이 접근 가능, 물건 구매시 회원가입 필요.
 
-#### 판매글 등록 - <a href="" >상세보기 - WIKI 이동</a>
+#### 판매글 등록 - <a href="https://github.com/gamjagogi/hjStore/wiki/%EC%A3%BC%EC%9A%94-%EA%B8%B0%EB%8A%A5-%EC%86%8C%EA%B0%9C(Posting)" >상세보기 - WIKI 이동</a>
 - 판매글 작성은 manager권한을 가진 유저만 작성 가능
 - quill 에디터 사용.
 - 배송 유무 등 옵션 설정.
 - 썸네일 설정 가능. (이미지 파일은 s3로 저장되며, 추후 판매글을 볼때는, 이미지 url을 통해 출력된다.
 - 가격, 할인정보, 할인% 설정
 
-#### 판매글 상세보기 - <a href="" >상세보기 - WIKI 이동</a>
+#### 판매글 상세보기 - <a href="https://github.com/gamjagogi/hjStore/wiki/%EC%A3%BC%EC%9A%94-%EA%B8%B0%EB%8A%A5-%EC%86%8C%EA%B0%9C(Detail)" >상세보기 - WIKI 이동</a>
 - 장바구니 담기
 - 해당 판매글 외에, 판매글 리스트 출력
 
-#### 장바구니 페이지 - <a href="" >상세보기 - WIKI 이동</a>
+#### 장바구니 페이지 - <a href="https://github.com/gamjagogi/hjStore/wiki/%EC%A3%BC%EC%9A%94-%EA%B8%B0%EB%8A%A5-%EC%86%8C%EA%B0%9C(Cart)" >상세보기 - WIKI 이동</a>
 - 상품 당 갯수 조절
 - 도합 가격, 할인정보, 갯수 우측에 표시.
 
-#### 결제 페이지 - <a href="" >상세보기 - WIKI 이동</a>
+#### 결제 페이지 - <a href="https://github.com/gamjagogi/hjStore/wiki/%EC%A3%BC%EC%9A%94-%EA%B8%B0%EB%8A%A5-%EC%86%8C%EA%B0%9C(Payments)" >상세보기 - WIKI 이동</a>
 - 도합 가격, 갯수 표시
 - 이름, 전화번호, 주소 api (마이페이지 정보 자동 등록)
 - 토스페이먼츠 결제
 
-#### 주문서 페이지 - <a href="" >상세보기 - WIKI 이동</a>
+#### 주문서 페이지 - <a href="https://github.com/gamjagogi/hjStore/wiki/%EC%A3%BC%EC%9A%94-%EA%B8%B0%EB%8A%A5-%EC%86%8C%EA%B0%9C(OrderSheet)" >상세보기 - WIKI 이동</a>
 - 주문 결제 상품내역
 - 주문 상태(결제 대기중, 배송 중, 배송 완료, 취소 처리중, 취소 완료)
 
