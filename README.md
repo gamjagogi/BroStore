@@ -35,6 +35,7 @@
 
 - #### 모든 서버 응답과 요청은 DTO를 사용
 - #### 로그인 이후, 모든 서버 요청에 시큐리티 검증
+  
 
 #### 메인페이지  - <a href="" >상세보기 - WIKI 이동</a>
 - 로그인
@@ -43,14 +44,17 @@
 - 타임 세일 상품
 - 광고 상품 이미지
 
+
 #### 로그인 - <a href="https://github.com/gamjagogi/hjStore/wiki/%EC%A3%BC%EC%9A%94-%EA%B8%B0%EB%8A%A5-%EC%86%8C%EA%B0%9C(Login,Join)" >상세보기 - WIKI 이동</a>
 - ID찾기, PW찾고, 입력된 PW를 비교 검증
 - 시큐리티 사용
 - 카카오 로그인 (kakao Rest api)
 
+
 #### 회원가입 - <a href="https://github.com/gamjagogi/hjStore/wiki/%EC%A3%BC%EC%9A%94-%EA%B8%B0%EB%8A%A5-%EC%86%8C%EA%B0%9C(Login,Join)" >상세보기 - WIKI 이동</a>
 - ID 중복체크
 - 회원가입시, uuid로 회원 key 생성
+
 
 #### 마이 페이지 - <a href="https://github.com/gamjagogi/hjStore/wiki/%EC%A3%BC%EC%9A%94-%EA%B8%B0%EB%8A%A5-%EC%86%8C%EA%B0%9C(MyPage)" >상세보기 - WIKI 이동</a>
 - 주소 API 연동
@@ -64,6 +68,7 @@
 - Software 상품 페이지의 경우, 로그인 유저만 접근
 - Delivery 상품 페이지는 회원가입 유무 상관없이 접근 가능, 물건 구매시 회원가입 필요.
 
+
 #### 판매글 등록 - <a href="https://github.com/gamjagogi/hjStore/wiki/%EC%A3%BC%EC%9A%94-%EA%B8%B0%EB%8A%A5-%EC%86%8C%EA%B0%9C(Posting)" >상세보기 - WIKI 이동</a>
 - 판매글 작성은 manager권한을 가진 유저만 작성 가능
 - quill 에디터 사용.
@@ -71,9 +76,11 @@
 - 썸네일 설정 가능. (이미지 파일은 s3로 저장되며, 추후 판매글을 볼때는, 이미지 url을 통해 출력된다.
 - 가격, 할인정보, 할인% 설정
 
+
 #### 판매글 상세보기 - <a href="https://github.com/gamjagogi/hjStore/wiki/%EC%A3%BC%EC%9A%94-%EA%B8%B0%EB%8A%A5-%EC%86%8C%EA%B0%9C(Detail)" >상세보기 - WIKI 이동</a>
 - 장바구니 담기
 - 해당 판매글 외에, 판매글 리스트 출력
+
 
 #### 장바구니 페이지 - <a href="https://github.com/gamjagogi/hjStore/wiki/%EC%A3%BC%EC%9A%94-%EA%B8%B0%EB%8A%A5-%EC%86%8C%EA%B0%9C(Cart)" >상세보기 - WIKI 이동</a>
 - 상품 당 갯수 조절
@@ -83,6 +90,7 @@
 - 도합 가격, 갯수 표시
 - 이름, 전화번호, 주소 api (마이페이지 정보 자동 등록)
 - 토스페이먼츠 결제
+
 
 #### 주문서 페이지 - <a href="https://github.com/gamjagogi/hjStore/wiki/%EC%A3%BC%EC%9A%94-%EA%B8%B0%EB%8A%A5-%EC%86%8C%EA%B0%9C(OrderSheet)" >상세보기 - WIKI 이동</a>
 - 주문 결제 상품내역
@@ -94,6 +102,7 @@
 - 본인 판매 상품 리스트
 - 판매글 수정, 삭제 (CRUD)
 
+
 #### 판매자용 주문서 페이지 - <a href="https://github.com/gamjagogi/hjStore/wiki/%EC%A3%BC%EC%9A%94-%EA%B8%B0%EB%8A%A5-%EC%86%8C%EA%B0%9C(OrderSheet)" >상세보기 - WIKI 이동</a>
 - 주문요청 확인
 - 주문 상태 변경 ( 취소 요청 -> 취소 완료, 배송 중 -> 배송 완료, 배송 중 -> 취소 완료)
@@ -104,13 +113,16 @@
 - 페이징, 최신글 순으로 정렬.
 - 카테고리 작성글 검색
 
+
 #### User Board 게시판 글 작성 - <a href="https://github.com/gamjagogi/hjStore/wiki/%EC%A3%BC%EC%9A%94-%EA%B8%B0%EB%8A%A5-%EC%86%8C%EA%B0%9C(User-Board)" >상세보기 - WIKI 이동</a>
 - quill 에디터 사용
+
   
 #### User Board 게시판 상세보기 - <a href="https://github.com/gamjagogi/hjStore/wiki/%EC%A3%BC%EC%9A%94-%EA%B8%B0%EB%8A%A5-%EC%86%8C%EA%B0%9C(User-Board)" >상세보기 - WIKI 이동</a>
 - 댓글 작성
 - 댓글 페이징
 - 글 수정, 삭제 (CRPD)
+
 
 #### Question 카테고리 페이지 - <a href="https://github.com/gamjagogi/hjStore/wiki/%EC%A3%BC%EC%9A%94-%EA%B8%B0%EB%8A%A5-%EC%86%8C%EA%B0%9C(Question)" >상세보기 - WIKI 이동</a>
 - 상품 관련 QA 또는, 판매자 권한 요청 글 작성
@@ -118,17 +130,21 @@
 - 페이징, 최신글 순으로 정렬
 - 카테고리 작성글 검색
 
+
 #### Question 게시판 상세보기 - <a href="https://github.com/gamjagogi/hjStore/wiki/%EC%A3%BC%EC%9A%94-%EA%B8%B0%EB%8A%A5-%EC%86%8C%EA%B0%9C(Question)" >상세보기 - WIKI 이동</a>
 - 댓글 작성
 - 댓글 페이징
 - 글 수정, 삭제 (CRPD) 
 
+
 #### Notice 카테고리 페이지, 상세보기 - <a href="" >상세보기 - WIKI 이동</a>
 - admin권한 유저 글 작성, 수정, 삭제 (CRUD)
+
 
 #### Admin 카테고리 페이지  - <a href="https://github.com/gamjagogi/hjStore/wiki/%EC%A3%BC%EC%9A%94-%EA%B8%B0%EB%8A%A5-%EC%86%8C%EA%B0%9C(Admin-Page)" >상세보기 - WIKI 이동</a>
 - 메인 페이지 슬라이드 광고 상품 설정
 - 타임 세일 상품 설정
+
 
 #### 통합 검색  - <a href="https://github.com/gamjagogi/hjStore/wiki/%EC%A3%BC%EC%9A%94-%EA%B8%B0%EB%8A%A5-%EC%86%8C%EA%B0%9C(Search)" >상세보기 - WIKI 이동</a>
 - 최상단 검색 창 키워드 (제목, 내용 일부 발취 후 User board, Deliver 카테고리 내 작성글 추출)
