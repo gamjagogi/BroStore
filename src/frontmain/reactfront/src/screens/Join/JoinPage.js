@@ -63,7 +63,7 @@ const JoinPage = () => {
     };
 
     return (
-        <div>
+        <div style={{margin:'30px'}}>
             <h1>회원가입</h1>
             <Form onSubmit={handleJoin}>
                 <Form.Group controlId="formBasicEmail">
@@ -121,7 +121,7 @@ const JoinPage = () => {
                     />
                 </Form.Group>
 
-                <Button variant="primary" type="submit">
+                <Button variant="primary" type="submit" style={{marginTop:'10px'}}>
                     회원가입
                 </Button>
             </Form>
