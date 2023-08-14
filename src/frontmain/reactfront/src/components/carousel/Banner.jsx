@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 const Item = ({ item, index }) => (
   <div className={`carousel-item ${index === 0 ? "active" : ""}`}>
     <Link to={item.to}>
-      <img src={item.img} className="img-fluid" alt={item.title} />
+      <img style={{ width: '950px', height: '400px'}} src={item.img} className="img" alt={item.title} />
       {(item.title || item.description) && (
         <div className="carousel-caption d-none d-md-block">
           {item.title && <h5>{item.title}</h5>}
@@ -14,6 +14,7 @@ const Item = ({ item, index }) => (
     </Link>
   </div>
 );
+
 
 const Indicator = ({ item, index }) => (
   <li

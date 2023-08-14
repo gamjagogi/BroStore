@@ -70,7 +70,7 @@ const UserHeader = () => {
                 <Button variant="primary" size="sm" onClick={handleLogout}> 로그아웃 </Button>
                 <Button variant="primary" size="sm" style={{marginLeft: '30px'}}> 회원 정보 수정 </Button>
             </Card.Body>
-        </Card>) : (<Card style={{width: '175px', height: '85px'}}>
+        </Card>) : (<Card style={{width: '290px', height: '90px'}}>
             <div className="d-grid gap-2">
             <Button onClick={handleLogin}>로그인</Button>
             <Button onClick={handleJoin}>회원가입</Button>

@@ -41,7 +41,7 @@ export const data = {
             img: "IconPhone",
             title: "User board",
             text: " Free Talk ",
-            tips: "Except for illegal",
+            tips: "Free Tolk",
             cssClass: "text-danger",
         },
         {

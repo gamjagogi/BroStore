@@ -67,8 +67,10 @@ public class OrderController {
             , @AuthenticationPrincipal MyUserDetails userDetails) {
         if (userDetails.getUser().getId() == id) {
 
+            User userPS = userService.회원찾기(id);
+            String customerKey = userPS.getCustomerKey();
             String orderCode = orderId;
-            OrderDTO.ResponseOrderSheet responseOrderSheetPS = orderService.주문목록가져오기(orderCode);
+            OrderDTO.ResponseOrderSheet responseOrderSheetPS = orderService.주문목록가져오기(orderCode,customerKey);
             ResponseDTO<?> responseDTO = new ResponseDTO<>(responseOrderSheetPS);
 
             // getOrderSheet 메서드가 호출되면 해당 주문에 대한 타이머 취소

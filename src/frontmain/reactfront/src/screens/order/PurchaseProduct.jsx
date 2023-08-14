@@ -1,9 +1,5 @@
 import React, {useEffect, useState} from "react";
 import {Link} from "react-router-dom";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faMinus, faPlus} from "@fortawesome/free-solid-svg-icons";
-import {ReactComponent as IconHeartFill} from "bootstrap-icons/icons/heart-fill.svg";
-import {ReactComponent as IconTrash} from "bootstrap-icons/icons/trash.svg";
 
 
 const PurchaseProduct = (props) => {

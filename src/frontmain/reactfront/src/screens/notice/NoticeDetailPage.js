@@ -142,7 +142,7 @@ export default function NoticeDetailPage() {
             console.log(refreshToken);
 
             if(accessToken && refreshToken){
-                const response = await axios.post(`/auth/notice/delete/${id}/${userId}`,JSON.stringify(""),{
+                const response = await axios.post(`/admin/notice/delete/${id}/${userId}`,JSON.stringify(""),{
                     headers: {
                         'Content-Type': 'application/json',
                         'Authorization': `Bearer ${accessToken}`,

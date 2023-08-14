@@ -8,6 +8,7 @@ const OrderSheetData = (props) => {
 
     const {order, handleCancelComplite,handleDeliveryComplite} = props;
 
+
     console.log("주문목록 진입");
     let status;
     console.log(order.status);
@@ -18,7 +19,7 @@ const OrderSheetData = (props) => {
     }else if(order.status=="DELIVERY_COMPLETED"){
         status = "배송 완료"
     }else if(order.status=="CANCELLATION_COMPLETED"){
-        status = "취소 완료"
+        status = "취소 완료";
     }
 
 
@@ -76,16 +77,27 @@ const OrderSheetData = (props) => {
                 </div>
             </tb>
             <td>
-                <div className="row">
-                    <button className="btn btn-sm btn-outline-danger"
-                            style={{width:"50px"}} onClick={onClickCancelComplite}>
+                {order.status=="DELIVERY_COMPLETED"|order.status=="CANCELLATION_COMPLETED"?
+                    (<div className="row">
+                    <button className="btn btn-sm btn-outline-danger" disabled
+                            style={{width:"50px", marginRight:'5px'}} onClick={onClickCancelComplite}>
                         <IconBagXFill className="i-va"/>
                     </button>
-                    <button className="btn btn-sm btn-outline-danger"
+                    <button className="btn btn-sm btn-outline-success" disabled
                             style={{width:"50px"}} onClick={onClickDeliveryComplite}>
                         <IconTruck className="i-va"/>
                     </button>
-                </div>
+                </div>):
+                    (<div className="row">
+                        <button className="btn btn-sm btn-outline-danger"
+                                style={{width:"50px", marginRight:'5px'}} onClick={onClickCancelComplite}>
+                            <IconBagXFill className="i-va"/>
+                        </button>
+                        <button className="btn btn-sm btn-outline-success"
+                                style={{width:"50px"}} onClick={onClickDeliveryComplite}>
+                            <IconTruck className="i-va"/>
+                        </button>
+                    </div>)}
             </td>
         </tr>
     )

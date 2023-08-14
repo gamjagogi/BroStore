@@ -93,8 +93,14 @@ const Notice = () => {
 
     const handlePosting = () => {
         const userId = sessionStorage.getItem('userData2');
+        const userRole = sessionStorage.getItem('userRole');
         if(!userId){
             alert('로그인이 필요합니다.');
+            return window.location.reload();
+        }
+        if(!userRole.match("ROLE_ADMIN")){
+            console.log(userRole);
+            alert('권한이 없습니다..');
             return window.location.reload();
         }
         navigate('/noticeEditor');

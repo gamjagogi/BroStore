@@ -1,6 +1,5 @@
 package com.macro.hjstore.model.cart;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.macro.hjstore.model.order.Order;
 import com.macro.hjstore.model.seller.Seller;
 import com.macro.hjstore.model.user.User;

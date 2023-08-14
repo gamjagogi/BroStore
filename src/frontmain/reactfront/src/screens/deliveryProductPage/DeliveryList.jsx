@@ -38,6 +38,7 @@ const ProductListView = () => {
             .catch((error) => {
                 console.error("Error occurred while fetching products:", error);
             });
+        return;
     }, []);
 
 

@@ -42,7 +42,7 @@ public class NoticeController {
         return ResponseEntity.ok().body(responseDTO);
     }
 
-    @PostMapping("/auth/notice/save")
+    @PostMapping("/admin/notice/save")
     public ResponseEntity<?> savePost(@RequestBody @Valid NoticeDTO.SaveInDTO saveInDTO
             , @AuthenticationPrincipal MyUserDetails userDetails, Errors errors){
 
@@ -70,7 +70,7 @@ public class NoticeController {
         return ResponseEntity.ok().build();
     }
 
-    @PostMapping("/auth/notice/update/{id}")
+    @PostMapping("/admin/notice/update/{id}")
     public ResponseEntity<?> update(@PathVariable("id") Long id, @RequestBody @Valid NoticeDTO.UpdateInDTO updateDTO, @AuthenticationPrincipal MyUserDetails userDetails, Errors errors) {
         if (userDetails.getUser().getId() == id) {
             try {
@@ -93,7 +93,7 @@ public class NoticeController {
         }
     }
 
-    @PostMapping("/auth/notice/delete/{id}/{userId}")
+    @PostMapping("/admin/notice/delete/{id}/{userId}")
     public ResponseEntity<?> delete(@PathVariable("id") Long id,@PathVariable("userId")Long userId,@AuthenticationPrincipal MyUserDetails userDetails){
 
         if (userDetails.getUser().getId() == userId) {

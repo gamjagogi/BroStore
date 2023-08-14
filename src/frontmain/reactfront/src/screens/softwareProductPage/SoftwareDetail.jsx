@@ -24,7 +24,7 @@ const QuestionAnswer = lazy(() =>
     import("../../components/others/QuestionAnswer")
 );
 
-const Detail = () => {
+const SoftwareDetail = () => {
   const [loginError, setLoginError] = useState('');
   const [productList, setProductList] = useState([]);
   const [name, setName] = useState('');
@@ -199,8 +199,8 @@ const Detail = () => {
                 <h1 className="h5 d-inline me-2" style={commentRowStyle}>
                   {name}
                 </h1>
-                <span className="badge bg-success me-2">{isNew}</span>
-                <span className="badge bg-danger me-2">{isHot}</span>
+                <span className="badge bg-success me-2">{isNew==true?'New':''}</span>
+                <span className="badge bg-danger me-2">{isHot==true?'Hot':''}</span>
                 <div className="mb-3">
                   <div>
                     {star > 0 &&
@@ -345,4 +345,4 @@ const Detail = () => {
   );
 };
 
-export default Detail;
+export default SoftwareDetail;

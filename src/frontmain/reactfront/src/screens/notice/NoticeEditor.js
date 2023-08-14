@@ -8,8 +8,7 @@ import axios from '../Request/RequestConfig.js';
 import AWS from 'aws-sdk';
 import {v4 as uuidv4} from 'uuid';
 import {Button, Dropdown, ListGroup} from "react-bootstrap";
-import {Editor} from "../../components/Styles/Editorform/Editor.style";
-import Card from "react-bootstrap/Card";
+
 
 
 export default function NoticeEditor() {
@@ -181,7 +180,7 @@ export default function NoticeEditor() {
             if (accessToken && refreshToken) {
                 // 요청 보내기
                 console.log(requestData);
-                const response = await axios.post('/auth/notice/save', JSON.stringify(requestData), {
+                const response = await axios.post('/admin/notice/save', JSON.stringify(requestData), {
                     headers: {
                         'Content-Type': 'application/json',
                         'Authorization': `Bearer ${accessToken}`,

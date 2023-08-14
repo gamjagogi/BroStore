@@ -220,7 +220,7 @@ export default function NoticeEditorFix() {
 
             if (accessToken && refreshToken) {
                 // 요청 보내기
-                const response = await axios.post(`/auth/notice/update/${id}`, JSON.stringify(requestData), {
+                const response = await axios.post(`/admin/notice/update/${id}`, JSON.stringify(requestData), {
                     headers: {
                         'Content-Type': 'application/json',
                         'Authorization': `Bearer ${accessToken}`,

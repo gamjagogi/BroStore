@@ -14,4 +14,11 @@ import java.util.List;
 @Repository
 public class SoftwareJPQLRepository {
     private final EntityManager em;
+
+    public List<Software> findAllByKeyword(String keyword) {
+        List<Software> boardListPS = em.createQuery("select b from Software b where b.name like :keyword or b.description like :keyword")
+                .setParameter("keyword", "%" + keyword + "%")
+                .getResultList();
+        return boardListPS;
+    }
 }

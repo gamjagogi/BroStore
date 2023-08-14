@@ -1,8 +1,4 @@
 import React, {useEffect, useState} from "react";
-import {Link} from "react-router-dom";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faMinus, faPlus} from "@fortawesome/free-solid-svg-icons";
-import {ReactComponent as IconHeartFill} from "bootstrap-icons/icons/heart-fill.svg";
 import {ReactComponent as IconTrash} from "bootstrap-icons/icons/trash.svg";
 
 
@@ -10,14 +6,7 @@ const OrderSheetData = (props) => {
 
     const {order, handleDelete,handlePayments} = props;
     let status;
-    console.log("주문목록 진입");
 
-    // console.log(order.state);
-    // if(order.state==true){
-    //     status = "배송중";
-    // }else{
-    //     status = "취소중";
-    // }
     console.log(order.status);
     if(order.status=="SHIPPING_IN_PROGRESS"){
         status = "배송 중";

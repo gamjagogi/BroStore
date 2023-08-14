@@ -12,7 +12,7 @@ import {Button} from "react-bootstrap";
 const SettingForm = lazy(() => import("../../components/account/SettingForm"));
 const PriceConfig = lazy(() => import("../../components/posting/PriceConfig"));
 
-const PostingFix = () => {
+const SoftwarePostingFix = () => {
     const [searchParams] = useSearchParams();
     const name = sessionStorage.getItem('userData');
 
@@ -396,4 +396,4 @@ const PostingFix = () => {
     );
 };
 
-export default PostingFix;
+export default SoftwarePostingFix;

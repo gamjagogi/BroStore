@@ -1,6 +1,5 @@
 package com.macro.hjstore.model.notice;
 
-import com.macro.hjstore.model.comment.Comment;
 import com.macro.hjstore.model.user.User;
 import lombok.*;
 

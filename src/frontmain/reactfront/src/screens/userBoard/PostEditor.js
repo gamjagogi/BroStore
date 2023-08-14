@@ -8,8 +8,6 @@ import axios from '../Request/RequestConfig.js';
 import AWS from 'aws-sdk';
 import {v4 as uuidv4} from 'uuid';
 import {Button, Dropdown, ListGroup} from "react-bootstrap";
-import {Editor} from "../../components/Styles/Editorform/Editor.style";
-import Card from "react-bootstrap/Card";
 
 
 export default function PostEditor() {

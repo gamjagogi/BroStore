@@ -16,10 +16,10 @@ const CardProductListForSeller = (props) => {
   const description = product.description;
   const discountPercent = product.discountPercent;
   const discountPrice = product.discountPrice;
-  const freeShipping = product.isFreeShipping?true:false;
-  const isHot = product.hot?true:false;
+  const freeShipping = product.freeShipping==true?product.freeShipping:false;
+  const isHot = product.hot==true?product.hot:false;
   const name = product.name;
-  const isNew = product.new?true:false;
+  const isNew = product.new==true?product.new:false;
   const originPrice = product.originPrice?product.originPrice:0;
   const price = product.price;
   const soldBy = product.soldBy;
@@ -170,7 +170,7 @@ const CardProductListForSeller = (props) => {
             <button
               type="button"
               className="btn btn-sm btn-outline-secondary"
-              title="Add to wishlist"
+              title="Update Product"
               onClick={onFixProduct}
             >
               <span>수정하기</span>
@@ -178,7 +178,7 @@ const CardProductListForSeller = (props) => {
             <button
                 type="button"
                 className="btn btn-sm btn-outline-secondary"
-                title="Add to wishlist"
+                title="Delete Product"
                 onClick={handleDelete}
             >
               <span style={{color:'red'}}>삭제하기</span>

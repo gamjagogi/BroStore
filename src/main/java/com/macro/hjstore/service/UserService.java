@@ -47,9 +47,6 @@ public class UserService {
     private final AuthenticationManager authenticationManager;
     private final UserRepository userRepository;
     private final TokenRepository tokenRepository;
-    private final BCryptPasswordEncoder passwordEncoder;
-    private final MyUserDetailsService userDetailsService;
-    //private final S3Service s3Service;
 
 
     @MyLog

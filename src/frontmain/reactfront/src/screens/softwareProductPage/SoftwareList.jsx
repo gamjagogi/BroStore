@@ -4,6 +4,7 @@ import { faTh, faBars, faPencilSquare } from "@fortawesome/free-solid-svg-icons"
 import axios from "../Request/RequestConfig";
 import {Link, useNavigate} from "react-router-dom";
 import CategoryConfig from "./category/CategoryConfig";
+import {Button} from "react-bootstrap";
 
 const Paging = lazy(() => import("../../components/Paging"));
 const FilterCategory = lazy(() => import("../../components/filter/SoftwareCategory"));
@@ -24,6 +25,7 @@ const ProductListView = () => {
     const [category, setCategory] = useState('');
     const navigate = useNavigate();
     const userId = sessionStorage.getItem('userData2');
+    const [keyword, setKeyword] = useState('');
 
     useEffect(() => {
         if(userId==null){
@@ -74,7 +76,7 @@ const ProductListView = () => {
     const onPageChanged = (page) => {
         CategoryConfig(category)
             .then((products) => {
-                console.log("onPageChanged 진입");
+
                 console.log(products);
                 const { currentPage, totalPages, pageLimit } = page;
                 console.log(currentPage, totalPages, pageLimit);
@@ -101,6 +103,41 @@ const ProductListView = () => {
         setCategory(props);
     }
 
+
+
+    const onSearching = (props) => {
+        const value = props.target.value;
+        console.log(value);
+        setKeyword(value);
+    }
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        const accessToken = localStorage.getItem('accessToken');
+        const refreshToken = localStorage.getItem('refreshToken');
+        try {
+            const response = await axios.get(`/auth/software/search?keyword=${keyword}`, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${accessToken}`,
+                    'RefreshToken': `Bearer ${refreshToken}`,
+                },
+            });
+
+            if (response.status == 200) {
+                const data = await response.data.data;
+                console.log(data);
+                setCurrentProducts(data); // 검색 결과를 현재 페이지 데이터로 설정
+                setTotalItems(data.length); // 총 아이템 개수 설정 (페이징 처리를 위해)
+
+            } else {
+                console.error('게시글을 가져오지 못했습니다.');
+            }
+        } catch (error) {
+            console.error('에러발생..', error);
+        }
+    };
+
     return (
         <React.Fragment>
             <div
@@ -118,11 +155,16 @@ const ProductListView = () => {
             <div className="container-fluid mb-3">
                 <div className="row">
                     <div className="col-md-3">
+                        <div style={{display: 'flex', marginBottom: '20px'}}>
+                            <input className='col-7' type="text" placeholder="Search" name="search" onChange={onSearching}/>
+                            <Button className='col-5' onClick={handleSubmit} style={{marginLeft: '0.5em'}}>Search</Button>
+                        </div>
                         <FilterCategory
                             onChangeCategory={onChangeCategory}
                         />
                         <CardServices />
                     </div>
+
                     <div className="col-md-9">
                         <div className="row">
                             <div className="col-7">

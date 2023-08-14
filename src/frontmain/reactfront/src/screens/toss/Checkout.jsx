@@ -9,7 +9,7 @@ import axios from "../Request/RequestConfig";
 import { useSearchParams } from "react-router-dom";
 const selector = "#payment-widget";
 const clientKey = "test_ck_Z0RnYX2w532mRnklB6P8NeyqApQE";
-const customerKey = "@YbX2HuSlsC9uVJW6NMRMj"; // 회원가입시 생성되게끔 하자. user db에 항상 보관.
+//const customerKey = "@YbX2HuSlsC9uVJW6NMRMj"; // 회원가입시 생성되게끔 하자. user db에 항상 보관.
 
 // 클라이언트 페이지.
 export function CheckoutPage() {
@@ -24,6 +24,7 @@ export function CheckoutPage() {
     const [orderName, setOrderName] = useState('');
     const [customerName, setCustomerName] = useState('');
     const [customerEmail, setCustomerEmail] = useState('');
+    const [customerKey, setCustomerKey] = useState('');
 
 
     const getOrderSheet = async () => {
@@ -54,6 +55,7 @@ export function CheckoutPage() {
                     setCustomerEmail(orderSheetData.data.customerEmail);
                     setPrice(orderSheetData.data.price);
                     setOrderId(orderSheetData.data.orderCode);
+                    setCustomerKey(orderSheetData.data.customerKey);
 
                 } else {
                     console.error('결제내역을 가져오는대 실패하였습니다.');

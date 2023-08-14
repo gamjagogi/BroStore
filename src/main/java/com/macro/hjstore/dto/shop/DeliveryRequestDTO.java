@@ -1,5 +1,6 @@
 package com.macro.hjstore.dto.shop;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 import javax.validation.constraints.NotEmpty;
@@ -8,6 +9,7 @@ import javax.validation.constraints.NotEmpty;
 public class DeliveryRequestDTO {
 
     @Getter
+    @AllArgsConstructor
     public static class Save{
 
         @NotEmpty
