@@ -18,7 +18,10 @@ const CardProductGrid = (props) => {
 
   return (
     <div className="card">
-      <img src={product.thumbnail} className="card-img-top" alt="..." />
+      <div className="col-md-3 text-center">
+        {product.thumbnail?(<img src={product.thumbnail} className="img-fluid" alt="..." />)
+            :""}
+      </div>
       {product.isNew && (
         <span className="badge bg-success position-absolute mt-2 ms-2">
           New

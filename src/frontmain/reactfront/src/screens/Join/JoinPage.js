@@ -50,6 +50,7 @@ const JoinPage = () => {
             });
 
             if (response.status == 200) {
+                alert('회원가입 완료');
                 navigate('/login');
             } else if(response.status == 409) {
                 alert('중복된 이메일 아이디입니다.');
