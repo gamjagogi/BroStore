@@ -44,16 +44,4 @@ public class AdminDTO {
         }
     }
 
-    @Getter
-    public static class GetHomeData{
-
-        private List<GetAd>adList;
-
-        private Integer timer;
-
-        public GetHomeData(List<GetAd>adList,Integer timer){
-            this.adList = adList;
-            this.timer = timer;
-        }
-    }
 }

@@ -23,8 +23,6 @@ import HomeCardIcon from "../components/card/HomeCardIcon";
 const Home = () => {
     const [slide, setSlide] = useState([]);
     const [card, setCard] = useState([]);
-    // const [hour, setHour] = useState(14);
-    // const [endDate, setEndDate] = useState(Date.now() + 1000 * 60 * 60 * 14);
 
 
     useEffect(() => {
@@ -90,27 +88,6 @@ const Home = () => {
             console.error('에러발생..', error);
         }
     }
-
-    // const fetchCount = async () => {
-    //     try {
-    //         const response = await axios.get(`/home/count`, {
-    //             headers: {
-    //                 'Content-Type': 'application/json',
-    //             },
-    //         });
-    //
-    //         if (response.status == 200) {
-    //             const data = await response.data.data;
-    //             console.log(data);
-    //             setHour(data);
-    //             return;
-    //         } else {
-    //             console.error('게시글을 가져오지 못했습니다.');
-    //         }
-    //     } catch (error) {
-    //         console.error('에러발생..', error);
-    //     }
-    // }
 
 
     const adProducts = card;
@@ -238,7 +215,36 @@ const Home = () => {
                             <div className="text-center h6">AD</div>
                         </Link>
                     </div>
-                    {/* Add similar blocks for other categories */}
+                    <div className="col-md-3">
+                        <Link to="/" className="text-decoration-none">
+                            <img
+                                src="../../images/category/female.webp"
+                                className="img-fluid rounded-circle"
+                                alt="..."
+                            />
+                            <div className="text-center h6">AD</div>
+                        </Link>
+                    </div>
+                    <div className="col-md-3">
+                        <Link to="/" className="text-decoration-none">
+                            <img
+                                src="../../images/category/footwear.webp"
+                                className="img-fluid rounded-circle"
+                                alt="..."
+                            />
+                            <div className="text-center h6">AD</div>
+                        </Link>
+                    </div>
+                    <div className="col-md-3">
+                        <Link to="/" className="text-decoration-none">
+                            <img
+                                src="../../images/category/smartwatch.webp"
+                                className="img-fluid rounded-circle"
+                                alt="..."
+                            />
+                            <div className="text-center h6">AD</div>
+                        </Link>
+                    </div>
                 </div>
             </div>
         </React.Fragment>

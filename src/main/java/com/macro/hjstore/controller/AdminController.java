@@ -100,14 +100,4 @@ public class AdminController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
     }
-
-//    @PostMapping("/admin/card/count/{userId}")
-//    public ResponseEntity<?> setSaleTime(@PathVariable("userId")Long userId,@RequestBody Integer timer,@AuthenticationPrincipal MyUserDetails myUserDetails){
-//        if (myUserDetails.getUser().getId() == userId) {
-//            adminService.타임세일시간설정하기(timer);
-//            return ResponseEntity.ok().build();
-//        } else {
-//            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-//        }
-//    }
 }

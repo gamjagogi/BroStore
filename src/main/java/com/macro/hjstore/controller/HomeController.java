@@ -3,12 +3,9 @@ package com.macro.hjstore.controller;
 
 import com.macro.hjstore.dto.ResponseDTO;
 import com.macro.hjstore.dto.admin.AdminDTO;
-import com.macro.hjstore.model.admin.Home;
 import com.macro.hjstore.service.AdminService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.messaging.handler.annotation.MessageMapping;
-import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -37,11 +34,4 @@ public class HomeController {
         return ResponseEntity.ok().body(responseDTO);
     }
 
-//    @GetMapping("/home/count")
-//    public ResponseEntity<?> getTimeCount(){
-//        Home homePS = adminService.타임세일시간가져오기();
-//        Integer timer = homePS.getTimer();
-//        ResponseDTO<?>responseDTO = new ResponseDTO<>(timer);
-//        return ResponseEntity.ok().body(responseDTO);
-//    }
 }

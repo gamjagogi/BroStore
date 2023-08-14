@@ -24,7 +24,6 @@ const UpdateCardAd = () => {
     const [url, setUrl] = useState('');
 
     const [cards, setCards] = useState([]);
-    const [timer, setTimer] = useState(14);
 
     const navigate = useNavigate();
 
@@ -206,75 +205,11 @@ const UpdateCardAd = () => {
         navigate('/admin/adConfig');
     }
 
-    const handleCounterChange = (props) => {
-        const value = props.target.value;
-        console.log(value);
-        setTimer(value);
-    }
-
-    const changeTimeSaliCount = async () => {
-        console.log(timer);
-        try {
-            const accessToken = localStorage.getItem('accessToken');
-            const refreshToken = localStorage.getItem('refreshToken');
-            const userId = sessionStorage.getItem('userData2');
-            console.log(accessToken);
-            console.log(refreshToken);
-
-            if (accessToken && refreshToken) {
-                // 요청 보내기
-                const response = await axios.post(`/admin/card/count/${userId}`, timer, {
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${accessToken}`,
-                        'RefreshToken': `Bearer ${refreshToken}`,
-                    },
-                });
-
-                if (response.status == 200) {
-                    // 응답 성공 시 처리할 작업
-                    alert('세일 타이머 업데이트 완료');
-                    window.location.reload();
-
-                } else {
-                    // 응답 실패 시 처리할 작업
-                    const errorMessages = await response.data;
-                    console.log(errorMessages.errors);
-                    const errors = errorMessages.errors;
-                    for (const error of errors) {
-                        console.log(error.defaultMessage);
-                        alert(error.defaultMessage);
-                    }
-                }
-            } else {
-                setLoginError('인증 권한을 가진 유저만 접근 가능합니다.'); // 로그인되지 않은 경우 처리
-            }
-        } catch (error) {
-            console.error('인증되지 않은 사용자가 접근하려 합니다..', error);
-            setLoginError('인증된 유저만 접근 가능합니다.');
-        }
-    }
-
     return (
         <React.Fragment>
             <div className='row' style={{margin: '10px'}}>
                 <Button onClick={toSetSlideAdPage}>Slide Config</Button>
                 <label style={{fontSize: '50px'}}>Card</label>
-
-                <Form.Group className="col-3" controlId="formBasicNumber" style={{marginBottom:'20px'}}>
-                    <Form.Label>Time Sail hour</Form.Label>
-                    <Form.Control
-                        type="number"
-                        placeholder="Time Sale"
-                        min="0"
-                        max="20"
-                        defaultValue={timer}
-                        onChange={(e) => handleCounterChange(e)}
-                    />
-                </Form.Group>
-                <div className="col-1" style={{marginTop:'35px'}}>
-                    <Button className= "btn-sm btn-primary" onClick={changeTimeSaliCount}>Summit</Button>
-                </div>
             </div>
             <div className="row" style={{marginBottom: '30px'}}>
                 {cards.map((item, idx) => {
