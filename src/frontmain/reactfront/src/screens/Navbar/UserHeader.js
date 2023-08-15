@@ -49,13 +49,17 @@ const UserHeader = () => {
         navigate('/join')
     }
 
+    const handleProfile = () => {
+        navigate('/account/profile');
+    }
+
     useEffect(() => {
         if (userData) {
             setIsLoggedIn(true);
             console.log(userDataString);
             setUserName(userDataString);
-
         }
+        return;
     }, [userData]);
 
 
@@ -68,7 +72,7 @@ const UserHeader = () => {
             <Card.Body style={{fontSize: '14px', padding: '2px'}}>
                 <Card.Title style={{fontSize: '18px', marginBottom: '8px'}}>안녕하세요, { userName }님 </Card.Title>
                 <Button variant="primary" size="sm" onClick={handleLogout}> 로그아웃 </Button>
-                <Button variant="primary" size="sm" style={{marginLeft: '30px'}}> 회원 정보 수정 </Button>
+                <Button variant="primary" size="sm" style={{marginLeft: '30px'}} onClick={handleProfile}> 회원 정보 수정 </Button>
             </Card.Body>
         </Card>) : (<Card style={{width: '290px', height: '90px'}}>
             <div className="d-grid gap-2">

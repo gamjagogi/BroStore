@@ -91,6 +91,9 @@ const MyPage = () => {
                     });
 
                     if (response.status == 200) {
+                        const updateUsername = response.data.data;
+                        console.log(updateUsername);
+                        sessionStorage.setItem('userData', JSON.stringify(updateUsername));
                         alert('변경 완료');
                         window.location.reload();
                     } else {
