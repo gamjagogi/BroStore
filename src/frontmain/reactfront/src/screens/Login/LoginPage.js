@@ -104,6 +104,7 @@ const LoginPage = () => {
         } catch (error) {
             console.error('로그인 요청 중 오류가 발생했습니다.', error);
             setLoginError('로그인 요청 중 오류가 발생했습니다.');
+            alert('유효한 계정이 아닙니다.');
         }
     };
 
