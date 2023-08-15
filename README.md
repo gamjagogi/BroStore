@@ -29,7 +29,7 @@
 - **기타 라이브러리** : `react quill 2.0.0`, `react-daum-postcode 3.1.3`, `react-image-file-resizer 0.4.8`, `react-dom 18.2.0` 등..
 - <a href="https://github.com/gamjagogi/BroStore/wiki/%EB%A6%AC%EC%95%A1%ED%8A%B8-%EB%9D%BC%EC%9D%B4%EB%B8%8C%EB%9F%AC%EB%A6%AC(Package.json)" >상세 라이브러리 정보 - WIKI 이동</a>
 - **배포** : neflify
-- <a href="https://web--bro-store.netlify.app/" > 배포 사이트 - WIKI 이동</a>
+- <a href="https://web--bro-store.netlify.app/" > 배포 사이트 - 이동</a>
 
 ## 📌 주요 기능
 
