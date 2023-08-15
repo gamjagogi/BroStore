@@ -189,10 +189,12 @@ public class UserController {
     public ResponseEntity<?> updateUsername(@PathVariable("id")Long id,@RequestBody UserRequest.EditUsername updateName,@AuthenticationPrincipal MyUserDetails myUserDetails){
         if(myUserDetails.getUser().getId()==id){
             User userPS = userService.회원찾기(id);
-            System.out.println("업데이트이름"+updateName.getUsername());
             userPS.updateName(updateName.getUsername());
             userService.회원업데이트(userPS);
-            return ResponseEntity.ok().build();
+            User userUp = userService.회원찾기(id);
+            String username = userUp.getUsername();
+            ResponseDTO<?>responseDTO = new ResponseDTO<>(username);
+            return ResponseEntity.ok().body(responseDTO);
         }else {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }

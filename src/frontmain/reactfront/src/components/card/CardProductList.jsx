@@ -29,7 +29,8 @@ const CardProductList = (props) => {
     <div className="card">
       <div className="row g-0">
         <div className="col-md-3 text-center">
-          <img src={product.thumbnail} className="img-fluid" alt="..." />
+          {product.thumbnail?(<img src={product.thumbnail} className="img-fluid" alt="..." />)
+          :""}
         </div>
         <div className="col-md-6">
           <div className="card-body">

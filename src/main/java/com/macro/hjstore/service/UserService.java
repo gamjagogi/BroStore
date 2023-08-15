@@ -194,6 +194,7 @@ public class UserService {
     }
 
     @MyLog
+    @Transactional
     public User 회원찾기(Long id) {
         User userPS = userRepository.findById(id)
                 .orElseThrow(() -> new Exception404("회원을 찾을 수 없습니다"));

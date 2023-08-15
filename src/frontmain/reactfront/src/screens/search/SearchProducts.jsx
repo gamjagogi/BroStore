@@ -12,11 +12,12 @@ const SearchProduct = (props) => {
             <td>
                 <div className="row">
                     <div className="d-block text-muted">
-                        <img
+                        {item.thumbnail?
+                            (<img
                             src={item.thumbnail}
                             width="70"
                             alt="..."
-                        />
+                        />):""}
                     </div>
                 </div>
             </td>

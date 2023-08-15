@@ -50,6 +50,7 @@ const JoinPage = () => {
             });
 
             if (response.status == 200) {
+                alert('회원가입 완료');
                 navigate('/login');
             } else if(response.status == 409) {
                 alert('중복된 이메일 아이디입니다.');
@@ -63,7 +64,7 @@ const JoinPage = () => {
     };
 
     return (
-        <div>
+        <div style={{margin:'30px'}}>
             <h1>회원가입</h1>
             <Form onSubmit={handleJoin}>
                 <Form.Group controlId="formBasicEmail">
@@ -121,7 +122,7 @@ const JoinPage = () => {
                     />
                 </Form.Group>
 
-                <Button variant="primary" type="submit">
+                <Button variant="primary" type="submit" style={{marginTop:'10px'}}>
                     회원가입
                 </Button>
             </Form>
