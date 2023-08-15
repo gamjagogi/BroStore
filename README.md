@@ -16,9 +16,9 @@
 - `JDK 11.0.2`
 - **IDE** : IntelliJ IDEA
 - **Framework** : Springboot(2.7.13)
-- **Database** : Maria DB(3.0.1), aws RDS
+- **Database** : Maria DB(3.0.1), aws RDS ** <a href="" >상세 라이브러리 정보 - WIKI 이동</a>**
 - **ORM** : JPA
-- **배포** : aws ec2
+- **배포** : aws ec2 ** <a href="" >상세 정보 - WIKI 이동</a>**
 - **이미지 처리** : aws s3
 
 
@@ -29,6 +29,7 @@
 - **기타 라이브러리** : `react quill 2.0.0`, `react-daum-postcode 3.1.3`, `react-image-file-resizer 0.4.8`, `react-dom 18.2.0` 등..
 - ** <a href="" >상세 라이브러리 정보 - WIKI 이동</a>**
 - **배포** : neflify
+
 
 
 ## 📌 주요 기능
