@@ -114,7 +114,7 @@ const Header = () => {
                                         <hr className="dropdown-divider"/>
                                     </li>
                                     <li>
-                                        <Link className="dropdown-item" to="/admin/adConfig">
+                                        <Link className="dropdown-item" to="/notice">
                                             <IconBellFill className="text-primary"/> Notification
                                         </Link>
                                     </li>
