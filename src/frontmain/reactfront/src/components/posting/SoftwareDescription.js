@@ -282,7 +282,7 @@ const SoftwareDescription = (props) => {
     return (
         <div style={{display: 'flex', flexDirection: 'column', height: '100vh',marginBottom:'50px'}}>
 
-            <div style={{flex: '1', minHeight: '0', padding: '10px', fontSize: '14px', marginBottom: '30px'}}>
+            <div style={{flex: '1', minHeight: '50', padding: '10px', fontSize: '14px',marginBottom: '30px' }}>
                 {/* <ReactQuill/> 컴포넌트를 감싸는 div */}
                 <ReactQuill
                     ref={quillRef}
@@ -293,24 +293,23 @@ const SoftwareDescription = (props) => {
                     defaultValue={description}
                     style={{
                         flex: '1',
-                        minHeight: '0',
+                        minHeight: '50',
                         padding: '10px',
                         fontSize: '14px',
                         width: '100%',
-                        height: '80%'
+                        height: '100%'
                     }}
                 />
-                <div dangerouslySetInnerHTML={{__html: description}} style={{display: 'none'}}/>
             </div>
 
-            <div className="footer" style={{marginTop: 'auto', padding: '10px', position: 'relative', top: '70px'}}>
+            <div className="footer" style={{marginTop: '50px', padding: '10px', position: 'relative', top: '70px'}}>
                 <div style={{
                     display: 'flex',
                     justifyContent: 'flex-end',
                     marginTop: '30px',
                     marginRight: '10px',
                     position: 'relative',
-                    top: '-200px'
+                    top: '-100px',
                 }}>
 
                     <Form.Group className="col-12">
@@ -328,15 +327,6 @@ const SoftwareDescription = (props) => {
                 </div>
 
                 <br/>
-                <div style={{
-                    display: 'flex',
-                    justifyContent: 'flex-end',
-                    marginTop: 'auto',
-                    marginRight: '10px',
-                    position: 'relative',
-                    top: '-200px'
-                }}>
-                </div>
             </div>
         </div>
 

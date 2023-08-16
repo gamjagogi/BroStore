@@ -311,13 +311,15 @@ const SoftwarePostingFix = () => {
                     />
                 </div>
                 <div className="col-md-8">
+                    <div style={{marginTop:'10px'}}>
                     <ContentForm
                         onTitleChange={onTitleChange}
                         onHighlightChange={onHighlightChange}
                         title={state.title}
                         highlights={state.highlights}
                     />
-                    <div style={{marginTop: "-600px"}}>
+                    </div>
+                    <div>
                         <SettingForm
                             onDeliveryToggle={onDeliveryToggle}
                             deliveryEnabled={state.deliveryFree}
@@ -328,7 +330,7 @@ const SoftwarePostingFix = () => {
                         />
                     </div>
                 </div>
-                <div style={{marginBottom:'30px'}}>
+                <div className="col-12" style={{marginBottom:'30px'}}>
                     <SoftwareDescription
                         onDescriptionChange={onDescriptionChange}
                         description={state.description}
@@ -342,10 +344,9 @@ const SoftwarePostingFix = () => {
                 style={{
                     display: "flex",
                     justifyContent: "flex-start",
-                    marginTop: "auto",
+                    marginTop: "50px",
                     marginLeft: "0",
                     position: "relative",
-                    top: "-180px",
                 }}
             >
                 <div style={{ marginRight: "auto" }}>
@@ -379,7 +380,7 @@ const SoftwarePostingFix = () => {
                     marginTop: "auto",
                     marginRight: "10px",
                     position: "relative",
-                    top: "-530px",
+                    top: "-350px",
                 }}
             >
 

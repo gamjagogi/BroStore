@@ -314,13 +314,15 @@ const SoftwarePosting = () => {
                     />
                 </div>
                 <div className="col-md-8">
+                    <div style={{marginTop:'10px'}}>
                     <ContentForm
                         onTitleChange={onTitleChange}
                         onHighlightChange={onHighlightChange}
                         title={state.title}
                         highlights={state.highlights}
                     />
-                    <div style={{marginTop: "-600px"}}>
+                    </div>
+                    <div>
                         <SettingForm
                             onDeliveryToggle={onDeliveryToggle}
                             deliveryEnabled={state.deliveryFree}

@@ -301,13 +301,15 @@ const DeliveryPosting = () => {
                     />
                 </div>
                 <div className="col-md-8">
+                    <div style={{marginTop:'10px'}}>
                     <ContentForm
                         onTitleChange={onTitleChange}
                         onHighlightChange={onHighlightChange}
                         title={state.title}
                         highlights={state.highlights}
                     />
-                    <div style={{ marginTop: "-600px" }}>
+                    </div>
+                    <div>
                         <SettingForm
                             onDeliveryToggle={onDeliveryToggle}
                             deliveryEnabled={state.deliveryFree}
@@ -318,7 +320,7 @@ const DeliveryPosting = () => {
                         />
                     </div>
                 </div>
-                <div style={{marginBottom:'30px'}}>
+                <div >
                     <DeliveryDescription
                         onDescriptionChange={onDescriptionChange}
                         description={state.description}
@@ -330,10 +332,9 @@ const DeliveryPosting = () => {
                 style={{
                     display: "flex",
                     justifyContent: "flex-start",
-                    marginTop: "30px",
+                    marginTop: "auto",
                     marginLeft: "0",
                     position: "relative",
-                    top: "-180px",
                 }}
             >
                 <div style={{ marginRight: "auto" }}>
@@ -366,7 +367,7 @@ const DeliveryPosting = () => {
                     marginTop: "auto",
                     marginRight: "10px",
                     position: "relative",
-                    top: "-530px",
+                    top: "-350px",
                 }}
             >
                 <Button

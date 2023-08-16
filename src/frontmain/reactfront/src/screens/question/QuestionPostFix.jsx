@@ -363,7 +363,7 @@ export default function QuestionPostFix() {
     }
 
     return (
-        <div style={{display: 'flex', flexDirection: 'column', height: '100vh'}}>
+        <div style={{display: 'flex', flexDirection: 'column', height: '110vh'}}>
             <input
                 type="text"
                 defaultValue={state.title}
@@ -373,7 +373,7 @@ export default function QuestionPostFix() {
             />
 
 
-            <div style={{flex: '1', minHeight: '0', padding: '10px', fontSize: '14px', marginBottom: 'auto'}}>
+            <div style={{flex: '1', minHeight: '40vh', padding: '10px', fontSize: '14px', marginBottom: '30px'}}>
                 {/* <ReactQuill/> 컴포넌트를 감싸는 div */}
                 <ReactQuill
                     ref={quillRef}
@@ -384,24 +384,23 @@ export default function QuestionPostFix() {
                     defaultValue={state.content}
                     style={{
                         flex: '1',
-                        minHeight: '0',
+                        minHeight: '40vh',
                         padding: '10px',
                         fontSize: '14px',
                         width: '100%',
-                        height: '80%'
+                        height: '100%'
                     }}
                 />
                 <div dangerouslySetInnerHTML={{__html: state.content}} style={{display: 'none'}}/>
             </div>
             <br/>
-            <div className="footer" style={{marginTop: '30px', padding: '10px', position: 'relative', top: '70px'}}>
+            <div className="footer" style={{marginTop: '30px', padding: '10px', position: 'relative'}}>
                 <div style={{
                     display: 'flex',
                     justifyContent: 'flex-end',
                     marginTop: 'auto',
                     marginRight: '10px',
                     position: 'relative',
-                    top: '-200px'
                 }}>
                     <label style={{marginRight:'5px',marginTop:'5px',fontWeight:'bold'}}>Category </label>
                     <select className="form-select mw-180 float-start" aria-label="Default select" value={selectedValue} onChange={handleSelectChange} style={{marginRight:'10px'}}>
@@ -415,10 +414,9 @@ export default function QuestionPostFix() {
                 <div style={{
                     display: 'flex',
                     justifyContent: 'flex-end',
-                    marginTop: 'auto',
+                    marginTop: '3px',
                     marginRight: '10px',
                     position: 'relative',
-                    top: '-200px'
                 }}>
                     <button onClick={handleSubmit} style={{marginRight: '10px'}}>완료</button>
                     <button onClick={onClickBack}>취소</button>

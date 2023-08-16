@@ -61,7 +61,7 @@ const ContentForm = (props) => {
 
 
     return (
-        <div style={{display: 'flex', flexDirection: 'column', height: '100vh'}}>
+        <div style={{display: 'flex', flexDirection: 'column', minHeight: '20vh'}}>
             <input
                 type="text"
                 onChange={handleTitleChange}
@@ -70,7 +70,7 @@ const ContentForm = (props) => {
                 style={{ flex: 'none', padding: '10px', fontSize: '18px' }}
             />
 
-            <div style={{flex: '1', minHeight: '0', padding: '10px', fontSize: '14px', marginBottom: 'auto'}}>
+            <div style={{flex: '1', minHeight: '100px', padding: '10px', fontSize: '14px', marginBottom: '10px'}}>
                 <ReactQuill
                     ref={quillRef}
                     formats={formats}
@@ -85,10 +85,9 @@ const ContentForm = (props) => {
                         padding: '10px',
                         fontSize: '14px',
                         width: '100%',
-                        height: '20%'
+                        height: '100%'
                     }}
                 />
-                <div dangerouslySetInnerHTML={{__html: highlights}} style={{display: 'none'}}/>
             </div>
             <br/>
         </div>

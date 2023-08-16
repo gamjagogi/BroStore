@@ -380,7 +380,7 @@ export default function NoticeEditorFix() {
     }
 
     return (
-        <div style={{display: 'flex', flexDirection: 'column', height: '100vh'}}>
+        <div style={{display: 'flex', flexDirection: 'column', height: '110vh'}}>
             <input
                 type="text"
                 defaultValue={title}
@@ -390,7 +390,7 @@ export default function NoticeEditorFix() {
             />
 
 
-            <div style={{flex: '1', minHeight: '0', padding: '10px', fontSize: '14px', marginBottom: 'auto'}}>
+            <div style={{flex: '1', minHeight: '40vh', padding: '10px', fontSize: '14px', marginBottom: '20px'}}>
                 {/* <ReactQuill/> 컴포넌트를 감싸는 div */}
                 <ReactQuill
                     ref={quillRef}
@@ -401,24 +401,23 @@ export default function NoticeEditorFix() {
                     defaultValue={content}
                     style={{
                         flex: '1',
-                        minHeight: '0',
+                        minHeight: '40vh',
                         padding: '10px',
                         fontSize: '14px',
                         width: '100%',
-                        height: '80%'
+                        height: '100%'
                     }}
                 />
                 <div dangerouslySetInnerHTML={{__html: content}} style={{display: 'none'}}/>
             </div>
 
-            <div className="footer" style={{marginTop: '35px', padding: '10px', position: 'relative', top: '70px'}}>
+            <div className="footer" style={{marginTop: '35px', padding: '10px', position: 'relative'}}>
                 <div style={{
                     display: 'flex',
                     justifyContent: 'flex-end',
-                    marginTop: 'auto',
+                    marginTop: '10px',
                     marginRight: '10px',
                     position: 'relative',
-                    top: '-200px'
                 }}>
                     <Button onClick={handleSubmit} style={{marginRight: '10px'}}>완료</Button>
                     <Button onClick={onClickBack}>취소</Button>
