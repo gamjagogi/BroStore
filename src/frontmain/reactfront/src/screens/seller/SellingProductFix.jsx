@@ -307,7 +307,7 @@ const SellingProductFix = () => {
                         />
                     </div>
                 </div>
-                <div>
+                <div style={{marginBottom:'30px'}}>
                     <DeliveryDescription
                         onDescriptionChange={onDescriptionChange}
                         description={state.description}
@@ -319,7 +319,7 @@ const SellingProductFix = () => {
                 style={{
                     display: "flex",
                     justifyContent: "flex-start",
-                    marginTop: "auto",
+                    marginTop: "30px",
                     marginLeft: "0",
                     position: "relative",
                     top: "-180px",
@@ -339,7 +339,7 @@ const SellingProductFix = () => {
                         star={state.star}
                     />
                 </div>
-                <div style={{ marginTop : '50px', marginRight: "10px"}}>
+                <div style={{ margin : 'auto'}}>
                     <DeliverySoldByAndCategoryConfig
                         name={state.soldBy}
                         setCategory={setCategory}
@@ -355,7 +355,7 @@ const SellingProductFix = () => {
                     marginTop: "auto",
                     marginRight: "10px",
                     position: "relative",
-                    top: "-480px",
+                    top: "-530px",
                 }}
             >
                 <Button

@@ -15,6 +15,11 @@ import {required} from "../../helpers/validation";
 
 const SoftwareDescription = (props) => {
 
+    const commentRowStyle = {
+        wordWrap: 'break-word', // 긴 텍스트를 자동으로 줄바꿈
+        whiteSpace: 'pre-wrap', // 줄바꿈과 공백을 유지하도록 설정
+    };
+
     const { onDescriptionChange,description,handleUploadFile,uploadFile } = props;
 
     const quillRef = useRef(null);
@@ -277,7 +282,7 @@ const SoftwareDescription = (props) => {
     return (
         <div style={{display: 'flex', flexDirection: 'column', height: '100vh',marginBottom:'50px'}}>
 
-            <div style={{flex: '1', minHeight: '0', padding: '10px', fontSize: '14px', marginBottom: 'auto'}}>
+            <div style={{flex: '1', minHeight: '0', padding: '10px', fontSize: '14px', marginBottom: '30px'}}>
                 {/* <ReactQuill/> 컴포넌트를 감싸는 div */}
                 <ReactQuill
                     ref={quillRef}
@@ -305,14 +310,13 @@ const SoftwareDescription = (props) => {
                     marginTop: '30px',
                     marginRight: '10px',
                     position: 'relative',
-                    top: '-220px'
+                    top: '-200px'
                 }}>
 
                     <Form.Group className="col-12">
-
-                            <InputGroup.Text> Dropbox로 연결됩니다. 파일 업로드 후, 업로드 링크를 복사 붙여넣기를 해 주세요.</InputGroup.Text>
+                            <InputGroup.Text style={commentRowStyle}> Dropbox로 연결됩니다. 파일 업로드 후, 업로드 링크를 복사 붙여넣기를 해 주세요.</InputGroup.Text>
                         <InputGroup>
-                            <InputGroup.Text>
+                            <InputGroup.Text style={commentRowStyle}>
                                 <a href="https://www.dropbox.com/transfer" target="_blank" rel="noopener noreferrer">
                                     Dropbox
                                 </a>

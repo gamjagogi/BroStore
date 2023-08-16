@@ -275,6 +275,7 @@ export default function QuestionDetailPage() {
                 if (response.status == 200) {
                     // 응답 성공 시 처리할 작업
                     console.log('댓글쓰기 성공'); // 요청에 대한 응답 처리
+                    alert('댓글 작성 완료');
                     window.location.reload();
 
                 } else {

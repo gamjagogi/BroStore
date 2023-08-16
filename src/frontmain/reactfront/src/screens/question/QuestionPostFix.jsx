@@ -394,7 +394,7 @@ export default function QuestionPostFix() {
                 <div dangerouslySetInnerHTML={{__html: state.content}} style={{display: 'none'}}/>
             </div>
             <br/>
-            <div className="footer" style={{marginTop: 'auto', padding: '10px', position: 'relative', top: '70px'}}>
+            <div className="footer" style={{marginTop: '30px', padding: '10px', position: 'relative', top: '70px'}}>
                 <div style={{
                     display: 'flex',
                     justifyContent: 'flex-end',
@@ -403,7 +403,7 @@ export default function QuestionPostFix() {
                     position: 'relative',
                     top: '-200px'
                 }}>
-                    <label style={{marginRight:'10px',marginTop:'5px',fontWeight:'bold'}}>Category </label>
+                    <label style={{marginRight:'5px',marginTop:'5px',fontWeight:'bold'}}>Category </label>
                     <select className="form-select mw-180 float-start" aria-label="Default select" value={selectedValue} onChange={handleSelectChange} style={{marginRight:'10px'}}>
                         <option value={1}>All</option>
                         <option value={2} >판매자 신청</option>

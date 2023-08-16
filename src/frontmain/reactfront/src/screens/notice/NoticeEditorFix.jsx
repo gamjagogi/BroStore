@@ -411,7 +411,7 @@ export default function NoticeEditorFix() {
                 <div dangerouslySetInnerHTML={{__html: content}} style={{display: 'none'}}/>
             </div>
 
-            <div className="footer" style={{marginTop: 'auto', padding: '10px', position: 'relative', top: '70px'}}>
+            <div className="footer" style={{marginTop: '35px', padding: '10px', position: 'relative', top: '70px'}}>
                 <div style={{
                     display: 'flex',
                     justifyContent: 'flex-end',

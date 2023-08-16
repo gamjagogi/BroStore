@@ -1,15 +1,15 @@
 import React, {lazy, useEffect, useState} from "react";
-import { Link } from "react-router-dom";
-import { data } from "../data";
-import { ReactComponent as IconLaptop } from "bootstrap-icons/icons/laptop.svg";
-import { ReactComponent as IconHeadset } from "bootstrap-icons/icons/headset.svg";
-import { ReactComponent as IconPhone } from "bootstrap-icons/icons/phone.svg";
-import { ReactComponent as IconTv } from "bootstrap-icons/icons/tv.svg";
-import { ReactComponent as IconDisplay } from "bootstrap-icons/icons/display.svg";
-import { ReactComponent as IconHdd } from "bootstrap-icons/icons/hdd.svg";
-import { ReactComponent as IconUpcScan } from "bootstrap-icons/icons/upc-scan.svg";
-import { ReactComponent as IconTools } from "bootstrap-icons/icons/tools.svg";
-import { ReactComponent as IconTruck } from "bootstrap-icons/icons/truck.svg";
+import {Link} from "react-router-dom";
+import {data} from "../data";
+import {ReactComponent as IconLaptop} from "bootstrap-icons/icons/laptop.svg";
+import {ReactComponent as IconHeadset} from "bootstrap-icons/icons/headset.svg";
+import {ReactComponent as IconPhone} from "bootstrap-icons/icons/phone.svg";
+import {ReactComponent as IconTv} from "bootstrap-icons/icons/tv.svg";
+import {ReactComponent as IconDisplay} from "bootstrap-icons/icons/display.svg";
+import {ReactComponent as IconHdd} from "bootstrap-icons/icons/hdd.svg";
+import {ReactComponent as IconUpcScan} from "bootstrap-icons/icons/upc-scan.svg";
+import {ReactComponent as IconTools} from "bootstrap-icons/icons/tools.svg";
+import {ReactComponent as IconTruck} from "bootstrap-icons/icons/truck.svg";
 import Support from "../components/Support";
 import Banner from "../components/carousel/Banner";
 import Carousel from "../components/carousel/Carousel";
@@ -19,6 +19,7 @@ import CardImage from "../components/card/CardImage";
 import CardDealsOfTheDay from "../components/card/CardDealsOfTheDay";
 import axios from "./Request/RequestConfig";
 import HomeCardIcon from "../components/card/HomeCardIcon";
+import {Container} from "../components/Styles/Container/Container.style";
 
 const Home = () => {
     const [slide, setSlide] = useState([]);
@@ -30,7 +31,6 @@ const Home = () => {
         fetchCard();
         return;
     }, []);
-
 
 
     const components = {
@@ -137,7 +137,6 @@ const Home = () => {
     };
 
 
-
     const generateAdCarouselContent = (productRows) => {
         return productRows.map((row, idx) => (
             <div
@@ -169,18 +168,19 @@ const Home = () => {
 
     return (
         <React.Fragment>
-            <Banner className="mb-3" id="carouselHomeBanner" data={slide} />
+
             <div className="container-fluid bg-light mb-3">
+                <Banner className="mb-3" id="carouselHomeBanner" data={slide}/>
                 <div className="row g-3">
                     <div className="col-md-9">
                         <Carousel id="product-category" className="mb-3">
                             {carouselContent}
                         </Carousel>
-                        <Support />
+                        <Support/>
                     </div>
                     <div className="col-md-3">
-                        <CardLogin className="mb-3" />
-                        <CardImage src="../../images/banner/Watches.webp" to="promo" />
+                        <CardLogin className="mb-3"/>
+                        <CardImage src="../../images/banner/Watches.webp" to="promo"/>
                     </div>
                 </div>
             </div>
@@ -199,7 +199,7 @@ const Home = () => {
                 </div>
             </div>
             <div className="bg-info bg-gradient p-3 text-center mb-3">
-                <h4 className="m-0" style={{ fontWeight: "bold" }}>
+                <h4 className="m-0" style={{fontWeight: "bold"}}>
                     BRO Store
                 </h4>
             </div>

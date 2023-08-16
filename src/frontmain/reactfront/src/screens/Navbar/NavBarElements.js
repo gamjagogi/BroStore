@@ -25,19 +25,21 @@ const NavBarElements = () => {
                         <Nav.Link href="/software" className="navbar-text">Software Product</Nav.Link>
                         <Nav.Link href="/delivery" className="navbar-text">Delivery Product</Nav.Link>
                         <Nav.Link href="/board" className="navbar-text">User Board</Nav.Link>
-                        <div className="container col-6">
-                        <NavDropdown title="ACCOUNT" id="collasible-nav-dropdown" >
-                            <NavDropdown.Item style={{ width: '100%', height: '100px' }}>
+                    </Nav>
+                    <div className="container col-2">
+                    <Nav className="me-auto align-items-center">
+                        <NavDropdown title="ACCOUNT" id="collasible-nav-dropdown">
+                            <NavDropdown.Item>
                                 <UserHeader />
                             </NavDropdown.Item>
                         </NavDropdown>
-                        </div>
                     </Nav>
+                    </div>
                     <Nav className="me-auto">
                         <Nav.Link href="/question" >Question</Nav.Link>
                         <Nav.Link href="/notice">Notification</Nav.Link>
                         <Nav.Link eventKey={2} href="/document">
-                            Documentation
+                            Document
                         </Nav.Link>
                         {isManager ? (<Nav.Link href="/selling">SellerPage</Nav.Link>):''}
                     </Nav>

@@ -21,21 +21,6 @@ const LoginPage = () => {
         // Add more styles here as needed
     };
 
-    const iconStyle = {
-        width: '40px', // 아이콘의 가로 크기를 지정합니다.
-        height: '20px', // 아이콘의 세로 크기를 지정합니다.
-        marginRight: '5px', // 아이콘과 텍스트 사이의 간격을 조절합니다.
-        // Add more styles here as needed
-    };
-
-    const cardStyle = {
-        minHeight: '40vh',
-        marginTop: '50px',
-        marginRight: '160px',
-        marginLeft: '160px',
-        marginBottom: '50px'
-    };
-
     useEffect(() => {
         return console.log(code);
     }, [code]);
@@ -114,9 +99,8 @@ const LoginPage = () => {
 
 
     return (
-        <div style={cardStyle}>
-        <Container fluid >
-            <Card border="primary">
+        <div className='container-fluid align-items-center'>
+            <Card border="primary" style={{margin:'30px'}}>
                 <h1 style={{fontSize:'50px'}}>로그인</h1>
                 <Login className="d-grid gap-2">
                     <input
@@ -141,7 +125,6 @@ const LoginPage = () => {
                     <Button onClick={handleJoin} style={buttonStyle}>회원가입</Button>
                 </div>
             </Card>
-        </Container>
         </div>
     );
 }

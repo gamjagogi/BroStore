@@ -254,7 +254,7 @@ export default function Detail() {
 
             if (accessToken && refreshToken) {
                 // 요청 보내기
-                console.log("댓글데이터!!!!!"+requestData);
+                console.log("댓글데이터!!!!!"+requestData.content);
                 const response = await axios.post(`/auth/board/comment/save/${userId}/${boardId}`, JSON.stringify(requestData), {
                     headers: {
                         'Content-Type': 'application/json',
@@ -266,6 +266,7 @@ export default function Detail() {
                 if (response.status == 200) {
                     // 응답 성공 시 처리할 작업
                     console.log('댓글쓰기 성공'); // 요청에 대한 응답 처리
+                    alert('댓글 작성 완료');
                     window.location.reload();
 
                 } else {

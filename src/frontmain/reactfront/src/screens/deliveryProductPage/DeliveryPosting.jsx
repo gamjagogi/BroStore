@@ -294,7 +294,7 @@ const DeliveryPosting = () => {
     return (
         <div className="container-fluid my-3">
             <div className="row">
-                <div className="col-md-4">
+                <div className="col-md-4" style={{marginBottom:'10px'}}>
                     <FrontContent
                         onImageChange={onImageChange}
                         imagePreview={state.imagePreview}
@@ -318,7 +318,7 @@ const DeliveryPosting = () => {
                         />
                     </div>
                 </div>
-                <div>
+                <div style={{marginBottom:'30px'}}>
                     <DeliveryDescription
                         onDescriptionChange={onDescriptionChange}
                         description={state.description}
@@ -330,7 +330,7 @@ const DeliveryPosting = () => {
                 style={{
                     display: "flex",
                     justifyContent: "flex-start",
-                    marginTop: "auto",
+                    marginTop: "30px",
                     marginLeft: "0",
                     position: "relative",
                     top: "-180px",
@@ -350,7 +350,7 @@ const DeliveryPosting = () => {
                         star={state.star}
                     />
                 </div>
-                <div style={{ marginTop : '50px', marginRight: "10px"}}>
+                <div style={{margin:"auto"}}>
                     <DeliverySoldByAndCategoryConfig
                         name={name}
                         category={state.category}
@@ -366,7 +366,7 @@ const DeliveryPosting = () => {
                     marginTop: "auto",
                     marginRight: "10px",
                     position: "relative",
-                    top: "-480px",
+                    top: "-530px",
                 }}
             >
                 <Button

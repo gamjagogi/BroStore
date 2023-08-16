@@ -373,7 +373,7 @@ export default function PostEditor() {
                 <div dangerouslySetInnerHTML={{__html: content}} style={{display: 'none'}}/>
             </div>
             <br/>
-            <div className="footer" style={{marginTop: 'auto', padding: '10px', position: 'relative', top: '60px'}}>
+            <div className="footer" style={{marginTop: '30px', padding: '10px', position: 'relative', top: '60px'}}>
 
                 <div style={{
                     display: 'flex',

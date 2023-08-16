@@ -6,8 +6,10 @@ import {Button} from "react-bootstrap";
 
 
 const PriceConfig = (props) => {
-    const { setPrice,price, setOriginPrice,originPrice, setDiscountPrice,discountPrice
-        , setDiscountPercent, discountPercent,setStar,star} = props
+    const {
+        setPrice, price, setOriginPrice, originPrice, setDiscountPrice, discountPrice
+        , setDiscountPercent, discountPercent, setStar, star
+    } = props
 
 
     const handlePriceChange = (event) => {
@@ -15,7 +17,7 @@ const PriceConfig = (props) => {
         // 정규표현식을 사용하여 숫자인지 확인
         const regex = /^[0-9]*$/;
 
-        if (regex.test(value)&&value.length<=10) {
+        if (regex.test(value) && value.length <= 10) {
             setPrice(value);
         }
     };
@@ -25,7 +27,7 @@ const PriceConfig = (props) => {
         // 정규표현식을 사용하여 숫자인지 확인
         const regex = /^[0-9]*$/;
 
-        if (regex.test(value)&&value.length<=10) {
+        if (regex.test(value) && value.length <= 10) {
             setOriginPrice(value);
         }
     };
@@ -35,7 +37,7 @@ const PriceConfig = (props) => {
         // 정규표현식을 사용하여 숫자인지 확인
         const regex = /^[0-9]*$/;
 
-        if (regex.test(value)&&value.length<=10) {
+        if (regex.test(value) && value.length <= 10) {
             setDiscountPrice(value);
         }
     };
@@ -45,7 +47,7 @@ const PriceConfig = (props) => {
         // 정규표현식을 사용하여 숫자인지 확인
         const regex = /^[0-9]*$/;
 
-        if (regex.test(value) && value.length<=10) {
+        if (regex.test(value) && value.length <= 10) {
             setDiscountPercent(value);
         }
     };
@@ -87,7 +89,7 @@ const PriceConfig = (props) => {
 
     return (
         <div>
-            <InputGroup className="mb-3">
+            <InputGroup className="mb-4">
                 <InputGroup.Text>Price</InputGroup.Text>
                 <Form.Control
                     aria-label="Amount (to the nearest dollar)"
@@ -95,39 +97,43 @@ const PriceConfig = (props) => {
                     value={price}
                 />
                 <InputGroup.Text>원</InputGroup.Text>
-                <Button style={{color:'red'}} variant="outline-secondary" onClick={onClickResetPrice}>reset</Button>
+                <Button style={{color: 'red'}} variant="outline-secondary" onClick={onClickResetPrice}>reset</Button>
             </InputGroup>
-            <InputGroup className="mb-3">
-                <InputGroup.Text>Origin Price</InputGroup.Text>
+            <InputGroup className="mb-4">
+                <InputGroup.Text><small>Origin Price</small></InputGroup.Text>
                 <Form.Control
                     aria-label="Amount (to the nearest dollar)"
                     onChange={handleOriginPriceChange}
                     value={originPrice}
                 />
                 <InputGroup.Text>원</InputGroup.Text>
-                <Button style={{color:'red'}} variant="outline-secondary" onClick={onClickResetOriginPrice}>reset</Button>
+                <Button style={{color: 'red'}} variant="outline-secondary"
+                        onClick={onClickResetOriginPrice}>reset</Button>
             </InputGroup>
-            <InputGroup className="mb-3">
-                <InputGroup.Text>Discount Price</InputGroup.Text>
+            <InputGroup className="mb-4">
+                <InputGroup.Text><small>Discount Price</small></InputGroup.Text>
                 <Form.Control
                     aria-label="Amount (to the nearest dollar)"
                     onChange={handleDiscountPriceChange}
                     value={discountPrice}
+
                 />
                 <InputGroup.Text>원</InputGroup.Text>
-                <Button style={{color:'red'}} variant="outline-secondary" onClick={onClickResetDiscountPirce}>reset</Button>
+                <Button style={{color: 'red'}} variant="outline-secondary"
+                        onClick={onClickResetDiscountPirce}>reset</Button>
             </InputGroup>
-            <InputGroup className="mb-3">
-                <InputGroup.Text>Discount Percent</InputGroup.Text>
+            <InputGroup className="mb-4">
+                <InputGroup.Text><small>Discount %</small></InputGroup.Text>
                 <Form.Control
                     aria-label="Amount (to the nearest dollar)"
                     onChange={handleDiscountPercentChange}
                     value={discountPercent}
                 />
                 <InputGroup.Text>%</InputGroup.Text>
-                <Button style={{color:'red'}} variant="outline-secondary" onClick={onClickResetDiscountPercent}>reset</Button>
+                <Button style={{color: 'red'}} variant="outline-secondary"
+                        onClick={onClickResetDiscountPercent}>reset</Button>
             </InputGroup>
-            <div className="App" style={{marginRight : '20px'}}>
+            <div className="App" style={{marginRight: '20px'}}>
                 <ReactStars {...thirdExample} />
                 {/* <Rate /> */}
             </div>

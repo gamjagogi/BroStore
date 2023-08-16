@@ -307,7 +307,7 @@ const SoftwarePosting = () => {
     return (
         <div className="container-fluid my-3">
             <div className="row">
-                <div className="col-md-4">
+                <div className="col-md-4" style={{marginBottom:'10px'}}>
                     <FrontContent
                         onImageChange={onImageChange}
                         imagePreview={state.imagePreview}
@@ -331,7 +331,7 @@ const SoftwarePosting = () => {
                         />
                     </div>
                 </div>
-                <div>
+                <div style={{marginBottom:'30px'}}>
                     <SoftwareDescription
                         onDescriptionChange={onDescriptionChange}
                         description={state.description}
@@ -365,7 +365,7 @@ const SoftwarePosting = () => {
                         star={state.star}
                     />
                 </div>
-                <div style={{ marginTop : '50px', marginRight: "10px"}}>
+                <div style={{ marginTop : "auto"}}>
                     <SoftwareSoldByAndCategoryConfig
                         soldBy={state.soldBy}
                         setCategory={setCategory}
@@ -382,7 +382,7 @@ const SoftwarePosting = () => {
                     marginTop: "auto",
                     marginRight: "10px",
                     position: "relative",
-                    top: "-480px",
+                    top: "-530px",
                 }}
             >
 

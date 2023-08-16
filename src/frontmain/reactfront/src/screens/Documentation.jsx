@@ -68,7 +68,7 @@ class DocumentationView extends Component {
                   role="tabpanel"
                   aria-labelledby="v-pills-Introduction-tab"
                 >
-                  <Card style={{ width: '18rem' }}>
+                  <Card style={{ width: '18rem',margin:'30px' }}>
                     <Card.Img variant="top" src="https://image-gamja.s3.ap-northeast-2.amazonaws.com/githubname.jpeg" />
                     <Card.Body>
                       <Card.Title>BroStore</Card.Title>
