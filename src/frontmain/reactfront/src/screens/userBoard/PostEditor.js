@@ -28,6 +28,12 @@ export default function PostEditor() {
     const [deleted, setDeleted] = useState('');
     const navigate = useNavigate();
 
+    useEffect(() => {
+        window.scrollTo(0, 0);
+        return;
+    }, []);
+
+
 
     // 이미지 편집기에 추가 로직 *************************************v
     const imageHandler = () => {

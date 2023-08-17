@@ -31,6 +31,7 @@ const DeliverySoldByAndCategoryConfig = (props) => {
                 <Form.Control
                     aria-label="Amount (to the nearest dollar)"
                     value={name}
+                    style={{width:'100px'}}
                     disabled
                 />
             </InputGroup>

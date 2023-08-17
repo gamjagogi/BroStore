@@ -81,6 +81,7 @@ const SoftwareDetail = () => {
           setDiscountPercent(postData.data.discountPercent);
           setUploadFile(postData.data.uploadFile);
           console.log(postData.data.uploadFile);
+          window.scrollTo(0, 0);
         });
     return;
   }, []);

@@ -60,7 +60,7 @@ class DocumentationView extends Component {
                 </a>
               </div>
             </div>
-            <div className="col-9">
+            <div className="col-8">
               <div className="tab-content" id="v-pills-tabContent">
                 <div
                   className="tab-pane fade show active"
@@ -68,7 +68,7 @@ class DocumentationView extends Component {
                   role="tabpanel"
                   aria-labelledby="v-pills-Introduction-tab"
                 >
-                  <Card style={{ width: '18rem',margin:'30px' }}>
+                  <Card style={{ width: '15rem',margin:'20px' }}>
                     <Card.Img variant="top" src="https://image-gamja.s3.ap-northeast-2.amazonaws.com/githubname.jpeg" />
                     <Card.Body>
                       <Card.Title>BroStore</Card.Title>

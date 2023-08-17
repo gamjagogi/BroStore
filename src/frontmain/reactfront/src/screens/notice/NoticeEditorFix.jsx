@@ -34,39 +34,11 @@ export default function NoticeEditorFix() {
 
     const navigate = useNavigate();
 
-    // useEffect(() => {
-    //    fetchPost().then((content) => {
-    //        console.log(content);
-    //        setContent(content);
-    //    })
-    //
-    //    return;
-    // },[])
-    //
-    // const fetchPost = async () => {
-    //     try {
-    //         const response = await axios.get(`/notice/detail/${boardId}`, {
-    //             headers: {
-    //                 'Content-Type': 'application/json',
-    //             },
-    //         });
-    //
-    //         if (response.status == 200) {
-    //             const postData = await response.data;
-    //             console.log(postData.data);
-    //             setTitle(postData.data.title);
-    //             const parsedString = postData.data.content.replace(/<p>(.*?)<\/p>/gi, "$1");
-    //             console.log(parsedString);
-    //             setContent(parsedString);
-    //             return parsedString;
-    //         } else {
-    //             console.error('게시글을 가져오는데 실패했습니다.');
-    //         }
-    //     } catch (error) {
-    //         console.error('에러발생..', error);
-    //     }
-    // };
-    //
+    useEffect(() => {
+        window.scrollTo(0, 0);
+        return;
+    }, []);
+
 
 
 

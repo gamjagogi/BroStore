@@ -31,6 +31,7 @@ const SoftwarePostingFix = () => {
             alert('판매자 기능입니다.');
             return navigate('/software');
         }
+        window.scrollTo(0, 0);
         return ;
     },[])
 
@@ -376,11 +377,9 @@ const SoftwarePostingFix = () => {
                 style={{
                     display: "flex",
                     justifyContent: "flex-end",
-
                     marginTop: "auto",
                     marginRight: "10px",
                     position: "relative",
-                    top: "-350px",
                 }}
             >
 

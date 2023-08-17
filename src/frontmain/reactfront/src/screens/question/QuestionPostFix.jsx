@@ -20,6 +20,12 @@ export default function QuestionPostFix() {
         boardId: searchParams.get("boardId")
     });
 
+    useEffect(() => {
+        window.scrollTo(0, 0);
+        return;
+    }, []);
+
+
     //초기 카테고리값
     let initCategory;
     if(state.category=="RequestSeller"){
@@ -398,7 +404,6 @@ export default function QuestionPostFix() {
                 <div style={{
                     display: 'flex',
                     justifyContent: 'flex-end',
-                    marginTop: 'auto',
                     marginRight: '10px',
                     position: 'relative',
                 }}>
@@ -410,11 +415,10 @@ export default function QuestionPostFix() {
 
                 </div>
 
-                <br/>
                 <div style={{
                     display: 'flex',
                     justifyContent: 'flex-end',
-                    marginTop: '3px',
+                    marginTop: '10px',
                     marginRight: '10px',
                     position: 'relative',
                 }}>

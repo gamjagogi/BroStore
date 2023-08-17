@@ -28,7 +28,7 @@ const SoftwarePosting = () => {
             alert('판매자 기능입니다.');
             return navigate('/software');
         }
-
+        window.scrollTo(0, 0);
         return;
     }, [])
 
@@ -350,7 +350,6 @@ const SoftwarePosting = () => {
                     marginTop: "auto",
                     marginLeft: "0",
                     position: "relative",
-                    top: "-180px",
                 }}
             >
                 <div style={{ marginRight: "auto" }}>
@@ -384,7 +383,6 @@ const SoftwarePosting = () => {
                     marginTop: "auto",
                     marginRight: "10px",
                     position: "relative",
-                    top: "-530px",
                 }}
             >
 

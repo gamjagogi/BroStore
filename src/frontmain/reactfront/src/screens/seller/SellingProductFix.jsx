@@ -15,6 +15,20 @@ const PriceConfig = lazy(() => import("../../components/posting/PriceConfig"));
 const SellingProductFix = () => {
     const [searchParams] = useSearchParams();
 
+    useEffect(() => {
+        const userRole = sessionStorage.getItem('userRole');
+        console.log(userRole);
+        if(userRole==null){
+            alert('판매자 기능입니다.');
+            return navigate('/software');
+        }
+        if(!(userRole.match("ROLE_ADMIN")||userRole.match("ROLE_MANAGER"))){
+            alert('판매자 기능입니다.');
+            return navigate('/software');
+        }
+        window.scrollTo(0, 0);
+        return ;
+    },[])
 
     const [state, setState] = useState({
         productId: searchParams.get("id"),
@@ -321,7 +335,7 @@ const SellingProductFix = () => {
                 style={{
                     display: "flex",
                     justifyContent: "flex-start",
-                    marginTop: "auto",
+                    marginTop: "30px",
                     marginLeft: "0",
                     position: "relative",
                 }}
@@ -340,13 +354,6 @@ const SellingProductFix = () => {
                         star={state.star}
                     />
                 </div>
-                <div style={{ margin : 'auto'}}>
-                    <DeliverySoldByAndCategoryConfig
-                        name={state.soldBy}
-                        setCategory={setCategory}
-                        category={state.category}
-                    />
-                </div>
             </div>
 
             <div
@@ -356,9 +363,16 @@ const SellingProductFix = () => {
                     marginTop: "auto",
                     marginRight: "10px",
                     position: "relative",
-                    top: "-350px",
                 }}
             >
+                <div style={{ margin : 'auto'}}>
+                    <DeliverySoldByAndCategoryConfig
+                        name={state.soldBy}
+                        setCategory={setCategory}
+                        category={state.category}
+                    />
+                </div>
+                <div>
                 <Button
                     type="submit"
                     onClick={() => saveProduct()}
@@ -367,6 +381,7 @@ const SellingProductFix = () => {
                     완료
                 </Button>
                 <Button onClick={onClickBack}>취소</Button>
+                </div>
             </div>
         </div>
     );

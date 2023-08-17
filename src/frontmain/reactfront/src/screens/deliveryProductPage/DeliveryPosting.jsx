@@ -27,6 +27,8 @@ const DeliveryPosting = () => {
             alert('판매자 기능입니다.');
             return navigate('/software');
         }
+        window.scrollTo(0, 0);
+        return ;
     },[])
 
     const [state, setState] = useState({
@@ -332,7 +334,7 @@ const DeliveryPosting = () => {
                 style={{
                     display: "flex",
                     justifyContent: "flex-start",
-                    marginTop: "auto",
+                    marginTop: "30px",
                     marginLeft: "0",
                     position: "relative",
                 }}
@@ -351,13 +353,6 @@ const DeliveryPosting = () => {
                         star={state.star}
                     />
                 </div>
-                <div style={{margin:"auto"}}>
-                    <DeliverySoldByAndCategoryConfig
-                        name={name}
-                        category={state.category}
-                        setCategory={setCategory}
-                    />
-                </div>
             </div>
 
             <div
@@ -367,9 +362,17 @@ const DeliveryPosting = () => {
                     marginTop: "auto",
                     marginRight: "10px",
                     position: "relative",
-                    top: "-350px",
                 }}
             >
+                <div style={{margin:"auto"}}>
+                    <DeliverySoldByAndCategoryConfig
+                        name={name}
+                        category={state.category}
+                        setCategory={setCategory}
+                    />
+                </div>
+
+                <div>
                 <Button
                     type="submit"
                     onClick={() => saveProduct()}
@@ -378,6 +381,7 @@ const DeliveryPosting = () => {
                     완료
                 </Button>
                 <Button onClick={handleBack}>취소</Button>
+                </div>
             </div>
         </div>
     );

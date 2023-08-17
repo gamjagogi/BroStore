@@ -44,7 +44,7 @@ export default function QuestionDetailPage() {
             const currentProducts = comments.slice(offset, offset + 9);
             setCurrentComments(currentProducts);
             setTotalComments(comments.length);
-
+            window.scrollTo(0, 0);
         }).catch((error) => {
             console.error("Error occurred while fetching products:", error);
         });

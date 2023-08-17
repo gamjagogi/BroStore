@@ -76,11 +76,13 @@ public class QuestionService {
     }
 
     @MyLog
+    @Transactional
     public void 글작성하기(Question question){
         questionRepository.save(question);
     }
 
     @MyLog
+    @Transactional
     public Question 보드ID로글찾기(Long boardId){
         Question questionPS = questionRepository.findById(boardId)
                 .orElseThrow(() -> new Exception404("해당 글을 찾을 수 없습니다!"));

@@ -14,6 +14,12 @@ export default function PostEditorFix() {
     const [searchParams] = useSearchParams();
     console.log(searchParams.get("content"));
 
+    useEffect(() => {
+        window.scrollTo(0, 0);
+        return;
+    }, []);
+
+
     const [state,setState] = useState({
         title: searchParams.get("title"),
         content: searchParams.get("content"),

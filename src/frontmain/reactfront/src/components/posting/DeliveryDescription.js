@@ -270,9 +270,9 @@ const DeliveryDescription = (props) => {
     // ******************************************************************^
 
     return (
-        <div style={{display: 'flex', flexDirection: 'column', height: '100vh', marginBottom:'50px'}}>
+        <div style={{display: 'flex', flexDirection: 'column', height: '100vh'}}>
 
-            <div style={{flex: '1', minHeight: '50', padding: '10px', fontSize: '14px', marginBottom: '30px'}}>
+            <div style={{flex: '1', minHeight: '50', padding: '10px', fontSize: '14px'}}>
                 {/* <ReactQuill/> 컴포넌트를 감싸는 div */}
                 <ReactQuill
                     ref={quillRef}

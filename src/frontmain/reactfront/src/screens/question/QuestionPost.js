@@ -31,6 +31,10 @@ export default function QuestionPost() {
 
     const navigate = useNavigate();
 
+    useEffect(() => {
+        window.scrollTo(0, 0);
+        return;
+    }, []);
 
     // 이미지 편집기에 추가 로직 *************************************v
     const imageHandler = () => {
@@ -380,7 +384,6 @@ export default function QuestionPost() {
                 <div style={{
                     display: 'flex',
                     justifyContent: 'flex-end',
-                    marginTop: 'auto',
                     marginRight: '10px',
                     position: 'relative',
                 }}>
@@ -392,13 +395,12 @@ export default function QuestionPost() {
 
                 </div>
 
-                <br/>
                 <div style={{
                     display: 'flex',
                     justifyContent: 'flex-end',
-                    marginTop: '3px',
                     marginRight: '10px',
                     position: 'relative',
+                    marginTop: '10px'
                 }}>
                     <button onClick={handleSubmit} style={{marginRight: '10px'}}>완료</button>
                     <button onClick={onClickBack}>취소</button>

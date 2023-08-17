@@ -23,6 +23,7 @@ export default function NoticeDetailPage() {
 
     useEffect(() => {
         fetchPost();
+        window.scrollTo(0, 0);
         return;
     },[])
 
