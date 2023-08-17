@@ -30,6 +30,7 @@ const SoftwareSoldByAndCategoryConfig = (props) => {
                 <Form.Control
                     aria-label="Amount (to the nearest dollar)"
                     value={soldBy}
+                    style={{width:'100px'}}
                     disabled
                 />
             </InputGroup>
