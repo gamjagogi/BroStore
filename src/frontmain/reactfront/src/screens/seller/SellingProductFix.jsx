@@ -189,15 +189,18 @@ const SellingProductFix = () => {
                     if (err) {
                         console.error('업로드 오류:', err);
                         alert('error');
+                        return;
                     } else {
                         const {Bucket, Key} = params; // params 객체에서 Bucket과 Key를 추출합니다.
                         const imageUrl = `https://${Bucket}.s3.amazonaws.com/${Key}`; // 이미지의 위치(URL)을 구성합니다.
                         console.log('업로드 완료. 이미지 위치:', imageUrl);
                         setState((prevState) => ({ ...prevState, imagePreview: imageUrl }));
+                        return;
                     }
                 });
         } else {
             this.setState({imagePreview: ""});
+            return;
         }
     };
 
