@@ -188,7 +188,7 @@ const SoftwarePosting = () => {
 
             ReactS3Client.putObject(params)
                 .on('httpUploadProgress', (evt) => {
-                    alert("SUCCESS")
+                    console.log('Success');
                 })
                 .send((err, data) => {
                     if (err) {
@@ -369,13 +369,6 @@ const SoftwarePosting = () => {
                         star={state.star}
                     />
                 </div>
-                <div style={{ marginTop : "auto"}}>
-                    <SoftwareSoldByAndCategoryConfig
-                        soldBy={state.soldBy}
-                        setCategory={setCategory}
-                        category={state.category}
-                    />
-                </div>
             </div>
 
             <div
@@ -388,7 +381,14 @@ const SoftwarePosting = () => {
                     position: "relative",
                 }}
             >
-
+                <div style={{ marginTop : "auto"}}>
+                    <SoftwareSoldByAndCategoryConfig
+                        soldBy={state.soldBy}
+                        setCategory={setCategory}
+                        category={state.category}
+                    />
+                </div>
+                <div>
                     <Button
                         type="submit"
                         onClick={() => saveProduct()}
@@ -397,6 +397,7 @@ const SoftwarePosting = () => {
                         완료
                     </Button>
                     <Button onClick={handleBack}>취소</Button>
+                </div>
             </div>
         </div>
     );

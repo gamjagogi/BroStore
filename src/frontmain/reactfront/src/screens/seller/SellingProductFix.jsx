@@ -183,7 +183,7 @@ const SellingProductFix = () => {
 
             ReactS3Client.putObject(params)
                 .on('httpUploadProgress', (evt) => {
-                    alert("SUCCESS")
+                    console.log('Success');
                 })
                 .send((err, data) => {
                     if (err) {
