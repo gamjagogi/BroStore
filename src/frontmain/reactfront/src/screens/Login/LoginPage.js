@@ -31,7 +31,9 @@ const LoginPage = () => {
 
     const SocialKakao = () => {
         const Rest_api_key = 'c4ea7b717441096606e933d562d8f8a6' //REST API KEY
-        const redirect_uri = 'http://localhost:3000/auth' //Redirect URI
+        const redirect_uri = 'https://web--bro-store.netlify.app/auth' //Redirect URI
+        //dev:  const redirect_uri = 'http://localhost:3000/auth' //Redirect URI
+
         // oauth 요청 URL
         const kakaoURL = `https://kauth.kakao.com/oauth/authorize?client_id=${Rest_api_key}&redirect_uri=${redirect_uri}&response_type=code&scope=account_email`
         const handleLogin = () => {
@@ -119,10 +121,10 @@ const LoginPage = () => {
                     />
 
                 </Login>
-                <div className="ui-button" style={{marginBottom:'30px'}}>
+                <div className="ui-button" style={{ margin:'10px',marginBottom: '30px', display: 'flex', justifyContent: 'center' }}>
                     <Button onClick={handleLogin} style={buttonStyle}>로그인</Button>
                     <SocialKakao/>
-                    <Button onClick={handleJoin} style={buttonStyle}>회원가입</Button>
+                    <Button onClick={handleJoin} style={buttonStyle}><small>회원가입</small></Button>
                 </div>
             </Card>
         </div>

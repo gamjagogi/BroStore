@@ -148,8 +148,8 @@ export default function Detail() {
 
             // 이미지 크기를 조정하는 로직을 여기에 추가합니다.
             // 예를 들어, 이미지를 50% 크기로 리사이즈하려면 다음과 같이 처리할 수 있습니다.
-            let resizedWidth = originalWidth + 400;
-            let resizedHeight = originalHeight + 300;
+            let resizedWidth = originalWidth + 300;
+            let resizedHeight = originalHeight + 270;
 
             if (originalWidth > availableWidth) {
                 resizedWidth = availableWidth;
