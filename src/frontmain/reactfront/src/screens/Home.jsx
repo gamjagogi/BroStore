@@ -29,6 +29,7 @@ const Home = () => {
     useEffect(() => {
         fetchSlide();
         fetchCard();
+        window.scrollTo(0, 0);
         return;
     }, []);
 

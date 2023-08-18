@@ -35,6 +35,7 @@ const Notice = () => {
             const currentProducts = products.slice(offset, offset + 9);
             setCurrentProducts(currentProducts);
             setTotalItems(products.length);
+            window.scrollTo(0, 0);
         })
             .catch((error) => {
                 console.error('Error occurred while fetching products:', error);
