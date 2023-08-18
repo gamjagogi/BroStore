@@ -153,8 +153,8 @@ export default function QuestionDetailPage() {
 
             // 이미지 크기를 조정하는 로직을 여기에 추가합니다.
             // 예를 들어, 이미지를 50% 크기로 리사이즈하려면 다음과 같이 처리할 수 있습니다.
-            let resizedWidth = originalWidth + 400;
-            let resizedHeight = originalHeight + 300;
+            let resizedWidth = originalWidth + 290;
+            let resizedHeight = originalHeight + 270;
 
             if (originalWidth > availableWidth) {
                 resizedWidth = availableWidth;
@@ -414,9 +414,9 @@ export default function QuestionDetailPage() {
 
 
     return (
-        <div style={{height: '200vh', marginTop: '30px'}}>
+        <div style={{height: '150vh', marginTop: '50px'}}>
             <Container fluid>
-                <div className="col-3" style={{marginBottom: '10px'}}>
+                <div className="col-4" style={{marginBottom: '10px'}}>
                     <label style={{fontWeight: 'bold', fontSize:'20px'}}>Category : {frontCategory}</label>
                 </div>
                 <Card border="primary">
