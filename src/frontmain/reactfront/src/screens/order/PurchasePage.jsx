@@ -9,9 +9,6 @@ import InputGroup from 'react-bootstrap/InputGroup';
 import PopupDom from "./PopupDom";
 import PopupPostCode from "./PopupPostCode";
 import axios from "../Request/RequestConfig";
-import Timer from "../toss/Timer";
-//const SuccessPage = lazy(() => import("../toss/SuccessPage"));
-//const Timer = lazy(() => import("../toss/Timer"));
 const PurchaseProduct = lazy(() => import("./PurchaseProduct"));
 const CouponApplyForm = lazy(() => import("../../components/others/CouponApplyForm"));
 
@@ -318,8 +315,8 @@ const Purchase = () => {
                 </InputGroup>
             </div>
             <div className="container mb-3">
-              <div className = "offset-md-11">
-                  <Button style={{width :'120%'}} variant="primary" onClick={handlePayment}>결 제</Button>
+              <div className = "offset-md-10">
+                  <Button variant="primary" onClick={handlePayment}>결 제</Button>
 
               </div>
             </div>

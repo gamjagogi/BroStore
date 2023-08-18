@@ -204,13 +204,14 @@ const CartView = () => {
                   </table>
                 </div>
                 <div className="card-footer">
-                  <Link to="/purchasePage" className="btn btn-primary float-end">
+                  <Link to="/purchasePage" className="btn btn-primary float-end btn-xs">
                     Make Purchase <IconChevronRight className="i-va" />
                   </Link>
-                  <Link to="/" className="btn btn-secondary">
+                  <Link to="/" className="btn btn-secondary btn-xs">
                     <IconChevronLeft className="i-va" /> Continue shopping
                   </Link>
                 </div>
+
               </div>
               <div className="alert alert-success mt-3">
                 <p className="m-0">
