@@ -325,13 +325,14 @@ const DeliveryPosting = () => {
                         />
                     </div>
                 </div>
-                <div >
+                <div style={{ minHeight: 'calc(100vh - 100px)' }} >
                     <DeliveryDescription
                         onDescriptionChange={onDescriptionChange}
                         description={state.description}
                     />
                 </div>
             </div>
+
 
             <div
                 style={{

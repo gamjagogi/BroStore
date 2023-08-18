@@ -162,7 +162,7 @@ const Notice = () => {
 
                             <div className="col-12 d-flex justify-content-center text-break text-wrap"> {/* d-flex와 justify-content-center를 추가 */}
                                 <a href={`/notice/${board.id}`}>
-                                    {contentLengthConfig(board)}
+                                    {contentLengthConfig(board)?contentLengthConfig(board):'상세보기'}
                                 </a>
                             </div>
                         </div>
