@@ -428,6 +428,7 @@ export default function Detail() {
                     </button>
                 </div>
             </Container>
+
             <div>
                 <Form className="mb-4" onSubmit={createComment}>
                     <Form.Group controlId="commentText">

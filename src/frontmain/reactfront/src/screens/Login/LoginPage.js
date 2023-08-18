@@ -21,18 +21,13 @@ const LoginPage = () => {
         // Add more styles here as needed
     };
 
-    useEffect(() => {
-        return console.log(code);
-    }, [code]);
-
-
     const navigate = useNavigate();
     const location = useLocation();
 
     const SocialKakao = () => {
         const Rest_api_key = 'c4ea7b717441096606e933d562d8f8a6' //REST API KEY
         const redirect_uri = 'https://web--bro-store.netlify.app/auth' //Redirect URI
-        //dev:  const redirect_uri = 'http://localhost:3000/auth' //Redirect URI
+        //dev:  const redirect_uri = 'http://localhost:3000/auth'
 
         // oauth 요청 URL
         const kakaoURL = `https://kauth.kakao.com/oauth/authorize?client_id=${Rest_api_key}&redirect_uri=${redirect_uri}&response_type=code&scope=account_email`

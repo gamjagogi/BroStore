@@ -414,7 +414,7 @@ export default function QuestionDetailPage() {
 
 
     return (
-        <div style={{height: '150vh', marginTop: '50px'}}>
+        <div style={{minHeight: '150vh', marginTop: '50px'}}>
             <Container fluid>
                 <div className="col-4" style={{marginBottom: '10px'}}>
                     <label style={{fontWeight: 'bold', fontSize:'20px'}}>Category : {frontCategory}</label>
@@ -490,7 +490,6 @@ export default function QuestionDetailPage() {
                     alignment="justify-content-center"
                 />
             </div>
-
         </div>
     );
 }

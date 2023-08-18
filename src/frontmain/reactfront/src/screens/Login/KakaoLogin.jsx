@@ -13,6 +13,7 @@ const KakaoLogin = () => {
     useEffect(() => {
         console.log(code);
         requestAuthorize(code);
+        return;
     }, [code]);
 
 
