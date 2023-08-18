@@ -44,8 +44,8 @@ const Description = (props) => {
 
             // 이미지 크기를 조정하는 로직을 여기에 추가합니다.
             // 예를 들어, 이미지를 50% 크기로 리사이즈하려면 다음과 같이 처리할 수 있습니다.
-            let resizedWidth = originalWidth + 350;
-            let resizedHeight = originalHeight + 300;
+            let resizedWidth = originalWidth + 300;
+            let resizedHeight = originalHeight + 270;
 
             if (originalWidth > availableWidth) {
                 resizedWidth = availableWidth;
@@ -78,15 +78,16 @@ const Description = (props) => {
             }
         };
         resizeContent();
+        return;
     }, [content]);
 
 
 
     return (
-        <div style={{ minHeight: '120vh', marginTop: '50px' }}>
+        <div style={{ minHeight: '120vh', marginTop: '10px', marginRight:'-30px',marginLeft:'-30px'}}>
             <Container fluid>
                 <Card>
-                    <Card.Body style={{ minHeight: 'calc(100vh - 50px)' }}>
+                    <Card.Body style={{ minHeight: 'calc(100vh - 60px)' }}>
                         <Card.Text
                             dangerouslySetInnerHTML={{ __html: resizedContent }}
                         />
