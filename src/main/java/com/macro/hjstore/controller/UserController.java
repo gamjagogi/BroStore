@@ -40,7 +40,7 @@ public class UserController {
     private final UserService userService;
     private final HttpSession session;
     private String clientId = "c4ea7b717441096606e933d562d8f8a6";
-    private String redirectUri = "http://localhost:3000/auth";
+    private String redirectUri = "https://web--bro-store.netlify.app/auth";
     private String authorizationCode;
     private String grantType = "authorization_code";
 
