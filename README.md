@@ -35,7 +35,7 @@
 
 - #### 모든 서버 응답과 요청은 DTO를 사용
 - #### 로그인 이후, 모든 서버 요청에 시큐리티 검증
-  
+- #### 예외처리 : <a href="https://github.com/gamjagogi/BroStore/wiki/%EB%A1%9C%EA%B7%B8(Log)%EC%99%80-%EC%98%88%EC%99%B8-%EC%B2%98%EB%A6%AC-(Server-Exception)" >상세 정보 - WIKI 이동</a>  
 
 #### 메인페이지  - <a href="" >상세보기 - WIKI 이동</a>
 - 로그인
