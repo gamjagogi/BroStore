@@ -1,6 +1,36 @@
 # BroStore-WebStorePage-Full-Stack-project
 스프링 부트 + 리액트 부트스트랩 웹스토어, 유저 커뮤니티 사이트
 
+<details close>
+<summary>📷결과물</summary>
+
+<br>
+
+## 유저 게시판
+
+
+## 로그인
+
+
+## 마이페이지
+
+
+## 결제
+
+
+## 판매자 페이지
+
+
+## 판매자 신청
+
+
+## 광고 설정
+
+
+
+
+
+</details>
 
 
 
