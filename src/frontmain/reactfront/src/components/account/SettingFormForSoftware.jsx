@@ -32,7 +32,8 @@ const SettingForm = (props) => {
 
 
     return (
-      <div className="card border-danger">
+        <div style={{display: 'flex', flexDirection: 'column'}}>
+      <div className="card border-danger col-10" style={{marginLeft:'40px'}}>
         <h6 className="card-header">
           <IconGearFill className="text-danger" /> Setting
         </h6>
@@ -73,6 +74,7 @@ const SettingForm = (props) => {
           </li>
         </ul>
       </div>
+        </div>
   );
 };
 

@@ -18,8 +18,8 @@ const DeliverySoldByAndCategoryConfig = (props) => {
 
 
     return (
-        <div>
-        <DropdownButton id="dropdown-item-button" placeholder='Category' title={category?category:'All'} style={{marginBottom:'20px',marginRight:'-180px'}}>
+        <div className="col-sm-auto" style={{marginLeft:'10px'}}>
+        <DropdownButton id="dropdown-item-button" placeholder='Category' title={category?category:'All'} style={{marginBottom:'20px'}}>
             <Dropdown.Item as="button" onClick={() => handleCategoryChange('All')} >All</Dropdown.Item>
             <Dropdown.Item as="button" onClick={() => handleCategoryChange('Electronics')} >Electronics</Dropdown.Item>
             <Dropdown.Item as="button" onClick={() => handleCategoryChange('Clothes')}>Clothes</Dropdown.Item>
@@ -31,6 +31,7 @@ const DeliverySoldByAndCategoryConfig = (props) => {
                 <Form.Control
                     aria-label="Amount (to the nearest dollar)"
                     value={name}
+                    style={{width:'100px'}}
                     disabled
                 />
             </InputGroup>

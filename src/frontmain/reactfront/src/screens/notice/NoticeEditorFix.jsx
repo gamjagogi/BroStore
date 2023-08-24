@@ -34,39 +34,11 @@ export default function NoticeEditorFix() {
 
     const navigate = useNavigate();
 
-    // useEffect(() => {
-    //    fetchPost().then((content) => {
-    //        console.log(content);
-    //        setContent(content);
-    //    })
-    //
-    //    return;
-    // },[])
-    //
-    // const fetchPost = async () => {
-    //     try {
-    //         const response = await axios.get(`/notice/detail/${boardId}`, {
-    //             headers: {
-    //                 'Content-Type': 'application/json',
-    //             },
-    //         });
-    //
-    //         if (response.status == 200) {
-    //             const postData = await response.data;
-    //             console.log(postData.data);
-    //             setTitle(postData.data.title);
-    //             const parsedString = postData.data.content.replace(/<p>(.*?)<\/p>/gi, "$1");
-    //             console.log(parsedString);
-    //             setContent(parsedString);
-    //             return parsedString;
-    //         } else {
-    //             console.error('게시글을 가져오는데 실패했습니다.');
-    //         }
-    //     } catch (error) {
-    //         console.error('에러발생..', error);
-    //     }
-    // };
-    //
+    useEffect(() => {
+        window.scrollTo(0, 0);
+        return;
+    }, []);
+
 
 
 
@@ -111,7 +83,7 @@ export default function NoticeEditorFix() {
 
             ReactS3Client.putObject(params)
                 .on('httpUploadProgress', (evt) => {
-                    alert("SUCCESS")
+                    console.log('SUCCESS');
                 })
                 .send((err, data) => {
                     if (err) {
@@ -380,7 +352,7 @@ export default function NoticeEditorFix() {
     }
 
     return (
-        <div style={{display: 'flex', flexDirection: 'column', height: '100vh'}}>
+        <div style={{display: 'flex', flexDirection: 'column', height: '110vh'}}>
             <input
                 type="text"
                 defaultValue={title}
@@ -390,7 +362,7 @@ export default function NoticeEditorFix() {
             />
 
 
-            <div style={{flex: '1', minHeight: '0', padding: '10px', fontSize: '14px', marginBottom: 'auto'}}>
+            <div style={{flex: '1', minHeight: '40vh', padding: '10px', fontSize: '14px', marginBottom: '20px'}}>
                 {/* <ReactQuill/> 컴포넌트를 감싸는 div */}
                 <ReactQuill
                     ref={quillRef}
@@ -401,24 +373,23 @@ export default function NoticeEditorFix() {
                     defaultValue={content}
                     style={{
                         flex: '1',
-                        minHeight: '0',
+                        minHeight: '40vh',
                         padding: '10px',
                         fontSize: '14px',
                         width: '100%',
-                        height: '80%'
+                        height: '100%'
                     }}
                 />
                 <div dangerouslySetInnerHTML={{__html: content}} style={{display: 'none'}}/>
             </div>
 
-            <div className="footer" style={{marginTop: 'auto', padding: '10px', position: 'relative', top: '70px'}}>
+            <div className="footer" style={{marginTop: '35px', padding: '10px', position: 'relative'}}>
                 <div style={{
                     display: 'flex',
                     justifyContent: 'flex-end',
-                    marginTop: 'auto',
+                    marginTop: '10px',
                     marginRight: '10px',
                     position: 'relative',
-                    top: '-200px'
                 }}>
                     <Button onClick={handleSubmit} style={{marginRight: '10px'}}>완료</Button>
                     <Button onClick={onClickBack}>취소</Button>

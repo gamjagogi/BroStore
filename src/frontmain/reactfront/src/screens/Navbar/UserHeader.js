@@ -67,14 +67,14 @@ const UserHeader = () => {
 
 
     return (<header>
-        {isLoggedIn ? (<Card style={{width: '300px', height: '100px'}}>
+        {isLoggedIn ? (<Card style={{minWidth: '200px', maxHeight: '100px'}}>
             <Card.Header style={{fontSize: '16px', padding: '2px'}}>회원</Card.Header>
             <Card.Body style={{fontSize: '14px', padding: '2px'}}>
-                <Card.Title style={{fontSize: '18px', marginBottom: '8px'}}>안녕하세요, { userName }님 </Card.Title>
+                <Card.Title style={{fontSize: '18px', marginBottom: '8px'}}>Hi! { userName }님 </Card.Title>
                 <Button variant="primary" size="sm" onClick={handleLogout}> 로그아웃 </Button>
-                <Button variant="primary" size="sm" style={{marginLeft: '30px'}} onClick={handleProfile}> 회원 정보 수정 </Button>
+                <Button variant="primary" size="sm" style={{marginLeft: '10px'}} onClick={handleProfile}> 회원 정보 수정 </Button>
             </Card.Body>
-        </Card>) : (<Card style={{width: '290px', height: '90px'}}>
+        </Card>) : (<Card style={{maxWidth: '290px', maxHeight: '90px'}}>
             <div className="d-grid gap-2">
             <Button onClick={handleLogin}>로그인</Button>
             <Button onClick={handleJoin}>회원가입</Button>

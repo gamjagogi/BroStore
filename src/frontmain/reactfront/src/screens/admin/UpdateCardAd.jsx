@@ -13,7 +13,6 @@ import axios from "../Request/RequestConfig";
 import {data} from "../../data";
 import {useNavigate} from "react-router-dom";
 
-//const CounterContainer = lazy(() => import('../../components/util/CounterContainer'));
 
 const UpdateCardAd = () => {
     const [loginError, setLoginError] = useState('');
@@ -92,7 +91,7 @@ const UpdateCardAd = () => {
 
             ReactS3Client.putObject(params)
                 .on('httpUploadProgress', (evt) => {
-                    alert("SUCCESS")
+                    console.log('SUCCESS');
                 })
                 .send((err, data) => {
                     if (err) {

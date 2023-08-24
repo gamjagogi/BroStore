@@ -34,6 +34,7 @@ const UserBoard = () => {
             const currentProducts = products.slice(offset, offset + 9);
             setCurrentProducts(currentProducts);
             setTotalItems(products.length);
+            window.scrollTo(0, 0);
         })
             .catch((error) => {
                 console.error('Error occurred while fetching products:', error);
@@ -131,10 +132,10 @@ const UserBoard = () => {
                     <button onClick={handlePosting} style={{marginLeft: '0.5em'}}>글작성</button>
             </div>
 
-            <ListGroup as="ol" numbered={true} style={{margin:'20px'}}>
+            <ListGroup as="ol" numbered={true} style={{margin:'5px'}}>
                 {currentProducts.map((board) => (
                     <ListGroup.Item as="li" className="d-flex justify-content-between align-items-start"style={{minHeight:'130px'}} key={board.id}>
-                        <div className="ms-3 me-auto col-4">
+                        <div className="ms-2 me-auto col-4">
                             <h4 className="fw-bold">{board.title}</h4>
 
                         </div>

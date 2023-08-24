@@ -15,6 +15,20 @@ const PriceConfig = lazy(() => import("../../components/posting/PriceConfig"));
 const SellingProductFix = () => {
     const [searchParams] = useSearchParams();
 
+    useEffect(() => {
+        const userRole = sessionStorage.getItem('userRole');
+        console.log(userRole);
+        if(userRole==null){
+            alert('판매자 기능입니다.');
+            return navigate('/software');
+        }
+        if(!(userRole.match("ROLE_ADMIN")||userRole.match("ROLE_MANAGER"))){
+            alert('판매자 기능입니다.');
+            return navigate('/software');
+        }
+        window.scrollTo(0, 0);
+        return ;
+    },[])
 
     const [state, setState] = useState({
         productId: searchParams.get("id"),
@@ -169,21 +183,24 @@ const SellingProductFix = () => {
 
             ReactS3Client.putObject(params)
                 .on('httpUploadProgress', (evt) => {
-                    alert("SUCCESS")
+                    console.log('Success');
                 })
                 .send((err, data) => {
                     if (err) {
                         console.error('업로드 오류:', err);
                         alert('error');
+                        return;
                     } else {
                         const {Bucket, Key} = params; // params 객체에서 Bucket과 Key를 추출합니다.
                         const imageUrl = `https://${Bucket}.s3.amazonaws.com/${Key}`; // 이미지의 위치(URL)을 구성합니다.
                         console.log('업로드 완료. 이미지 위치:', imageUrl);
                         setState((prevState) => ({ ...prevState, imagePreview: imageUrl }));
+                        return;
                     }
                 });
         } else {
             this.setState({imagePreview: ""});
+            return;
         }
     };
 
@@ -283,20 +300,22 @@ const SellingProductFix = () => {
     return (
         <div className="container-fluid my-3">
             <div className="row">
-                <div className="col-md-4">
+                <div className="col-md-4" style={{marginBottom:'10px'}} >
                     <FrontContent
                         onImageChange={onImageChange}
                         imagePreview={state.imagePreview}
                     />
                 </div>
                 <div className="col-md-8">
+                    <div style={{marginTop:'10px'}}>
                     <ContentForm
                         onTitleChange={onTitleChange}
                         onHighlightChange={onHighlightChange}
                         title={state.title}
                         highlights={state.highlights}
                     />
-                    <div style={{ marginTop: "-600px" }}>
+                    </div>
+                    <div >
                         <SettingForm
                             onDeliveryToggle={onDeliveryToggle}
                             deliveryEnabled={state.deliveryFree}
@@ -307,7 +326,7 @@ const SellingProductFix = () => {
                         />
                     </div>
                 </div>
-                <div>
+                <div >
                     <DeliveryDescription
                         onDescriptionChange={onDescriptionChange}
                         description={state.description}
@@ -319,10 +338,9 @@ const SellingProductFix = () => {
                 style={{
                     display: "flex",
                     justifyContent: "flex-start",
-                    marginTop: "auto",
+                    marginTop: "30px",
                     marginLeft: "0",
                     position: "relative",
-                    top: "-180px",
                 }}
             >
                 <div style={{ marginRight: "auto" }}>
@@ -339,13 +357,6 @@ const SellingProductFix = () => {
                         star={state.star}
                     />
                 </div>
-                <div style={{ marginTop : '50px', marginRight: "10px"}}>
-                    <DeliverySoldByAndCategoryConfig
-                        name={state.soldBy}
-                        setCategory={setCategory}
-                        category={state.category}
-                    />
-                </div>
             </div>
 
             <div
@@ -355,9 +366,16 @@ const SellingProductFix = () => {
                     marginTop: "auto",
                     marginRight: "10px",
                     position: "relative",
-                    top: "-480px",
                 }}
             >
+                <div style={{ margin : 'auto'}}>
+                    <DeliverySoldByAndCategoryConfig
+                        name={state.soldBy}
+                        setCategory={setCategory}
+                        category={state.category}
+                    />
+                </div>
+                <div>
                 <Button
                     type="submit"
                     onClick={() => saveProduct()}
@@ -366,6 +384,7 @@ const SellingProductFix = () => {
                     완료
                 </Button>
                 <Button onClick={onClickBack}>취소</Button>
+                </div>
             </div>
         </div>
     );

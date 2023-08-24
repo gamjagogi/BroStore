@@ -51,7 +51,7 @@ public class BoardController {
     @PostMapping("/auth/board/comment/save/{userId}/{boardId}")
     public ResponseEntity<?> createComment(@PathVariable("userId")Long userId,@PathVariable("boardId")Long boardId,@RequestBody BoardRequest.CreateComment comment,@AuthenticationPrincipal MyUserDetails userDetails,Errors errors){
         if (userDetails.getUser().getId() == userId) {
-            System.out.println("댓글작성진입!!");
+
             User userPS = userService.회원찾기(userId);
             Board boardPS = boardService.보드ID로글찾기(boardId);
             Comment commentPS = comment.toEntity(userPS,boardPS);

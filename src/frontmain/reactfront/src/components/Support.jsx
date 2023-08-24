@@ -22,7 +22,7 @@ const Support = (props) => {
             <span className="p-3 bg-light rounded-circle me-3 text-dark">
               <IconHeadset width={40} height={40} />
             </span>
-            Manager kakao : gamja123
+            Manager kakao : ramji123
           </div>
         </div>
       </div>

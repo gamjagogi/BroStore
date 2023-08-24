@@ -58,11 +58,6 @@ const DeliveryDetail = () => {
         fetchPost()
             .then((postData) => {
                 console.log(postData.data);
-                DataRequest("/delivery").then((requestData) => {
-                    console.log(requestData.data);
-                    setProductList(requestData.data);
-                })
-
                 setName(postData.data.name);
                 setImgSrc(postData.data.thumbnail);
                 setIsNew(postData.data.new);
@@ -77,10 +72,13 @@ const DeliveryDetail = () => {
                 setCategory(postData.data.category);
                 setDiscountPercent(postData.data.discountPercent);
                 setFreeShipping(postData.data.freeShipping);
-
-
+                DataRequest("/delivery").then((requestData) => {
+                    console.log(requestData.data);
+                    setProductList(requestData.data);
+                });
+                window.scrollTo(0, 0);
             });
-        return;
+        return(()=> {});
     }, []);
 
     const fetchPost = async () => {

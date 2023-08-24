@@ -28,6 +28,12 @@ export default function PostEditor() {
     const [deleted, setDeleted] = useState('');
     const navigate = useNavigate();
 
+    useEffect(() => {
+        window.scrollTo(0, 0);
+        return;
+    }, []);
+
+
 
     // 이미지 편집기에 추가 로직 *************************************v
     const imageHandler = () => {
@@ -69,7 +75,7 @@ export default function PostEditor() {
 
             ReactS3Client.putObject(params)
                 .on('httpUploadProgress', (evt) => {
-                    alert("SUCCESS")
+                    console.log('SUCCESS');
                 })
                 .send((err, data) => {
                     if (err) {
@@ -343,7 +349,7 @@ export default function PostEditor() {
 
 
     return (
-        <div style={{display: 'flex', flexDirection: 'column', height: '100vh'}}>
+        <div style={{display: 'flex', flexDirection: 'column', height: '110vh'}}>
             <input
                 type="text"
                 value={title}
@@ -353,7 +359,7 @@ export default function PostEditor() {
             />
 
 
-            <div style={{flex: '1', minHeight: '0', padding: '10px', fontSize: '14px', marginBottom: 'auto'}}>
+            <div style={{flex: '1', minHeight: '40vh', padding: '10px', fontSize: '14px', marginBottom: '10px'}}>
                 {/* <ReactQuill/> 컴포넌트를 감싸는 div */}
                 <ReactQuill
                     ref={quillRef}
@@ -363,25 +369,25 @@ export default function PostEditor() {
                     onChange={onChangeContent}
                     style={{
                         flex: '1',
-                        minHeight: '0',
+                        minHeight: '40vh',
                         padding: '10px',
                         fontSize: '14px',
                         width: '100%',
-                        height: '80%'
+                        height: '100%'
                     }}
                 />
-                <div dangerouslySetInnerHTML={{__html: content}} style={{display: 'none'}}/>
+
             </div>
             <br/>
-            <div className="footer" style={{marginTop: 'auto', padding: '10px', position: 'relative', top: '60px'}}>
+
+            <div className="footer" style={{marginTop: '30px', padding: '10px', position: 'relative'}}>
 
                 <div style={{
                     display: 'flex',
                     justifyContent: 'flex-end',
-                    marginTop: 'auto',
+                    marginTop: '10px',
                     marginRight: '10px',
                     position: 'relative',
-                    top: '-200px'
                 }}>
                     <Button onClick={handleSubmit} style={{marginRight: '10px'}}>완료</Button>
                     <Button onClick={handleCancel}>취소</Button>

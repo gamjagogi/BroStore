@@ -50,12 +50,14 @@ export default function Detail() {
             const currentProducts = comments.slice(offset, offset + 9);
             setCurrentComments(currentProducts);
             setTotalComments(comments.length);
+            window.scrollTo(0, 0);
         }).catch((error) => {
             console.error("Error occurred while fetching products:", error);
         });
         return () => {
             console.log("Clean up");
         };
+
         return ;
     }, []);
 
@@ -124,6 +126,11 @@ export default function Detail() {
 // 이미지 리사이즈 함수
     const resizeImagesInContent = async (htmlContent) => {
         console.log(htmlContent);
+        // 브라우저 화면 크기에 맞게 사용 가능한 너비와 높이 계산
+        const availableWidth = window.innerWidth - 140; // 여유 마진을 뺌
+        const availableHeight = window.innerHeight - 100; // 여유 마진을 뺌
+        console.log(availableHeight,availableWidth);
+
         // HTML 문자열을 파싱하여 DOM 객체로 만듭니다.
         const domParser = new DOMParser();
         const doc = domParser.parseFromString(htmlContent, 'text/html');
@@ -141,8 +148,16 @@ export default function Detail() {
 
             // 이미지 크기를 조정하는 로직을 여기에 추가합니다.
             // 예를 들어, 이미지를 50% 크기로 리사이즈하려면 다음과 같이 처리할 수 있습니다.
-            const resizedWidth = originalWidth + 800;
-            const resizedHeight = originalHeight + 700;
+            let resizedWidth = originalWidth + 300;
+            let resizedHeight = originalHeight + 270;
+
+            if (originalWidth > availableWidth) {
+                resizedWidth = availableWidth;
+            }
+
+            if (resizedHeight > availableHeight) {
+                resizedHeight = availableHeight;
+            }
 
             // 이미지의 너비와 높이를 새로운 크기로 설정합니다.
             imgTag.width = resizedWidth;
@@ -254,7 +269,7 @@ export default function Detail() {
 
             if (accessToken && refreshToken) {
                 // 요청 보내기
-                console.log("댓글데이터!!!!!"+requestData);
+                console.log("댓글데이터!!!!!"+requestData.content);
                 const response = await axios.post(`/auth/board/comment/save/${userId}/${boardId}`, JSON.stringify(requestData), {
                     headers: {
                         'Content-Type': 'application/json',
@@ -266,6 +281,7 @@ export default function Detail() {
                 if (response.status == 200) {
                     // 응답 성공 시 처리할 작업
                     console.log('댓글쓰기 성공'); // 요청에 대한 응답 처리
+                    alert('댓글 작성 완료');
                     window.location.reload();
 
                 } else {
@@ -412,6 +428,7 @@ export default function Detail() {
                     </button>
                 </div>
             </Container>
+
             <div>
                 <Form className="mb-4" onSubmit={createComment}>
                     <Form.Group controlId="commentText">

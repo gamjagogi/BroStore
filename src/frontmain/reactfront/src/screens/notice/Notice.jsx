@@ -35,6 +35,7 @@ const Notice = () => {
             const currentProducts = products.slice(offset, offset + 9);
             setCurrentProducts(currentProducts);
             setTotalItems(products.length);
+            window.scrollTo(0, 0);
         })
             .catch((error) => {
                 console.error('Error occurred while fetching products:', error);
@@ -162,7 +163,7 @@ const Notice = () => {
 
                             <div className="col-12 d-flex justify-content-center text-break text-wrap"> {/* d-flex와 justify-content-center를 추가 */}
                                 <a href={`/notice/${board.id}`}>
-                                    {contentLengthConfig(board)}
+                                    {contentLengthConfig(board)?contentLengthConfig(board):'상세보기'}
                                 </a>
                             </div>
                         </div>

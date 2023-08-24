@@ -21,32 +21,14 @@ const LoginPage = () => {
         // Add more styles here as needed
     };
 
-    const iconStyle = {
-        width: '40px', // 아이콘의 가로 크기를 지정합니다.
-        height: '20px', // 아이콘의 세로 크기를 지정합니다.
-        marginRight: '5px', // 아이콘과 텍스트 사이의 간격을 조절합니다.
-        // Add more styles here as needed
-    };
-
-    const cardStyle = {
-        minHeight: '40vh',
-        marginTop: '50px',
-        marginRight: '160px',
-        marginLeft: '160px',
-        marginBottom: '50px'
-    };
-
-    useEffect(() => {
-        return console.log(code);
-    }, [code]);
-
-
     const navigate = useNavigate();
     const location = useLocation();
 
     const SocialKakao = () => {
         const Rest_api_key = 'c4ea7b717441096606e933d562d8f8a6' //REST API KEY
-        const redirect_uri = 'http://localhost:3000/auth' //Redirect URI
+        const redirect_uri = 'https://web--bro-store.netlify.app/auth' //Redirect URI
+        //dev:  const redirect_uri = 'http://localhost:3000/auth'
+
         // oauth 요청 URL
         const kakaoURL = `https://kauth.kakao.com/oauth/authorize?client_id=${Rest_api_key}&redirect_uri=${redirect_uri}&response_type=code&scope=account_email`
         const handleLogin = () => {
@@ -114,9 +96,8 @@ const LoginPage = () => {
 
 
     return (
-        <div style={cardStyle}>
-        <Container fluid >
-            <Card border="primary">
+        <div className='container-fluid align-items-center'>
+            <Card border="primary" style={{margin:'30px'}}>
                 <h1 style={{fontSize:'50px'}}>로그인</h1>
                 <Login className="d-grid gap-2">
                     <input
@@ -135,13 +116,12 @@ const LoginPage = () => {
                     />
 
                 </Login>
-                <div className="ui-button" style={{marginBottom:'30px'}}>
+                <div className="ui-button" style={{ margin:'10px',marginBottom: '30px', display: 'flex', justifyContent: 'center' }}>
                     <Button onClick={handleLogin} style={buttonStyle}>로그인</Button>
                     <SocialKakao/>
-                    <Button onClick={handleJoin} style={buttonStyle}>회원가입</Button>
+                    <Button onClick={handleJoin} style={buttonStyle}><small>회원가입</small></Button>
                 </div>
             </Card>
-        </Container>
         </div>
     );
 }

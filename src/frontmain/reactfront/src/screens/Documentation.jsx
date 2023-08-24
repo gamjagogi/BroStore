@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import {Button, Card} from "react-bootstrap";
 
 class DocumentationView extends Component {
   render() {
@@ -59,7 +60,7 @@ class DocumentationView extends Component {
                 </a>
               </div>
             </div>
-            <div className="col-9">
+            <div className="col-8">
               <div className="tab-content" id="v-pills-tabContent">
                 <div
                   className="tab-pane fade show active"
@@ -67,11 +68,17 @@ class DocumentationView extends Component {
                   role="tabpanel"
                   aria-labelledby="v-pills-Introduction-tab"
                 >
-                  <h4>Introduction</h4>
-                  <hr />
-                  쇼핑몰 사이트를 소개합니다.
-                  <span style={{fontSize:"30px"}}> hahah</span>
-                  ㅋㅋ
+                  <Card style={{ width: '15rem',margin:'20px' }}>
+                    <Card.Img variant="top" src="https://image-gamja.s3.ap-northeast-2.amazonaws.com/githubname.jpeg" />
+                    <Card.Body>
+                      <Card.Title>BroStore</Card.Title>
+                      <Card.Text>
+                        Hello. Thank you for visiting the website I've created. It might not be perfect, but you'll be able to see a website that keeps improving!
+                      </Card.Text>
+                      <Button variant="primary" href='https://github.com/gamjagogi/BroStore/blob/main/README.md'>Go Readme.md!</Button>
+                    </Card.Body>
+                  </Card>
+
                 </div>
                 <div
                   className="tab-pane fade"

@@ -34,6 +34,7 @@ const ProductListView = () => {
 
                 // 1페이지의 상품들만 설정
                 setCurrentProducts(products.slice(0, 9));
+                window.scrollTo(0, 0);
             })
             .catch((error) => {
                 console.error("Error occurred while fetching products:", error);

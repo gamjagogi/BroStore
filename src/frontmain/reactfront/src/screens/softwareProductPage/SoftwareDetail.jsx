@@ -81,6 +81,7 @@ const SoftwareDetail = () => {
           setDiscountPercent(postData.data.discountPercent);
           setUploadFile(postData.data.uploadFile);
           console.log(postData.data.uploadFile);
+          window.scrollTo(0, 0);
         });
     return;
   }, []);
@@ -294,10 +295,10 @@ const SoftwareDetail = () => {
                       Questions and Answers
                     </a>
                     <Button style={{height:'40px', marginRight:'3px'}} onClick={onUpdatePosting}>
-                      수정
+                      <small>수정</small>
                     </Button>
                     <Button style={{height:'40px'}} onClick={handleDelete}>
-                      삭제
+                      <small>삭제</small>
                     </Button>
                   </div>
                 </nav>

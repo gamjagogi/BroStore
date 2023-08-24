@@ -1,6 +1,11 @@
 import React, {useEffect, useState} from "react";
 import {Link} from "react-router-dom";
 
+const stripHtmlTags = (html) => {
+    const doc = new DOMParser().parseFromString(html, "text/html");
+    return doc.body.textContent || "";
+};
+
 
 
 const SearchProduct = (props) => {
@@ -35,7 +40,7 @@ const SearchProduct = (props) => {
             </td>
             <td>
                 <small className="d-block text-muted">
-                    {item.content}
+                    {stripHtmlTags(item.content)}
                 </small>
             </td>
             <td className="text-end">

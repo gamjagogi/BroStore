@@ -66,6 +66,7 @@ public class BoardService {
 
 
     @MyLog
+    @Transactional
     public Board 보드ID로글찾기(Long boardId){
         Board boardPS = boardRepository.findById(boardId)
                 .orElseThrow(() -> new Exception404("해당 글을 찾을 수 없습니다!"));

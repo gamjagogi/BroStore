@@ -65,26 +65,29 @@ const CartProduct = (props) => {
                 </div>
             </td>
             <td>
-                <div className="input-group input-group-sm mw-140">
+                <div className="input-group input-group-sm mw-100">
                     <button
                         className="btn btn-primary text-white"
                         type="button"
                         onClick={onCountDown}
+                        style={{ padding: '0.2rem 0.3rem', fontSize: '12px' }}
                     >
-                        <FontAwesomeIcon icon={faMinus}/>
+                        <FontAwesomeIcon icon={faMinus} />
                     </button>
                     <input
                         type="text"
                         className="form-control"
                         value={count}
                         onChange={onChangeValue}
+                        style={{ width: '10px', textAlign: 'center', fontSize: '12px' }}
                     />
                     <button
                         className="btn btn-primary text-white"
                         type="button"
                         onClick={onCountUp}
+                        style={{ padding: '0.2rem 0.3rem', fontSize: '12px' }}
                     >
-                        <FontAwesomeIcon icon={faPlus}/>
+                        <FontAwesomeIcon icon={faPlus} />
                     </button>
                 </div>
             </td>
