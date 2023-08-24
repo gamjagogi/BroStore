@@ -7,22 +7,22 @@
 <br>
 
 ## 유저 게시판
-
+![ezgif-4-3bbd0ffaec](https://github.com/gamjagogi/BroStore/assets/110292164/85b5fe32-cf07-4bd7-aef7-9e2fd12904db)
 
 ## 로그인
-
+![login](https://github.com/gamjagogi/BroStore/assets/110292164/d73f697a-b679-4bc4-9eb2-b67d23c17f30)
 
 ## 마이페이지
-
+![myprofile](https://github.com/gamjagogi/BroStore/assets/110292164/6d3955c5-86a3-4114-8e53-b9f7b35d0bbe)
 
 ## 결제
-
+![pay](https://github.com/gamjagogi/BroStore/assets/110292164/5bc0eae9-cf11-4232-94cf-72636ba619e8)
 
 ## 판매자 페이지
-
+![sellerPage](https://github.com/gamjagogi/BroStore/assets/110292164/abcb6d5e-bde3-4c6c-ab12-4bf91d17758c)
 
 ## 판매자 신청
-
+![sellerRequest](https://github.com/gamjagogi/BroStore/assets/110292164/40e4e313-5dce-44a9-a3f4-2b2de70332f1)
 
 ## 광고 설정
 
