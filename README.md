@@ -26,7 +26,11 @@
 
 ## 광고 설정
 
+![slide](https://github.com/gamjagogi/BroStore/assets/110292164/8b6734ea-c362-447b-a34d-73ee0df78723)
 
+![card](https://github.com/gamjagogi/BroStore/assets/110292164/fb029780-9ea8-440d-8c07-f9e0f7be1e36)
+
+![bannerTest](https://github.com/gamjagogi/BroStore/assets/110292164/13199e4e-ade9-4c26-820a-4223bad8df3c)
 
 
 
