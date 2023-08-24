@@ -1,9 +1,15 @@
 # BroStore-WebStorePage-Full-Stack-project
 스프링 부트 + 리액트 부트스트랩 웹스토어, 유저 커뮤니티 사이트
 
+
+
+
 ## 🖥️ 프로젝트 소개
 웹스토어, 유저 커뮤니티 사이트를 참고해서 만든 사이트입니다.
 결과물 배포 사이트 - <a href="https://web--bro-store.netlify.app/" > 배포 사이트 - 이동</a>
+
+## 👪개발인원
+- 김형준(개인프로젝트)
 
 <br>
 
