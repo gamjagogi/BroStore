@@ -26,13 +26,13 @@
 
 ## 광고 설정
 
-### 메인 페이지 슬라이드 배너 광고 설정
+- `메인 페이지 슬라이드 배너 광고 설정`
 ![slide](https://github.com/gamjagogi/BroStore/assets/110292164/8b6734ea-c362-447b-a34d-73ee0df78723)
 
-### 메인 페이지 상품 카드 광고 설정
+- `메인 페이지 상품 카드 광고 설정`
 ![card](https://github.com/gamjagogi/BroStore/assets/110292164/fb029780-9ea8-440d-8c07-f9e0f7be1e36)
 
-### 광고 테스트
+- `광고 테스트`
 ![bannerTest](https://github.com/gamjagogi/BroStore/assets/110292164/13199e4e-ade9-4c26-820a-4223bad8df3c)
 
 
