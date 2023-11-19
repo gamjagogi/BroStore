@@ -1,9 +1,11 @@
 HELP.md
 .gradle
 build/
+kkey/
 !gradle/wrapper/gradle-wrapper.jar
 !**/src/main/**/build/
 !**/src/test/**/build/
+
 
 ### STS ###
 .apt_generated
@@ -25,7 +27,7 @@ bin/
 out/
 !**/src/main/**/out/
 !**/src/test/**/out/
-kkey/
+
 
 ### NetBeans ###
 /nbproject/private/
